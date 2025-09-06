@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>La nostra missione - Daze for Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.9);
+      --header-text: #1d1d1f;
+      --card-bg: #f5f5f7;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --bg: #1d1d1f;
+        --text: #f5f5f7;
+        --muted: #a1a1a6;
+        --footer-bg: #111;
+        --hover-bg: rgba(255,255,255,0.05);
+        --btn-bg: var(--text);
+        --btn-hover-bg: #ddd;
+        --header-bg: rgba(29,29,31,0.9);
+        --header-text: #f5f5f7;
+        --card-bg: #252526;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #1d1d1f;
+      --text: #f5f5f7;
+      --muted: #a1a1a6;
+      --footer-bg: #111;
+      --hover-bg: rgba(255,255,255,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #ddd;
+      --header-bg: rgba(29,29,31,0.9);
+      --header-text: #f5f5f7;
+      --card-bg: #252526;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.9);
+      --header-text: #1d1d1f;
+      --card-bg: #f5f5f7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--header-bg, rgba(255, 255, 255, 0.9));
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+    }
+    @media (prefers-color-scheme: dark) {
+      header {
+        background: rgba(29, 29, 31, 0.9);
+      }
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--header-text, var(--text));
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
+
+    nav > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
+    }
+
+    nav > a:hover::after {
+      width: 100%;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      height: 100%;
+      width: 300px;
+      background: var(--bg);
+      border-right: 1px solid #ccc;
+      padding: 2rem 1.5rem;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+      z-index: 2000;
+      transition: left 0.3s ease;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      border: none;
+      background: var(--hover-bg);
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .sidebar button:hover {
+      background: var(--btn-hover-bg);
+      color: var(--bg);
+    }
+
+    section {
+      padding: 140px 2rem 100px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding-top: 200px;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 2rem;
+      background-color: var(--btn-bg);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background 0.3s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      transform: scale(1.05);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .text-muted {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    .mission-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .mission-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform 0.3s;
+    }
+
+    .mission-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .mission-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .mission-card p {
+      color: var(--muted);
+    }
+
+    .mission-card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #007aff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+    }
+
+    @media (max-width: 768px) {
+      nav a {
+        margin-left: 1rem;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .mission-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <div class="logo">Daze for Future</div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>La nostra missione</h1>
+      <p>Scopri i valori e gli obiettivi che guidano il nostro impegno quotidiano</p>
+    </section>
+
+    <section>
+      <p class="text-muted">Daze for Future è un'associazione studentesca nata con l'obiettivo di promuovere la sostenibilità ambientale, l'uso consapevole della tecnologia e la collaborazione tra studenti, docenti e comunità locale. Crediamo che piccole azioni possano portare a grandi cambiamenti.</p>
+      
+      <div class="mission-cards">
+        <div class="mission-card">
+          <div class="icon">🌱</div>
+          <h3>Sostenibilità Ambientale</h3>
+          <p>Promuoviamo pratiche sostenibili all'interno della scuola e nella comunità, organizzando campagne di sensibilizzazione, giornate ecologiche e progetti per ridurre l'impatto ambientale.</p>
+        </div>
+        
+        <div class="mission-card">
+          <div class="icon">💻</div>
+          <h3>Open Source</h3>
+          <p>Incoraggiamo l'uso di software libero e open source, organizzando workshop e fornendo supporto per la migrazione a soluzioni tecnologiche etiche e accessibili a tutti.</p>
+        </div>
+        
+        <div class="mission-card">
+          <div class="icon">👥</div>
+          <h3>Comunità</h3>
+          <p>Costruiamo una rete di studenti, insegnanti e cittadini impegnati per un futuro migliore, attraverso eventi, collaborazioni con altre associazioni e progetti condivisi.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">I nostri obiettivi</h2>
+      <ul style="color: var(--muted); margin-left: 1.5rem; font-size: 1.1rem; line-height: 1.8;">
+        <li>Ridurre l'impatto ambientale della scuola attraverso iniziative concrete</li>
+        <li>Educare alla sostenibilità attraverso workshop e materiali didattici</li>
+        <li>Promuovere l'uso di software open source e competenze digitali etiche</li>
+        <li>Creare una comunità attiva e consapevole sui temi ambientali</li>
+        <li>Collaborare con altre organizzazioni per amplificare il nostro impatto</li>
+      </ul>
+    </section>
+
+    <section style="text-align: center;">
+      <h2 class="section-title">Unisciti a noi</h2>
+      <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono partecipare alle nostre attività e contribuire ai progetti in corso.</p>
+      <a href="/contatti.html" class="btn">I nostri contatti</a>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Daze for Future. Tutti i diritti riservati.
+  </footer>
+
+  <script>
+    const sidebar = document.getElementById('themeSidebar');
+    const toggleSidebar = document.getElementById('toggleSidebar');
+
+    toggleSidebar.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.sidebar button').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+        sidebar.classList.remove('active');
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
+
+    const saved = localStorage.getItem('theme-preference');
+    if (saved) applyTheme(saved);
+  </script>
+</body>
+</html>
+

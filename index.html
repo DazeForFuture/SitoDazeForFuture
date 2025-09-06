@@ -1,0 +1,394 @@
+<!DOCTYPE html> <!-- Finire la sidebar + aggiungere pagine utili, non link tutti alla home-->
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home - Daze for Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.9);
+      --header-text: #1d1d1f;
+      --sidebar-bg: rgba(255,255,255,0.95);
+      --sidebar-border: rgba(0,0,0,0.1);
+      --sidebar-shadow: rgba(0,0,0,0.1);
+      --accent: #007aff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --bg: #1d1d1f;
+        --text: #f5f5f7;
+        --muted: #a1a1a6;
+        --footer-bg: #111;
+        --hover-bg: rgba(255,255,255,0.05);
+        --btn-bg: var(--text);
+        --btn-hover-bg: #ddd;
+        --header-bg: rgba(29,29,31,0.9);
+        --header-text: #f5f5f7;
+        --sidebar-bg: rgba(29,29,31,0.95);
+        --sidebar-border: rgba(255,255,255,0.1);
+        --sidebar-shadow: rgba(0,0,0,0.3);
+        --accent: #0a84ff;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #1d1d1f;
+      --text: #f5f5f7;
+      --muted: #a1a1a6;
+      --footer-bg: #111;
+      --hover-bg: rgba(255,255,255,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #ddd;
+      --header-bg: rgba(29,29,31,0.9);
+      --header-text: #f5f5f7;
+      --sidebar-bg: rgba(29,29,31,0.95);
+      --sidebar-border: rgba(255,255,255,0.1);
+      --sidebar-shadow: rgba(0,0,0,0.3);
+      --accent: #0a84ff;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.9);
+      --header-text: #1d1d1f;
+      --sidebar-bg: rgba(255,255,255,0.95);
+      --sidebar-border: rgba(0,0,0,0.1);
+      --sidebar-shadow: rgba(0,0,0,0.1);
+      --accent: #007aff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--header-bg, rgba(255, 255, 255, 0.9));
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+    }
+    @media (prefers-color-scheme: dark) {
+      header {
+        background: rgba(29, 29, 31, 0.9);
+      }
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--header-text, var(--text));
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
+
+    nav > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
+    }
+
+    nav > a:hover::after {
+      width: 100%;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      height: 100%;
+      width: 300px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      padding: 2rem 1.5rem;
+      box-shadow: 4px 0 20px var(--sidebar-shadow);
+      z-index: 2000;
+      transition: left 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      border: none;
+      background: var(--hover-bg);
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .sidebar button:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .sidebar button.active {
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .sidebar-close:hover {
+      color: var(--text);
+    }
+
+    section {
+      padding: 140px 2rem 100px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding-top: 200px;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 2rem;
+      background-color: var(--btn-bg);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background 0.3s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      transform: scale(1.05);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .text-muted {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+    }
+
+    @media (max-width: 768px) {
+      nav a {
+        margin-left: 1rem;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .sidebar {
+        width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <nav>
+      <a href="missione.html">Missione</a>
+      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+    </nav>
+  </header>
+
+  <main>
+   
+    <section id="home" class="hero">
+      <h1>Benvenuto su Daze for Future</h1>
+      <p>Promuoviamo la sostenibilità, l'open source e la consapevolezza ambientale nella nostra scuola.</p>
+      <a href="https://liceodazeglio.edu.it" class="btn">Liceo D'Azeglio</a>
+    </section>
+    
+    <section id="registrazione">
+      <h2 class="section-title">Registrati</h2>
+      <p class="text-muted">Registrati all'associazione per aiutarci con i nostri progetti. Se sei già registrato, <a href="login.html">accedi</a></p>
+      <a href="registrati.html" class="btn">Registrati</a> <!-- Da centrare -->
+    </section>
+
+    <section id="missione">
+      <h2 class="section-title">La nostra missione</h2>
+      <p class="text-muted">Daze for Future è un'associazione no profit scolastica che si impegna a sensibilizzare gli studenti sul cambiamento climatico, promuovere software open source e sviluppare iniziative per un futuro sostenibile.</p>
+      <a href="missione.html" class="btn">Approfondisci la nostra missione</a> <!-- Da centrare -->
+    </section>
+
+    <section id="chi-siamo">
+      <h2 class="section-title">Chi siamo</h2>
+      <p class="text-muted">Siamo un gruppo di studenti appassionati, supportati da docenti, che lavorano insieme per realizzare progetti educativi e sociali.</p>
+      <a href="chi_siamo.html" class="btn">Più informazioni su di noi</a> <!-- Da centrare -->
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Daze for Future. Tutti i diritti riservati.
+  </footer>
+
+  <script>
+    const sidebar = document.getElementById('themeSidebar');
+    const toggleSidebar = document.getElementById('toggleSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    toggleSidebar.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+    });
+
+    document.querySelectorAll('.sidebar button').forEach(button => {
+      button.addEventListener('click', () => {
+        // Rimuovi la classe active da tutti i pulsanti
+        document.querySelectorAll('.sidebar button').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // Aggiungi la classe active al pulsante cliccato
+        button.classList.add('active');
+        
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+        
+        // Chiudi la sidebar dopo un leggero ritardo per feedback visivo
+        setTimeout(() => {
+          sidebar.classList.remove('active');
+        }, 300);
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
+
+    // Applica il tema salvato e imposta lo stato attivo del pulsante
+    const saved = localStorage.getItem('theme-preference');
+    if (saved) {
+      applyTheme(saved);
+      // Imposta il pulsante attivo in base al tema salvato
+      document.querySelector(`.sidebar button[data-theme="${saved}"]`).classList.add('active');
+    } else {
+      // Se nessuna preferenza è salvata, imposta "auto" come attivo
+      document.querySelector('.sidebar button[data-theme="auto"]').classList.add('active');
+    }
+
+    // Chiudi la sidebar quando si clicca fuori
+    document.addEventListener('click', (e) => {
+      if (sidebar.classList.contains('active') && 
+          !sidebar.contains(e.target) && 
+          e.target !== toggleSidebar) {
+        sidebar.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
