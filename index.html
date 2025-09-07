@@ -95,12 +95,6 @@
       z-index: 1000;
       color: var(--header-text, var(--text));
     }
-    @media (prefers-color-scheme: dark) {
-      header {
-        background: rgba(29, 29, 31, 0.9);
-      }
-    }
-
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -282,6 +276,93 @@
         width: 280px;
       }
     }
+/* Floating Action Button */
+#theme-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--accent);
+  color: white;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+  z-index: 3000;
+  transition: background 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+}
+
+#theme-fab:hover {
+  background: var(--btn-hover-bg);
+}
+
+/* Fluttuazione morbida */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Popup animato */
+#theme-popup {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--sidebar-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 12px;
+  display: none;
+  flex-direction: column;
+  padding: 0.5rem;
+  z-index: 3001;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+#theme-popup.show {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Pulsanti opzioni tema */
+#theme-popup button.theme-option {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.6rem;
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.25s, transform 0.25s, color 0.25s;
+  border-radius: 8px;
+}
+
+#theme-popup button.theme-option:hover {
+  background: var(--hover-bg);
+  transform: scale(1.15);
+}
+
+#theme-popup button.theme-option.active {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.15);
+}
+
+header {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
   </style>
 </head>
 <body>
@@ -322,73 +403,103 @@
     </section>
   </main>
 
+<!-- Floating Theme Button -->
+<div id="theme-fab" title="Scegli tema">
+  🎨
+</div>
+
+<!-- Floating Theme Popup -->
+<div id="theme-popup">
+  <button class="theme-option" data-theme="light">🌞</button>
+  <button class="theme-option" data-theme="dark">🌙</button>
+  <button class="theme-option" data-theme="auto">🌓</button>
+</div>
+
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
-  <script>
-    const sidebar = document.getElementById('themeSidebar');
-    const toggleSidebar = document.getElementById('toggleSidebar');
-    const closeSidebar = document.getElementById('closeSidebar');
+<script>
+const fab = document.getElementById('theme-fab');
+const popup = document.getElementById('theme-popup');
 
-    toggleSidebar.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
+// Toggle popup with animation
+fab.addEventListener('click', () => {
+  if (popup.classList.contains('show')) {
+    popup.classList.remove('show');
+    setTimeout(() => popup.style.display = 'none', 250);
+  } else {
+    popup.style.display = 'flex';
+    requestAnimationFrame(() => popup.classList.add('show'));
+  }
+});
 
-    closeSidebar.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-    });
-
-    document.querySelectorAll('.sidebar button').forEach(button => {
-      button.addEventListener('click', () => {
-        // Rimuovi la classe active da tutti i pulsanti
-        document.querySelectorAll('.sidebar button').forEach(btn => {
-          btn.classList.remove('active');
-        });
-        
-        // Aggiungi la classe active al pulsante cliccato
-        button.classList.add('active');
-        
-        const theme = button.dataset.theme;
-        localStorage.setItem('theme-preference', theme);
-        applyTheme(theme);
-        
-        // Chiudi la sidebar dopo un leggero ritardo per feedback visivo
-        setTimeout(() => {
-          sidebar.classList.remove('active');
-        }, 300);
-      });
-    });
-
-    function applyTheme(theme) {
-      if (theme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
+// Close on outside click
+document.addEventListener('click', (e) => {
+  if (!fab.contains(e.target) && !popup.contains(e.target)) {
+    if (popup.classList.contains('show')) {
+      popup.classList.remove('show');
+      setTimeout(() => popup.style.display = 'none', 250);
     }
+  }
+});
 
-    // Applica il tema salvato e imposta lo stato attivo del pulsante
-    const saved = localStorage.getItem('theme-preference');
-    if (saved) {
-      applyTheme(saved);
-      // Imposta il pulsante attivo in base al tema salvato
-      document.querySelector(`.sidebar button[data-theme="${saved}"]`).classList.add('active');
-    } else {
-      // Se nessuna preferenza è salvata, imposta "auto" come attivo
-      document.querySelector('.sidebar button[data-theme="auto"]').classList.add('active');
-    }
+// Apply theme and highlight selection
+document.querySelectorAll('.theme-option').forEach(button => {
+  button.addEventListener('click', () => {
+    const theme = button.dataset.theme;
+    localStorage.setItem('theme-preference', theme);
+    applyTheme(theme);
 
-    // Chiudi la sidebar quando si clicca fuori
-    document.addEventListener('click', (e) => {
-      if (sidebar.classList.contains('active') && 
-          !sidebar.contains(e.target) && 
-          e.target !== toggleSidebar) {
-        sidebar.classList.remove('active');
-      }
-    });
-  </script>
+    // Highlight active button
+    document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    popup.classList.remove('show');
+    setTimeout(() => popup.style.display = 'none', 250);
+  });
+});
+
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  } else if (theme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  updateTitles(theme);
+}
+
+function updateTitles(theme) {
+  const h1 = document.querySelector('h1');
+  const h2s = document.querySelectorAll('h2');
+  const header = document.querySelector('header');
+
+  let color = '';
+  if (theme === 'dark') {
+    color = '#0a84ff';
+    header.style.color = '#f5f5f7';
+  } else if (theme === 'light') {
+    color = '#007aff';
+    header.style.color = '#1d1d1f';
+  } else {
+    color = '';
+    header.style.color = '';
+  }
+
+  h1.style.color = color || '';
+  h2s.forEach(h2 => h2.style.color = color || '');
+}
+
+// On load
+const savedTheme = localStorage.getItem('theme-preference');
+if (savedTheme) {
+  applyTheme(savedTheme);
+  const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+  if (btn) btn.classList.add('active');
+}
+</script>
+
 </body>
 </html>
