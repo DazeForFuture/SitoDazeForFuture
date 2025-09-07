@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <style>
+
+    <style>
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -72,6 +73,13 @@
       --accent: #007aff;
     }
 
+    :root[data-theme="dark"] header {
+      background: rgba(29, 29, 31, 0.65);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -82,19 +90,21 @@
       line-height: 1.5;
     }
 
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: var(--header-bg, rgba(255, 255, 255, 0.9));
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      z-index: 1000;
-      color: var(--header-text, var(--text));
-    }
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.65); /* trasparenza più marcata */
+    backdrop-filter: blur(20px) saturate(180%); /* più vicino al Mica */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 1000;
+    color: var(--header-text, var(--text));
+    border-bottom: 1px solid rgba(255,255,255,0.2); /* leggero bordo */
+  }
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -293,25 +303,41 @@
   cursor: pointer;
   box-shadow: 0 6px 15px rgba(0,0,0,0.25);
   z-index: 3000;
-  transition: background 0.3s ease;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
   animation: float 3s ease-in-out infinite;
 }
 
+/* Hover: ingrandimento e ombra più intensa */
 #theme-fab:hover {
   background: var(--btn-hover-bg);
+  transform: scale(1.1);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.35);
 }
 
-/* Fluttuazione morbida */
+/* Click: effetto "press" */
+#theme-fab:active {
+  transform: scale(0.92) rotate(15deg);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Animazione di comparsa */
+#theme-fab.show {
+  animation: fabPopIn 0.4s ease forwards;
+}
+
+@keyframes fabPopIn {
+  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+  70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Fluttuazione morbida (idle) */
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
 }
 
-/* Popup animato */
+/* Popup animato (già esistente, solo leggermente migliorato) */
 #theme-popup {
   position: fixed;
   bottom: 90px;
@@ -326,14 +352,14 @@
   z-index: 3001;
   backdrop-filter: blur(10px);
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(10px) scale(0.95);
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 #theme-popup.show {
   display: flex;
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* Pulsanti opzioni tema */
@@ -348,15 +374,34 @@
   border-radius: 8px;
 }
 
+/* Hover sui pulsanti: rimbalzo */
 #theme-popup button.theme-option:hover {
   background: var(--hover-bg);
-  transform: scale(1.15);
+  transform: scale(1.2) rotate(8deg);
 }
 
+/* Click sui pulsanti: effetto pressione */
+#theme-popup button.theme-option:active {
+  transform: scale(0.9) rotate(-8deg);
+}
+
+/* Attivo: evidenziato */
 #theme-popup button.theme-option.active {
   background: var(--accent);
   color: white;
   transform: scale(1.15);
+}
+
+/* Animazione click "pop" */
+@keyframes fabClick {
+  0%   { transform: scale(1) rotate(0deg); }
+  30%  { transform: scale(0.8) rotate(-10deg); }
+  60%  { transform: scale(1.2) rotate(10deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+#theme-fab.animate {
+  animation: fabClick 0.4s ease forwards;
 }
 
 header {
@@ -418,9 +463,18 @@ header {
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
-
 <script>
 const fab = document.getElementById('theme-fab');
+
+fab.addEventListener('click', () => {
+  // Aggiunge la classe per far partire l’animazione
+  fab.classList.add('animate');
+
+  // La rimuove quando l’animazione è finita, così può ripetersi
+  fab.addEventListener('animationend', () => {
+    fab.classList.remove('animate');
+  }, { once: true });
+});
 const popup = document.getElementById('theme-popup');
 
 // Toggle popup with animation
@@ -433,6 +487,8 @@ fab.addEventListener('click', () => {
     requestAnimationFrame(() => popup.classList.add('show'));
   }
 });
+
+
 
 // Close on outside click
 document.addEventListener('click', (e) => {
@@ -499,7 +555,16 @@ if (savedTheme) {
   const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
   if (btn) btn.classList.add('active');
 }
+
+// Mostra FAB con animazione al caricamento
+window.addEventListener('DOMContentLoaded', () => {
+  const fab = document.getElementById('theme-fab');
+  fab.classList.add('show');
+});
+
+
 </script>
+<script src="theme.js"></script>
 
 </body>
 </html>
