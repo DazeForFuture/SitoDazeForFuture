@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Daze for Future">
+
   <title>Home - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="sidebar/sidebar.css" />
+  <link rel="stylesheet" href="sidebar/hamburger.css" />
+
 
     <style>
     :root {
@@ -142,77 +149,6 @@
     nav > a:hover::after {
       width: 100%;
     }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -300px;
-      height: 100%;
-      width: 300px;
-      background: var(--sidebar-bg);
-      border-right: 1px solid var(--sidebar-border);
-      padding: 2rem 1.5rem;
-      box-shadow: 4px 0 20px var(--sidebar-shadow);
-      z-index: 2000;
-      transition: left 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    .sidebar h2 {
-      font-size: 1.25rem;
-      margin-bottom: 1.5rem;
-      color: var(--text);
-      font-weight: 800;
-    }
-
-    .sidebar button {
-      display: block;
-      width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
-      border: none;
-      background: var(--hover-bg);
-      color: var(--text);
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      text-align: left;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .sidebar button:hover {
-      background: var(--accent);
-      color: white;
-      transform: translateX(5px);
-    }
-
-    .sidebar button.active {
-      background: var(--accent);
-      color: white;
-      font-weight: 600;
-    }
-
-    .sidebar-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-
-    .sidebar-close:hover {
-      color: var(--text);
-    }
-
     section {
       padding: 140px 2rem 100px;
       max-width: 1000px;
@@ -287,143 +223,162 @@
         width: 280px;
       }
     }
-nav a[href="login.html"],
-nav a[href="login.html"]:visited {
-  color: #007aff !important;
-  font-weight: 700; /* facoltativo, per evidenziarlo */
-}
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: #007aff !important;
+      font-weight: 700; /* facoltativo, per evidenziarlo */
+    }
 
-nav a[href="login.html"]:hover {
-  text-decoration: underline;
-}
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
 
-/* Floating Action Button */
-#theme-fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: var(--accent);
-  color: white;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  font-size: 1.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-  z-index: 3000;
-  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
-  animation: float 3s ease-in-out infinite;
-}
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
 
-/* Hover: ingrandimento e ombra più intensa */
-#theme-fab:hover {
-  background: var(--btn-hover-bg);
-  transform: scale(1.1);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-}
+    /* Hover: ingrandimento e ombra più intensa */
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
 
-/* Click: effetto "press" */
-#theme-fab:active {
-  transform: scale(0.92) rotate(15deg);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
+    /* Click: effetto "press" */
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
 
-/* Animazione di comparsa */
-#theme-fab.show {
-  animation: fabPopIn 0.4s ease forwards;
-}
+    /* Animazione di comparsa */
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
 
-@keyframes fabPopIn {
-  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-  70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
-}
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
 
-/* Fluttuazione morbida (idle) */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-}
+    /* Fluttuazione morbida (idle) */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
 
-/* Popup animato (già esistente, solo leggermente migliorato) */
-#theme-popup {
-  position: fixed;
-  bottom: 90px;
-  right: 24px;
-  background: var(--sidebar-bg);
-  border: 1px solid var(--sidebar-border);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  border-radius: 12px;
-  display: none;
-  flex-direction: column;
-  padding: 0.5rem;
-  z-index: 3001;
-  backdrop-filter: blur(10px);
-  opacity: 0;
-  transform: translateY(10px) scale(0.95);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
+    /* Popup animato (già esistente, solo leggermente migliorato) */
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
 
-#theme-popup.show {
-  display: flex;
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
 
-/* Pulsanti opzioni tema */
-#theme-popup button.theme-option {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  padding: 0.6rem;
-  cursor: pointer;
-  color: var(--text);
-  transition: background 0.25s, transform 0.25s, color 0.25s;
-  border-radius: 8px;
-}
+    /* Pulsanti opzioni tema */
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
 
-/* Hover sui pulsanti: rimbalzo */
-#theme-popup button.theme-option:hover {
-  background: var(--hover-bg);
-  transform: scale(1.2) rotate(8deg);
-}
+    /* Hover sui pulsanti: rimbalzo */
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
 
-/* Click sui pulsanti: effetto pressione */
-#theme-popup button.theme-option:active {
-  transform: scale(0.9) rotate(-8deg);
-}
+    /* Click sui pulsanti: effetto pressione */
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
 
-/* Attivo: evidenziato */
-#theme-popup button.theme-option.active {
-  background: var(--accent);
-  color: white;
-  transform: scale(1.15);
-}
+    /* Attivo: evidenziato */
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
 
-/* Animazione click "pop" */
-@keyframes fabClick {
-  0%   { transform: scale(1) rotate(0deg); }
-  30%  { transform: scale(0.8) rotate(-10deg); }
-  60%  { transform: scale(1.2) rotate(10deg); }
-  100% { transform: scale(1) rotate(0deg); }
-}
+    /* Animazione click "pop" */
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
 
-#theme-fab.animate {
-  animation: fabClick 0.4s ease forwards;
-}
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
 
-header {
-  transition: background 0.3s ease, color 0.3s ease;
-}
+    header {
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    /* CSS Aggiuntivo per visualizzazione migliore su mobile */
+    section .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
 
-  </style>
+    @media (max-width: 768px) {
+      section {
+        text-align: center;
+      }
+
+      nav {
+        display: none; /* Puoi anche aggiungere un menu hamburger per mobile */
+      }
+    }
+</style>
 </head>
 <body>
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">
+        ☰
+    </button>
+
     <nav>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
@@ -458,6 +413,19 @@ header {
       <a href="chi_siamo.html" class="btn">Più informazioni su di noi</a> <!-- Da centrare -->
     </section>
   </main>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
+    <h2>Menu</h2>
+    <ul class="sidebar-menu">
+      <li><a href="index.html"><span>🏠</span> Home</a></li>
+      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
+      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="login.html"><span>🔐</span> Accedi</a></li>
+    </ul>
+  </aside>
 
 <!-- Floating Theme Button -->
 <div id="theme-fab" title="Scegli tema">
@@ -498,8 +466,6 @@ fab.addEventListener('click', () => {
     requestAnimationFrame(() => popup.classList.add('show'));
   }
 });
-
-
 
 // Close on outside click
 document.addEventListener('click', (e) => {
@@ -572,10 +538,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const fab = document.getElementById('theme-fab');
   fab.classList.add('show');
 });
-
-
 </script>
 <script src="theme.js"></script>
+<script src="sidebar/sidebar.js"></script>
 
 </body>
 </html>

@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Daze for Future">
+
   <title>Prossimi Eventi - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="theme.js"></script>
+  <link rel="stylesheet" href="sidebar/sidebar.css" />
+  <link rel="stylesheet" href="sidebar/hamburger.css" />
+
   <style>
     :root {
       --bg: #fff;
@@ -79,21 +85,23 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: var(--header-bg);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       z-index: 1000;
-      color: var(--header-text);
+      color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: var(--header-bg); /* Usa la variabile corretta */
     }
-
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
       cursor: pointer;
       user-select: none;
+      color: var(--header-text, var(--text));
     }
 
     nav {
@@ -104,7 +112,7 @@
     nav > a {
       margin-left: 2rem;
       text-decoration: none;
-      color: var(--header-text);
+      color: var(--header-text, var(--text));
       font-weight: 600;
       position: relative;
       padding: 0.5rem;
@@ -123,48 +131,6 @@
 
     nav > a:hover::after {
       width: 100%;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -300px;
-      height: 100%;
-      width: 300px;
-      background: var(--bg);
-      border-right: 1px solid #ccc;
-      padding: 2rem 1.5rem;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-      z-index: 2000;
-      transition: left 0.3s ease;
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    .sidebar h2 {
-      font-size: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .sidebar button {
-      display: block;
-      width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
-      border: none;
-      background: var(--hover-bg);
-      color: var(--text);
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-
-    .sidebar button:hover {
-      background: var(--btn-hover-bg);
-      color: var(--bg);
     }
 
     main {
@@ -344,18 +310,23 @@
         gap: 0.5rem;
       }
     }
+ 
   </style>
 </head>
 <body>
   <header>
-    <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <div class="logo">Daze for Future</div>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
     <nav>
       <a href="/">Home</a>
       <a href="missione.html">Missione</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      <a href="login.html">Accedi</a>
+
     </nav>
   </header>
+
 
   <main>
     <section class="hero">
@@ -492,39 +463,24 @@
     </section>
   </main>
 
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
+    <h2>Menu</h2>
+    <ul class="sidebar-menu">
+      <li><a href="/"><span>🏠</span> Home</a></li>
+      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
+      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="login.html"><span>🔐</span> Accedi</a></li>
+    </ul>
+  </aside>
+
   <footer>
     <p>&copy; 2025 Daze for Future. Tutti i diritti riservati.</p>
   </footer>
-
-  <script>
-    const sidebar = document.getElementById('themeSidebar');
-    const toggleSidebar = document.getElementById('toggleSidebar');
-
-    toggleSidebar.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-
-    document.querySelectorAll('.sidebar button').forEach(button => {
-      button.addEventListener('click', () => {
-        const theme = button.dataset.theme;
-        localStorage.setItem('theme-preference', theme);
-        applyTheme(theme);
-        sidebar.classList.remove('active');
-      });
-    });
-
-    function applyTheme(theme) {
-      if (theme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-    }
-
-    const saved = localStorage.getItem('theme-preference');
-    if (saved) applyTheme(saved);
-  </script>
+  <script src="sidebar/sidebar.js"></script>
+  <script src="theme.js"></script>
 </body>
 </html>

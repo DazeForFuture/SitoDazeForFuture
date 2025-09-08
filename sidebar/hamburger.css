@@ -1,0 +1,55 @@
+/* --- Base styles per il menu --- */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hamburger {
+  font-size: 2rem;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--text); /* Puoi personalizzare il colore */
+  display: none; /* Di default non visibile */
+}
+
+/* --- Responsive Header --- */
+@media (max-width: 768px) {
+  header nav {
+    display: none; /* Nasconde il menu normale su mobile */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background); /* Puoi personalizzare il colore di sfondo */
+    padding: 1rem;
+    z-index: 999;
+  }
+
+  .hamburger {
+    display: block; /* Mostra l'icona dell'hamburger */
+  }
+
+  /* Mostra il menu quando è aperto */
+  nav.open {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  nav ul li {
+    padding: 0.5rem 0;
+  }
+
+  nav ul li a {
+    text-decoration: none;
+    color: var(--text); /* Puoi personalizzare il colore */
+    font-size: 1.2rem;
+  }
+}

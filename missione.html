@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>La nostra missione - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <script src="theme.js"></script>
-  <style>
+  <link rel="stylesheet" href="sidebar/sidebar.css" />
+  <link rel="stylesheet" href="sidebar/hamburger.css" />
+
+<style>
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -75,14 +77,16 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: var(--header-bg, rgba(255, 255, 255, 0.9));
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       z-index: 1000;
       color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: var(--header-bg); /* Usa la variabile corretta */
     }
     .logo {
       font-weight: 800;
@@ -119,48 +123,6 @@
 
     nav > a:hover::after {
       width: 100%;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -300px;
-      height: 100%;
-      width: 300px;
-      background: var(--bg);
-      border-right: 1px solid #ccc;
-      padding: 2rem 1.5rem;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-      z-index: 2000;
-      transition: left 0.3s ease;
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    .sidebar h2 {
-      font-size: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .sidebar button {
-      display: block;
-      width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
-      border: none;
-      background: var(--hover-bg);
-      color: var(--text);
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-
-    .sidebar button:hover {
-      background: var(--btn-hover-bg);
-      color: var(--bg);
     }
 
     section {
@@ -271,18 +233,158 @@
         grid-template-columns: 1fr;
       }
     }
-  </style>
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: var(--header-bg); /* Usa la variabile corretta */
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--header-text, var(--text));
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
+
+    nav > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
+    }
+
+    nav > a:hover::after {
+      width: 100%;
+    }
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+    padding: 2rem 1rem;
+    z-index: 2000;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .sidebar-close {
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-menu li {
+    list-style: none;
+    margin: 1rem 0;
+  }
+
+  .sidebar-menu li a {
+    text-decoration: none;
+    color: #1d1d1f;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .sidebar-menu li a:hover {
+    color: #007aff;
+  }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .hamburger { display: block; }
+  }
+  /* Sidebar voci attive / hover */
+.sidebar-menu li a {
+  text-decoration: none;
+  color: #1d1d1f;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li a.active {
+  background-color: #007aff20; /* blu leggero */
+  color: #007aff; /* testo blu */
+}
+</style>
 </head>
 <body>
   <header>
-  <div class="logo">Daze for Future</div>
+    <div class="logo">Daze for Future</div>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    
     <nav>
       <a href="/">Home</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      <a href="login.html">Accedi</a>
     </nav>
-  </header>
+      </nav>
+          <!-- Vista migliorata su iOS -->
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+      <meta name="apple-mobile-web-app-title" content="Daze for Future">
+    </header>
 
   <main>
     <section class="hero">
@@ -331,41 +433,54 @@
       <a href="/contatti.html" class="btn">I nostri contatti</a>
     </section>
   </main>
+  
+  <!-- Sidebar -->
+<aside class="sidebar">
+  <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
+  <h2>Menu</h2>
+  <ul class="sidebar-menu">
+    <li><a href="index.html"><span>🏠</span> Home</a></li>
+    <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+    <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+    <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
+    <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+    <li><a href="login.html"><span>🔐</span> Accedi</a></li>
+  </ul>
+</aside>
 
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
-
   <script>
-    const sidebar = document.getElementById('themeSidebar');
-    const toggleSidebar = document.getElementById('toggleSidebar');
+  document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.querySelector('.sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  const closeBtn = document.querySelector('.sidebar-close');
 
-    toggleSidebar.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-
-    document.querySelectorAll('.sidebar button').forEach(button => {
-      button.addEventListener('click', () => {
-        const theme = button.dataset.theme;
-        localStorage.setItem('theme-preference', theme);
-        applyTheme(theme);
-        sidebar.classList.remove('active');
-      });
-    });
-
-    function applyTheme(theme) {
-      if (theme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-    }
-
-    const saved = localStorage.getItem('theme-preference');
-    if (saved) applyTheme(saved);
+  toggle.addEventListener('click', () => sidebar.classList.add('active'));
+  closeBtn.addEventListener('click', () => sidebar.classList.remove('active'));
+  });
   </script>
+
+<script src="theme.js"></script>
+<script src="sidebar/sidebar.js"></script>
+<script>
+  // Sidebar toggle
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.querySelector('.sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  const closeBtn = document.querySelector('.sidebar-close');
+
+  toggle.addEventListener('click', () => sidebar.classList.add('active'));
+  closeBtn.addEventListener('click', () => sidebar.classList.remove('active'));
+
+  // Chiudi sidebar cliccando fuori
+  document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+      sidebar.classList.remove('active');
+    }
+  });
+});
+</script>
 </body>
 </html>
-

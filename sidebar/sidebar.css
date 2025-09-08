@@ -1,0 +1,88 @@
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background: var(--bg); /* usa il colore di sfondo del tema */
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  transition: left 0.3s ease;
+  z-index: 1200;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+}
+
+/* Quando la sidebar è attiva */
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+}
+
+.sidebar-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.sidebar-close:hover {
+  color: var(--text);
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 1rem;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 1.05rem;
+}
+
+.sidebar-menu a span {
+  font-size: 1.3rem;
+}
+
+.sidebar-menu li a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li a.active {
+  background-color: rgba(0, 122, 255, 0.2); /* blu leggero */
+  color: #007aff; /* testo blu */
+}
