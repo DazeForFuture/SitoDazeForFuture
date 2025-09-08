@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
@@ -13,7 +12,6 @@
   <link rel="stylesheet" href="sidebar/sidebar.css" />
   <link rel="stylesheet" href="sidebar/hamburger.css" />
   <style>
-    /* --- VARIABILI TEMA (identiche alla home) --- */
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -50,40 +48,6 @@
       }
     }
 
-    :root[data-theme="dark"] {
-      --bg: #1d1d1f;
-      --text: #f5f5f7;
-      --muted: #a1a1a6;
-      --footer-bg: #111;
-      --hover-bg: rgba(255,255,255,0.05);
-      --btn-bg: var(--text);
-      --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --sidebar-bg: rgba(29,29,31,0.95);
-      --sidebar-border: rgba(255,255,255,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.3);
-      --accent: #0a84ff;
-      --card-bg: #2c2c2e;
-    }
-
-    :root[data-theme="light"] {
-      --bg: #fff;
-      --text: #1d1d1f;
-      --muted: #6e6e73;
-      --footer-bg: #f9f9f9;
-      --hover-bg: rgba(0,0,0,0.05);
-      --btn-bg: var(--text);
-      --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
-      --accent: #007aff;
-      --card-bg: #f5f5f7;
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
@@ -103,32 +67,25 @@
       align-items: center;
       padding: 1rem 2rem;
       z-index: 1000;
-      color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      background: var(--header-bg); /* Usa la variabile corretta */
+      background: var(--header-bg);
+      color: var(--header-text);
     }
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
       cursor: pointer;
       user-select: none;
-      color: var(--header-text, var(--text));
     }
-
-    nav {
-      display: flex;
-      align-items: center;
-    }
-
+    nav { display: flex; align-items: center; }
     nav > a {
       margin-left: 2rem;
       text-decoration: none;
-      color: var(--header-text, var(--text));
+      color: var(--header-text);
       font-weight: 600;
       position: relative;
       padding: 0.5rem;
     }
-
     nav > a::after {
       content: "";
       position: absolute;
@@ -139,17 +96,13 @@
       background: var(--text);
       transition: width 0.3s;
     }
-
-    nav > a:hover::after {
-      width: 100%;
-    }
+    nav > a:hover::after { width: 100%; }
 
     main {
       padding: 160px 2rem 100px;
       max-width: 700px;
       margin: auto;
     }
-
     .section-title {
       font-size: 2.5rem;
       font-weight: 800;
@@ -172,13 +125,8 @@
       border-radius: 16px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.1);
     }
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-    input, textarea {
+    label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    input, select, textarea {
       width: 100%;
       padding: 0.75rem 1rem;
       border-radius: 8px;
@@ -189,13 +137,11 @@
       background: var(--bg);
       color: var(--text);
     }
-    input:focus, textarea:focus {
+    input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(0,122,255,0.3);
     }
-    textarea { resize: vertical; }
-
     button {
       display: block;
       width: 100%;
@@ -212,7 +158,6 @@
       background: var(--btn-hover-bg);
       transform: scale(1.03);
     }
-
     footer {
       text-align: center;
       padding: 2rem;
@@ -226,10 +171,7 @@
 <body>
   <header>
     <div class="logo" id="title">Daze for Future</div>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">
-        ☰
-    </button>
-
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
     <nav>
       <a href="/">Home</a>
       <a href="missione.html">Missione</a>
@@ -253,8 +195,22 @@
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required />
 
-      <label for="classe">Classe (se sei uno studente)</label>
-      <input type="text" id="classe" name="classe" placeholder="Es. 2CS Scientifico Digitale o 1E Classico 'Le Muse'" />
+      <!-- Ruolo -->
+      <label for="ruolo">Sei:</label>
+      <select id="ruolo" name="ruolo" required>
+        <option value="">-- Seleziona --</option>
+        <option value="insegnante">Insegnante</option>
+        <option value="studente">Studente</option>
+      </select>
+
+      <!-- Campi per studenti -->
+      <div id="studenteFields" style="display:none;">
+        <label for="anno">Anno</label>
+        <input type="number" id="anno" name="anno" min="1" max="5" />
+
+        <label for="sezione">Sezione (in maiuscolo)</label>
+        <input type="text" id="sezione" name="sezione" />
+      </div>
 
       <label for="motivazione">Perché vuoi unirti a noi?</label>
       <textarea id="motivazione" name="motivazione" rows="4"></textarea>
@@ -262,6 +218,7 @@
       <button type="submit">Invia registrazione</button>
     </form>
   </main>
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
@@ -279,10 +236,26 @@
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
+
   <script src="theme.js"></script>
   <script src="sidebar/sidebar.js"></script> 
+  <script>
+    const ruoloSelect = document.getElementById("ruolo");
+    const studenteFields = document.getElementById("studenteFields");
+    const anno = document.getElementById("anno");
+    const sezione = document.getElementById("sezione");
 
-
-
+    ruoloSelect.addEventListener("change", () => {
+      if (ruoloSelect.value === "studente") {
+        studenteFields.style.display = "block";
+        anno.required = true;
+        sezione.required = true;
+      } else {
+        studenteFields.style.display = "none";
+        anno.required = false;
+        sezione.required = false;
+      }
+    });
+  </script>
 </body>
 </html>
