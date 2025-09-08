@@ -90,21 +90,22 @@
       line-height: 1.5;
     }
 
-  header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.65); /* trasparenza più marcata */
-    backdrop-filter: blur(20px) saturate(180%); /* più vicino al Mica */
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    z-index: 1000;
-    color: var(--header-text, var(--text));
-    border-bottom: 1px solid rgba(255,255,255,0.2); /* leggero bordo */
-  }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transition: background 0.3s ease, color 0.3s ease;
+      background: var(--header-bg); /* Usa la variabile corretta */
+    }
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -286,6 +287,16 @@
         width: 280px;
       }
     }
+nav a[href="login.html"],
+nav a[href="login.html"]:visited {
+  color: #007aff !important;
+  font-weight: 700; /* facoltativo, per evidenziarlo */
+}
+
+nav a[href="login.html"]:hover {
+  text-decoration: underline;
+}
+
 /* Floating Action Button */
 #theme-fab {
   position: fixed;

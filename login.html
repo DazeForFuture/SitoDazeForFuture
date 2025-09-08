@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="theme.js"></script>
   <style>
+    /* --- VARIABILI COERENTI ALLA HOME --- */
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -66,7 +67,6 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
@@ -75,20 +75,23 @@
       line-height: 1.5;
     }
 
+    /* --- HEADER UGUALE ALLA HOME --- */
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      background: var(--header-bg);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       z-index: 1000;
       color: var(--header-text);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transition: background 0.3s ease, color 0.3s ease;
+      background: var(--header-bg);
     }
-
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -96,32 +99,28 @@
       user-select: none;
       color: var(--header-text);
     }
-
     nav {
       display: flex;
       align-items: center;
     }
-
-        nav > a {
-    margin-left: 2rem;
-    text-decoration: none;
-    color: #fff; /* link bianchi */
-    font-weight: 600;
-    position: relative;
-    padding: 0.5rem;
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text);
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
     }
-
     nav > a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 0;
-    height: 2px;
-    background: #fff; /* underline bianco */
-    transition: width 0.3s;
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
     }
-
     nav > a:hover::after {
       width: 100%;
     }
@@ -196,7 +195,6 @@
 
     button:hover {
       background: var(--btn-hover-bg);
-      color: var(--bg);
       transform: scale(1.03);
     }
 
@@ -223,13 +221,14 @@
   </style>
 </head>
 <body>
+  <!-- HEADER UGUALE ALLA HOME -->
   <header>
     <div class="logo">Daze for Future</div>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="missione.html">Missione</a>
+      <a href="/">Home</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
       <a href="registrati.html">Registrati</a>
     </nav>
   </header>
