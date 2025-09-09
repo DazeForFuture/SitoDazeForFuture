@@ -6,7 +6,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
-
   <title>Registrazione - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="sidebar/sidebar.css" />
@@ -67,25 +66,33 @@
       align-items: center;
       padding: 1rem 2rem;
       z-index: 1000;
+      color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      background: var(--header-bg);
-      color: var(--header-text);
+      transition: background 0.3s ease, color 0.3s ease;
+      background: var(--header-bg); /* Usa la variabile corretta */
     }
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
       cursor: pointer;
       user-select: none;
+      color: var(--header-text, var(--text));
     }
-    nav { display: flex; align-items: center; }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
     nav > a {
       margin-left: 2rem;
       text-decoration: none;
-      color: var(--header-text);
+      color: var(--header-text, var(--text));
       font-weight: 600;
       position: relative;
       padding: 0.5rem;
     }
+
     nav > a::after {
       content: "";
       position: absolute;
@@ -96,8 +103,10 @@
       background: var(--text);
       transition: width 0.3s;
     }
-    nav > a:hover::after { width: 100%; }
 
+    nav > a:hover::after {
+      width: 100%;
+    }
     main {
       padding: 160px 2rem 100px;
       max-width: 700px;
@@ -166,6 +175,10 @@
       background: var(--footer-bg);
       margin-top: 3rem;
     }
+    .center-btn {
+  display: flex;
+  justify-content: center;
+}
   </style>
 </head>
 <body>
@@ -203,15 +216,27 @@
         <option value="studente">Studente</option>
       </select>
 
-      <!-- Campi per studenti -->
-      <div id="studenteFields" style="display:none;">
-        <label for="anno">Anno</label>
-        <input type="number" id="anno" name="anno" min="1" max="5" />
+  <!-- Campi per studenti -->
+  <div id="studenteFields" style="display:none;">
+    <label for="anno">Anno</label>
+    <input type="number" id="anno" name="anno" min="1" max="5" />
 
-        <label for="sezione">Sezione (in maiuscolo)</label>
-        <input type="text" id="sezione" name="sezione" />
-      </div>
-
+    <label for="sezione">Sezione (seleziona o scrivi)</label>
+    <select id="sezione" name="sezione">
+      <option value="">-- Seleziona sezione --</option>
+      <option value="A" data-max="5">A</option>
+      <option value="B" data-max="5">B</option>
+      <option value="C" data-max="5">C</option>
+      <option value="D" data-max="5">D</option>
+      <option value="E" data-max="5">E</option>
+      <option value="F" data-max="5">F</option>
+      <option value="G" data-max="5">G</option>
+      <option value="H" data-max="4">H</option>
+      <option value="AS" data-max="2">AS</option>
+      <option value="BS" data-max="2">BS</option>
+      <option value="CS" data-max="2">CS</option>
+    </select>
+  </div>
       <label for="motivazione">Perché vuoi unirti a noi?</label>
       <textarea id="motivazione" name="motivazione" rows="4"></textarea>
 
@@ -240,22 +265,89 @@
   <script src="theme.js"></script>
   <script src="sidebar/sidebar.js"></script> 
   <script>
-    const ruoloSelect = document.getElementById("ruolo");
-    const studenteFields = document.getElementById("studenteFields");
-    const anno = document.getElementById("anno");
-    const sezione = document.getElementById("sezione");
+  const ruoloSelect = document.getElementById("ruolo");
+  const studenteFields = document.getElementById("studenteFields");
+  const sezioneSelect = document.getElementById("sezione");
+  const annoInput = document.getElementById("anno");
+  const form = document.querySelector("form");
+  const sezioniOptions = [...sezioneSelect.options];
 
+    // Mostra/nasconde campi studenti
     ruoloSelect.addEventListener("change", () => {
       if (ruoloSelect.value === "studente") {
         studenteFields.style.display = "block";
-        anno.required = true;
-        sezione.required = true;
+        sezioneSelect.required = true;
+        annoInput.required = true;
       } else {
         studenteFields.style.display = "none";
-        anno.required = false;
-        sezione.required = false;
+        sezioneSelect.required = false;
+        annoInput.required = false;
       }
     });
+
+  // Filtra sezioni disponibili in base all'anno
+annoInput.addEventListener("input", () => {
+  const anno = parseInt(annoInput.value, 10);
+  sezioniOptions.forEach(option => {
+    if (option.value === "") return; // opzione vuota sempre abilitata
+    
+    // Sezioni speciali H e G
+    if (option.value === "H") {
+      option.disabled = !(anno === 4);
+      return;
+    }
+    if (option.value === "G") {
+      option.disabled = !(anno === 5);
+      return;
+    }
+
+    // Sezioni “S” (AS, BS, CS) disponibili solo fino a anno 2
+    if (["AS","BS","CS"].includes(option.value)) {
+      option.disabled = anno > 2;
+      return;
+    }
+
+    // Tutte le altre sezioni normali
+    const maxAnno = parseInt(option.dataset.max, 10);
+    option.disabled = anno > maxAnno;
+  });
+
+  // Se la sezione selezionata ora è disabilitata, svuotala
+  if (sezioneSelect.value) {
+    const selectedOption = [...sezioniOptions].find(o => o.value === sezioneSelect.value);
+    if (selectedOption && selectedOption.disabled) {
+      sezioneSelect.value = "";
+    }
+  }
+});
+
+  // Validazione finale al submit
+form.addEventListener("submit", (e) => {
+  const anno = parseInt(annoInput.value, 10);
+  const sezione = sezioneSelect.value;
+  if (ruoloSelect.value === "studente" && sezione) {
+    if ((anno === 4 && sezione !== "H") ||
+        (anno === 5 && sezione !== "G") ||
+        (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
+      e.preventDefault();
+      const popup = document.createElement("div");
+      popup.innerText = `La sezione "${sezione}" non esiste per l'anno ${anno}.`;
+      popup.style.position = "fixed";
+      popup.style.top = "20%";
+      popup.style.left = "50%";
+      popup.style.transform = "translateX(-50%)";
+      popup.style.background = "linear-gradient(90deg, #007aff, #00c6ff)";
+      popup.style.color = "#fff";
+      popup.style.padding = "1rem 2rem";
+      popup.style.borderRadius = "12px";
+      popup.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
+      popup.style.fontWeight = "600";
+      popup.style.zIndex = "2000";
+      document.body.appendChild(popup);
+      setTimeout(() => popup.remove(), 4000);
+    }
+  }
+});
   </script>
 </body>
 </html>
