@@ -8,9 +8,6 @@
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Login - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
-
   <style>
     /* --- VARIABILI COERENTI ALLA HOME --- */
     :root {
@@ -25,6 +22,9 @@
       --header-text: #1d1d1f;
       --card-bg: #f5f5f7;
       --accent: #007aff;
+      --sidebar-bg: rgba(255,255,255,0.95);
+      --sidebar-border: rgba(0,0,0,0.1);
+      --sidebar-shadow: rgba(0,0,0,0.1);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -40,6 +40,9 @@
         --header-text: #f5f5f7;
         --card-bg: #252526;
         --accent: #0a84ff;
+        --sidebar-bg: rgba(29,29,31,0.95);
+        --sidebar-border: rgba(255,255,255,0.1);
+        --sidebar-shadow: rgba(0,0,0,0.3);
       }
     }
 
@@ -55,6 +58,9 @@
       --header-text: #f5f5f7;
       --card-bg: #252526;
       --accent: #0a84ff;
+      --sidebar-bg: rgba(29,29,31,0.95);
+      --sidebar-border: rgba(255,255,255,0.1);
+      --sidebar-shadow: rgba(0,0,0,0.3);
     }
 
     :root[data-theme="light"] {
@@ -69,6 +75,9 @@
       --header-text: #1d1d1f;
       --card-bg: #f5f5f7;
       --accent: #007aff;
+      --sidebar-bg: rgba(255,255,255,0.95);
+      --sidebar-border: rgba(0,0,0,0.1);
+      --sidebar-shadow: rgba(0,0,0,0.1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -78,6 +87,7 @@
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
+      position: relative;
     }
 
     header {
@@ -93,8 +103,9 @@
       z-index: 1000;
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      background: var(--header-bg); /* Usa la variabile corretta */
+      background: var(--header-bg);
     }
+    
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -225,26 +236,162 @@
       background: var(--footer-bg);
       margin-top: 3rem;
     }
+    
+    /* Stili per la Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100%;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 2px 0 10px var(--sidebar-shadow);
+      border-right: 1px solid var(--sidebar-border);
+      transition: left 0.3s ease;
+      z-index: 1200;
+      padding: 2rem 1rem;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.3s ease;
+      width: auto;
+      padding: 0.5rem;
+    }
+
+    .sidebar-close:hover {
+      color: var(--text);
+      background: transparent;
+      transform: scale(1.1);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--text);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 1.05rem;
+    }
+
+    .sidebar-menu a span {
+      font-size: 1.3rem;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background-color: rgba(0, 122, 255, 0.2);
+      color: var(--accent);
+    }
+
+    /* Overlay per quando la sidebar è aperta */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Pulsante hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      width: auto;
+      padding: 0.5rem;
+    }
+
+    .hamburger:hover {
+      background: transparent;
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: block;
+      }
+      
+      header {
+        padding: 1rem;
+      }
+      
+      main {
+        padding: 120px 1rem 80px;
+      }
+    }
   </style>
 </head>
 <body>
-<header>
-  <div class="logo" id="sidebarToggle">Daze for Future</div>
-  <button id="sidebarToggleBtn" class="hamburger" aria-label="Apri menu">
-    ☰
-  </button>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="missione.html">Missione</a>
-    <a href="prossimi_eventi.html">Prossimi Eventi</a>
-    <a href="chi_siamo.html">Chi siamo</a>
-    <a href="contatti.html">Contatti</a>
-  </nav>
-</header>
+  <header>
+    <div class="logo">Daze for Future</div>
+    <button id="sidebarToggleBtn" class="hamburger" aria-label="Apri menu">☰</button>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="missione.html">Missione</a>
+      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+    </nav>
+  </header>
 
   <main>
     <h1 class="section-title">Accedi</h1>
-    <p class="text-muted">Inserisci le tue credenziali per entrare nell’area riservata.</p>
+    <p class="text-muted">Inserisci le tue credenziali per entrare nell'area riservata.</p>
 
     <form>
       <label for="email">Email</label>
@@ -261,6 +408,7 @@
       </div>
     </form>
   </main>
+  
   <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
@@ -275,13 +423,51 @@
     </ul>
   </aside>
 
+  <!-- Overlay -->
+  <div class="overlay"></div>
+
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
+  <script>
+    // Gestione Sidebar
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+    const sidebarClose = document.querySelector('.sidebar-close');
+    const overlay = document.querySelector('.overlay');
 
-  <script src="css/sidebar/sidebar.js"></script>
+    function openSidebar() {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    sidebarToggleBtn.addEventListener('click', openSidebar);
+    sidebarClose.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // Chiudi la sidebar con il tasto ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeSidebar();
+      }
+    });
+
+    // Gestione tema (se necessario)
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    });
+  </script>
   <script src="theme.js"></script>
-
 </body>
 </html>

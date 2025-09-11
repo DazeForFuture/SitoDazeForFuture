@@ -8,8 +8,6 @@
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Registrazione - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <style>
     :root {
       --bg: #fff;
@@ -54,6 +52,7 @@
       color: var(--text);
       line-height: 1.5;
       overflow-x: hidden;
+      position: relative;
     }
     header {
       position: fixed;
@@ -68,8 +67,7 @@
       z-index: 1000;
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      transition: background 0.3s ease, color 0.3s ease;
-      background: var(--header-bg); /* Usa la variabile corretta */
+      background: var(--header-bg); 
     }
     .logo {
       font-weight: 800;
@@ -162,6 +160,7 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
     button:hover {
       background: var(--btn-hover-bg);
@@ -176,9 +175,147 @@
       margin-top: 3rem;
     }
     .center-btn {
-  display: flex;
-  justify-content: center;
-}
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Stili per la Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100%;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 2px 0 10px var(--sidebar-shadow);
+      border-right: 1px solid var(--sidebar-border);
+      transition: left 0.3s ease;
+      z-index: 1200;
+      padding: 2rem 1rem;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.3s ease;
+      width: auto;
+      padding: 0.5rem;
+    }
+
+    .sidebar-close:hover {
+      color: var(--text);
+      background: transparent;
+      transform: scale(1.1);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--text);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 1.05rem;
+    }
+
+    .sidebar-menu a span {
+      font-size: 1.3rem;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background-color: rgba(0, 122, 255, 0.2);
+      color: var(--accent);
+    }
+
+    /* Overlay per quando la sidebar è aperta */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Pulsante hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      width: auto;
+      padding: 0.5rem;
+    }
+
+    .hamburger:hover {
+      background: transparent;
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: block;
+      }
+      
+      header {
+        padding: 1rem;
+      }
+      
+      main {
+        padding: 120px 1rem 80px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -195,7 +332,7 @@
   </header>
 
   <main>
-    <h1 class="section-title">Registrati all’associazione</h1>
+    <h1 class="section-title">Registrati all'associazione</h1>
     <p class="text-muted">Compila il modulo qui sotto per diventare parte di Daze for Future.</p>
 
     <form>
@@ -216,27 +353,28 @@
         <option value="studente">Studente</option>
       </select>
 
-  <!-- Campi per studenti -->
-  <div id="studenteFields" style="display:none;">
-    <label for="anno">Anno</label>
-    <input type="number" id="anno" name="anno" min="1" max="5" />
+      <!-- Campi per studenti -->
+      <div id="studenteFields" style="display:none;">
+        <label for="anno">Anno</label>
+        <input type="number" id="anno" name="anno" min="1" max="5" />
 
-    <label for="sezione">Sezione (seleziona o scrivi)</label>
-    <select id="sezione" name="sezione">
-      <option value="">-- Seleziona sezione --</option>
-      <option value="A" data-max="5">A</option>
-      <option value="B" data-max="5">B</option>
-      <option value="C" data-max="5">C</option>
-      <option value="D" data-max="5">D</option>
-      <option value="E" data-max="5">E</option>
-      <option value="F" data-max="5">F</option>
-      <option value="G" data-max="5">G</option>
-      <option value="H" data-max="4">H</option>
-      <option value="AS" data-max="2">AS</option>
-      <option value="BS" data-max="2">BS</option>
-      <option value="CS" data-max="2">CS</option>
-    </select>
-  </div>
+        <label for="sezione">Sezione (seleziona o scrivi)</label>
+        <select id="sezione" name="sezione">
+          <option value="">-- Seleziona sezione --</option>
+          <option value="A" data-max="5">A</option>
+          <option value="B" data-max="5">B</option>
+          <option value="C" data-max="5">C</option>
+          <option value="D" data-max="5">D</option>
+          <option value="E" data-max="5">E</option>
+          <option value="F" data-max="5">F</option>
+          <option value="G" data-max="5">G</option>
+          <option value="H" data-max="4">H</option>
+          <option value="AS" data-max="2">AS</option>
+          <option value="BS" data-max="2">BS</option>
+          <option value="CS" data-max="2">CS</option>
+        </select>
+      </div>
+      
       <label for="motivazione">Perché vuoi unirti a noi?</label>
       <textarea id="motivazione" name="motivazione" rows="4"></textarea>
 
@@ -258,19 +396,50 @@
     </ul>
   </aside>
 
+  <!-- Overlay -->
+  <div class="overlay"></div>
+
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
-  <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script> 
   <script>
-  const ruoloSelect = document.getElementById("ruolo");
-  const studenteFields = document.getElementById("studenteFields");
-  const sezioneSelect = document.getElementById("sezione");
-  const annoInput = document.getElementById("anno");
-  const form = document.querySelector("form");
-  const sezioniOptions = [...sezioneSelect.options];
+    // Gestione Sidebar
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose = document.querySelector('.sidebar-close');
+    const overlay = document.querySelector('.overlay');
+
+    function openSidebar() {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    sidebarToggle.addEventListener('click', openSidebar);
+    sidebarClose.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // Chiudi la sidebar con il tasto ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeSidebar();
+      }
+    });
+
+    // Gestione campi studente
+    const ruoloSelect = document.getElementById("ruolo");
+    const studenteFields = document.getElementById("studenteFields");
+    const sezioneSelect = document.getElementById("sezione");
+    const annoInput = document.getElementById("anno");
+    const form = document.querySelector("form");
+    const sezioniOptions = [...sezioneSelect.options];
 
     // Mostra/nasconde campi studenti
     ruoloSelect.addEventListener("change", () => {
@@ -285,69 +454,70 @@
       }
     });
 
-  // Filtra sezioni disponibili in base all'anno
-annoInput.addEventListener("input", () => {
-  const anno = parseInt(annoInput.value, 10);
-  sezioniOptions.forEach(option => {
-    if (option.value === "") return; // opzione vuota sempre abilitata
-    
-    // Sezioni speciali H e G
-    if (option.value === "H") {
-      option.disabled = !(anno === 4);
-      return;
-    }
-    if (option.value === "G") {
-      option.disabled = !(anno === 5);
-      return;
-    }
+    // Filtra sezioni disponibili in base all'anno
+    annoInput.addEventListener("input", () => {
+      const anno = parseInt(annoInput.value, 10);
+      sezioniOptions.forEach(option => {
+        if (option.value === "") return; // opzione vuota sempre abilitata
+        
+        // Sezioni speciali H e G
+        if (option.value === "H") {
+          option.disabled = !(anno === 4);
+          return;
+        }
+        if (option.value === "G") {
+          option.disabled = !(anno === 5);
+          return;
+        }
 
-    // Sezioni “S” (AS, BS, CS) disponibili solo fino a anno 2
-    if (["AS","BS","CS"].includes(option.value)) {
-      option.disabled = anno > 2;
-      return;
-    }
+        // Sezioni "S" (AS, BS, CS) disponibili solo fino a anno 2
+        if (["AS","BS","CS"].includes(option.value)) {
+          option.disabled = anno > 2;
+          return;
+        }
 
-    // Tutte le altre sezioni normali
-    const maxAnno = parseInt(option.dataset.max, 10);
-    option.disabled = anno > maxAnno;
-  });
+        // Tutte le altre sezioni normali
+        const maxAnno = parseInt(option.dataset.max, 10);
+        option.disabled = anno > maxAnno;
+      });
 
-  // Se la sezione selezionata ora è disabilitata, svuotala
-  if (sezioneSelect.value) {
-    const selectedOption = [...sezioniOptions].find(o => o.value === sezioneSelect.value);
-    if (selectedOption && selectedOption.disabled) {
-      sezioneSelect.value = "";
-    }
-  }
-});
+      // Se la sezione selezionata ora è disabilitata, svuotala
+      if (sezioneSelect.value) {
+        const selectedOption = [...sezioniOptions].find(o => o.value === sezioneSelect.value);
+        if (selectedOption && selectedOption.disabled) {
+          sezioneSelect.value = "";
+        }
+      }
+    });
 
-  // Validazione finale al submit
-form.addEventListener("submit", (e) => {
-  const anno = parseInt(annoInput.value, 10);
-  const sezione = sezioneSelect.value;
-  if (ruoloSelect.value === "studente" && sezione) {
-    if ((anno === 4 && sezione !== "H") ||
-        (anno === 5 && sezione !== "G") ||
-        (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
-      e.preventDefault();
-      const popup = document.createElement("div");
-      popup.innerText = `La sezione "${sezione}" non esiste per l'anno ${anno}.`;
-      popup.style.position = "fixed";
-      popup.style.top = "20%";
-      popup.style.left = "50%";
-      popup.style.transform = "translateX(-50%)";
-      popup.style.background = "linear-gradient(90deg, #007aff, #00c6ff)";
-      popup.style.color = "#fff";
-      popup.style.padding = "1rem 2rem";
-      popup.style.borderRadius = "12px";
-      popup.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
-      popup.style.fontWeight = "600";
-      popup.style.zIndex = "2000";
-      document.body.appendChild(popup);
-      setTimeout(() => popup.remove(), 4000);
-    }
-  }
-});
+    // Validazione finale al submit
+    form.addEventListener("submit", (e) => {
+      const anno = parseInt(annoInput.value, 10);
+      const sezione = sezioneSelect.value;
+      if (ruoloSelect.value === "studente" && sezione) {
+        if ((anno === 4 && sezione !== "H") ||
+            (anno === 5 && sezione !== "G") ||
+            (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
+          e.preventDefault();
+          const popup = document.createElement("div");
+          popup.innerText = `La sezione "${sezione}" non esiste per l'anno ${anno}.`;
+          popup.style.position = "fixed";
+          popup.style.top = "20%";
+          popup.style.left = "50%";
+          popup.style.transform = "translateX(-50%)";
+          popup.style.background = "linear-gradient(90deg, #007aff, #00c6ff)";
+          popup.style.color = "#fff";
+          popup.style.padding = "1rem 2rem";
+          popup.style.borderRadius = "12px";
+          popup.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
+          popup.style.fontWeight = "600";
+          popup.style.zIndex = "2000";
+          document.body.appendChild(popup);
+          setTimeout(() => popup.remove(), 4000);
+        }
+      }
+    });
   </script>
+  <script src="theme.js"></script>
 </body>
 </html>
