@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Documenti - Daze for Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
+  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-top: 100px;
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .upload-box {
+      border: 2px dashed var(--accent);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      transition: background 0.3s;
+    }
+
+    .upload-box:hover {
+      background: var(--hover-bg);
+    }
+
+    .upload-box input {
+      display: none;
+    }
+
+    .upload-label {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--btn-bg);
+      color: var(--bg);
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .upload-label:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.05);
+    }
+
+    .doc-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .doc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px var(--sidebar-shadow);
+    }
+
+    .doc-info {
+      flex: 1;
+    }
+
+    .doc-title {
+      font-weight: 600;
+    }
+
+    .doc-date {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .doc-actions button {
+      margin-left: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-view {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-download {
+      background: var(--btn-bg);
+      color: var(--bg);
+    }
+
+    .doc-actions button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Daze for Future</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="missione.html">Missione</a>
+      <a href="prossimi_eventi.html">Eventi</a>
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2 class="section-title">Documenti</h2>
+      <div class="upload-box">
+        <label for="fileUpload" class="upload-label">📤 Carica documento</label>
+        <input type="file" id="fileUpload" />
+      </div>
+      <ul class="doc-list" id="docList">
+        <!-- Documenti caricati compariranno qui -->
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Daze for Future. Tutti i diritti riservati.
+  </footer>
+  <script src="theme.js"></script>
+
+  <script>
+    const fileUpload = document.getElementById("fileUpload");
+    const docList = document.getElementById("docList");
+
+    fileUpload.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const li = document.createElement("li");
+        li.className = "doc-item";
+
+        const info = document.createElement("div");
+        info.className = "doc-info";
+        info.innerHTML = `
+          <div class="doc-title">${file.name}</div>
+          <div class="doc-date">${new Date().toLocaleString()}</div>
+        `;
+
+        const actions = document.createElement("div");
+        actions.className = "doc-actions";
+
+        const viewBtn = document.createElement("button");
+        viewBtn.className = "btn-view";
+        viewBtn.textContent = "👁 Visualizza";
+        viewBtn.addEventListener("click", () => {
+          const url = URL.createObjectURL(file);
+          window.open(url, "_blank");
+        });
+
+        const downloadBtn = document.createElement("button");
+        downloadBtn.className = "btn-download";
+        downloadBtn.textContent = "⬇ Scarica";
+        downloadBtn.addEventListener("click", () => {
+          const url = URL.createObjectURL(file);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = file.name;
+          a.click();
+          URL.revokeObjectURL(url);
+        });
+
+        actions.appendChild(viewBtn);
+        actions.appendChild(downloadBtn);
+
+        li.appendChild(info);
+        li.appendChild(actions);
+        docList.appendChild(li);
+      }
+    });
+  </script>
+</body>
+</html>
