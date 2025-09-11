@@ -85,7 +85,7 @@
     nav > a {
       margin-left: 2rem;
       text-decoration: none;
-      color: var(--header-text, var(--text));
+      color: var(--header-text, var,--text);
       font-weight: 600;
       position: relative;
       padding: 0.5rem;
@@ -335,7 +335,7 @@
     <h1 class="section-title">Registrati all'associazione</h1>
     <p class="text-muted">Compila il modulo qui sotto per diventare parte di Daze for Future.</p>
 
-    <form>
+    <form id="registrationForm">
       <label for="nome">Nome</label>
       <input type="text" id="nome" name="nome" required />
 
@@ -377,6 +377,9 @@
       
       <label for="motivazione">Perché vuoi unirti a noi?</label>
       <textarea id="motivazione" name="motivazione" rows="4"></textarea>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
 
       <button type="submit">Invia registrazione</button>
     </form>
@@ -517,6 +520,63 @@
         }
       }
     });
+    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const ruolo = document.getElementById('ruolo').value;
+  let anno = null;
+  let sezione = null;
+
+  if (ruolo === "studente") {
+    anno = parseInt(document.getElementById('anno').value, 10);
+    sezione = document.getElementById('sezione').value.toUpperCase();
+
+    // Validazione sezione/anno
+    if (sezione) {
+      if ((anno === 4 && sezione !== "H") ||
+          (anno === 5 && sezione !== "G") ||
+          (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
+        const popup = document.createElement("div");
+        popup.innerText = `La sezione "${sezione}" non esiste per l'anno ${anno}.`;
+        popup.style.position = "fixed";
+        popup.style.top = "20%";
+        popup.style.left = "50%";
+        popup.style.transform = "translateX(-50%)";
+        popup.style.background = "linear-gradient(90deg, #007aff, #00c6ff)";
+        popup.style.color = "#fff";
+        popup.style.padding = "1rem 2rem";
+        popup.style.borderRadius = "12px";
+        popup.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
+        popup.style.fontWeight = "600";
+        popup.style.zIndex = "2000";
+        document.body.appendChild(popup);
+        setTimeout(() => popup.remove(), 4000);
+        return; // Blocca l'invio!
+      }
+    }
+  }
+
+  const dati = {
+    nome: document.getElementById('nome').value,
+    cognome: document.getElementById('cognome').value,
+    email: document.getElementById('email').value,
+    ruolo: ruolo,
+    motivazione: document.getElementById('motivazione').value,
+    password: document.getElementById('password').value,
+    anno: anno,
+    sezione: sezione
+  };
+
+  const response = await fetch('/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dati)
+  });
+
+  const result = await response.json();
+  alert(result.message);
+  if(result.success) window.location.href = "login.html";
+});
   </script>
   <script src="theme.js"></script>
 </body>

@@ -393,7 +393,7 @@
     <h1 class="section-title">Accedi</h1>
     <p class="text-muted">Inserisci le tue credenziali per entrare nell'area riservata.</p>
 
-    <form>
+    <form onsubmit="event.preventDefault(); loginUtente();">
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required />
 
@@ -460,13 +460,30 @@
       }
     });
 
-    // Gestione tema (se necessario)
+
     document.addEventListener('DOMContentLoaded', function() {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
       }
     });
+
+
+    async function loginUtente() {
+      const dati = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+      };
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dati)
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    }
   </script>
   <script src="theme.js"></script>
 </body>
