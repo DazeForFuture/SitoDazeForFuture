@@ -1,4 +1,4 @@
-    :root {
+:root {
       --bg: #fff;
       --text: #1d1d1f;
       --muted: #6e6e73;
@@ -82,57 +82,116 @@
     }
 
     header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      z-index: 1000;
-      color: var(--header-text, var(--text));
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      transition: background 0.3s ease, color 0.3s ease;
-      background: var(--header-bg); /* Usa la variabile corretta */
-    }
-    .logo {
-      font-weight: 800;
-      font-size: 1.4rem;
-      cursor: pointer;
-      user-select: none;
-      color: var(--header-text, var(--text));
-    }
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--header-bg, #181836);
+  color: var(--header-text, #fff);
+  z-index: 1000;
+  padding: 1rem 2rem;
+}
 
-    nav {
-      display: flex;
-      align-items: center;
-    }
+.logo {
+  font-weight: 800;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--header-text, #fff);
+}
 
-    nav > a {
-      margin-left: 2rem;
-      text-decoration: none;
-      color: var(--header-text, var(--text));
-      font-weight: 600;
-      position: relative;
-      padding: 0.5rem;
-    }
+nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex: 1;
+}
 
-    nav > a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -4px;
-      width: 0;
-      height: 2px;
-      background: var(--text);
-      transition: width 0.3s;
-    }
+nav a {
+  color: var(--header-text, #fff);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  position: relative;
+  padding: 0.5rem 0.7rem;
+}
 
-    nav > a:hover::after {
-      width: 100%;
-    }
+#userbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 2rem;
+  background: none;
+  color: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+#userbar button {
+  background: #fff;
+  color: #007aff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1em;
+  transition: background 0.2s, color 0.2s;
+}
+#userbar button:hover {
+  background: #007aff;
+  color: #fff;
+}
+
+.hamburger {
+  margin-left: 1.5rem;
+  font-size: 1.7rem;
+  background: none;
+  border: none;
+  color: var(--header-text, #fff);
+  cursor: pointer;
+  display: none;
+}
+
+@media (max-width: 900px) {
+  header {
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 0.7rem;
+  }
+  nav {
+    gap: 1rem;
+  }
+  #userbar {
+    margin-left: 0.5rem;
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  nav {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  #userbar {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    font-size: 0.93rem;
+  }
+  .hamburger {
+    display: block;
+    align-self: flex-end;
+  }
+}
     section {
       padding: 140px 2rem 100px;
       max-width: 1000px;
@@ -195,3 +254,50 @@
       font-size: 0.9rem;
       background: var(--footer-bg);
     }
+
+    #userbar {
+  display: none;
+  width: 100vw;
+  box-sizing: border-box;
+  background: var(--header-bg, #fff);
+  color: var(--header-text, #1d1d1f);
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  text-align: right;
+  font-weight: 600;
+  font-size: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1200;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#userbar button {
+  margin-left: 1rem;
+  background: transparent;
+  color: var(--accent, #007aff);
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s, color 0.2s;
+}
+#userbar button:hover {
+  background: var(--hover-bg, #f0f0f0);
+  color: var(--header-text, #1d1d1f);
+}
+
+@media (max-width: 600px) {
+  #userbar {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.7rem;
+  }
+  #userbar button {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.95em;
+  }
+}

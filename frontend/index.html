@@ -374,16 +374,23 @@
 <body>
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <div style="flex:1"></div>
+    <div id="userbar" style="display:none;">
+      <span id="useremail"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">
         ☰
     </button>
-
+    
     <nav>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      <a href="login.html">Accedi</a>
     </nav>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
   <main>
@@ -436,6 +443,11 @@
   <button class="theme-option" data-theme="light">🌞</button>
   <button class="theme-option" data-theme="dark">🌙</button>
   <button class="theme-option" data-theme="auto">🌓</button>
+</div>
+
+<div id="userbar" style="display:none; background:#007aff; color:#fff; padding:0.5rem 1rem; text-align:right;">
+  <span id="useremail"></span>
+  <button onclick="logout()" style="margin-left:1rem; background:#fff; color:#007aff; border:none; border-radius:6px; padding:0.3rem 0.8rem; cursor:pointer;">Logout</button>
 </div>
 
   <footer>
@@ -537,6 +549,20 @@ window.addEventListener('DOMContentLoaded', () => {
   const fab = document.getElementById('theme-fab');
   fab.classList.add('show');
 });
+
+// Mostra la barra utente se loggato
+document.addEventListener('DOMContentLoaded', function() {
+  const utente = localStorage.getItem('utente');
+  if(utente) {
+    document.getElementById('userbar').style.display = 'block';
+    document.getElementById('useremail').innerText = utente;
+  }
+});
+
+function logout() {
+  localStorage.removeItem('utente');
+  window.location.href = "login.html";
+}
 </script>
 <script src="theme.js"></script>
 <script src="css/sidebar/sidebar.js"></script>

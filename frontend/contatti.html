@@ -327,20 +327,25 @@
 </head>
 <body>
   <header>
-    <div class="logo" id="title">Daze for Future</div>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">
-        ☰
-    </button>
-
+    <div class="logo" id="toggleSidebar">Daze for Future</div>
     <nav>
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
-      <a href="login.html">Accedi</a>
+      <a href="contatti.html">Contatti</a>
+      <a href="login.html" id="accedi-link">Accedi</a>
     </nav>
+    <div id="userbar" style="display:none;">
+      <span id="useremail"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
-
+  <div id="userbar" style="display:none; background:#007aff; color:#fff; padding:0.5rem 1rem; text-align:right;">
+  <span id="useremail"></span>
+  <button onclick="logout()" style="margin-left:1rem; background:#fff; color:#007aff; border:none; border-radius:6px; padding:0.3rem 0.8rem; cursor:pointer;">Logout</button>
+</div>
   <main>
     <section class="hero">
       <h1>Contattaci</h1>
@@ -461,6 +466,22 @@ Da definire <a href="https://t.me/dazeforfuture" target="_blank" aria-label="Tel
   </footer>
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const utente = localStorage.getItem('utente');
+  if(utente) {
+    document.getElementById('userbar').style.display = 'flex';
+    document.getElementById('useremail').innerText = utente;
+    // Nascondi il link "Accedi" se loggato
+    const accedi = document.getElementById('accedi-link');
+    if(accedi) accedi.style.display = 'none';
+  }
+});
+function logout() {
+  localStorage.removeItem('utente');
+  window.location.href = "login.html";
+}
+  </script>
 
 </body>
 </html>

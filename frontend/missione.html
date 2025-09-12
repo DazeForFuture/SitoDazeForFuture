@@ -237,22 +237,21 @@
 </head>
 <body>
   <header>
-    <div class="logo">Daze for Future</div>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
-    
+    <div class="logo" id="toggleSidebar">Daze for Future</div>
     <nav>
-      <a href="/">Home</a>
-      <a href="prossimi_eventi.html">Eventi</a>
+      <a href="index.html">Home</a>
+      <a href="missione.html">Missione</a>
+      <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      <a href="login.html">Accedi</a>
+      <a href="login.html" id="accedi-link">Accedi</a>
     </nav>
-      </nav>
-          <!-- Vista migliorata su iOS -->
-      <meta name="apple-mobile-web-app-capable" content="yes">
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-      <meta name="apple-mobile-web-app-title" content="Daze for Future">
-    </header>
+    <div id="userbar" style="display:none;">
+      <span id="useremail"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+  </header>
 
   <main>
     <section class="hero">
@@ -321,5 +320,20 @@
   </footer>
 <script src="theme.js"></script>
 <script src="css/sidebar/sidebar.js"></script>
+<script>
+// Mostra la barra utente se loggato
+document.addEventListener('DOMContentLoaded', function() {
+  const utente = localStorage.getItem('utente');
+  if(utente) {
+    document.getElementById('userbar').style.display = 'block';
+    document.getElementById('useremail').innerText = utente;
+  }
+});
+
+function logout() {
+  localStorage.removeItem('utente');
+  window.location.href = "login.html";
+}
+</script>
 </body>
 </html>

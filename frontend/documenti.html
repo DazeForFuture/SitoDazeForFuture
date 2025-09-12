@@ -129,7 +129,10 @@
       <a href="contatti.html">Contatti</a>
     </nav>
   </header>
-
+  <div id="userbar" style="display:none; background:#007aff; color:#fff; padding:0.5rem 1rem; text-align:right;">
+    <span id="useremail"></span>
+    <button onclick="logout()" style="margin-left:1rem; background:#fff; color:#007aff; border:none; border-radius:6px; padding:0.3rem 0.8rem; cursor:pointer;">Logout</button>
+  </div>
   <main>
     <section>
       <h2 class="section-title">Documenti</h2>
@@ -149,6 +152,20 @@
   <script src="theme.js"></script>
 
   <script>
+    // Mostra la barra utente se loggato
+    document.addEventListener('DOMContentLoaded', function() {
+      const utente = localStorage.getItem('utente');
+      if(utente) {
+        document.getElementById('userbar').style.display = 'block';
+        document.getElementById('useremail').innerText = utente;
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem('utente');
+      window.location.href = "login.html";
+    }
+
     const fileUpload = document.getElementById("fileUpload");
     const docList = document.getElementById("docList");
 
