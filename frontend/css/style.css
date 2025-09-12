@@ -143,10 +143,6 @@ nav a {
   font-size: 1em;
   transition: background 0.2s, color 0.2s;
 }
-#userbar button:hover {
-  background: #007aff;
-  color: #fff;
-}
 
 .hamburger {
   margin-left: 1.5rem;

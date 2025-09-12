@@ -54,55 +54,57 @@ body {
   color: #181836;
 }
 
-header {
-  background: var(--header-bg);
-  color: var(--accent);
-  padding: 1.2rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 48px;
-  z-index: 1000;
-  border-bottom: 1px solid var(--accent2);
-  box-shadow: var(--shadow);
-}
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: var(--header-bg);
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--header-text, var(--text));
+    }
 
-.logo {
-  font-size: 1.6rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  text-shadow: 0 2px 8px #00ffe7aa;
-}
+    nav {
+      display: flex;
+      align-items: center;
+    }
 
-nav a {
-  color: var(--text);
-  text-decoration: none;
-  margin-left: 2rem;
-  font-weight: 600;
-  font-size: 1.1rem;
-  position: relative;
-  transition: color 0.2s;
-}
-nav a:hover {
-  color: var(--accent);
-}
-nav a::after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 2px;
-  background: var(--accent);
-  transition: width 0.3s;
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-}
-nav a:hover::after {
-  width: 100%;
-}
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
 
+    nav > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
+    }
+
+    nav > a:hover::after {
+      width: 100%;
+    }
 main {
   max-width: 1000px;
   margin: 0 auto;
@@ -150,13 +152,4 @@ footer {
   margin-top: 4rem;
   font-size: 1rem;
   letter-spacing: 0.04em;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--accent2);
-  border-radius: 8px;
 }
