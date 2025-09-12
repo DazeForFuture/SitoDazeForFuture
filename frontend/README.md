@@ -1,4 +1,5 @@
 # Sito di Daze for Future
+Il sito sta attualmente girando su un Raspberry Pi 400.
 ## Fatto da:
 - Davide Albanese 
     <p>
