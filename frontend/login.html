@@ -25,6 +25,7 @@
       --sidebar-bg: rgba(255,255,255,0.95);
       --sidebar-border: rgba(0,0,0,0.1);
       --sidebar-shadow: rgba(0,0,0,0.1);
+      --btn-spacing: 1rem; /* Nuova variabile per spaziatura bottoni */
     }
 
     @media (prefers-color-scheme: dark) {
@@ -179,19 +180,33 @@
       margin-bottom: 0.5rem;
     }
 
-    input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--muted);
+    .email-container {
+      display: flex;
+      gap: 0.5rem;
       margin-bottom: 1.5rem;
-      font-family: inherit;
-      font-size: 1rem;
-      background: var(--bg);
-      color: var(--text);
     }
 
-    input:focus {
+    .email-input {
+      flex: 1;
+    }
+
+    .domain-select {
+      width: 200px;
+    }
+
+  input, select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--muted);
+    font-family: inherit;
+    font-size: 1rem;
+    background: var(--bg);
+    color: var(--text);
+    margin-bottom: 1.5rem; /* <--- aggiunto spazio sotto */
+  }
+
+    input:focus, select:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(0,122,255,0.3);
@@ -209,6 +224,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: transform 0.3s, background 0.3s;
+      margin-bottom: var(--btn-spacing); /* Aggiunta spaziatura inferiore */
     }
 
     button:hover {
@@ -279,6 +295,7 @@
       transition: color 0.3s ease;
       width: auto;
       padding: 0.5rem;
+      margin-bottom: 1rem; /* Aggiunta spaziatura */
     }
 
     .sidebar-close:hover {
@@ -294,7 +311,7 @@
     }
 
     .sidebar-menu li {
-      margin-bottom: 1rem;
+      margin-bottom: 1rem; /* Aumentata spaziatura */
     }
 
     .sidebar-menu a {
@@ -349,11 +366,29 @@
       color: var(--header-text);
       width: auto;
       padding: 0.5rem;
+      margin-left: 1rem; /* Aggiunta spaziatura */
     }
 
     .hamburger:hover {
       background: transparent;
       transform: scale(1.1);
+    }
+
+    /* Userbar */
+    #userbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem; /* Aggiunta spaziatura tra elementi */
+    }
+
+    #userbar span {
+      margin-right: 0.5rem;
+    }
+
+    #userbar button {
+      width: auto;
+      padding: 0.5rem 1rem;
+      margin-bottom: 0;
     }
 
     /* Responsive */
@@ -373,6 +408,20 @@
       main {
         padding: 120px 1rem 80px;
       }
+      
+      .email-container {
+        flex-direction: column;
+      }
+      
+      .domain-select {
+        width: 100%;
+      }
+      
+      #userbar {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-end;
+      }
     }
   </style>
 </head>
@@ -384,9 +433,6 @@
       <span id="useremail"></span>
       <button onclick="logout()">Logout</button>
     </div>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">
-        ☰
-    </button>
     <button id="sidebarToggleBtn" class="hamburger" aria-label="Apri menu">☰</button>
     <nav>
       <a href="index.html">Home</a>
@@ -403,7 +449,18 @@
 
     <form onsubmit="event.preventDefault(); loginUtente();">
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" required />
+      <div class="email-container">
+        <div class="email-input">
+          <input type="text" id="emailPrefix" placeholder="nome.utente" />
+        </div>
+        <div class="domain-select">
+          <select id="emailDomain">
+            <option value="@liceomassimodazeglio.it">@liceomassimodazeglio.it</option>
+            <option value="@liceodazeglio.edu.it">@liceodazeglio.edu.it</option>
+          </select>
+        </div>
+      </div>
+      <input type="hidden" id="email" name="email" required />
 
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required />
@@ -477,11 +534,36 @@
     });
 
 
+    // Funzione per costruire l'email completa
+    function buildEmail() {
+      const prefix = document.getElementById('emailPrefix').value.trim();
+      const domain = document.getElementById('emailDomain').value;
+      return prefix + domain;
+    }
+
+    // Aggiorna l'email nascosta quando l'utente inserisce i dati
+    document.getElementById('emailPrefix').addEventListener('input', function() {
+      document.getElementById('email').value = buildEmail();
+    });
+
+    document.getElementById('emailDomain').addEventListener('change', function() {
+      document.getElementById('email').value = buildEmail();
+    });
+
     async function loginUtente() {
+      // Assicurati che l'email sia aggiornata
+      document.getElementById('email').value = buildEmail();
+      
       const dati = {
         email: document.getElementById('email').value,
         password: document.getElementById('password').value
       };
+
+      // Validazione
+      if (!dati.email.includes('@') || dati.email.startsWith('@')) {
+        alert("Inserisci un indirizzo email valido");
+        return;
+      }
 
       const response = await fetch('/login', {
         method: 'POST',
@@ -501,7 +583,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       const utente = localStorage.getItem('utente');
       if(utente) {
-        document.getElementById('userbar').style.display = 'block';
+        document.getElementById('userbar').style.display = 'flex';
         document.getElementById('useremail').innerText = utente;
       }
     });
