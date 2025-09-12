@@ -11,8 +11,7 @@
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
 
-
-    <style>
+  <style>
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -110,7 +109,7 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       transition: background 0.3s ease, color 0.3s ease;
-      background: var(--header-bg); /* Usa la variabile corretta */
+      background: var(--header-bg);
     }
     .logo {
       font-weight: 800;
@@ -225,7 +224,7 @@
     nav a[href="login.html"],
     nav a[href="login.html"]:visited {
       color: #007aff !important;
-      font-weight: 700; /* facoltativo, per evidenziarlo */
+      font-weight: 700;
     }
 
     nav a[href="login.html"]:hover {
@@ -253,20 +252,17 @@
       animation: float 3s ease-in-out infinite;
     }
 
-    /* Hover: ingrandimento e ombra più intensa */
     #theme-fab:hover {
       background: var(--btn-hover-bg);
       transform: scale(1.1);
       box-shadow: 0 8px 18px rgba(0,0,0,0.35);
     }
 
-    /* Click: effetto "press" */
     #theme-fab:active {
       transform: scale(0.92) rotate(15deg);
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
-    /* Animazione di comparsa */
     #theme-fab.show {
       animation: fabPopIn 0.4s ease forwards;
     }
@@ -277,13 +273,11 @@
       100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
 
-    /* Fluttuazione morbida (idle) */
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-5px); }
     }
 
-    /* Popup animato (già esistente, solo leggermente migliorato) */
     #theme-popup {
       position: fixed;
       bottom: 90px;
@@ -308,7 +302,6 @@
       transform: translateY(0) scale(1);
     }
 
-    /* Pulsanti opzioni tema */
     #theme-popup button.theme-option {
       background: none;
       border: none;
@@ -320,25 +313,21 @@
       border-radius: 8px;
     }
 
-    /* Hover sui pulsanti: rimbalzo */
     #theme-popup button.theme-option:hover {
       background: var(--hover-bg);
       transform: scale(1.2) rotate(8deg);
     }
 
-    /* Click sui pulsanti: effetto pressione */
     #theme-popup button.theme-option:active {
       transform: scale(0.9) rotate(-8deg);
     }
 
-    /* Attivo: evidenziato */
     #theme-popup button.theme-option.active {
       background: var(--accent);
       color: white;
       transform: scale(1.15);
     }
 
-    /* Animazione click "pop" */
     @keyframes fabClick {
       0%   { transform: scale(1) rotate(0deg); }
       30%  { transform: scale(0.8) rotate(-10deg); }
@@ -353,7 +342,7 @@
     header {
       transition: background 0.3s ease, color 0.3s ease;
     }
-    /* CSS Aggiuntivo per visualizzazione migliore su mobile */
+
     section .btn {
       display: inline-block;
       margin-top: 1.5rem;
@@ -366,46 +355,84 @@
       }
 
       nav {
-        display: none; /* Puoi anche aggiungere un menu hamburger per mobile */
+        display: none;
       }
     }
-        /* Aggiungi questi stili per la userbar */
+    
+    /* Stili per la userbar */
     .user-info {
       display: flex;
       align-items: center;
-      margin-right: 1.5rem;
+      margin-left: 2rem;
       color: var(--header-text);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .user-info:hover {
+      background: rgba(255, 255, 255, 0.15);
     }
     
     .user-avatar {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: linear-gradient(135deg, #007aff, #00c6ff);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 0.5rem;
+      margin-right: 0.75rem;
       color: white;
       font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .user-email {
+      font-weight: 500;
       font-size: 0.9rem;
+      margin-right: 0.8rem;
     }
     
     .logout-btn {
       background: transparent;
       border: 1px solid var(--header-text);
       color: var(--header-text);
-      padding: 0.4rem 0.8rem;
-      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
       font-size: 0.8rem;
+      font-weight: 600;
       cursor: pointer;
-      margin-left: 0.8rem;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
     
     .logout-btn:hover {
       background: var(--header-text);
       color: var(--header-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .logout-btn:active {
+      transform: translateY(0);
+    }
+    
+    @media (max-width: 1024px) {
+      .user-email {
+        display: none;
+      }
+      
+      .user-info {
+        margin-left: 1rem;
+        padding: 0.5rem;
+      }
     }
     
     @media (max-width: 768px) {
@@ -413,40 +440,63 @@
         display: none;
       }
       
-      /* Mostra versione compatta nel menu hamburger per mobile */
       .mobile-user-info {
-        display: block;
-        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
         border-top: 1px solid var(--sidebar-border);
         margin-top: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+      }
+      
+      .mobile-user-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      
+      .mobile-user-email {
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
       }
     }
-</style>
+  </style>
 </head>
 <body>
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
     <div style="flex:1"></div>
-    <div id="userbar" style="display:none;">
-      <span id="useremail"></span>
-      <button onclick="logout()">Logout</button>
-    </div>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">
-        ☰
-    </button>
     
-    <nav>
+    <nav id="mainNav">
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      <a href="login.html">Accedi</a>
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span class="user-email" id="useremail"></span>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
   <main>
-   
     <section id="home" class="hero">
       <h1>Benvenuto su Daze for Future</h1>
       <p>Promuoviamo la sostenibilità, l'open source e la consapevolezza ambientale nella nostra scuola.</p>
@@ -456,21 +506,22 @@
     <section id="registrazione">
       <h2 class="section-title">Registrati</h2>
       <p class="text-muted">Registrati all'associazione per aiutarci con i nostri progetti. Se sei già registrato, <a href="login.html">accedi</a></p>
-      <a href="registrati.html" class="btn">Registrati</a> <!-- Da centrare -->
+      <a href="registrati.html" class="btn">Registrati</a>
     </section>
 
     <section id="missione">
       <h2 class="section-title">La nostra missione</h2>
-      <p class="text-muted">Daze for Future è un'associazione no profit scolastica che si impegna a sensibilizzare gli studenti sul cambiamento climatico, promuovere software open source e sviluppare iniziative per un futuro sostenibile.</p>
-      <a href="missione.html" class="btn">Approfondisci la nostra missione</a> <!-- Da centrare -->
+      <p class="text-muted">Daze for Future è un'associazione no profit scolastica que si impegna a sensibilizzare gli studenti sul cambiamento climatico, promuovere software open source e sviluppare iniziative per un futuro sostenibile.</p>
+      <a href="missione.html" class="btn">Approfondisci la nostra missione</a>
     </section>
 
     <section id="chi-siamo">
       <h2 class="section-title">Chi siamo</h2>
       <p class="text-muted">Siamo un gruppo di studenti appassionati, supportati da docenti, che lavorano insieme per realizzare progetti educativi e sociali.</p>
-      <a href="chi_siamo.html" class="btn">Più informazioni su di noi</a> <!-- Da centrare -->
+      <a href="chi_siamo.html" class="btn">Più informazioni su di noi</a>
     </section>
   </main>
+  
   <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
@@ -481,143 +532,169 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="login.html"><span>🔐</span> Accedi</a></li>
+      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
+    
+    <!-- User info per mobile nella sidebar -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+      <div class="mobile-user-header">
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+      </div>
+      <div class="mobile-user-email" id="mobileUseremail"></div>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
   </aside>
 
-<!-- Floating Theme Button -->
-<div id="theme-fab" title="Scegli tema">
-  🎨
-</div>
+  <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
 
-<!-- Floating Theme Popup -->
-<div id="theme-popup">
-  <button class="theme-option" data-theme="light">🌞</button>
-  <button class="theme-option" data-theme="dark">🌙</button>
-  <button class="theme-option" data-theme="auto">🌓</button>
-</div>
-
-<div id="userbar" style="display:none; background:#007aff; color:#fff; padding:0.5rem 1rem; text-align:right;">
-  <span id="useremail"></span>
-  <button onclick="logout()" style="margin-left:1rem; background:#fff; color:#007aff; border:none; border-radius:6px; padding:0.3rem 0.8rem; cursor:pointer;">Logout</button>
-</div>
+  <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
+  </div>
 
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
-<script>
-const fab = document.getElementById('theme-fab');
 
-fab.addEventListener('click', () => {
-  // Aggiunge la classe per far partire l’animazione
-  fab.classList.add('animate');
+  <script>
+    const fab = document.getElementById('theme-fab');
 
-  // La rimuove quando l’animazione è finita, così può ripetersi
-  fab.addEventListener('animationend', () => {
-    fab.classList.remove('animate');
-  }, { once: true });
-});
-const popup = document.getElementById('theme-popup');
+    fab.addEventListener('click', () => {
+      fab.classList.add('animate');
+      fab.addEventListener('animationend', () => {
+        fab.classList.remove('animate');
+      }, { once: true });
+    });
+    
+    const popup = document.getElementById('theme-popup');
 
-// Toggle popup with animation
-fab.addEventListener('click', () => {
-  if (popup.classList.contains('show')) {
-    popup.classList.remove('show');
-    setTimeout(() => popup.style.display = 'none', 250);
-  } else {
-    popup.style.display = 'flex';
-    requestAnimationFrame(() => popup.classList.add('show'));
-  }
-});
+    // Toggle popup with animation
+    fab.addEventListener('click', () => {
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      } else {
+        popup.style.display = 'flex';
+        requestAnimationFrame(() => popup.classList.add('show'));
+      }
+    });
 
-// Close on outside click
-document.addEventListener('click', (e) => {
-  if (!fab.contains(e.target) && !popup.contains(e.target)) {
-    if (popup.classList.contains('show')) {
-      popup.classList.remove('show');
-      setTimeout(() => popup.style.display = 'none', 250);
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!fab.contains(e.target) && !popup.contains(e.target)) {
+        if (popup.classList.contains('show')) {
+          popup.classList.remove('show');
+          setTimeout(() => popup.style.display = 'none', 250);
+        }
+      }
+    });
+
+    // Apply theme and highlight selection
+    document.querySelectorAll('.theme-option').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+
+        // Highlight active button
+        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      updateTitles(theme);
     }
-  }
-});
 
-// Apply theme and highlight selection
-document.querySelectorAll('.theme-option').forEach(button => {
-  button.addEventListener('click', () => {
-    const theme = button.dataset.theme;
-    localStorage.setItem('theme-preference', theme);
-    applyTheme(theme);
+    function updateTitles(theme) {
+      const h1 = document.querySelector('h1');
+      const h2s = document.querySelectorAll('h2');
+      const header = document.querySelector('header');
 
-    // Highlight active button
-    document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
+      let color = '';
+      if (theme === 'dark') {
+        color = '#0a84ff';
+        header.style.color = '#f5f5f7';
+      } else if (theme === 'light') {
+        color = '#007aff';
+        header.style.color = '#1d1d1f';
+      } else {
+        color = '';
+        header.style.color = '';
+      }
 
-    popup.classList.remove('show');
-    setTimeout(() => popup.style.display = 'none', 250);
-  });
-});
+      h1.style.color = color || '';
+      h2s.forEach(h2 => h2.style.color = color || '');
+    }
 
-function applyTheme(theme) {
-  if (theme === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-  } else if (theme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
-  updateTitles(theme);
-}
+    // On load
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+      if (btn) btn.classList.add('active');
+    }
 
-function updateTitles(theme) {
-  const h1 = document.querySelector('h1');
-  const h2s = document.querySelectorAll('h2');
-  const header = document.querySelector('header');
+    // Mostra FAB con animazione al caricamento
+    window.addEventListener('DOMContentLoaded', () => {
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+    });
 
-  let color = '';
-  if (theme === 'dark') {
-    color = '#0a84ff';
-    header.style.color = '#f5f5f7';
-  } else if (theme === 'light') {
-    color = '#007aff';
-    header.style.color = '#1d1d1f';
-  } else {
-    color = '';
-    header.style.color = '';
-  }
+    // Funzione per generare l'iniziale dall'email
+    function getInitialFromEmail(email) {
+      return email.charAt(0).toUpperCase();
+    }
 
-  h1.style.color = color || '';
-  h2s.forEach(h2 => h2.style.color = color || '');
-}
+    // Mostra la barra utente se loggato
+    document.addEventListener('DOMContentLoaded', function() {
+      const utente = localStorage.getItem('utente');
+      if(utente) {
+        // Nascondi link login
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('sidebarLoginLink').style.display = 'none';
+        
+        // Mostra userbar al posto di "Accedi"
+        const userbar = document.getElementById('userbar');
+        userbar.style.display = 'flex';
+        document.getElementById('useremail').innerText = utente;
+        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra user info mobile nella sidebar
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        mobileUserInfo.style.display = 'block';
+        document.getElementById('mobileUseremail').innerText = utente;
+        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+      }
+    });
 
-// On load
-const savedTheme = localStorage.getItem('theme-preference');
-if (savedTheme) {
-  applyTheme(savedTheme);
-  const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
-  if (btn) btn.classList.add('active');
-}
-
-// Mostra FAB con animazione al caricamento
-window.addEventListener('DOMContentLoaded', () => {
-  const fab = document.getElementById('theme-fab');
-  fab.classList.add('show');
-});
-
-// Mostra la barra utente se loggato
-document.addEventListener('DOMContentLoaded', function() {
-  const utente = localStorage.getItem('utente');
-  if(utente) {
-    document.getElementById('userbar').style.display = 'block';
-    document.getElementById('useremail').innerText = utente;
-  }
-});
-
-function logout() {
-  localStorage.removeItem('utente');
-  window.location.href = "login.html";
-}
-</script>
-<script src="theme.js"></script>
-<script src="css/sidebar/sidebar.js"></script>
-
+    function logout() {
+      localStorage.removeItem('utente');
+      window.location.href = "login.html";
+    }
+  </script>
+  <script src="theme.js"></script>
+  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>
