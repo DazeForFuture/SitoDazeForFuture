@@ -369,6 +369,58 @@
         display: none; /* Puoi anche aggiungere un menu hamburger per mobile */
       }
     }
+        /* Aggiungi questi stili per la userbar */
+    .user-info {
+      display: flex;
+      align-items: center;
+      margin-right: 1.5rem;
+      color: var(--header-text);
+    }
+    
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007aff, #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.5rem;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .logout-btn {
+      background: transparent;
+      border: 1px solid var(--header-text);
+      color: var(--header-text);
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-left: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+      background: var(--header-text);
+      color: var(--header-bg);
+    }
+    
+    @media (max-width: 768px) {
+      .user-info {
+        display: none;
+      }
+      
+      /* Mostra versione compatta nel menu hamburger per mobile */
+      .mobile-user-info {
+        display: block;
+        padding: 1rem;
+        border-top: 1px solid var(--sidebar-border);
+        margin-top: 1rem;
+      }
+    }
 </style>
 </head>
 <body>
