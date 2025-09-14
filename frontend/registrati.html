@@ -324,6 +324,37 @@
     }
     .email-input { flex: 1; }
     .domain-select { width: 250px; }
+  /* Popup di notifica */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
+      font-weight: 600;
+      max-width: 300px;
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left: 6px solid #34c759; /* verde successo */
+    }
+
+    .popup.error {
+      border-left: 6px solid #ff3b30; /* rosso errore */
+    }
+
   </style>
 </head>
 <body>
@@ -401,81 +432,161 @@
       <button type="submit">Invia registrazione</button>
     </form>
   </main>
+  <!-- Contenitore popup -->
+  <div id="popup" class="popup"></div>
 
   <!-- Sidebar + Overlay + Footer restano invariati -->
   <aside class="sidebar">...</aside>
   <div class="overlay"></div>
   <footer>&copy; 2025 Daze for Future. Tutti i diritti riservati.</footer>
 
-  <script>
-    // Costruzione email come in login
-    function buildEmail() {
-      const prefix = document.getElementById('emailPrefix').value.trim();
-      const domain = document.getElementById('emailDomain').value;
-      return prefix + domain;
+<script>
+  // Costruzione email come in login
+  function buildEmail() {
+    const prefix = document.getElementById('emailPrefix').value.trim();
+    const domain = document.getElementById('emailDomain').value;
+    return prefix + domain;
+  }
+
+  document.getElementById('emailPrefix').addEventListener('input', () => {
+    document.getElementById('email').value = buildEmail();
+  });
+
+  document.getElementById('emailDomain').addEventListener('change', () => {
+    document.getElementById('email').value = buildEmail();
+  });
+
+  // Gestione campi studente
+  const ruoloSelect = document.getElementById("ruolo");
+  const studenteFields = document.getElementById("studenteFields");
+  const sezioneSelect = document.getElementById("sezione");
+  const annoInput = document.getElementById("anno");
+  const form = document.getElementById("registrationForm");
+  const sezioniOptions = [...sezioneSelect.options];
+
+  // Mostra/nasconde campi studenti
+  ruoloSelect.addEventListener("change", () => {
+    studenteFields.style.display = (ruoloSelect.value === "studente") ? "block" : "none";
+  });
+
+  // Filtra sezioni disponibili in base all'anno
+  annoInput.addEventListener("input", () => {
+    const anno = parseInt(annoInput.value, 10);
+    sezioniOptions.forEach(option => {
+      if (option.value === "") return; // opzione vuota sempre abilitata
+
+      if (option.value === "H") {
+        option.disabled = !(anno === 4);
+        return;
+      }
+      if (option.value === "G") {
+        option.disabled = !(anno === 5);
+        return;
+      }
+
+      if (["AS","BS","CS"].includes(option.value)) {
+        option.disabled = anno > 2;
+        return;
+      }
+
+      const maxAnno = parseInt(option.dataset.max, 10);
+      option.disabled = anno > maxAnno;
+    });
+
+    // Se la sezione selezionata diventa disabilitata, svuotala
+    if (sezioneSelect.value) {
+      const selectedOption = [...sezioniOptions].find(o => o.value === sezioneSelect.value);
+      if (selectedOption && selectedOption.disabled) {
+        sezioneSelect.value = "";
+      }
     }
-    document.getElementById('emailPrefix').addEventListener('input', () => {
-      document.getElementById('email').value = buildEmail();
-    });
-    document.getElementById('emailDomain').addEventListener('change', () => {
-      document.getElementById('email').value = buildEmail();
-    });
+  });
+  // Funzione per mostrare popup
+  function mostraPopup(messaggio, tipo) {
+    const popup = document.getElementById('popup');
+    popup.textContent = messaggio;
+    popup.className = "popup " + tipo;
+    popup.classList.add("show");
 
-    // Gestione campi studente (come prima) ...
-    const ruoloSelect = document.getElementById("ruolo");
-    const studenteFields = document.getElementById("studenteFields");
-    const sezioneSelect = document.getElementById("sezione");
-    const annoInput = document.getElementById("anno");
-    const sezioniOptions = [...sezioneSelect.options];
+    // Nasconde il popup dopo 3 secondi
+    setTimeout(() => {
+      popup.classList.remove("show");
+    }, 3000);
+  }
 
-    ruoloSelect.addEventListener("change", () => {
-      if (ruoloSelect.value === "studente") {
-        studenteFields.style.display = "block";
-        sezioneSelect.required = true;
-        annoInput.required = true;
-      } else {
-        studenteFields.style.display = "none";
-        sezioneSelect.required = false;
-        annoInput.required = false;
+  // Inizializza email nascosta
+  document.getElementById('email').value = buildEmail();
+  // Submit del form
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const ruolo = ruoloSelect.value;
+    let anno = null;
+    let sezione = null;
+
+    if (ruolo === "studente") {
+      anno = parseInt(annoInput.value, 10);
+      sezione = sezioneSelect.value ? sezioneSelect.value.toUpperCase() : "";
+
+      // Validazione sezione/anno
+      if (sezione) {
+        if ((anno === 4 && sezione !== "H") ||
+            (anno === 5 && sezione !== "G") ||
+            (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
+          const popup = document.createElement("div");
+          popup.innerText = `La sezione "${sezione}" non esiste per l'anno ${anno}.`;
+          popup.style.position = "fixed";
+          popup.style.top = "20%";
+          popup.style.left = "50%";
+          popup.style.transform = "translateX(-50%)";
+          popup.style.background = "linear-gradient(90deg, #007aff, #00c6ff)";
+          popup.style.color = "#fff";
+          popup.style.padding = "1rem 2rem";
+          popup.style.borderRadius = "12px";
+          popup.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
+          popup.style.fontWeight = "600";
+          popup.style.zIndex = "2000";
+          document.body.appendChild(popup);
+          setTimeout(() => popup.remove(), 4000);
+          return; // Blocca invio
+        }
       }
+    }
+
+    const dati = {
+      nome: document.getElementById('nome').value,
+      cognome: document.getElementById('cognome').value,
+      email: document.getElementById('email').value, // completo prefisso+dominio
+      ruolo: ruolo,
+      motivazione: document.getElementById('motivazione').value,
+      password: document.getElementById('password').value,
+      anno: anno,
+      sezione: sezione
+    };
+
+    const response = await fetch('/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dati)
     });
 
-    // Submit del form
-    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    const result = await response.json();
 
-      // Aggiorna email nascosta
-      document.getElementById('email').value = buildEmail();
+    if(result.success) {
+      mostraPopup("Registrazione completata con successo!", "success");
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1500);
+    } else {
+      mostraPopup(result.message || "Registrazione fallita", "error");
+    }
+  });
 
-      const ruolo = document.getElementById('ruolo').value;
-      let anno = null;
-      let sezione = null;
-      if (ruolo === "studente") {
-        anno = parseInt(document.getElementById('anno').value, 10);
-        sezione = document.getElementById('sezione').value.toUpperCase();
-      }
+  // Inizializza email nascosta
+  document.getElementById('email').value = buildEmail();
+</script>
 
-      const dati = {
-        nome: document.getElementById('nome').value,
-        cognome: document.getElementById('cognome').value,
-        email: document.getElementById('email').value, // completo prefisso+dominio
-        ruolo: ruolo,
-        motivazione: document.getElementById('motivazione').value,
-        password: document.getElementById('password').value,
-        anno: anno,
-        sezione: sezione
-      };
-
-      const response = await fetch('/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dati)
-      });
-      const result = await response.json();
-      alert(result.message);
-      if(result.success) window.location.href = "login.html";
-    });
-  </script>
-  <script src="theme.js" defer></script>
+<script src="theme.js" defer></script>
+<div id="popup" class="popup"></div>
 </body>
 </html>

@@ -423,6 +423,36 @@
         align-items: flex-end;
       }
     }
+    /* Popup di notifica */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
+      font-weight: 600;
+      max-width: 300px;
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left: 6px solid #34c759; /* verde successo */
+    }
+
+    .popup.error {
+      border-left: 6px solid #ff3b30; /* rosso errore */
+    }
   </style>
 </head>
 <body>
@@ -494,7 +524,6 @@
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
-
   <script>
     // Gestione Sidebar
     const sidebar = document.querySelector('.sidebar');
@@ -525,14 +554,13 @@
       }
     });
 
-
+    // Tema salvato
     document.addEventListener('DOMContentLoaded', function() {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
       }
     });
-
 
     // Funzione per costruire l'email completa
     function buildEmail() {
@@ -550,8 +578,21 @@
       document.getElementById('email').value = buildEmail();
     });
 
+    // Funzione per mostrare popup
+    function mostraPopup(messaggio, tipo) {
+      const popup = document.getElementById('popup');
+      popup.textContent = messaggio;
+      popup.className = "popup " + tipo;
+      popup.classList.add("show");
+
+      // Nasconde il popup dopo 3 secondi
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 3000);
+    }
+
+    // Funzione login
     async function loginUtente() {
-      // Assicurati che l'email sia aggiornata
       document.getElementById('email').value = buildEmail();
       
       const dati = {
@@ -559,23 +600,32 @@
         password: document.getElementById('password').value
       };
 
-      // Validazione
+      // Validazione email
       if (!dati.email.includes('@') || dati.email.startsWith('@')) {
-        alert("Inserisci un indirizzo email valido");
+        mostraPopup("Inserisci un indirizzo email valido", "error");
         return;
       }
 
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dati)
-      });
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dati)
+        });
 
-      const result = await response.json();
-      alert(result.message);
-      if(result.success) {
-        localStorage.setItem('utente', dati.email);
-        window.location.href = "index.html"; 
+        const result = await response.json();
+
+        if(result.success) {
+          mostraPopup("Accesso effettuato con successo!", "success");
+          localStorage.setItem('utente', dati.email);
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1500);
+        } else {
+          mostraPopup(result.message || "Accesso fallito", "error");
+        }
+      } catch (error) {
+        mostraPopup("Errore di connessione al server", "error");
       }
     }
 
@@ -594,5 +644,6 @@
     }
   </script>
   <script src="theme.js"></script>
+  <div id="popup" class="popup"></div>
 </body>
 </html>
