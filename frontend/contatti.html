@@ -10,7 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
-  <style>
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
+
+<style>
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -323,29 +325,44 @@
         grid-template-columns: 1fr;
       }
     }
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
-    <nav>
+    <div style="flex:1"></div>
+    
+    <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
-      <a href="contatti.html">Contatti</a>
-      <a href="login.html" id="accedi-link">Accedi</a>
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span class="user-email" id="useremail"></span>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
-    <div id="userbar" style="display:none;">
-      <span id="useremail"></span>
-      <button onclick="logout()">Logout</button>
-    </div>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
-  <div id="userbar" style="display:none; background:#007aff; color:#fff; padding:0.5rem 1rem; text-align:right;">
-  <span id="useremail"></span>
-  <button onclick="logout()" style="margin-left:1rem; background:#fff; color:#007aff; border:none; border-radius:6px; padding:0.3rem 0.8rem; cursor:pointer;">Logout</button>
-</div>
   <main>
     <section class="hero">
       <h1>Contattaci</h1>
@@ -371,7 +388,7 @@
                 <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3z"/>
               </svg>
           <a href="https://instagram.com/dazeforfuture" target="_blank">@dazeforfuture</a>
-            </div> 
+            </div>
           </div>
           
           <h3 style="margin-top: 2rem;">Dove trovarci</h3>
@@ -398,13 +415,13 @@
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
               </svg>
-              <a href="mailto:micheleantonio.portulano-s@liceomassimodazeglio.it">Michele Portulano</a>
+              <a href="mailto:micheleantonio.portulano-s@liceomassimodazeglio.it">Michele Antonio Portulano</a>
             </div>
             <div class="contact-item">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
               </svg>
-              <a href="mailto:acheniogiulio.sogno-s@liceomassimodazeglio.it">Achenio Sogno</a>
+              <a href="mailto:acheniogiulio.sogno-s@liceomassimodazeglio.it">Achenio Giulio Sogno</a>
             </div>
           </div>
           
@@ -422,6 +439,7 @@ Da definire <a href="https://t.me/dazeforfuture" target="_blank" aria-label="Tel
         </div>
       </div> 
       
+  <!--    Form non funzionante
       <div class="contact-form">
         <h3 class="section-title">Scrivici un messaggio</h3>
         <form action="#" method="POST">
@@ -443,9 +461,9 @@ Da definire <a href="https://t.me/dazeforfuture" target="_blank" aria-label="Tel
           </div>
           <button type="submit" class="btn">Invia messaggio</button>
         </form>
-      </div>
+      </div> -->
     </section>
-  </main>
+  </main> 
 
     <!-- Sidebar -->
   <aside class="sidebar">
@@ -466,6 +484,8 @@ Da definire <a href="https://t.me/dazeforfuture" target="_blank" aria-label="Tel
   </footer>
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
+  <script src="css/userbar/userbar.js"></script>
+
   <script>
 document.addEventListener('DOMContentLoaded', function() {
   const utente = localStorage.getItem('utente');

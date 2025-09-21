@@ -4,7 +4,7 @@ function applyTheme(theme) {
   } else if (theme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
   } else {
-    document.documentElement.removeAttribute('data-theme');
+    document.documentElement.removeAttribute('data-theme'); // qui si applica prefers-color-scheme
   }
 }
 

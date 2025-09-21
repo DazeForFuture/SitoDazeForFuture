@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
 
 <style>
     :root {
@@ -20,6 +21,7 @@
       --header-bg: rgba(255,255,255,0.9);
       --header-text: #1d1d1f;
       --card-bg: #f5f5f7;
+      --accent: #007aff; /* Aggiunto colore accent */
     }
 
     @media (prefers-color-scheme: dark) {
@@ -34,6 +36,7 @@
         --header-bg: rgba(29,29,31,0.9);
         --header-text: #f5f5f7;
         --card-bg: #252526;
+        --accent: #0a84ff; /* Aggiunto per dark mode */
       }
     }
 
@@ -48,6 +51,7 @@
       --header-bg: rgba(29,29,31,0.9);
       --header-text: #f5f5f7;
       --card-bg: #252526;
+      --accent: #0a84ff; /* Aggiunto per dark mode */
     }
 
     :root[data-theme="light"] {
@@ -61,6 +65,7 @@
       --header-bg: rgba(255,255,255,0.9);
       --header-text: #1d1d1f;
       --card-bg: #f5f5f7;
+      --accent: #007aff; /* Aggiunto per light mode */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -123,6 +128,17 @@
 
     nav > a:hover::after {
       width: 100%;
+    }
+
+    /* Stile specifico per il link Accedi */
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
     }
 
     section {
@@ -238,21 +254,31 @@
 <body>
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
-    <nav>
+    <div style="flex:1"></div>
+    
+    <nav id="mainNav">
       <a href="index.html">Home</a>
-      <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      <a href="login.html" id="accedi-link">Accedi</a>
+
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span class="user-email" id="useremail"></span>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
-    <div id="userbar" style="display:none;">
-      <span id="useremail"></span>
-      <button onclick="logout()">Logout</button>
-    </div>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
-
   <main>
     <section class="hero">
       <h1>La nostra missione</h1>
@@ -320,20 +346,7 @@
   </footer>
 <script src="theme.js"></script>
 <script src="css/sidebar/sidebar.js"></script>
-<script>
-// Mostra la barra utente se loggato
-document.addEventListener('DOMContentLoaded', function() {
-  const utente = localStorage.getItem('utente');
-  if(utente) {
-    document.getElementById('userbar').style.display = 'block';
-    document.getElementById('useremail').innerText = utente;
-  }
-});
+<script src="css/userbar/userbar.js"></script>
 
-function logout() {
-  localStorage.removeItem('utente');
-  window.location.href = "login.html";
-}
-</script>
 </body>
 </html>

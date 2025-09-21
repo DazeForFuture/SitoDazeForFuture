@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
-  <link rel="stylesheet" href="css/utente.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
 
   <style>
     :root {
@@ -392,77 +392,45 @@
       font-size: 0.9rem;
       background: var(--footer-bg);
     }
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
 
-    #userbar {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-left: 2rem;
-      background: none;
-      color: inherit;
-      font-weight: 600;
-      font-size: 1rem;
-      border: none;
-      box-shadow: none;
-      padding: 0;
-    }
-    #userbar button {
-      margin-left: 0.5rem;
-      background: #fff;
-      color: #007aff;
-      border: none;
-      border-radius: 6px;
-      padding: 0.3rem 0.8rem;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1em;
-      transition: background 0.2s, color 0.2s;
-    }
-    #userbar button:hover {
-      background: #007aff;
-      color: #fff;
-    }
-    @media (max-width: 900px) {
-      #userbar {
-        margin-left: 0.5rem;
-        font-size: 0.95rem;
-      }
-      #userbar button {
-        padding: 0.3rem 0.7rem;
-        font-size: 0.95em;
-      }
-    }
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem 0.5rem;
-      }
-      #userbar {
-        margin-left: 0;
-        margin-top: 0.5rem;
-        font-size: 0.93rem;
-      }
-    }
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+}
   </style>
 </head>
 <body>
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
-    <nav>
+    <div style="flex:1"></div>
+    
+    <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
-      <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      <a href="login.html" id="accedi-link">Accedi</a>
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span class="user-email" id="useremail"></span>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
-    <div id="userbar" style="display:none;">
-      <span id="useremail"></span>
-      <button onclick="logout()">Logout</button>
-    </div>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
+
 
   <main>
     <section class="hero">
@@ -529,7 +497,6 @@
       </div>
     </section>
 
-
     <section>
       <h2 class="section-title">La nostra storia</h2>
       <p class="text-muted">Daze for Future è nata dall'iniziativa di un gruppo di studenti che volevano fare la differenza nella loro scuola e comunità. Ecco i momenti più importanti del nostro percorso:</p>
@@ -544,7 +511,7 @@
         
         <div class="timeline-item">
           <div class="timeline-content">
-            <div class="timeline-date">Creazione del server con Raspberry Pi 400</div>
+            <div class="timeline-date">Creazione del server con un Raspberry Pi 400</div>
             <p>Il sito che state vedendo è attualmente hostato su un Raspberry Pi 400 presente nel laboratorio di Fisica.</p>
           </div>
         </div>
@@ -598,21 +565,6 @@
   </footer>
 <script src="theme.js"></script>
 <script src="css/sidebar/sidebar.js"></script>
-<script>
-  // Barra utente se loggato
-  document.addEventListener('DOMContentLoaded', function() {
-    const utente = localStorage.getItem('utente');
-    if(utente) {
-      document.getElementById('userbar').style.display = 'flex';
-      document.getElementById('useremail').innerText = utente;
-    }
-  });
-  function logout() {
-    localStorage.removeItem('utente');
-    window.location.href = "login.html";
-  }
-</script>
-
-
+<script src="css/userbar/userbar.js"></script>
 </body>
 </html>

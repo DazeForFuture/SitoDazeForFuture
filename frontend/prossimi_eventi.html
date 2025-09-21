@@ -6,11 +6,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
-
   <title>Prossimi Eventi - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
 
   <style>
     :root {
@@ -310,27 +310,45 @@
         gap: 0.5rem;
       }
     }
- 
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
-    <nav>
+    <div style="flex:1"></div>
+    
+    <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      <a href="login.html" id="accedi-link">Accedi</a>
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span class="user-email" id="useremail"></span>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
-    <div id="userbar" style="display:none;">
-      <span id="useremail"></span>
-      <button onclick="logout()">Logout</button>
-    </div>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
-
 
   <main>
     <section class="hero">
@@ -341,20 +359,20 @@
     <section class="events-container">
       <article class="event">
         <div class="event-header">
-          <h2>Giornata della Terra - 15 Giugno 2025</h2>
+          <h2>Prossimamente - In lavorazione...</h2>
           <div class="event-meta">
-            <span>📅 15 Giugno 2025</span>
-            <span>🕒 9:00 - 18:00</span>
-            <span>📍 Cortile del Liceo D'Azeglio</span>
+            <span>📅 Prossimamente...</span>
+            <span>🕒 Prossimamente...</span>
+            <span>📍 Laboratori del Liceo D'Azeglio</span>
           </div>
         </div>
         <div class="event-body">
-          <p>Celebriamo la Giornata della Terra con una serie di attività educative e pratiche per sensibilizzare la comunità scolastica sulle tematiche ambientali. L'evento include:</p>
+          <p>In lavorazione...</p>
           <ul style="color: var(--muted); margin-left: 1.5rem; margin-bottom: 1.5rem;">
-            <li>Workshop sul riciclo creativo</li>
-            <li>Presentazioni di esperti in sostenibilità</li>
-            <li>Laboratori pratici di orticoltura urbana</li>
-            <li>Mostra di progetti studenteschi eco-sostenibili</li>
+            <li>Prossimamente...</li>
+            <li>Prossimamente..</li>
+            <li>Prossimamente..</li>
+            <li>Prossimamente..</li>
           </ul>
           <p>Tutti gli studenti sono invitati a partecipare e a portare idee per rendere la nostra scuola più green!</p>
         </div>
@@ -364,7 +382,7 @@
         </div>
       </article>
 
-      <article class="event">
+  <!--    <article class="event">
         <div class="event-header">
           <h2>Hackathon Open Source - 3 Luglio 2025</h2>
           <div class="event-meta">
@@ -388,80 +406,15 @@
           <button class="btn">Iscriviti all'hackathon</button>
           <button class="btn btn-outline" style="margin-left: 1rem;">Scopri di più</button>
         </div>
-      </article>
-
-      <article class="event">
-        <div class="event-header">
-          <h2>Pulizia della Spiaggia - 20 Luglio 2025</h2>
-          <div class="event-meta">
-            <span>📅 20 Luglio 2025</span>
-            <span>🕒 8:00 - 12:00</span>
-            <span>📍 Spiaggia Libera, Torino</span>
-          </div>
-        </div>
-        <div class="event-body">
-          <p>Unisciti a noi per una mattinata di volontariato dedicata alla pulizia della spiaggia locale. L'obiettivo non è solo raccogliere rifiuti, ma anche:</p>
-          <ul style="color: var(--muted); margin-left: 1.5rem; margin-bottom: 1.5rem;">
-            <li>Sensibilizzare sulla problematica della plastica nei mari</li>
-            <li>Classificare i rifiuti raccolti per una ricerca scientifica</li>
-            <li>Creare un'opera d'arte con i rifiuti trovati</li>
-          </ul>
-          <p>Forniremo tutto il materiale necessario. Porta solo il tuo entusiasmo e un paio di guanti da giardinaggio se li hai!</p>
-        </div>
-        <div class="event-footer">
-          <button class="btn">Partecipa alla pulizia</button>
-          <button class="btn btn-outline" style="margin-left: 1rem;">Invita amici</button>
-        </div>
-      </article>
-
-      <article class="event">
-        <div class="event-header">
-          <h2>Manifestazione Pro-Nucleare - 10 Agosto 2025</h2>
-          <div class="event-meta">
-            <span>📅 10 Agosto 2025</span>
-            <span>🕒 15:00 - 19:00</span>
-            <span>📍 Piazza Castello, Torino</span>
-          </div>
-        </div>
-        <div class="event-body">
-          <p>Un evento per promuovere una discussione informata sull'energia nucleare come soluzione sostenibile per la transizione energetica. Il programma include:</p>
-          <ul style="color: var(--muted); margin-left: 1.5rem; margin-bottom: 1.5rem;">
-            <li>Interventi di esperti in energia e fisica nucleare</li>
-            <li>Tavola rotonda con rappresentanti politici</li>
-            <li>Mostra interattiva sulla sicurezza nucleare</li>
-            <li>Dimostrazioni scientifiche sulle radiazioni</li>
-          </ul>
-          <p>La manifestazione si concluderà con un corteo pacifico attraverso il centro città per sensibilizzare l'opinione pubblica su questo tema cruciale.</p>
-        </div>
-        <div class="event-footer">
-          <button class="btn">Partecipa alla manifestazione</button>
-          <button class="btn btn-outline" style="margin-left: 1rem;">Materiali informativi</button>
-        </div>
-      </article>
+      </article> -->
     </section>
-
     <section class="calendar-section">
       <h2>Calendario Eventi</h2>
       <div class="calendar-grid">
         <div class="calendar-day">
-          <h3>15 Giugno</h3>
-          <p>Giornata della Terra</p>
-          <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;">9:00 - 18:00</p>
-        </div>
-        <div class="calendar-day">
-          <h3>3 Luglio</h3>
-          <p>Hackathon Open Source</p>
-          <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;">Tutto il giorno</p>
-        </div>
-        <div class="calendar-day">
-          <h3>20 Luglio</h3>
-          <p>Pulizia Spiaggia</p>
-          <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;">8:00 - 12:00</p>
-        </div>
-        <div class="calendar-day">
-          <h3>10 Agosto</h3>
-          <p>Manifestazione Nucleare</p>
-          <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;">15:00 - 19:00</p>
+          <h3>Prossimamente</h3>
+          <p>In lavorazione</p>
+          <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;">Prossimamente</p>
         </div>
       </div>
     </section>
@@ -486,21 +439,7 @@
     <p>&copy; 2025 Daze for Future. Tutti i diritti riservati.</p>
   </footer>
   <script src="css/sidebar/sidebar.js"></script>
+  <script src="css/userbar/userbar.js"></script>
   <script src="theme.js"></script>
-  <script>
-    // Mostra la barra utente se loggato
-    document.addEventListener('DOMContentLoaded', function() {
-      const utente = localStorage.getItem('utente');
-      if(utente) {
-        document.getElementById('userbar').style.display = 'block';
-        document.getElementById('useremail').innerText = utente;
-      }
-    });
-
-    function logout() {
-      localStorage.removeItem('utente');
-      window.location.href = "login.html";
-    }
-  </script>
 </body>
 </html>

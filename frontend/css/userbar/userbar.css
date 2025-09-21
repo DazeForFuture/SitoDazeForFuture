@@ -1,0 +1,108 @@
+/* Stili per la userbar */
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+  color: var(--header-text);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.user-info:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #007aff, #00c6ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.user-email {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-right: 0.8rem;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid var(--header-text);
+  color: var(--header-text);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.logout-btn:hover {
+  background: var(--header-text);
+  color: var(--header-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+}
+
+/* Stili per la versione mobile nella sidebar */
+.mobile-user-info {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-top: 1px solid var(--sidebar-border);
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.mobile-user-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mobile-user-email {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+/* Media queries per responsive design */
+@media (max-width: 1024px) {
+  .user-email {
+    display: none;
+  }
+  
+  .user-info {
+    margin-left: 1rem;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-info {
+    display: none;
+  }
+}
