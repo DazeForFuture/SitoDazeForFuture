@@ -165,6 +165,7 @@
       background: linear-gradient(90deg, #007aff, #00c6ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero p {
@@ -194,6 +195,10 @@
       font-size: 2rem;
       font-weight: 800;
       margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .text-muted {
@@ -216,6 +221,9 @@
       }
       .hero h1 {
         font-size: 2.2rem;
+      }
+      .section-title {
+        font-size: 1.8rem;
       }
       .sidebar {
         width: 280px;
@@ -624,28 +632,7 @@
       } else {
         document.documentElement.removeAttribute('data-theme');
       }
-      updateTitles(theme);
-    }
-
-    function updateTitles(theme) {
-      const h1 = document.querySelector('h1');
-      const h2s = document.querySelectorAll('h2');
-      const header = document.querySelector('header');
-
-      let color = '';
-      if (theme === 'dark') {
-        color = '#0a84ff';
-        header.style.color = '#f5f5f7';
-      } else if (theme === 'light') {
-        color = '#007aff';
-        header.style.color = '#1d1d1f';
-      } else {
-        color = '';
-        header.style.color = '';
-      }
-
-      h1.style.color = color || '';
-      h2s.forEach(h2 => h2.style.color = color || '');
+      // La funzione updateTitles è stata rimossa poiché non è più necessaria
     }
 
     // On load
