@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-db_path = os.path.join(os.path.dirname(__file__), 'documenti.db')
+db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/documenti.db'))
 
 def init_doc_db():
     conn = sqlite3.connect(db_path)

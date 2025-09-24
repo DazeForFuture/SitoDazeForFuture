@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../frontend'))
 app = Flask(__name__, static_folder=None)
-db_path = os.path.join(os.path.dirname(__file__), 'utenti.db')
+db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/utenti.db'))
 
 def init_db():
     conn = sqlite3.connect(db_path)
