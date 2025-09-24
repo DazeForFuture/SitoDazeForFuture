@@ -399,6 +399,7 @@
     }
 
   </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <header>
@@ -473,6 +474,24 @@
       <textarea id="motivazione" name="motivazione" rows="4"></textarea>
 
       <button type="submit">Registrati</button>
+      <div id="g_id_onload"
+        data-client_id="315962333899-dd7it3ho1530j43tkmlbk341k88gdn4t.apps.googleusercontent.com"
+        data-context="signup"
+        data-ux_mode="popup"
+        data-callback="onGoogleSignIn"
+        data-auto_prompt="false">
+      </div>
+    <div class="center-btn">
+      <div class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="signup_with"
+          data-size="large"
+          data-logo_alignment="left">
+  </div>
+</div>
+
     </form>
   </main>
   <!-- Contenitore popup -->
@@ -669,6 +688,51 @@
     }
   });
 </script>
+<script>
+  async function onGoogleSignIn(response) {
+    const credential = response.credential;
+
+    // Decodifica il JWT per estrarre i dati utente
+    const payload = parseJwt(credential);
+    
+    const dati = {
+      nome: payload.given_name,
+      cognome: payload.family_name,
+      email: payload.email,
+      googleId: payload.sub, // ID univoco utente Google
+      immagineProfilo: payload.picture,
+      isGoogleSignup: true
+    };
+
+    // Invia dati al server (endpoint da definire sul backend)
+    const res = await fetch('/register-google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dati)
+    });
+
+    const result = await res.json();
+
+    if(result.success) {
+      mostraPopup("Registrazione con Google completata!", "success");
+      setTimeout(() => {
+        window.location.href = "login.html"; // o pagina successiva
+      }, 1500);
+    } else {
+      mostraPopup(result.message || "Errore con Google Sign-In", "error");
+    }
+  }
+
+  // Funzione per decodificare il JWT
+  function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = decodeURIComponent(atob(base64Url).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(base64);
+  }
+</script>
+
 <div id="popup" class="popup"></div>
 </body>
 </html>
