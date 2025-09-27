@@ -398,6 +398,132 @@
       border-left: 6px solid #ff3b30; /* rosso errore */
     }
 
+    /* Stili personalizzati per Google Sign-In */
+    .gsi-material-button {
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -webkit-appearance: none;
+      background-color: var(--bg);
+      background-image: none;
+      border: 1px solid var(--muted);
+      border-radius: 999px;
+      box-sizing: border-box;
+      color: var(--text);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      height: 40px;
+      letter-spacing: 0.25px;
+      outline: none;
+      overflow: hidden;
+      padding: 0 12px;
+      position: relative;
+      text-align: center;
+      transition: background-color .218s, border-color .218s, box-shadow .218s;
+      vertical-align: middle;
+      white-space: nowrap;
+      width: auto;
+      max-width: 400px;
+      min-width: min-content;
+    }
+
+    .gsi-material-button .gsi-material-button-icon {
+      height: 20px;
+      margin-right: 12px;
+      min-width: 20px;
+      width: 20px;
+    }
+
+    .gsi-material-button .gsi-material-button-content-wrapper {
+      -webkit-align-items: center;
+      align-items: center;
+      display: flex;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -webkit-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+      height: 100%;
+      justify-content: space-between;
+      position: relative;
+      width: 100%;
+    }
+
+    .gsi-material-button .gsi-material-button-contents {
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: top;
+    }
+
+    .gsi-material-button .gsi-material-button-state {
+      -webkit-transition: opacity .218s;
+      transition: opacity .218s;
+      bottom: 0;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    .gsi-material-button:disabled {
+      cursor: default;
+      background-color: var(--muted);
+      border-color: var(--muted);
+    }
+
+    .gsi-material-button:disabled .gsi-material-button-contents {
+      opacity: 0.5;
+    }
+
+    .gsi-material-button:disabled .gsi-material-button-icon {
+      opacity: 0.5;
+    }
+
+    .gsi-material-button:not(:disabled):active .gsi-material-button-state, 
+    .gsi-material-button:not(:disabled):focus .gsi-material-button-state {
+      background-color: var(--hover-bg);
+      opacity: 1;
+    }
+
+    .gsi-material-button:not(:disabled):hover {
+      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+      border-color: var(--accent);
+    }
+
+    .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
+      background-color: var(--hover-bg);
+      opacity: 1;
+    }
+
+    /* Separatore "oppure" */
+    .separator {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 2rem 0;
+      color: var(--muted);
+    }
+
+    .separator::before,
+    .separator::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--muted);
+    }
+
+    .separator:not(:empty)::before {
+      margin-right: 1rem;
+    }
+
+    .separator:not(:empty)::after {
+      margin-left: 1rem;
+    }
+
   </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -474,24 +600,27 @@
       <textarea id="motivazione" name="motivazione" rows="4"></textarea>
 
       <button type="submit">Registrati</button>
-      <div id="g_id_onload"
-        data-client_id="315962333899-dd7it3ho1530j43tkmlbk341k88gdn4t.apps.googleusercontent.com"
-        data-context="signup"
-        data-ux_mode="popup"
-        data-callback="onGoogleSignIn"
-        data-auto_prompt="false">
+      
+      <div class="separator">oppure</div>
+      
+      <div class="center-btn">
+        <div id="g_id_onload"
+          data-client_id="315962333899-dd7it3ho1530j43tkmlbk341k88gdn4t.apps.googleusercontent.com"
+          data-context="signup"
+          data-ux_mode="popup"
+          data-callback="onGoogleSignIn"
+          data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="signup_with"
+            data-size="large"
+            data-logo_alignment="left"
+            data-width="300">
+        </div>
       </div>
-    <div class="center-btn">
-      <div class="g_id_signin"
-          data-type="standard"
-          data-shape="rectangular"
-          data-theme="outline"
-          data-text="signup_with"
-          data-size="large"
-          data-logo_alignment="left">
-  </div>
-</div>
-
     </form>
   </main>
   <!-- Contenitore popup -->
@@ -560,11 +689,11 @@
       studenteFields.style.display = (ruoloSelect.value === "studente") ? "block" : "none";
     });
 
-    // Filtra sezioni disponibili in base all'anno
+    // Filtra sezioni disponibili in base all'anno (25-26)
     annoInput.addEventListener("input", () => {
       const anno = parseInt(annoInput.value, 10);
       sezioniOptions.forEach(option => {
-        if (option.value === "") return; // opzione vuota sempre abilitada
+        if (option.value === "") return;
 
         if (option.value === "H") {
           option.disabled = !(anno === 4);
@@ -584,7 +713,7 @@
         option.disabled = anno > maxAnno;
       });
 
-      // Se la sezione selezionata diventa disabilitada, svuotala
+      // Se la sezione selezionata diventa disabilitata, svuotala
       if (sezioneSelect.value) {
         const selectedOption = [...sezioniOptions].find(o => o.value === sezioneSelect.value);
         if (selectedOption && selectedOption.disabled) {
@@ -686,6 +815,26 @@
         document.documentElement.removeAttribute('data-theme');
       }
     }
+
+    // Aggiorna stili Google Sign-In quando cambia il tema
+    function updateGoogleButtonStyles() {
+      const googleButtons = document.querySelectorAll('.gsi-material-button');
+      googleButtons.forEach(button => {
+        button.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+        button.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text').trim();
+        button.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
+      });
+    }
+
+    // Osserva i cambiamenti del tema
+    const observer = new MutationObserver(updateGoogleButtonStyles);
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['data-theme'] 
+    });
+
+    // Aggiorna gli stili all'avvio
+    setTimeout(updateGoogleButtonStyles, 100);
   });
 </script>
 <script>
@@ -730,6 +879,18 @@
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
     return JSON.parse(base64);
+  }
+
+  // Funzione per mostrare popup (definita anche qui per sicurezza)
+  function mostraPopup(messaggio, tipo) {
+    const popup = document.getElementById('popup');
+    popup.textContent = messaggio;
+    popup.className = "popup " + tipo;
+    popup.classList.add("show");
+
+    setTimeout(() => {
+      popup.classList.remove("show");
+    }, 3000);
   }
 </script>
 

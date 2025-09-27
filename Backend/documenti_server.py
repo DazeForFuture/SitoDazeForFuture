@@ -1,84 +1,370 @@
-import os
-import sqlite3
-import base64
-from flask import Flask, request, jsonify, send_file
-from io import BytesIO
+from flask import Flask, render_template, request, jsonify, send_file, session, redirect, url_for
 from flask_cors import CORS
+import os
+import base64
+import uuid
+import sqlite3
+from datetime import datetime
+from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
-CORS(app)
-db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/documenti.db'))
+app = Flask(__name__, template_folder='.', static_folder='.')
+# CORREZIONE CORS: Configurazione completa
+CORS(app, 
+     supports_credentials=True, 
+     origins=["http://localhost:5000", "http://127.0.0.1:5000", "http://0.0.0.0:5000",
+              "http://localhost:5001", "http://127.0.0.1:5001", "http://0.0.0.0:5001"])
 
-def init_doc_db():
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS documents (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            filename TEXT NOT NULL,
-            content BLOB NOT NULL,
-            uploaded_at TEXT NOT NULL
-        )
-    ''')
-    conn.commit()
-    conn.close()
+app.secret_key = 'daze_for_future_secret_key_2025'
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Cambiato da 'None'
+app.config['SESSION_COOKIE_SECURE'] = False    # Disabilitato per sviluppo HTTP
+app.config['SESSION_COOKIE_HTTPONLY'] = True
 
-@app.route('/upload_document', methods=['POST'])
-def upload_document():
-    data = request.json
-    filename = data.get('filename')
-    filedata = data.get('filedata')  # base64 string
-    if not filename or not filedata:
-        return jsonify({'success': False, 'message': 'File mancante'}), 400
+# Configurazione
+UPLOAD_FOLDER = 'documenti'
+ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'txt', 'jpg', 'jpeg', 'png', 'gif'}
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = MAX_FILE_SIZE
+
+# Creazione cartella uploads
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# PERCORSI DATABASE CORRETTI - due livelli sopra
+current_dir = os.path.dirname(os.path.abspath(__file__))
+database_dir = os.path.abspath(os.path.join(current_dir, '../../database'))
+
+# Assicurati che la cartella database esista
+os.makedirs(database_dir, exist_ok=True)
+
+users_db = os.path.join(database_dir, 'utenti.db')
+documents_db = os.path.join(database_dir, 'documenti.db')
+
+print(f"Percorso corrente: {current_dir}")
+print(f"Percorso database: {database_dir}")
+print(f"Percorso database utenti: {users_db}")
+print(f"Percorso database documenti: {documents_db}")
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def get_db_connection(db_path):
+    """Crea una connessione al database SQLite"""
     try:
-        filebytes = base64.b64decode(filedata)
         conn = sqlite3.connect(db_path)
-        c = conn.cursor()
-        c.execute('''
-            INSERT INTO documents (filename, content, uploaded_at)
-            VALUES (?, ?, datetime('now'))
-        ''', (filename, filebytes))
+        conn.row_factory = sqlite3.Row
+        return conn
+    except sqlite3.Error as e:
+        print(f"Errore connessione database {db_path}: {e}")
+        raise
+
+def get_user_documents(user_email):
+    """Restituisce i documenti dell'utente dal database"""
+    try:
+        conn = get_db_connection(documents_db)
+        cursor = conn.cursor()
+        
+        # Verifica se la tabella esiste
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='documents'")
+        table_exists = cursor.fetchone()
+        
+        if not table_exists:
+            print("Tabella documents non esiste, creazione...")
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS documents (
+                    id TEXT PRIMARY KEY,
+                    filename TEXT NOT NULL,
+                    user_email TEXT NOT NULL,
+                    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    filepath TEXT NOT NULL
+                )
+            ''')
+            conn.commit()
+            return []
+        
+        cursor.execute('''
+            SELECT id, filename, uploaded_at, filepath 
+            FROM documents 
+            WHERE user_email = ?
+            ORDER BY uploaded_at DESC
+        ''', (user_email,))
+        
+        documents = cursor.fetchall()
+        conn.close()
+        
+        user_docs = []
+        for doc in documents:
+            user_docs.append({
+                'id': doc['id'],
+                'filename': doc['filename'],
+                'uploaded_at': doc['uploaded_at'],
+                'filepath': doc['filepath']
+            })
+        
+        return user_docs
+    except Exception as e:
+        print(f"Errore nel recupero documenti: {e}")
+        return []
+
+def init_databases():
+    """Inizializza le tabelle se non esistono"""
+    try:
+        # Database utenti - solo creazione tabella se non esiste
+        conn_users = get_db_connection(users_db)
+        conn_users.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                email TEXT PRIMARY KEY,
+                password TEXT NOT NULL,
+                name TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        conn_users.commit()
+        conn_users.close()
+        
+        # Database documenti
+        conn_docs = get_db_connection(documents_db)
+        conn_docs.execute('''
+            CREATE TABLE IF NOT EXISTS documents (
+                id TEXT PRIMARY KEY,
+                filename TEXT NOT NULL,
+                user_email TEXT NOT NULL,
+                uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                filepath TEXT NOT NULL
+            )
+        ''')
+        conn_docs.commit()
+        conn_docs.close()
+        print("Database inizializzati con successo")
+    except Exception as e:
+        print(f"Errore nell'inizializzazione database: {e}")
+
+# Inizializza i database all'avvio
+init_databases()
+
+# Middleware per verificare l'autenticazione
+@app.before_request
+def check_authentication():
+    # Route pubbliche che non richiedono autenticazione
+    public_routes = ['login', 'static', 'check_auth']
+    
+    if request.endpoint and not any(route in request.endpoint for route in public_routes):
+        if 'user' not in session:
+            return jsonify({'success': False, 'message': 'Non autenticato'}), 401
+
+# Route principali
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        try:
+            # Gestisci sia JSON che form-data
+            if request.is_json:
+                data = request.get_json()
+                email = data.get('email')
+                password = data.get('password')
+            else:
+                email = request.form.get('email')
+                password = request.form.get('password')
+            
+            if not email or not password:
+                return jsonify({'success': False, 'message': 'Email e password richiesti'}), 400
+            
+            # Verifica credenziali nel database
+            conn = get_db_connection(users_db)
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM users WHERE email = ? AND password = ?', (email, password))
+            user = cursor.fetchone()
+            conn.close()
+            
+            if user:
+                session['user'] = email
+                session.permanent = True
+                response = jsonify({
+                    'success': True, 
+                    'message': 'Login effettuato',
+                    'redirect': '/documenti.html'
+                })
+                return response
+            else:
+                return jsonify({'success': False, 'message': 'Credenziali non valide'}), 401
+                
+        except Exception as e:
+            return jsonify({'success': False, 'message': f'Errore server: {str(e)}'}), 500
+    
+    # Se GET, servi la pagina HTML
+    try:
+        return render_template('login.html')
+    except:
+        return """
+        <html>
+            <body>
+                <h1>Pagina di Login</h1>
+                <p>Usa il frontend per accedere</p>
+            </body>
+        </html>
+        """
+
+@app.route('/check_auth')
+def check_auth():
+    """Endpoint per verificare lo stato dell'autenticazione"""
+    print(f"Check auth - Session: {dict(session)}")
+    if 'user' in session:
+        return jsonify({'authenticated': True, 'user': session['user']})
+    return jsonify({'authenticated': False}), 200
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    response = jsonify({'success': True, 'message': 'Logout effettuato'})
+    return response
+
+@app.route('/documenti.html')
+def documenti():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    try:
+        return render_template('documenti.html')
+    except:
+        return """
+        <html>
+            <body>
+                <h1>Gestione Documenti</h1>
+                <p>Utente: {}</p>
+                <p>Usa il frontend per la gestione documenti</p>
+            </body>
+        </html>
+        """.format(session['user'])
+
+# API per i documenti
+@app.route('/api/upload_document', methods=['POST'])
+def upload_document():
+    if 'user' not in session:
+        return jsonify({'success': False, 'message': 'Non autorizzato'}), 401
+    
+    try:
+        data = request.get_json()
+        if not data or 'filedata' not in data or 'filename' not in data:
+            return jsonify({'success': False, 'message': 'Dati mancanti'}), 400
+        
+        # Decodifica il file base64
+        file_data = base64.b64decode(data['filedata'])
+        filename = secure_filename(data['filename'])
+        
+        # Genera ID univoco
+        doc_id = str(uuid.uuid4())
+        
+        # Salva il file
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], f"{doc_id}_{filename}")
+        with open(filepath, 'wb') as f:
+            f.write(file_data)
+        
+        # Salva nei documenti nel database
+        conn = get_db_connection(documents_db)
+        conn.execute('''
+            INSERT INTO documents (id, filename, user_email, uploaded_at, filepath)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (doc_id, filename, session['user'], datetime.now().isoformat(), filepath))
         conn.commit()
         conn.close()
-        return jsonify({'success': True, 'message': 'Documento salvato'})
+        
+        return jsonify({'success': True, 'id': doc_id})
+        
     except Exception as e:
+        print(f"Errore upload documento: {e}")
         return jsonify({'success': False, 'message': str(e)}), 500
 
-@app.route('/list_documents', methods=['GET'])
+@app.route('/api/list_documents')
 def list_documents():
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
-    c.execute('SELECT id, filename, uploaded_at FROM documents ORDER BY uploaded_at DESC')
-    docs = [{'id': row[0], 'filename': row[1], 'uploaded_at': row[2]} for row in c.fetchall()]
-    conn.close()
-    return jsonify(docs)
+    if 'user' not in session:
+        return jsonify({'success': False, 'message': 'Non autorizzato'}), 401
+    
+    try:
+        user_docs = get_user_documents(session['user'])
+        return jsonify(user_docs)
+    except Exception as e:
+        print(f"Errore list_documents: {e}")
+        return jsonify([])
 
-@app.route('/download_document/<int:doc_id>', methods=['GET'])
-def download_document(doc_id):
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
-    c.execute('SELECT filename, content FROM documents WHERE id=?', (doc_id,))
-    row = c.fetchone()
-    conn.close()
-    if row:
-        filename, content = row
-        return send_file(BytesIO(content), download_name=filename, as_attachment=True)
-    else:
-        return "Documento non trovato", 404
-
-@app.route('/view_document/<int:doc_id>', methods=['GET'])
+@app.route('/api/view_document/<doc_id>')
 def view_document(doc_id):
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
-    c.execute('SELECT filename, content FROM documents WHERE id=?', (doc_id,))
-    row = c.fetchone()
-    conn.close()
-    if row:
-        filename, content = row
-        return send_file(BytesIO(content), download_name=filename)
-    else:
-        return "Documento non trovato", 404
+    if 'user' not in session:
+        return jsonify({'success': False, 'message': 'Non autorizzato'}), 401
+    
+    try:
+        conn = get_db_connection(documents_db)
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM documents WHERE id = ? AND user_email = ?', (doc_id, session['user']))
+        document = cursor.fetchone()
+        conn.close()
+        
+        if not document:
+            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
+        
+        return send_file(document['filepath'], as_attachment=False)
+    except Exception as e:
+        print(f"Errore view_document: {e}")
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/download_document/<doc_id>')
+def download_document(doc_id):
+    if 'user' not in session:
+        return jsonify({'success': False, 'message': 'Non autorizzato'}), 401
+    
+    try:
+        conn = get_db_connection(documents_db)
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM documents WHERE id = ? AND user_email = ?', (doc_id, session['user']))
+        document = cursor.fetchone()
+        conn.close()
+        
+        if not document:
+            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
+        
+        return send_file(document['filepath'], as_attachment=True, 
+                        download_name=document['filename'])
+    except Exception as e:
+        print(f"Errore download_document: {e}")
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/delete_document/<doc_id>', methods=['DELETE'])
+def delete_document(doc_id):
+    if 'user' not in session:
+        return jsonify({'success': False, 'message': 'Non autorizzato'}), 401
+    
+    try:
+        conn = get_db_connection(documents_db)
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM documents WHERE id = ? AND user_email = ?', (doc_id, session['user']))
+        document = cursor.fetchone()
+        
+        if not document:
+            conn.close()
+            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
+        
+        # Rimuovi il file fisico
+        if os.path.exists(document['filepath']):
+            os.remove(document['filepath'])
+        
+        # Rimuovi dal database
+        cursor.execute('DELETE FROM documents WHERE id = ?', (doc_id,))
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'success': True})
+    except Exception as e:
+        if 'conn' in locals():
+            conn.close()
+        print(f"Errore delete_document: {e}")
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 if __name__ == '__main__':
-    init_doc_db()
-    app.run(debug=True, host='0.0.0.0', port=5050)
+    print("Server in avvio su http://localhost:5001")
+    print("Percorso database utenti:", users_db)
+    print("Percorso database documenti:", documents_db)
+    app.run(debug=True, port=5001, host='0.0.0.0')

@@ -8,6 +8,10 @@
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Login - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
+
   <style>
     /* --- VARIABILI COERENTI ALLA HOME --- */
     :root {
@@ -252,177 +256,6 @@
       background: var(--footer-bg);
       margin-top: 3rem;
     }
-    
-    /* Stili per la Sidebar */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -280px;
-      width: 280px;
-      height: 100%;
-      background: var(--sidebar-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 2px 0 10px var(--sidebar-shadow);
-      border-right: 1px solid var(--sidebar-border);
-      transition: left 0.3s ease;
-      z-index: 1200;
-      padding: 2rem 1rem;
-      overflow-y: auto;
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    .sidebar h2 {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      font-weight: 800;
-      color: var(--text);
-      text-align: center;
-    }
-
-    .sidebar-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: color 0.3s ease;
-      width: auto;
-      padding: 0.5rem;
-      margin-bottom: 1rem; /* Aggiunta spaziatura */
-    }
-
-    .sidebar-close:hover {
-      color: var(--text);
-      background: transparent;
-      transform: scale(1.1);
-    }
-
-    .sidebar-menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar-menu li {
-      margin-bottom: 1rem; /* Aumentata spaziatura */
-    }
-
-    .sidebar-menu a {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.75rem 1rem;
-      text-decoration: none;
-      font-weight: 600;
-      color: var(--text);
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      font-size: 1.05rem;
-    }
-
-    .sidebar-menu a span {
-      font-size: 1.3rem;
-    }
-
-    .sidebar-menu a:hover,
-    .sidebar-menu a.active {
-      background-color: rgba(0, 122, 255, 0.2);
-      color: var(--accent);
-    }
-
-    /* Overlay per quando la sidebar è aperta */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1100;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* Pulsante hamburger */
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      width: auto;
-      padding: 0.5rem;
-      margin-left: 1rem; /* Aggiunta spaziatura */
-    }
-
-    .hamburger:hover {
-      background: transparent;
-      transform: scale(1.1);
-    }
-
-    /* Userbar */
-    #userbar {
-      display: flex;
-      align-items: center;
-      gap: 1rem; /* Aggiunta spaziatura tra elementi */
-    }
-
-    #userbar span {
-      margin-right: 0.5rem;
-    }
-
-    #userbar button {
-      width: auto;
-      padding: 0.5rem 1rem;
-      margin-bottom: 0;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-      }
-      
-      .hamburger {
-        display: block;
-      }
-      
-      header {
-        padding: 1rem;
-      }
-      
-      main {
-        padding: 120px 1rem 80px;
-      }
-      
-      .email-container {
-        flex-direction: column;
-      }
-      
-      .domain-select {
-        width: 100%;
-      }
-      
-      #userbar {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-end;
-      }
-    }
     /* Popup di notifica */
     .popup {
       position: fixed;
@@ -459,19 +292,29 @@
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
     <div style="flex:1"></div>
-    <div id="userbar" style="display:none;">
-      <span id="useremail"></span>
-      <button onclick="logout()">Logout</button>
-    </div>
-    <button id="sidebarToggleBtn" class="hamburger" aria-label="Apri menu">☰</button>
-    <nav>
+    
+    <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-    </nav>
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span class="user-email" id="useremail"></span>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      </nav>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
+
 
   <main>
     <h1 class="section-title">Accedi</h1>
@@ -518,50 +361,10 @@
     </ul>
   </aside>
 
-  <!-- Overlay -->
-  <div class="overlay"></div>
-
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
   <script>
-    // Gestione Sidebar
-    const sidebar = document.querySelector('.sidebar');
-    const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
-    const sidebarClose = document.querySelector('.sidebar-close');
-    const overlay = document.querySelector('.overlay');
-
-    function openSidebar() {
-      sidebar.classList.add('active');
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeSidebar() {
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
-    sidebarToggleBtn.addEventListener('click', openSidebar);
-    sidebarClose.addEventListener('click', closeSidebar);
-    overlay.addEventListener('click', closeSidebar);
-
-    // Chiudi la sidebar con il tasto ESC
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeSidebar();
-      }
-    });
-
-    // Tema salvato
-    document.addEventListener('DOMContentLoaded', function() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-      }
-    });
-
     // Funzione per costruire l'email completa
     function buildEmail() {
       const prefix = document.getElementById('emailPrefix').value.trim();
@@ -628,22 +431,9 @@
         mostraPopup("Errore di connessione al server", "error");
       }
     }
-
-    // Mostra la barra utente se loggato
-    document.addEventListener('DOMContentLoaded', function() {
-      const utente = localStorage.getItem('utente');
-      if(utente) {
-        document.getElementById('userbar').style.display = 'flex';
-        document.getElementById('useremail').innerText = utente;
-      }
-    });
-
-    function logout() {
-      localStorage.removeItem('utente');
-      window.location.href = "login.html";
-    }
   </script>
   <script src="theme.js"></script>
+  <script src="css/userbar/userbar.js"></script>
   <div id="popup" class="popup"></div>
 </body>
 </html>

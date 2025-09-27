@@ -11,7 +11,7 @@ servers = [
     },
     {
         "name": "documenti.py",
-        "cmd": [sys.executable, "documenti.py"]
+        "cmd": [sys.executable, "documenti_server.py"]
     }
 ]
 

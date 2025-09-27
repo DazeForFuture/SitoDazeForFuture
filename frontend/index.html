@@ -485,6 +485,7 @@
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      <a href="documenti.html">Documenti</a>
       
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
@@ -575,7 +576,7 @@
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
-  <script>
+<script>
     const fab = document.getElementById('theme-fab');
 
     fab.addEventListener('click', () => {
@@ -632,15 +633,19 @@
       } else {
         document.documentElement.removeAttribute('data-theme');
       }
-      // La funzione updateTitles è stata rimossa poiché non è più necessaria
     }
 
-    // On load
+    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
     const savedTheme = localStorage.getItem('theme-preference');
     if (savedTheme) {
       applyTheme(savedTheme);
       const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
       if (btn) btn.classList.add('active');
+    } else {
+      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
+      applyTheme('auto');
+      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+      if (autoBtn) autoBtn.classList.add('active');
     }
 
     // Mostra FAB con animazione al caricamento
@@ -680,7 +685,7 @@
       localStorage.removeItem('utente');
       window.location.href = "login.html";
     }
-  </script>
+</script>
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
 </body>

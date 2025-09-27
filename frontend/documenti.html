@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Daze for Future">
+  <title>Documenti - Daze for Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
+  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
+
+  <style>
+    :root {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.9);
+      --header-text: #1d1d1f;
+      --card-bg: #f5f5f7;
+      --accent: #007aff;
+      --success: #34c759;
+      --warning: #ff9500;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --bg: #1d1d1f;
+        --text: #f5f5f7;
+        --muted: #a1a1a6;
+        --footer-bg: #111;
+        --hover-bg: rgba(255,255,255,0.05);
+        --btn-bg: var(--text);
+        --btn-hover-bg: #ddd;
+        --header-bg: rgba(29,29,31,0.9);
+        --header-text: #f5f5f7;
+        --card-bg: #252526;
+        --success: #30d158;
+        --warning: #ff9f0a;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #1d1d1f;
+      --text: #f5f5f7;
+      --muted: #a1a1a6;
+      --footer-bg: #111;
+      --hover-bg: rgba(255,255,255,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #ddd;
+      --header-bg: rgba(29,29,31,0.9);
+      --header-text: #f5f5f7;
+      --card-bg: #252526;
+      --success: #30d158;
+      --warning: #ff9f0a;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.9);
+      --header-text: #1d1d1f;
+      --card-bg: #f5f5f7;
+      --success: #34c759;
+      --warning: #ff9500;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: var(--header-bg);
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--header-text, var(--text));
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
+
+    nav > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
+    }
+
+    nav > a:hover::after {
+      width: 100%;
+    }
+
+    section {
+      padding: 140px 2rem 100px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding-top: 200px;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 2rem;
+      background-color: var(--btn-bg);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background 0.3s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      transform: scale(1.05);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .text-muted {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    .upload-box {
+      border: 2px dashed var(--accent);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+      background: var(--card-bg);
+    }
+
+    .upload-box:hover {
+      background: var(--hover-bg);
+    }
+
+    .upload-box input {
+      display: none;
+    }
+
+    .upload-label {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .upload-label:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.05);
+    }
+
+    .upload-info {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .doc-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .doc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--muted);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .doc-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .doc-info {
+      flex: 1;
+    }
+
+    .doc-title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .doc-date {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .doc-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .doc-actions button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-view {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-download {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .btn-delete {
+      background: var(--warning);
+      color: #fff;
+    }
+
+    .doc-actions button:hover {
+      transform: scale(1.05);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+    }
+
+    /* Progress bar */
+    .upload-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      background: var(--success);
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 2000;
+      transform: translateX(150%);
+      transition: transform 0.3s ease;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.error {
+      background: var(--warning);
+    }
+
+    @media (max-width: 768px) {
+      nav a {
+        margin-left: 1rem;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+      .doc-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .doc-actions {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <div style="flex:1"></div>
+    
+    <nav id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="missione.html">Missione</a>
+      <a href="prossimi_eventi.html">Eventi</a>
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+      <a href="documenti.html">Documenti</a>
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span class="user-email" id="useremail"></span>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>
+    </nav>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Gestione Documenti</h1>
+      <p>Carica, visualizza e scarica i tuoi documenti. I file verranno organizzati automaticamente.</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">I tuoi documenti</h2>
+      
+      <div class="upload-box" id="uploadBox">
+        <label for="fileUpload" class="upload-label">📤 Carica documento</label>
+        <input type="file" id="fileUpload" />
+        <div class="upload-info">Supporta PDF, DOC, DOCX, TXT e file di immagini (max 10MB)</div>
+        <div class="upload-progress" id="uploadProgress"></div>
+      </div>
+      
+      <div id="documentsContainer">
+        <ul class="doc-list" id="docList">
+          <!-- Documenti caricati compariranno qui -->
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
+    <h2>Menu</h2>
+    <ul class="sidebar-menu">
+      <li><a href="index.html"><span>🏠</span> Home</a></li>
+      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
+      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="documenti.html"><span>📄</span> Documenti</a></li>
+      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+    </ul>
+    
+    <!-- User info per mobile nella sidebar -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+      <div class="mobile-user-header">
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+      </div>
+      <div class="mobile-user-email" id="mobileUseremail"></div>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Notification -->
+  <div class="notification" id="notification"></div>
+
+  <footer>
+    &copy; 2025 Daze for Future. Tutti i diritti riservati.
+  </footer>
+<script>
+// Configurazione
+const BASE_URL = "http://localhost:5001";
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const ALLOWED_TYPES = ['application/pdf', 'application/msword', 
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'text/plain', 'image/jpeg', 'image/png', 'image/gif'];
+
+// Elementi DOM
+const fileUpload = document.getElementById("fileUpload");
+const docList = document.getElementById("docList");
+const uploadProgress = document.getElementById("uploadProgress");
+const notification = document.getElementById("notification");
+const loginLink = document.getElementById("loginLink");
+const sidebarLoginLink = document.getElementById("sidebarLoginLink");
+const userbar = document.getElementById("userbar");
+const mobileUserInfo = document.getElementById("mobileUserInfo");
+
+// Funzione per mostrare notifiche
+function showNotification(message, isError = false) {
+    if (!notification) return;
+    
+    notification.textContent = message;
+    notification.className = 'notification' + (isError ? ' error' : '');
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+
+// Verifica se l'utente è autenticato localmente
+function isAuthenticated() {
+    return localStorage.getItem('utente') !== null;
+}
+
+// Reindirizza al login se non autenticato
+function redirectToLogin() {
+    window.location.href = "login.html";
+}
+
+// Gestione UI in base all'autenticazione
+function updateUIForAuth() {
+    const utente = localStorage.getItem('utente');
+    
+    if (utente) {
+        // Nascondi link login
+        if (loginLink) loginLink.style.display = 'none';
+        if (sidebarLoginLink) sidebarLoginLink.style.display = 'none';
+        
+        // Mostra userbar
+        if (userbar) {
+            userbar.style.display = 'flex';
+            document.getElementById('useremail').textContent = utente;
+            document.getElementById('userAvatar').textContent = getInitialFromEmail(utente);
+        }
+        
+        // Mostra user info mobile nella sidebar
+        if (mobileUserInfo) {
+            mobileUserInfo.style.display = 'block';
+            document.getElementById('mobileUseremail').textContent = utente;
+            document.getElementById('mobileUserAvatar').textContent = getInitialFromEmail(utente);
+        }
+    } else {
+        // Mostra link login
+        if (loginLink) loginLink.style.display = 'block';
+        if (sidebarLoginLink) sidebarLoginLink.style.display = 'block';
+        
+        // Nascondi userbar
+        if (userbar) userbar.style.display = 'none';
+        if (mobileUserInfo) mobileUserInfo.style.display = 'none';
+    }
+}
+
+// Funzione per generare l'iniziale dall'email
+function getInitialFromEmail(email) {
+    return email ? email.charAt(0).toUpperCase() : 'U';
+}
+
+// Test della connessione al server
+async function testConnection() {
+    try {
+        const response = await fetch(`${BASE_URL}/check_auth`, {
+            credentials: 'include',
+            method: 'GET'
+        });
+        
+        console.log('Test connessione - Status:', response.status);
+        
+        // Anche se non autenticato, il server risponde - quindi la connessione funziona
+        return true;
+    } catch (error) {
+        console.error('Test connessione fallito:', error);
+        return false;
+    }
+}
+
+// Verifica l'autenticazione con il server
+async function checkServerAuth() {
+    try {
+        const response = await fetch(`${BASE_URL}/check_auth`, {
+            credentials: 'include'
+        });
+        
+        if (response.status === 200) {
+            const data = await response.json();
+            return data.authenticated;
+        }
+        return false;
+    } catch (error) {
+        console.error('Errore verifica autenticazione server:', error);
+        return false;
+    }
+}
+
+// Caricamento iniziale
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('Pagina documenti caricata');
+    
+    // 1. Verifica se c'è un utente nel localStorage
+    if (!isAuthenticated()) {
+        console.log('Nessun utente nel localStorage, redirect al login');
+        redirectToLogin();
+        return;
+    }
+    
+    // 2. Testa la connessione al server
+    const connected = await testConnection();
+    if (!connected) {
+        showNotification("Impossibile connettersi al server. Verifica che il backend sia in esecuzione sulla porta 5001.", true);
+        return;
+    }
+    
+    // 3. Verifica l'autenticazione con il server
+    const serverAuthenticated = await checkServerAuth();
+    if (!serverAuthenticated) {
+        console.log('Sessione server scaduta, richiedi nuovo login');
+        showNotification("Sessione scaduta, effettua nuovamente il login", true);
+        localStorage.removeItem('utente');
+        setTimeout(() => redirectToLogin(), 2000);
+        return;
+    }
+    
+    // 4. Tutto OK, procedi
+    console.log('Utente autenticato, caricamento UI e documenti');
+    updateUIForAuth();
+    loadDocuments();
+});
+
+// Gestione logout
+async function logout() {
+    try {
+        await fetch(`${BASE_URL}/logout`, {
+            credentials: 'include'
+        });
+    } catch (error) {
+        console.error('Errore durante il logout:', error);
+    } finally {
+        localStorage.removeItem('utente');
+        redirectToLogin();
+    }
+}
+
+// Gestione upload file
+if (fileUpload) {
+    fileUpload.addEventListener("change", handleFileUpload);
+}
+
+async function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Validazione file
+    if (file.size > MAX_FILE_SIZE) {
+        showNotification("Il file è troppo grande (max 10MB)", true);
+        return;
+    }
+    
+    if (!ALLOWED_TYPES.includes(file.type)) {
+        showNotification("Tipo di file non supportato", true);
+        return;
+    }
+    
+    // Mostra progresso
+    uploadProgress.style.width = '0%';
+    
+    try {
+        const reader = new FileReader();
+        
+        reader.onloadstart = function() {
+            uploadProgress.style.width = '10%';
+        };
+        
+        reader.onprogress = function(evt) {
+            if (evt.lengthComputable) {
+                const percentLoaded = (evt.loaded / evt.total) * 100;
+                uploadProgress.style.width = `${Math.min(percentLoaded, 90)}%`;
+            }
+        };
+        
+        reader.onload = async function(evt) {
+            const base64data = evt.target.result.split(',')[1];
+            
+            try {
+                const res = await fetch(`${BASE_URL}/api/upload_document`, {
+                    method: "POST",
+                    headers: { 
+                        "Content-Type": "application/json"
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        filename: file.name,
+                        filedata: base64data
+                    })
+                });
+                
+                if (res.status === 401) {
+                    handleUnauthorized();
+                    return;
+                }
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                
+                const result = await res.json();
+                uploadProgress.style.width = '100%';
+                
+                if(result.success) {
+                    showNotification("Documento caricato con successo!");
+                    setTimeout(() => {
+                        uploadProgress.style.width = '0%';
+                        fileUpload.value = '';
+                        loadDocuments();
+                    }, 500);
+                } else {
+                    showNotification("Errore nel caricamento: " + (result.message || 'Unknown error'), true);
+                    uploadProgress.style.width = '0%';
+                }
+            } catch (error) {
+                console.error("Errore nell'upload:", error);
+                showNotification("Errore di connessione durante l'upload", true);
+                uploadProgress.style.width = '0%';
+            }
+        };
+        
+        reader.onerror = function() {
+            showNotification("Errore nella lettura del file", true);
+            uploadProgress.style.width = '0%';
+        };
+        
+        reader.readAsDataURL(file);
+    } catch (error) {
+        console.error("Errore nell'upload:", error);
+        showNotification("Errore durante l'upload del file", true);
+        uploadProgress.style.width = '0%';
+    }
+}
+
+// Gestione non autorizzato
+function handleUnauthorized() {
+    showNotification("Sessione scaduta, effettua nuovamente il login", true);
+    localStorage.removeItem('utente');
+    setTimeout(() => redirectToLogin(), 2000);
+}
+
+// Carica i documenti dell'utente
+async function loadDocuments() {
+    try {
+        console.log('Caricamento documenti...');
+        
+        const res = await fetch(`${BASE_URL}/api/list_documents`, {
+            credentials: 'include'
+        });
+        
+        if (res.status === 401) {
+            handleUnauthorized();
+            return;
+        }
+        
+        if (!res.ok) {
+            throw new Error(`Errore HTTP: ${res.status}`);
+        }
+        
+        const docs = await res.json();
+        console.log('Documenti ricevuti:', docs);
+        
+        renderDocuments(docs);
+        
+    } catch (error) {
+        console.error("Errore nel caricamento dei documenti:", error);
+        
+        if (error.message.includes('Failed to fetch')) {
+            showNotification("Errore di connessione al server", true);
+        } else {
+            showNotification("Errore nel caricamento dei documenti", true);
+        }
+        
+        renderDocuments([]);
+    }
+}
+
+// Renderizza i documenti
+function renderDocuments(docs) {
+    if (!docList) return;
+    
+    docList.innerHTML = "";
+    
+    if (!docs || docs.length === 0) {
+        docList.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">📁</div>
+                <p>Nessun documento caricato</p>
+                <p class="text-muted">Carica il tuo primo documento usando il pulsante sopra</p>
+            </div>
+        `;
+        return;
+    }
+    
+    docs.forEach(doc => {
+        const li = document.createElement("li");
+        li.className = "doc-item";
+
+        const info = document.createElement("div");
+        info.className = "doc-info";
+        info.innerHTML = `
+            <div class="doc-title">${escapeHtml(doc.filename)}</div>
+            <div class="doc-date">Caricato il ${formatDate(doc.uploaded_at)}</div>
+        `;
+
+        const actions = document.createElement("div");
+        actions.className = "doc-actions";
+
+        // Bottone Visualizza (solo per immagini e PDF)
+        if (doc.filename.toLowerCase().match(/\.(pdf|jpg|jpeg|png|gif)$/)) {
+            const viewBtn = document.createElement("button");
+            viewBtn.className = "btn-view";
+            viewBtn.innerHTML = `<span>👁</span> Visualizza`;
+            viewBtn.onclick = () => viewDocument(doc.id);
+            actions.appendChild(viewBtn);
+        }
+
+        // Bottone Scarica
+        const downloadBtn = document.createElement("button");
+        downloadBtn.className = "btn-download";
+        downloadBtn.innerHTML = `<span>⬇</span> Scarica`;
+        downloadBtn.onclick = () => downloadDocument(doc.id);
+        actions.appendChild(downloadBtn);
+
+        // Bottone Elimina
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "btn-delete";
+        deleteBtn.innerHTML = `<span>🗑</span> Elimina`;
+        deleteBtn.onclick = () => confirmDeleteDocument(doc.id, doc.filename);
+        actions.appendChild(deleteBtn);
+
+        li.appendChild(info);
+        li.appendChild(actions);
+        docList.appendChild(li);
+    });
+}
+
+// Funzione di escape per HTML (sicurezza)
+function escapeHtml(unsafe) {
+    if (!unsafe) return '';
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+// Visualizza documento
+function viewDocument(docId) {
+    window.open(`${BASE_URL}/api/view_document/${docId}`, "_blank");
+}
+
+// Scarica documento
+function downloadDocument(docId) {
+    const link = document.createElement('a');
+    link.href = `${BASE_URL}/api/download_document/${docId}`;
+    link.target = '_blank';
+    link.click();
+}
+
+// Conferma eliminazione documento
+function confirmDeleteDocument(docId, filename) {
+    if (confirm(`Sei sicuro di voler eliminare "${filename}"? L'operazione non è reversibile.`)) {
+        deleteDocument(docId);
+    }
+}
+
+// Elimina documento
+async function deleteDocument(docId) {
+    try {
+        const res = await fetch(`${BASE_URL}/api/delete_document/${docId}`, {
+            method: "DELETE",
+            credentials: 'include'
+        });
+        
+        if (res.status === 401) {
+            handleUnauthorized();
+            return;
+        }
+        
+        const result = await res.json();
+        
+        if(result && result.success) {
+            showNotification("Documento eliminato con successo");
+            loadDocuments();
+        } else {
+            showNotification("Errore nell'eliminazione del documento", true);
+        }
+    } catch (error) {
+        console.error("Errore nell'eliminazione del documento:", error);
+        showNotification("Errore di connessione durante l'eliminazione", true);
+    }
+}
+
+// Formatta la data
+function formatDate(dateString) {
+    try {
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        return new Date(dateString).toLocaleDateString('it-IT', options);
+    } catch (error) {
+        return dateString || 'Data sconosciuta';
+    }
+}
+</script>
+  <script src="theme.js"></script>
+  <script src="css/sidebar/sidebar.js"></script>
+  <script src="css/userbar/userbar.js"></script>
+</body>
+</html>
