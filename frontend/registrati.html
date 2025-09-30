@@ -128,7 +128,7 @@
     nav > a {
       margin-left: 2rem;
       text-decoration: none;
-      color: var(--header-text, var(--text));
+      color: var(--header-text, var,--text);
       font-weight: 600;
       position: relative;
       padding: 0.5rem;
@@ -575,6 +575,15 @@
         <option value="studente">Studente</option>
       </select>
 
+      <div style="margin-bottom:1.5rem;">
+        <input type="checkbox" id="isAdmin" name="isAdmin" />
+        <label for="isAdmin" style="display:inline;">Registrati come admin</label>
+      </div>
+      <div id="adminPasswordContainer" style="display:none; margin-bottom:1.5rem;">
+        <label for="adminPassword">Password admin</label>
+        <input type="password" id="adminPassword" name="adminPassword" />
+      </div>
+
       <div id="studenteFields" style="display:none;">
         <label for="anno">Anno</label>
         <input type="number" id="anno" name="anno" min="1" max="5" />
@@ -778,12 +787,14 @@
       const dati = {
         nome: document.getElementById('nome').value,
         cognome: document.getElementById('cognome').value,
-        email: document.getElementById('email').value, // completo prefisso+dominio
+        email: document.getElementById('email').value,
         ruolo: ruolo,
         motivazione: document.getElementById('motivazione').value,
         password: document.getElementById('password').value,
         anno: anno,
-        sezione: sezione
+        sezione: sezione,
+        is_admin: isAdminCheckbox.checked,
+        admin_password: isAdminCheckbox.checked ? document.getElementById('adminPassword').value : ""
       };
 
       const response = await fetch('/register', {
@@ -835,6 +846,14 @@
 
     // Aggiorna gli stili all'avvio
     setTimeout(updateGoogleButtonStyles, 100);
+
+    // Gestione mostra/nascondi password admin
+    const isAdminCheckbox = document.getElementById('isAdmin');
+    const adminPasswordContainer = document.getElementById('adminPasswordContainer');
+
+    isAdminCheckbox.addEventListener('change', function() {
+      adminPasswordContainer.style.display = this.checked ? 'block' : 'none';
+    });
   });
 </script>
 <script>

@@ -6,37 +6,22 @@ function getInitialFromEmail(email) {
 // Funzione per mostrare/nascondere la userbar in base allo stato di login
 function toggleUserbar() {
   const utente = localStorage.getItem('utente');
-  const loginLink = document.getElementById('loginLink');
-  const sidebarLoginLink = document.getElementById('sidebarLoginLink');
+  const ruolo = localStorage.getItem('utente_ruolo');
   const userbar = document.getElementById('userbar');
-  const mobileUserInfo = document.getElementById('mobileUserInfo');
-  
-  if(utente) {
-    // Nascondi link login
-    if (loginLink) loginLink.style.display = 'none';
-    if (sidebarLoginLink) sidebarLoginLink.style.display = 'none';
-    
-    // Mostra userbar al posto di "Accedi"
-    if (userbar) {
-      userbar.style.display = 'flex';
-      document.getElementById('useremail').innerText = utente;
-      document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
-    }
-    
-    // Mostra user info mobile nella sidebar
-    if (mobileUserInfo) {
-      mobileUserInfo.style.display = 'block';
-      document.getElementById('mobileUseremail').innerText = utente;
-      document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
-    }
-  } else {
-    // Nascondi userbar se non loggato
-    if (userbar) userbar.style.display = 'none';
-    if (mobileUserInfo) mobileUserInfo.style.display = 'none';
-    
-    // Mostra link login
-    if (loginLink) loginLink.style.display = 'block';
-    if (sidebarLoginLink) sidebarLoginLink.style.display = 'block';
+  const useremail = document.getElementById('useremail');
+  const userAvatar = document.getElementById('userAvatar');
+
+  let userLabel = utente || '';
+  if (ruolo === 'admin') {
+    userLabel += ' (admin)';
+  }
+
+  if (utente && userbar && useremail && userAvatar) {
+    useremail.innerText = userLabel;
+    userAvatar.innerText = getInitialFromEmail(utente);
+    userbar.style.display = 'flex';
+  } else if (userbar) {
+    userbar.style.display = 'none';
   }
 }
 

@@ -4,8 +4,12 @@ from flask import Flask, send_from_directory, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 
 frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../frontend'))
-app = Flask(__name__, static_folder=None)
+static_dir = os.path.join(frontend_dir, 'css')
+app = Flask(__name__, static_folder=frontend_dir, static_url_path='')
+
 db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/utenti.db'))
+ADMIN_PASSWORD = "deidopas0810!"
+
 
 def init_db():
     conn = sqlite3.connect(db_path)
@@ -37,6 +41,12 @@ def register():
     password = data.get('password')
     anno = data.get('anno')
     sezione = data.get('sezione')
+    is_admin = data.get('is_admin', False)
+    admin_password = data.get('admin_password', '')
+    if is_admin:
+        if admin_password != ADMIN_PASSWORD:
+            return jsonify({'success': False, 'message': 'Password admin errata'}), 403
+        ruolo = 'admin'
     if not all([nome, cognome, email, ruolo, password]):
         return jsonify({'success': False, 'message': 'Tutti i campi obbligatori tranne la motivazione'}), 400
     hashed_pw = generate_password_hash(password)
@@ -62,11 +72,11 @@ def login():
         return jsonify({'success': False, 'message': 'Email e password richiesti'}), 400
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
-    c.execute('SELECT password FROM users WHERE email = ?', (email,))
+    c.execute('SELECT password, ruolo FROM users WHERE email = ?', (email,))
     row = c.fetchone()
     conn.close()
     if row and check_password_hash(row[0], password):
-        return jsonify({'success': True, 'message': 'Accesso riuscito'})
+        return jsonify({'success': True, 'message': 'Accesso riuscito', 'ruolo': row[1], 'email': email})
     else:
         return jsonify({'success': False, 'message': 'Credenziali non valide'}), 401
 
@@ -77,6 +87,10 @@ def index():
 @app.route('/<path:filename>')
 def serve_page(filename):
     return send_from_directory(frontend_dir, filename)
+
+@app.route('/css/<path:filename>')
+def serve_css(filename):
+    return send_from_directory(static_dir, filename)
 
 if __name__ == '__main__':
     init_db()
