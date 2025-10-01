@@ -348,6 +348,7 @@
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    <button id="addPostBtn" style="display:none; position: absolute; top: 16px; right: 16px; font-size: 2rem; background: var(--accent); color: #fff; border: none; border-radius: 50%; width: 48px; height: 48px; cursor: pointer; z-index: 1100;">+</button>
   </header>
 
   <main>
@@ -441,5 +442,71 @@
   <script src="css/sidebar/sidebar.js"></script>
   <script src="css/userbar/userbar.js"></script>
   <script src="theme.js"></script>
+
+  <div id="postFormContainer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1200; align-items:center; justify-content:center;">
+    <form id="postForm" style="background:#fff; padding:2rem; border-radius:16px; max-width:400px; width:90vw; display:flex; flex-direction:column; gap:1rem;">
+      <h2>Nuovo Evento/Post</h2>
+      <input type="text" id="postTitolo" placeholder="Titolo" required />
+      <textarea id="postContenuto" placeholder="Contenuto" rows="5" required></textarea>
+      <input type="text" id="postImmagine" placeholder="URL immagine (opzionale)" />
+      <div style="display:flex; gap:1rem;">
+        <button type="submit" class="btn">Pubblica</button>
+        <button type="button" class="btn btn-outline" id="closePostForm">Annulla</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+  // Mostra il "+" solo se admin
+  const ruolo = localStorage.getItem('utente_ruolo');
+  const addPostBtn = document.getElementById('addPostBtn');
+  const postFormContainer = document.getElementById('postFormContainer');
+  const closePostForm = document.getElementById('closePostForm');
+  const postForm = document.getElementById('postForm');
+
+  if (ruolo === 'admin' && addPostBtn) {
+    addPostBtn.style.display = 'block';
+  }
+
+  // Apri il form
+  if (addPostBtn) {
+    addPostBtn.addEventListener('click', () => {
+      postFormContainer.style.display = 'flex';
+    });
+  }
+
+  // Chiudi il form
+  if (closePostForm) {
+    closePostForm.addEventListener('click', () => {
+      postFormContainer.style.display = 'none';
+    });
+  }
+
+  // Pubblica il post
+  if (postForm) {
+    postForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const titolo = document.getElementById('postTitolo').value;
+      const contenuto = document.getElementById('postContenuto').value;
+      const immagine = document.getElementById('postImmagine').value;
+
+      const res = await fetch('/api/post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titolo, contenuto, immagine })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('Post pubblicato!');
+        postFormContainer.style.display = 'none';
+        postForm.reset();
+        location.reload(); // ricarica la pagina per vedere il nuovo post
+      } else {
+        alert(data.message || 'Errore nella pubblicazione');
+      }
+    });
+  }
+});
+  </script>
 </body>
 </html>
