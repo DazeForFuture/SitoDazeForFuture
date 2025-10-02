@@ -319,13 +319,24 @@
     nav a[href="login.html"]:hover {
       text-decoration: underline;
     }
+
+    #addPostBtn {
+      display: none;
+      margin-left: 2rem;
+      font-size: 2rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
-    <div style="flex:1"></div>
-    
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
@@ -346,9 +357,9 @@
       
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
+      <button id="addPostBtn" style="display:none; margin-left:2rem; font-size:2rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
-    <button id="addPostBtn" style="display:none; position: absolute; top: 16px; right: 16px; font-size: 2rem; background: var(--accent); color: #fff; border: none; border-radius: 50%; width: 48px; height: 48px; cursor: pointer; z-index: 1100;">+</button>
   </header>
 
   <main>
@@ -457,15 +468,13 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-  // Mostra il "+" solo se admin
   const ruolo = localStorage.getItem('utente_ruolo');
   const addPostBtn = document.getElementById('addPostBtn');
-  const postFormContainer = document.getElementById('postFormContainer');
-  const closePostForm = document.getElementById('closePostForm');
-  const postForm = document.getElementById('postForm');
+  console.log('Ruolo:', ruolo); 
 
   if (ruolo === 'admin' && addPostBtn) {
     addPostBtn.style.display = 'block';
+    console.log('Mostro il pulsante +'); 
   }
 
   // Apri il form
@@ -490,7 +499,7 @@
       const contenuto = document.getElementById('postContenuto').value;
       const immagine = document.getElementById('postImmagine').value;
 
-      const res = await fetch('/api/post', {
+      const res = await fetch('http://localhost:5002/api/post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ titolo, contenuto, immagine })
@@ -500,7 +509,7 @@
         alert('Post pubblicato!');
         postFormContainer.style.display = 'none';
         postForm.reset();
-        location.reload(); // ricarica la pagina per vedere il nuovo post
+        location.reload(); 
       } else {
         alert(data.message || 'Errore nella pubblicazione');
       }
@@ -508,5 +517,33 @@
   }
 });
   </script>
+  <script>
+document.addEventListener('DOMContentLoaded', async function() {
+  // ...esistente codice per il pulsante + ...
+
+  // Carica i post pubblicati e mostrali nella pagina
+  const eventsContainer = document.querySelector('.events-container');
+  try {
+    const res = await fetch('http://localhost:5002/api/post');
+    const posts = await res.json();
+    posts.forEach(post => {
+      const event = document.createElement('article');
+      event.className = 'event';
+      event.innerHTML = `
+        <div class="event-header">
+          <h2>${post.titolo}</h2>
+        </div>
+        <div class="event-body">
+          <p>${post.contenuto}</p>
+          ${post.immagine ? `<img src="${post.immagine}" alt="Immagine evento" style="max-width:100%;border-radius:12px;margin-top:1rem;">` : ''}
+        </div>
+      `;
+      eventsContainer.appendChild(event);
+    });
+  } catch (err) {
+    console.error('Errore nel caricamento dei post:', err);
+  }
+});
+</script>
 </body>
 </html>
