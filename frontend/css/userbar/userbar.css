@@ -1,3 +1,31 @@
+/* Root per badge */
+
+:root {
+  --admin-badge: #ff3b30;
+  --user-badge: #34c759;
+  --moderator-badge: #ff9500;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --admin-badge: #ff453a;
+    --user-badge: #30d158;
+    --moderator-badge: #ff9f0a;
+  }
+}
+
+:root[data-theme="dark"] {
+  --admin-badge: #ff453a;
+  --user-badge: #30d158;
+  --moderator-badge: #ff9f0a;
+}
+
+:root[data-theme="light"] {
+  --admin-badge: #ff3b30;
+  --user-badge: #34c759;
+  --moderator-badge: #ff9500;
+}
+
 /* Stili per la userbar */
 .user-info {
   display: flex;
@@ -31,10 +59,34 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.user-email {
-  font-weight: 500;
-  font-size: 0.9rem;
+.user-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-right: 0.8rem;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.user-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+.badge-admin {
+  background: var(--admin-badge);
+}
+
+.badge-user {
+  background: var(--user-badge);
 }
 
 .logout-btn {
@@ -80,19 +132,36 @@
   margin-bottom: 1rem;
 }
 
-.mobile-user-email {
-  font-weight: 600;
+.mobile-user-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 1rem;
-  text-align: center;
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  width: 100%;
 }
 
-/* Media queries per responsive design */
+.mobile-user-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.mobile-user-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
-  .user-email {
-    display: none;
+  .user-display {
+    flex-direction: column;
+    gap: 0.2rem;
+    align-items: flex-start;
   }
   
   .user-info {

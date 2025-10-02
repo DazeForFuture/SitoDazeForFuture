@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/userbar/userbar.css" />
 
   <style>
+    /* ... il tuo CSS esistente rimane invariato ... */
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -94,7 +95,7 @@
       z-index: 1000;
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      background: var(--header-bg); /* Usa la variabile corretta */
+      background: var(--header-bg);
     }
     .logo {
       font-weight: 800;
@@ -331,22 +332,167 @@
       width: 48px;
       height: 48px;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #addPostBtn:hover {
+      transform: scale(1.1);
+      background: #0056cc;
+    }
+
+    /* Stili migliorati per il popup */
+    #postFormContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #postForm {
+      background: var(--bg);
+      padding: 2.5rem;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    #postForm h2 {
+      margin-bottom: 1.5rem;
+      color: var(--text);
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--card-bg);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--card-bg);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--card-bg);
+    }
+
+    .form-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .optional-badge {
+      font-size: 0.7rem;
+      background: var(--muted);
+      color: var(--bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 10px;
+      font-weight: 400;
     }
   </style>
 </head>
 <body>
-  <header>
+<header>
     <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <div style="flex:1"></div>
+    
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      <a href="documenti.html">Documenti</a>
       
-      <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
-        <span class="user-email" id="useremail"></span>
+        <div class="user-display">
+          <span class="user-name" id="userName"></span>
+          <span class="user-badge" id="userBadge"></span>
+        </div>
         <button class="logout-btn" onclick="logout()">
           <span>Logout</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -354,13 +500,13 @@
           </svg>
         </button>
       </div>
-      
-      <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
-      <button id="addPostBtn" style="display:none; margin-left:2rem; font-size:2rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
     </nav>
+    
+    <button id="addPostBtn" style="display:none; margin-left:2rem; font-size:2rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
+    
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
-  </header>
+</header>
 
   <main>
     <section class="hero">
@@ -393,33 +539,8 @@
           <button class="btn btn-outline" style="margin-left: 1rem;">Aggiungi al calendario</button>
         </div>
       </article>
-
-  <!--    <article class="event">
-        <div class="event-header">
-          <h2>Hackathon Open Source - 3 Luglio 2025</h2>
-          <div class="event-meta">
-            <span>📅 3-4 Luglio 2025</span>
-            <span>🕒 24 ore</span>
-            <span>📍 Aula Informatica</span>
-          </div>
-        </div>
-        <div class="event-body">
-          <p>Un'intera giornata dedicata allo sviluppo di progetti open source che promuovano la sostenibilità ambientale. L'hackathon è aperto a tutti gli studenti, indipendentemente dal loro livello di competenza tecnica.</p>
-          <p><strong>Temi principali:</strong></p>
-          <ul style="color: var(--muted); margin-left: 1.5rem; margin-bottom: 1.5rem;">
-            <li>Applicazioni per il monitoraggio dei consumi energetici</li>
-            <li>Strumenti per la condivisione di risorse</li>
-            <li>Piattaforme di educazione ambientale</li>
-            <li>Soluzioni per la riduzione degli sprechi</li>
-          </ul>
-          <p>I migliori progetti riceveranno supporto per essere implementati nella scuola e nella comunità locale.</p>
-        </div>
-        <div class="event-footer">
-          <button class="btn">Iscriviti all'hackathon</button>
-          <button class="btn btn-outline" style="margin-left: 1rem;">Scopri di più</button>
-        </div>
-      </article> -->
     </section>
+    
     <section class="calendar-section">
       <h2>Calendario Eventi</h2>
       <div class="calendar-grid">
@@ -446,7 +567,6 @@
     </ul>
   </aside>
 
-
   <footer>
     <p>&copy; 2025 Daze for Future. Tutti i diritti riservati.</p>
   </footer>
@@ -454,96 +574,218 @@
   <script src="css/userbar/userbar.js"></script>
   <script src="theme.js"></script>
 
-  <div id="postFormContainer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1200; align-items:center; justify-content:center;">
-    <form id="postForm" style="background:#fff; padding:2rem; border-radius:16px; max-width:400px; width:90vw; display:flex; flex-direction:column; gap:1rem;">
-      <h2>Nuovo Evento/Post</h2>
-      <input type="text" id="postTitolo" placeholder="Titolo" required />
-      <textarea id="postContenuto" placeholder="Contenuto" rows="5" required></textarea>
-      <input type="text" id="postImmagine" placeholder="URL immagine (opzionale)" />
-      <div style="display:flex; gap:1rem;">
-        <button type="submit" class="btn">Pubblica</button>
+  <!-- Popup migliorato per aggiungere eventi -->
+  <div id="postFormContainer" style="display:none;">
+    <form id="postForm">
+      <button type="button" class="close-btn" id="closePostForm">&times;</button>
+      <h2>Crea Nuovo Evento</h2>
+      
+      <div class="form-section">
+        <div class="form-section-title">📝 Informazioni Base</div>
+        <div class="form-group">
+          <label for="postTitolo">Titolo Evento *</label>
+          <input type="text" id="postTitolo" placeholder="Es: Hackathon Sostenibilità" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="postContenuto">Descrizione Evento *</label>
+          <textarea id="postContenuto" placeholder="Descrivi l'evento, gli obiettivi, cosa impareranno i partecipanti..." rows="4" required></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">📅 Data e Orario</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="postData">Data Evento *</label>
+            <input type="date" id="postData" required />
+          </div>
+          <div class="form-group">
+            <label for="postOra">Orario *</label>
+            <input type="time" id="postOra" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="postDurata">Durata Evento</label>
+          <select id="postDurata">
+            <option value="1">1 ora</option>
+            <option value="2">2 ore</option>
+            <option value="3">3 ore</option>
+            <option value="4">4 ore</option>
+            <option value="8">Mezza giornata</option>
+            <option value="24">Giornata intera</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">📍 Luogo</div>
+        <div class="form-group">
+          <label for="postLuogo">Luogo Evento *</label>
+          <input type="text" id="postLuogo" placeholder="Es: Aula Informatica, Laboratorio di Scienze..." required />
+        </div>
+        <div class="form-group">
+          <label for="postIndirizzo">Indirizzo Completo</label>
+          <input type="text" id="postIndirizzo" placeholder="Es: Via Parini 8, Torino" />
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">
+          🖼️ Media
+          <span class="optional-badge">Opzionale</span>
+        </div>
+        <div class="form-group">
+          <label for="postImmagine">URL Immagine Copertina</label>
+          <input type="url" id="postImmagine" placeholder="https://example.com/immagine.jpg" />
+        </div>
+        <div class="form-group">
+          <label for="postLink">Link Evento Esterno</label>
+          <input type="url" id="postLink" placeholder="https://example.com/evento" />
+        </div>
+      </div>
+
+      <div class="form-actions">
         <button type="button" class="btn btn-outline" id="closePostForm">Annulla</button>
+        <button type="submit" class="btn">Crea Evento</button>
       </div>
     </form>
   </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-  const ruolo = localStorage.getItem('utente_ruolo');
-  const addPostBtn = document.getElementById('addPostBtn');
-  console.log('Ruolo:', ruolo); 
+      const ruolo = localStorage.getItem('utente_ruolo');
+      const addPostBtn = document.getElementById('addPostBtn');
+      const postFormContainer = document.getElementById('postFormContainer');
+      const postForm = document.getElementById('postForm');
+      const closePostForm = document.getElementById('closePostForm');
 
-  if (ruolo === 'admin' && addPostBtn) {
-    addPostBtn.style.display = 'block';
-    console.log('Mostro il pulsante +'); 
-  }
+      console.log('Ruolo:', ruolo); 
 
-  // Apri il form
-  if (addPostBtn) {
-    addPostBtn.addEventListener('click', () => {
-      postFormContainer.style.display = 'flex';
-    });
-  }
+      // Mostra il pulsante + per gli admin
+      if (ruolo === 'admin' && addPostBtn) {
+        addPostBtn.style.display = 'block';
+        console.log('Mostro il pulsante +'); 
+      }
 
-  // Chiudi il form
-  if (closePostForm) {
-    closePostForm.addEventListener('click', () => {
-      postFormContainer.style.display = 'none';
-    });
-  }
+      // Apri il form
+      if (addPostBtn) {
+        addPostBtn.addEventListener('click', () => {
+          postFormContainer.style.display = 'flex';
+          // Imposta la data di default a oggi
+          document.getElementById('postData').valueAsDate = new Date();
+        });
+      }
 
-  // Pubblica il post
-  if (postForm) {
-    postForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const titolo = document.getElementById('postTitolo').value;
-      const contenuto = document.getElementById('postContenuto').value;
-      const immagine = document.getElementById('postImmagine').value;
+      // Chiudi il form
+      if (closePostForm) {
+        closePostForm.addEventListener('click', () => {
+          postFormContainer.style.display = 'none';
+        });
+      }
 
-      const res = await fetch('http://localhost:5002/api/post', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ titolo, contenuto, immagine })
+      // Chiudi il form cliccando fuori
+      postFormContainer.addEventListener('click', (e) => {
+        if (e.target === postFormContainer) {
+          postFormContainer.style.display = 'none';
+        }
       });
-      const data = await res.json();
-      if (data.success) {
-        alert('Post pubblicato!');
-        postFormContainer.style.display = 'none';
-        postForm.reset();
-        location.reload(); 
-      } else {
-        alert(data.message || 'Errore nella pubblicazione');
+
+      // Pubblica l'evento
+      if (postForm) {
+        postForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const titolo = document.getElementById('postTitolo').value;
+          const contenuto = document.getElementById('postContenuto').value;
+          const data = document.getElementById('postData').value;
+          const ora = document.getElementById('postOra').value;
+          const durata = document.getElementById('postDurata').value;
+          const luogo = document.getElementById('postLuogo').value;
+          const indirizzo = document.getElementById('postIndirizzo').value;
+          const immagine = document.getElementById('postImmagine').value;
+          const link = document.getElementById('postLink').value;
+
+          const eventoData = {
+            titolo,
+            contenuto,
+            data,
+            ora,
+            durata,
+            luogo,
+            indirizzo,
+            immagine,
+            link,
+            tipo: 'evento'
+          };
+
+          try {
+            const res = await fetch('http://localhost:5002/api/post', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(eventoData)
+            });
+            const data = await res.json();
+            if (data.success) {
+              alert('Evento creato con successo!');
+              postFormContainer.style.display = 'none';
+              postForm.reset();
+              location.reload(); 
+            } else {
+              alert(data.message || 'Errore nella creazione dell\'evento');
+            }
+          } catch (error) {
+            console.error('Errore:', error);
+            alert('Errore di connessione');
+          }
+        });
       }
     });
-  }
-});
-  </script>
-  <script>
-document.addEventListener('DOMContentLoaded', async function() {
-  // ...esistente codice per il pulsante + ...
 
-  // Carica i post pubblicati e mostrali nella pagina
-  const eventsContainer = document.querySelector('.events-container');
-  try {
-    const res = await fetch('http://localhost:5002/api/post');
-    const posts = await res.json();
-    posts.forEach(post => {
-      const event = document.createElement('article');
-      event.className = 'event';
-      event.innerHTML = `
-        <div class="event-header">
-          <h2>${post.titolo}</h2>
-        </div>
-        <div class="event-body">
-          <p>${post.contenuto}</p>
-          ${post.immagine ? `<img src="${post.immagine}" alt="Immagine evento" style="max-width:100%;border-radius:12px;margin-top:1rem;">` : ''}
-        </div>
-      `;
-      eventsContainer.appendChild(event);
+    // Carica gli eventi esistenti
+    document.addEventListener('DOMContentLoaded', async function() {
+      const eventsContainer = document.querySelector('.events-container');
+      try {
+        const res = await fetch('http://localhost:5002/api/post');
+        const posts = await res.json();
+        
+        // Filtra solo gli eventi (potresti avere diversi tipi di post)
+        const eventi = posts.filter(post => post.tipo === 'evento' || !post.tipo); // Supporto retroattivo
+        
+        eventi.forEach(post => {
+          const event = document.createElement('article');
+          event.className = 'event';
+          
+          // Formatta la data e l'orario
+          const dataOra = post.data ? 
+            `${new Date(post.data).toLocaleDateString('it-IT')} ${post.ora || ''}` : 
+            'Data da definire';
+          
+          event.innerHTML = `
+            <div class="event-header">
+              <h2>${post.titolo}</h2>
+              <div class="event-meta">
+                <span>📅 ${dataOra}</span>
+                ${post.durata ? `<span>🕒 ${post.durata} ore</span>` : ''}
+                ${post.luogo ? `<span>📍 ${post.luogo}</span>` : ''}
+              </div>
+            </div>
+            <div class="event-body">
+              <p>${post.contenuto}</p>
+              ${post.immagine ? `<img src="${post.immagine}" alt="Immagine evento" style="max-width:100%;border-radius:12px;margin-top:1rem;">` : ''}
+              ${post.link ? `<p><a href="${post.link}" target="_blank" style="color: var(--accent);">🔗 Maggiori informazioni</a></p>` : ''}
+            </div>
+            <div class="event-footer">
+              <button class="btn">Partecipa all'evento</button>
+              <button class="btn btn-outline" style="margin-left: 1rem;">Aggiungi al calendario</button>
+            </div>
+          `;
+          eventsContainer.appendChild(event);
+        });
+      } catch (err) {
+        console.error('Errore nel caricamento degli eventi:', err);
+      }
     });
-  } catch (err) {
-    console.error('Errore nel caricamento dei post:', err);
-  }
-});
-</script>
+  </script>
 </body>
 </html>

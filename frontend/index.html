@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
-
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
   <style>
     :root {
       --bg: #fff;
@@ -26,6 +26,8 @@
       --sidebar-border: rgba(0,0,0,0.1);
       --sidebar-shadow: rgba(0,0,0,0.1);
       --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -43,6 +45,8 @@
         --sidebar-border: rgba(255,255,255,0.1);
         --sidebar-shadow: rgba(0,0,0,0.3);
         --accent: #0a84ff;
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
       }
     }
 
@@ -60,6 +64,8 @@
       --sidebar-border: rgba(255,255,255,0.1);
       --sidebar-shadow: rgba(0,0,0,0.3);
       --accent: #0a84ff;
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
     }
 
     :root[data-theme="light"] {
@@ -76,6 +82,8 @@
       --sidebar-border: rgba(0,0,0,0.1);
       --sidebar-shadow: rgba(0,0,0,0.1);
       --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
     }
 
     :root[data-theme="dark"] header {
@@ -238,7 +246,6 @@
     nav a[href="login.html"]:hover {
       text-decoration: underline;
     }
-
     /* Floating Action Button */
     #theme-fab {
       position: fixed;
@@ -366,113 +373,6 @@
         display: none;
       }
     }
-    
-    /* Stili per la userbar */
-    .user-info {
-      display: flex;
-      align-items: center;
-      margin-left: 2rem;
-      color: var(--header-text);
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-    }
-    
-    .user-info:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-    
-    .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #007aff, #00c6ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 0.75rem;
-      color: white;
-      font-weight: 600;
-      font-size: 1rem;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    
-    .user-email {
-      font-weight: 500;
-      font-size: 0.9rem;
-      margin-right: 0.8rem;
-    }
-    
-    .logout-btn {
-      background: transparent;
-      border: 1px solid var(--header-text);
-      color: var(--header-text);
-      padding: 0.4rem 1rem;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    
-    .logout-btn:hover {
-      background: var(--header-text);
-      color: var(--header-bg);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    
-    .logout-btn:active {
-      transform: translateY(0);
-    }
-    
-    @media (max-width: 1024px) {
-      .user-email {
-        display: none;
-      }
-      
-      .user-info {
-        margin-left: 1rem;
-        padding: 0.5rem;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .user-info {
-        display: none;
-      }
-      
-      .mobile-user-info {
-        display: flex;
-        flex-direction: column;
-        padding: 1.5rem;
-        border-top: 1px solid var(--sidebar-border);
-        margin-top: 1rem;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-      }
-      
-      .mobile-user-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-      
-      .mobile-user-email {
-        font-weight: 600;
-        margin-bottom: 1rem;
-        text-align: center;
-        padding: 0.5rem;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -490,7 +390,10 @@
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
-        <span class="user-email" id="useremail"></span>
+        <div class="user-display">
+          <span class="user-name" id="userName"></span>
+          <span class="user-badge" id="userBadge"></span>
+        </div>
         <button class="logout-btn" onclick="logout()">
           <span>Logout</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -498,7 +401,6 @@
           </svg>
         </button>
       </div>
-      
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
@@ -543,14 +445,17 @@
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
-    
+
     <!-- User info per mobile nella sidebar -->
     <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
       <div class="mobile-user-header">
         <div class="user-avatar" id="mobileUserAvatar"></div>
         <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
       </div>
-      <div class="mobile-user-email" id="mobileUseremail"></div>
+      <div class="mobile-user-display">
+        <span class="mobile-user-name" id="mobileUserName"></span>
+        <span class="mobile-user-badge" id="mobileUserBadge"></span>
+      </div>
       <button class="logout-btn" onclick="logout()" style="justify-content: center;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -654,14 +559,31 @@
       fab.classList.add('show');
     });
 
+    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    function getNameFromEmail(email) {
+      return email.split('@')[0];
+    }
+
     // Funzione per generare l'iniziale dall'email
     function getInitialFromEmail(email) {
       return email.charAt(0).toUpperCase();
     }
 
+    // Funzione per ottenere il testo del badge in base al ruolo
+    function getBadgeText(role) {
+      return role === 'admin' ? 'Admin' : 'User';
+    }
+
+    // Funzione per ottenere la classe CSS del badge in base al ruolo
+    function getBadgeClass(role) {
+      return role === 'admin' ? 'badge-admin' : 'badge-user';
+    }
+
     // Mostra la barra utente se loggato
     document.addEventListener('DOMContentLoaded', function() {
       const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      
       if(utente) {
         // Nascondi link login
         document.getElementById('loginLink').style.display = 'none';
@@ -670,19 +592,26 @@
         // Mostra userbar al posto di "Accedi"
         const userbar = document.getElementById('userbar');
         userbar.style.display = 'flex';
-        document.getElementById('useremail').innerText = utente;
+        
+        // Imposta nome utente e badge
+        document.getElementById('userName').innerText = getNameFromEmail(utente);
+        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
         
         // Mostra user info mobile nella sidebar
         const mobileUserInfo = document.getElementById('mobileUserInfo');
         mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUseremail').innerText = utente;
+        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
       }
     });
 
     function logout() {
       localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
       window.location.href = "login.html";
     }
 </script>

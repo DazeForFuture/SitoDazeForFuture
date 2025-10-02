@@ -10,7 +10,7 @@ servers = [
         "cmd": [sys.executable, "server.py"]
     },
     {
-        "name": "documenti.py",
+        "name": "documenti_server.py",
         "cmd": [sys.executable, "documenti_server.py"]
     },
 
@@ -24,7 +24,7 @@ processes = []
 
 def start_servers():
     for server in servers:
-        print(f"Starting {server['name']}...")
+        print(f"Sto avviando {server['name']}...")
         p = subprocess.Popen(server["cmd"])
         processes.append(p)
     print("Ho aperto tutti i server.")
