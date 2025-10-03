@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify 
 from flask_cors import CORS
 import os
 import sqlite3
@@ -15,7 +15,12 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             titolo TEXT NOT NULL,
             contenuto TEXT NOT NULL,
-            immagine TEXT   
+            immagine TEXT,
+            data TEXT,
+            orario TEXT,
+            durata TEXT,
+            luogo TEXT,
+            indirizzo TEXT
         )
     """)
     conn.commit()
@@ -28,14 +33,22 @@ def crea_post():
     data = request.json
     titolo = data.get('titolo')
     contenuto = data.get('contenuto')
-    immagine = data.get('immagine')  
+    immagine = data.get('immagine')
+    data_evento = data.get('data')
+    orario = data.get('orario')
+    durata = data.get('durata')
+    luogo = data.get('luogo')
+    indirizzo = data.get('indirizzo')
 
     if not titolo or not contenuto:
         return jsonify({'success': False, 'message': 'Titolo e contenuto obbligatori'}), 400
 
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
-    c.execute("INSERT INTO posts (titolo, contenuto, immagine) VALUES (?, ?, ?)", (titolo, contenuto, immagine))
+    c.execute("""
+        INSERT INTO posts (titolo, contenuto, immagine, data, orario, durata, luogo, indirizzo)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """, (titolo, contenuto, immagine, data_evento, orario, durata, luogo, indirizzo))
     conn.commit()
     conn.close()
     return jsonify({'success': True, 'message': 'Post pubblicato'})
@@ -44,9 +57,19 @@ def crea_post():
 def leggi_post():
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
-    c.execute("SELECT id, titolo, contenuto, immagine FROM posts ORDER BY id DESC")
+    c.execute("SELECT id, titolo, contenuto, immagine, data, orario, durata, luogo, indirizzo FROM posts ORDER BY id DESC")
     posts = [
-        {'id': row[0], 'titolo': row[1], 'contenuto': row[2], 'immagine': row[3]}
+        {
+            'id': row[0],
+            'titolo': row[1],
+            'contenuto': row[2],
+            'immagine': row[3],
+            'data': row[4],
+            'orario': row[5],
+            'durata': row[6],
+            'luogo': row[7],
+            'indirizzo': row[8]
+        }
         for row in c.fetchall()
     ]
     conn.close()
