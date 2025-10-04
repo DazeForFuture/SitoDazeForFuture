@@ -395,7 +395,7 @@
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Eventi</a>
+      <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
@@ -478,9 +478,10 @@
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
+
 <script>
 // Configurazione
-const BASE_URL = "http://localhost:5001";
+const BASE_URL = window.location.origin; // Usa la stessa origine del frontend
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const ALLOWED_TYPES = ['application/pdf', 'application/msword', 
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -509,21 +510,28 @@ function showNotification(message, isError = false) {
     }, 3000);
 }
 
-// Verifica se l'utente è autenticato localmente
-function isAuthenticated() {
-    return localStorage.getItem('utente') !== null;
+// Verifica autenticazione semplificata
+async function checkAuth() {
+    try {
+        const response = await fetch(`${BASE_URL}/check_auth`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            return data.authenticated ? data : false;
+        }
+        return false;
+    } catch (error) {
+        console.error('Errore verifica auth:', error);
+        return false;
+    }
 }
 
-// Reindirizza al login se non autenticato
-function redirectToLogin() {
-    window.location.href = "login.html";
-}
-
-// Gestione UI in base all'autenticazione
-function updateUIForAuth() {
-    const utente = localStorage.getItem('utente');
-    
-    if (utente) {
+// Aggiorna UI in base all'autenticazione
+function updateUIForAuth(userData) {
+    if (userData && userData.authenticated) {
         // Nascondi link login
         if (loginLink) loginLink.style.display = 'none';
         if (sidebarLoginLink) sidebarLoginLink.style.display = 'none';
@@ -531,16 +539,19 @@ function updateUIForAuth() {
         // Mostra userbar
         if (userbar) {
             userbar.style.display = 'flex';
-            document.getElementById('useremail').textContent = utente;
-            document.getElementById('userAvatar').textContent = getInitialFromEmail(utente);
+            document.getElementById('useremail').textContent = userData.user.email;
+            document.getElementById('userAvatar').textContent = getInitialFromEmail(userData.user.email);
         }
         
-        // Mostra user info mobile nella sidebar
+        // Mostra user info mobile
         if (mobileUserInfo) {
             mobileUserInfo.style.display = 'block';
-            document.getElementById('mobileUseremail').textContent = utente;
-            document.getElementById('mobileUserAvatar').textContent = getInitialFromEmail(utente);
+            document.getElementById('mobileUseremail').textContent = userData.user.email;
+            document.getElementById('mobileUserAvatar').textContent = getInitialFromEmail(userData.user.email);
         }
+        
+        // Salva info utente in localStorage per riferimento
+        localStorage.setItem('userInfo', JSON.stringify(userData.user));
     } else {
         // Mostra link login
         if (loginLink) loginLink.style.display = 'block';
@@ -549,6 +560,9 @@ function updateUIForAuth() {
         // Nascondi userbar
         if (userbar) userbar.style.display = 'none';
         if (mobileUserInfo) mobileUserInfo.style.display = 'none';
+        
+        // Rimuovi info utente
+        localStorage.removeItem('userInfo');
     }
 }
 
@@ -557,89 +571,41 @@ function getInitialFromEmail(email) {
     return email ? email.charAt(0).toUpperCase() : 'U';
 }
 
-// Test della connessione al server
-async function testConnection() {
-    try {
-        const response = await fetch(`${BASE_URL}/check_auth`, {
-            credentials: 'include',
-            method: 'GET'
-        });
-        
-        console.log('Test connessione - Status:', response.status);
-        
-        // Anche se non autenticato, il server risponde - quindi la connessione funziona
-        return true;
-    } catch (error) {
-        console.error('Test connessione fallito:', error);
-        return false;
-    }
-}
-
-// Verifica l'autenticazione con il server
-async function checkServerAuth() {
-    try {
-        const response = await fetch(`${BASE_URL}/check_auth`, {
-            credentials: 'include'
-        });
-        
-        if (response.status === 200) {
-            const data = await response.json();
-            return data.authenticated;
-        }
-        return false;
-    } catch (error) {
-        console.error('Errore verifica autenticazione server:', error);
-        return false;
-    }
-}
-
-// Caricamento iniziale
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('Pagina documenti caricata');
-    
-    // 1. Verifica se c'è un utente nel localStorage
-    if (!isAuthenticated()) {
-        console.log('Nessun utente nel localStorage, redirect al login');
-        redirectToLogin();
-        return;
-    }
-    
-    // 2. Testa la connessione al server
-    const connected = await testConnection();
-    if (!connected) {
-        showNotification("Impossibile connettersi al server. Verifica che il backend sia in esecuzione sulla porta 5001.", true);
-        return;
-    }
-    
-    // 3. Verifica l'autenticazione con il server
-    const serverAuthenticated = await checkServerAuth();
-    if (!serverAuthenticated) {
-        console.log('Sessione server scaduta, richiedi nuovo login');
-        showNotification("Sessione scaduta, effettua nuovamente il login", true);
-        localStorage.removeItem('utente');
-        setTimeout(() => redirectToLogin(), 2000);
-        return;
-    }
-    
-    // 4. Tutto OK, procedi
-    console.log('Utente autenticato, caricamento UI e documenti');
-    updateUIForAuth();
-    loadDocuments();
-});
-
 // Gestione logout
 async function logout() {
     try {
         await fetch(`${BASE_URL}/logout`, {
+            method: 'POST',
             credentials: 'include'
         });
     } catch (error) {
         console.error('Errore durante il logout:', error);
     } finally {
-        localStorage.removeItem('utente');
-        redirectToLogin();
+        localStorage.removeItem('userInfo');
+        window.location.href = "login.html";
     }
 }
+
+// Caricamento iniziale semplificato
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('Pagina documenti caricata - verifica autenticazione...');
+    
+    // Verifica autenticazione
+    const authData = await checkAuth();
+    
+    if (!authData) {
+        showNotification("Devi effettuare il login per accedere ai documenti", true);
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 2000);
+        return;
+    }
+    
+    // Utente autenticato
+    console.log('Utente autenticato:', authData.user.email);
+    updateUIForAuth(authData);
+    loadDocuments();
+});
 
 // Gestione upload file
 if (fileUpload) {
@@ -695,7 +661,10 @@ async function handleFileUpload(e) {
                 });
                 
                 if (res.status === 401) {
-                    handleUnauthorized();
+                    showNotification("Sessione scaduta, effettua nuovamente il login", true);
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 2000);
                     return;
                 }
                 
@@ -737,13 +706,6 @@ async function handleFileUpload(e) {
     }
 }
 
-// Gestione non autorizzato
-function handleUnauthorized() {
-    showNotification("Sessione scaduta, effettua nuovamente il login", true);
-    localStorage.removeItem('utente');
-    setTimeout(() => redirectToLogin(), 2000);
-}
-
 // Carica i documenti dell'utente
 async function loadDocuments() {
     try {
@@ -754,7 +716,10 @@ async function loadDocuments() {
         });
         
         if (res.status === 401) {
-            handleUnauthorized();
+            showNotification("Sessione scaduta, effettua nuovamente il login", true);
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 2000);
             return;
         }
         
@@ -880,7 +845,10 @@ async function deleteDocument(docId) {
         });
         
         if (res.status === 401) {
-            handleUnauthorized();
+            showNotification("Sessione scaduta, effettua nuovamente il login", true);
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 2000);
             return;
         }
         
@@ -914,6 +882,7 @@ function formatDate(dateString) {
     }
 }
 </script>
+
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
   <script src="css/userbar/userbar.js"></script>

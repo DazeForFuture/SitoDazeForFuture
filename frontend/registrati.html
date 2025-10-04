@@ -30,6 +30,9 @@
       --sidebar-shadow: rgba(0,0,0,0.1);
       --accent: #007aff;
       --card-bg: #f5f5f7;
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
     }
 
     /* Tema scuro AUTOMATICO solo se non c'è data-theme */
@@ -49,6 +52,9 @@
         --sidebar-shadow: rgba(0,0,0,0.3);
         --accent: #0a84ff;
         --card-bg: #2c2c2e;
+        --success: #30d158;
+        --error: #ff453a;
+        --warning: #ff9f0a;
       }
     }
 
@@ -68,6 +74,9 @@
       --sidebar-shadow: rgba(0,0,0,0.3);
       --accent: #0a84ff;
       --card-bg: #2c2c2e;
+      --success: #30d158;
+      --error: #ff453a;
+      --warning: #ff9f0a;
     }
 
     /* Tema chiaro FORZATO */
@@ -86,6 +95,9 @@
       --sidebar-shadow: rgba(0,0,0,0.1);
       --accent: #007aff;
       --card-bg: #f5f5f7;
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -174,24 +186,98 @@
       padding: 2rem;
       border-radius: 16px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      position: relative;
     }
-    label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
+    label { 
+      display: block; 
+      font-weight: 600; 
+      margin-bottom: 0.5rem; 
+    }
+    
+    .field-hint {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      display: block;
+    }
+    
     input, select, textarea {
       width: 100%;
       padding: 0.75rem 1rem;
       border-radius: 8px;
       border: 1px solid var(--muted);
-      margin-bottom: 1.5rem;
       font-family: inherit;
       font-size: 1rem;
       background: var(--bg);
       color: var(--text);
+      transition: all 0.3s ease;
     }
+    
     input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(0,122,255,0.3);
     }
+    
+    input.valid, select.valid, textarea.valid {
+      border-color: var(--success);
+    }
+    
+    input.invalid, select.invalid, textarea.invalid {
+      border-color: var(--error);
+    }
+    
+    .field-error {
+      color: var(--error);
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    
+    .field-error.show {
+      display: block;
+    }
+    
+    .password-strength {
+      margin-top: 0.5rem;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--muted);
+      overflow: hidden;
+    }
+    
+    .password-strength-meter {
+      height: 100%;
+      width: 0;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .password-strength-meter.weak {
+      width: 25%;
+      background-color: var(--error);
+    }
+    
+    .password-strength-meter.fair {
+      width: 50%;
+      background-color: var(--warning);
+    }
+    
+    .password-strength-meter.good {
+      width: 75%;
+      background-color: var(--warning);
+    }
+    
+    .password-strength-meter.strong {
+      width: 100%;
+      background-color: var(--success);
+    }
+    
     button {
       display: block;
       width: 100%;
@@ -205,10 +291,18 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
+    
     button:hover {
       background: var(--btn-hover-bg);
       transform: scale(1.03);
     }
+    
+    button:disabled {
+      background: var(--muted);
+      cursor: not-allowed;
+      transform: none;
+    }
+    
     footer {
       text-align: center;
       padding: 2rem;
@@ -217,6 +311,7 @@
       background: var(--footer-bg);
       margin-top: 3rem;
     }
+    
     .center-btn {
       display: flex;
       justify-content: center;
@@ -358,16 +453,23 @@
       main {
         padding: 120px 1rem 80px;
       }
+      
+      form {
+        padding: 1.5rem;
+      }
     }
-   /* Email container come in login */
+    
+    /* Email container come in login */
     .email-container {
       display: flex;
       gap: 0.5rem;
       margin-bottom: 1.5rem;
     }
+    
     .email-input { flex: 1; }
     .domain-select { width: 250px; }
-  /* Popup di notifica */
+    
+    /* Popup di notifica */
     .popup {
       position: fixed;
       top: 20px;
@@ -391,141 +493,123 @@
     }
 
     .popup.success {
-      border-left: 6px solid #34c759; /* verde successo */
+      border-left: 6px solid var(--success);
     }
 
     .popup.error {
-      border-left: 6px solid #ff3b30; /* rosso errore */
+      border-left: 6px solid var(--error);
+    }
+    
+    .popup.warning {
+      border-left: 6px solid var(--warning);
     }
 
-    /* Stili personalizzati per Google Sign-In */
-    .gsi-material-button {
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      -webkit-appearance: none;
-      background-color: var(--bg);
-      background-image: none;
-      border: 1px solid var(--muted);
-      border-radius: 999px;
-      box-sizing: border-box;
-      color: var(--text);
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      height: 40px;
-      letter-spacing: 0.25px;
-      outline: none;
-      overflow: hidden;
-      padding: 0 12px;
-      position: relative;
-      text-align: center;
-      transition: background-color .218s, border-color .218s, box-shadow .218s;
-      vertical-align: middle;
-      white-space: nowrap;
-      width: auto;
-      max-width: 400px;
-      min-width: min-content;
+    /* Animazioni per transizioni fluide */
+    .fade-in {
+      animation: fadeIn 0.3s ease forwards;
     }
-
-    .gsi-material-button .gsi-material-button-icon {
-      height: 20px;
-      margin-right: 12px;
-      min-width: 20px;
-      width: 20px;
+    
+    .slide-down {
+      animation: slideDown 0.3s ease forwards;
     }
-
-    .gsi-material-button .gsi-material-button-content-wrapper {
-      -webkit-align-items: center;
-      align-items: center;
-      display: flex;
-      -webkit-flex-direction: row;
-      flex-direction: row;
-      -webkit-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-      height: 100%;
-      justify-content: space-between;
-      position: relative;
-      width: 100%;
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-
-    .gsi-material-button .gsi-material-button-contents {
-      -webkit-flex-grow: 1;
-      flex-grow: 1;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      vertical-align: top;
+    
+    @keyframes slideDown {
+      from { 
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-
-    .gsi-material-button .gsi-material-button-state {
-      -webkit-transition: opacity .218s;
-      transition: opacity .218s;
-      bottom: 0;
-      left: 0;
-      opacity: 0;
+    
+    /* Stili per il toggle password */
+    .password-toggle {
       position: absolute;
-      right: 0;
-      top: 0;
-    }
-
-    .gsi-material-button:disabled {
-      cursor: default;
-      background-color: var(--muted);
-      border-color: var(--muted);
-    }
-
-    .gsi-material-button:disabled .gsi-material-button-contents {
-      opacity: 0.5;
-    }
-
-    .gsi-material-button:disabled .gsi-material-button-icon {
-      opacity: 0.5;
-    }
-
-    .gsi-material-button:not(:disabled):active .gsi-material-button-state, 
-    .gsi-material-button:not(:disabled):focus .gsi-material-button-state {
-      background-color: var(--hover-bg);
-      opacity: 1;
-    }
-
-    .gsi-material-button:not(:disabled):hover {
-      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-      border-color: var(--accent);
-    }
-
-    .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
-      background-color: var(--hover-bg);
-      opacity: 1;
-    }
-
-    /* Separatore "oppure" */
-    .separator {
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px;
+      width: auto;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
-      text-align: center;
-      margin: 2rem 0;
-      color: var(--muted);
+      justify-content: center;
+    }
+    
+    .password-toggle:hover {
+      color: var(--text);
+      background: transparent;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .password-container {
+      position: relative;
     }
 
-    .separator::before,
-    .separator::after {
-      content: '';
-      flex: 1;
-      border-bottom: 1px solid var(--muted);
+    /* Stili per la checkbox admin */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
-    .separator:not(:empty)::before {
-      margin-right: 1rem;
+    .checkbox-group:hover {
+      background: var(--hover-bg);
     }
 
-    .separator:not(:empty)::after {
-      margin-left: 1rem;
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    /* Icone SVG per toggle password */
+    .eye-icon {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .eye-slash-icon {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
   </style>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <header>
@@ -545,93 +629,122 @@
     <p class="text-muted">Compila il modulo qui sotto per diventare parte di Daze for Future.</p>
 
     <form id="registrationForm">
-      <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" required />
-
-      <label for="cognome">Cognome</label>
-      <input type="text" id="cognome" name="cognome" required />
-
-      <label for="email">Email</label>
-      <div class="email-container">
-        <div class="email-input">
-          <input type="text" id="emailPrefix" placeholder="nome.utente" required />
-        </div>
-        <div class="domain-select">
-          <select id="emailDomain">
-            <option value="@liceomassimodazeglio.it">@liceomassimodazeglio.it</option>
-            <option value="@liceodazeglio.edu.it">@liceodazeglio.edu.it</option>
-          </select>
-        </div>
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required />
+        <div class="field-error" id="nomeError">Il nome deve contenere solo lettere e spazi</div>
       </div>
-      <input type="hidden" id="email" name="email" required />
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
+      <div class="form-group">
+        <label for="cognome">Cognome</label>
+        <input type="text" id="cognome" name="cognome" required />
+        <div class="field-error" id="cognomeError">Il cognome deve contenere solo lettere e spazi</div>
+      </div>
 
-      <label for="ruolo">Sei:</label>
-      <select id="ruolo" name="ruolo" required>
-        <option value="">-- Seleziona --</option>
-        <option value="insegnante">Insegnante</option>
-        <option value="studente">Studente</option>
-      </select>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="email-container">
+          <div class="email-input">
+            <input type="text" id="emailPrefix" placeholder="nome.utente" required />
+          </div>
+          <div class="domain-select">
+            <select id="emailDomain">
+              <option value="@liceomassimodazeglio.it">@liceomassimodazeglio.it</option>
+              <option value="@liceodazeglio.edu.it">@liceodazeglio.edu.it</option>
+            </select>
+          </div>
+        </div>
+        <input type="hidden" id="email" name="email" required />
+        <div class="field-error" id="emailError">Formato email non valido</div>
+      </div>
 
-      <div style="margin-bottom:1.5rem;">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input type="password" id="password" name="password" required />
+          <button type="button" class="password-toggle" id="togglePassword">
+            <svg class="eye-icon" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+        <div class="password-strength">
+          <div class="password-strength-meter" id="passwordStrength"></div>
+        </div>
+        <div class="field-hint">La password deve contenere almeno 8 caratteri, una lettera maiuscola, una minuscola e un numero</div>
+        <div class="field-error" id="passwordError">La password non soddisfa i requisiti di sicurezza</div>
+      </div>
+
+      <div class="form-group">
+        <label for="ruolo">Sei:</label>
+        <select id="ruolo" name="ruolo" required>
+          <option value="">-- Seleziona --</option>
+          <option value="insegnante">Insegnante</option>
+          <option value="studente">Studente</option>
+        </select>
+        <div class="field-error" id="ruoloError">Seleziona un ruolo</div>
+      </div>
+
+      <div class="checkbox-group">
         <input type="checkbox" id="isAdmin" name="isAdmin" />
-        <label for="isAdmin" style="display:inline;">Registrati come admin</label>
+        <label for="isAdmin">Registrati come admin</label>
       </div>
-      <div id="adminPasswordContainer" style="display:none; margin-bottom:1.5rem;">
-        <label for="adminPassword">Password admin</label>
-        <input type="password" id="adminPassword" name="adminPassword" />
+      
+      <div id="adminPasswordContainer" style="display:none;">
+        <div class="form-group">
+          <label for="adminPassword">Password admin</label>
+          <div class="password-container">
+            <input type="password" id="adminPassword" name="adminPassword" />
+            <button type="button" class="password-toggle" id="toggleAdminPassword">
+              <svg class="eye-icon" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <div class="field-error" id="adminPasswordError">Password admin non valida</div>
+        </div>
       </div>
 
       <div id="studenteFields" style="display:none;">
-        <label for="anno">Anno</label>
-        <input type="number" id="anno" name="anno" min="1" max="5" />
-
-        <label for="sezione">Sezione (seleziona o scrivi)</label>
-        <select id="sezione" name="sezione">
-          <option value="">-- Seleziona sezione --</option>
-          <option value="A" data-max="5">A</option>
-          <option value="B" data-max="5">B</option>
-          <option value="C" data-max="5">C</option>
-          <option value="D" data-max="5">D</option>
-          <option value="E" data-max="5">E</option>
-          <option value="F" data-max="5">F</option>
-          <option value="G" data-max="5">G</option>
-          <option value="H" data-max="4">H</option>
-          <option value="AS" data-max="2">AS</option>
-          <option value="BS" data-max="2">BS</option>
-          <option value="CS" data-max="2">CS</option>
-        </select>
-      </div>
-
-      <label for="motivazione">Perché vuoi unirti a noi?</label>
-      <textarea id="motivazione" name="motivazione" rows="4"></textarea>
-
-      <button type="submit">Registrati</button>
-      
-      <div class="separator">oppure</div>
-      
-      <div class="center-btn">
-        <div id="g_id_onload"
-          data-client_id="315962333899-dd7it3ho1530j43tkmlbk341k88gdn4t.apps.googleusercontent.com"
-          data-context="signup"
-          data-ux_mode="popup"
-          data-callback="onGoogleSignIn"
-          data-auto_prompt="false">
+        <div class="form-group">
+          <label for="anno">Anno</label>
+          <input type="number" id="anno" name="anno" min="1" max="5" />
+          <div class="field-error" id="annoError">Inserisci un anno valido (1-5)</div>
         </div>
-        <div class="g_id_signin"
-            data-type="standard"
-            data-shape="rectangular"
-            data-theme="outline"
-            data-text="signup_with"
-            data-size="large"
-            data-logo_alignment="left"
-            data-width="300">
+
+        <div class="form-group">
+          <label for="sezione">Sezione (seleziona o scrivi)</label>
+          <select id="sezione" name="sezione">
+            <option value="">-- Seleziona sezione --</option>
+            <option value="A" data-max="5">A</option>
+            <option value="B" data-max="5">B</option>
+            <option value="C" data-max="5">C</option>
+            <option value="D" data-max="5">D</option>
+            <option value="E" data-max="5">E</option>
+            <option value="F" data-max="5">F</option>
+            <option value="G" data-max="5">G</option>
+            <option value="H" data-max="4">H</option>
+            <option value="AS" data-max="2">AS</option>
+            <option value="BS" data-max="2">BS</option>
+            <option value="CS" data-max="2">CS</option>
+          </select>
+          <div class="field-error" id="sezioneError">Seleziona una sezione valida per l'anno scelto</div>
         </div>
       </div>
+
+      <div class="form-group">
+        <label for="motivazione">Perché vuoi unirti a noi?</label>
+        <textarea id="motivazione" name="motivazione" rows="4"></textarea>
+        <div class="field-hint">Descrivi brevemente le tue motivazioni (max 500 caratteri)</div>
+        <div class="field-error" id="motivazioneError">La motivazione non può superare i 500 caratteri</div>
+      </div>
+
+      <button type="submit" id="submitBtn">Registrati</button>
     </form>
   </main>
+  
   <!-- Contenitore popup -->
   <div id="popup" class="popup"></div>
 
@@ -665,7 +778,7 @@
     </div>
   </aside>
 
- <footer>&copy; 2025 Daze for Future. Tutti i diritti riservati.</footer>
+  <footer>&copy; 2025 Daze for Future. Tutti i diritti riservati.</footer>
 
 <script>
   // Attendi che il DOM sia completamente caricato
@@ -677,12 +790,157 @@
       return prefix + domain;
     }
 
+    // Funzione per validare email
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    // Funzione per validare nome/cognome
+    function validateName(name) {
+      const nameRegex = /^[a-zA-ZÀ-ÿ\s]{2,}$/;
+      return nameRegex.test(name);
+    }
+
+    // Funzione per valutare la forza della password
+    function checkPasswordStrength(password) {
+      let strength = 0;
+      const strengthMeter = document.getElementById('passwordStrength');
+      
+      if (password.length >= 8) strength++;
+      if (/[a-z]/.test(password)) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^a-zA-Z0-9]/.test(password)) strength++;
+      
+      // Aggiorna l'indicatore visivo
+      strengthMeter.className = 'password-strength-meter';
+      if (password.length > 0) {
+        if (strength <= 2) {
+          strengthMeter.classList.add('weak');
+        } else if (strength === 3) {
+          strengthMeter.classList.add('fair');
+        } else if (strength === 4) {
+          strengthMeter.classList.add('good');
+        } else {
+          strengthMeter.classList.add('strong');
+        }
+      }
+      
+      return strength >= 4; // Considera "buona" se ha almeno 4 punti
+    }
+
+    // Funzione per validare la password
+    function validatePassword(password) {
+      return password.length >= 8 && 
+             /[a-z]/.test(password) && 
+             /[A-Z]/.test(password) && 
+             /[0-9]/.test(password);
+    }
+
+    // Funzione per mostrare/nascondere password con SVG
+    function setupPasswordToggle(passwordId, toggleId) {
+      const passwordInput = document.getElementById(passwordId);
+      const toggleButton = document.getElementById(toggleId);
+      
+      toggleButton.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        // Cambia l'icona SVG
+        if (type === 'password') {
+          toggleButton.innerHTML = `
+            <svg class="eye-icon" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          `;
+        } else {
+          toggleButton.innerHTML = `
+            <svg class="eye-slash-icon" viewBox="0 0 24 24">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          `;
+        }
+      });
+    }
+
+    // Inizializza i toggle password
+    setupPasswordToggle('password', 'togglePassword');
+    setupPasswordToggle('adminPassword', 'toggleAdminPassword');
+
+    // Aggiorna email nascosta
     document.getElementById('emailPrefix').addEventListener('input', () => {
-      document.getElementById('email').value = buildEmail();
+      const email = buildEmail();
+      document.getElementById('email').value = email;
+      
+      // Validazione in tempo reale
+      const emailError = document.getElementById('emailError');
+      if (email && !validateEmail(email)) {
+        emailError.classList.add('show');
+        document.getElementById('emailPrefix').classList.add('invalid');
+      } else {
+        emailError.classList.remove('show');
+        document.getElementById('emailPrefix').classList.remove('invalid');
+      }
     });
 
     document.getElementById('emailDomain').addEventListener('change', () => {
       document.getElementById('email').value = buildEmail();
+    });
+
+    // Validazione in tempo reale per nome
+    document.getElementById('nome').addEventListener('input', function() {
+      const error = document.getElementById('nomeError');
+      if (this.value && !validateName(this.value)) {
+        error.classList.add('show');
+        this.classList.add('invalid');
+      } else {
+        error.classList.remove('show');
+        this.classList.remove('invalid');
+      }
+    });
+
+    // Validazione in tempo reale per cognome
+    document.getElementById('cognome').addEventListener('input', function() {
+      const error = document.getElementById('cognomeError');
+      if (this.value && !validateName(this.value)) {
+        error.classList.add('show');
+        this.classList.add('invalid');
+      } else {
+        error.classList.remove('show');
+        this.classList.remove('invalid');
+      }
+    });
+
+    // Validazione in tempo reale per password
+    document.getElementById('password').addEventListener('input', function() {
+      const error = document.getElementById('passwordError');
+      const isValid = validatePassword(this.value);
+      checkPasswordStrength(this.value);
+      
+      if (this.value && !isValid) {
+        error.classList.add('show');
+        this.classList.add('invalid');
+      } else {
+        error.classList.remove('show');
+        this.classList.remove('invalid');
+        if (isValid) this.classList.add('valid');
+      }
+    });
+
+    // Validazione in tempo reale per motivazione
+    document.getElementById('motivazione').addEventListener('input', function() {
+      const error = document.getElementById('motivazioneError');
+      if (this.value.length > 500) {
+        error.classList.add('show');
+        this.classList.add('invalid');
+      } else {
+        error.classList.remove('show');
+        this.classList.remove('invalid');
+        if (this.value.length > 0) this.classList.add('valid');
+      }
     });
 
     // Gestione campi studente
@@ -693,14 +951,39 @@
     const form = document.getElementById("registrationForm");
     const sezioniOptions = [...sezioneSelect.options];
 
-    // Mostra/nasconde campi studenti
+    // Mostra/nasconde campi studenti con animazione
     ruoloSelect.addEventListener("change", () => {
-      studenteFields.style.display = (ruoloSelect.value === "studente") ? "block" : "none";
+      const isStudente = ruoloSelect.value === "studente";
+      
+      if (isStudente) {
+        studenteFields.style.display = "block";
+        setTimeout(() => {
+          studenteFields.classList.add('fade-in');
+        }, 10);
+      } else {
+        studenteFields.classList.remove('fade-in');
+        setTimeout(() => {
+          studenteFields.style.display = "none";
+        }, 300);
+      }
     });
 
     // Filtra sezioni disponibili in base all'anno (25-26)
     annoInput.addEventListener("input", () => {
       const anno = parseInt(annoInput.value, 10);
+      const error = document.getElementById('annoError');
+      
+      // Validazione anno
+      if (anno && (anno < 1 || anno > 5)) {
+        error.classList.add('show');
+        annoInput.classList.add('invalid');
+      } else {
+        error.classList.remove('show');
+        annoInput.classList.remove('invalid');
+        if (anno) annoInput.classList.add('valid');
+      }
+      
+      // Filtra sezioni
       sezioniOptions.forEach(option => {
         if (option.value === "") return;
 
@@ -729,7 +1012,33 @@
           sezioneSelect.value = "";
         }
       }
+      
+      // Validazione sezione
+      validateSezione();
     });
+    
+    // Validazione sezione
+    sezioneSelect.addEventListener("change", validateSezione);
+    
+    function validateSezione() {
+      const error = document.getElementById('sezioneError');
+      const anno = parseInt(annoInput.value, 10);
+      const sezione = sezioneSelect.value;
+      
+      if (sezione && anno) {
+        const selectedOption = [...sezioniOptions].find(o => o.value === sezione);
+        if (selectedOption && selectedOption.disabled) {
+          error.classList.add('show');
+          sezioneSelect.classList.add('invalid');
+        } else {
+          error.classList.remove('show');
+          sezioneSelect.classList.remove('invalid');
+          sezioneSelect.classList.add('valid');
+        }
+      } else {
+        error.classList.remove('show');
+      }
+    }
     
     // Funzione per mostrare popup
     function mostraPopup(messaggio, tipo) {
@@ -747,10 +1056,80 @@
     // Inizializza email nascosta
     document.getElementById('email').value = buildEmail();
     
+    // Gestione mostra/nascondi password admin
+    const isAdminCheckbox = document.getElementById('isAdmin');
+    const adminPasswordContainer = document.getElementById('adminPasswordContainer');
+
+    isAdminCheckbox.addEventListener('change', function() {
+      if (this.checked) {
+        adminPasswordContainer.style.display = 'block';
+        setTimeout(() => {
+          adminPasswordContainer.classList.add('slide-down');
+        }, 10);
+      } else {
+        adminPasswordContainer.classList.remove('slide-down');
+        setTimeout(() => {
+          adminPasswordContainer.style.display = 'none';
+        }, 300);
+      }
+    });
+
     // Submit del form
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      
+      // Disabilita il pulsante di invio per evitare invii multipli
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Registrazione in corso...';
 
+      // Validazione finale
+      let isValid = true;
+      
+      // Validazione nome
+      if (!validateName(document.getElementById('nome').value)) {
+        document.getElementById('nomeError').classList.add('show');
+        document.getElementById('nome').classList.add('invalid');
+        isValid = false;
+      }
+      
+      // Validazione cognome
+      if (!validateName(document.getElementById('cognome').value)) {
+        document.getElementById('cognomeError').classList.add('show');
+        document.getElementById('cognome').classList.add('invalid');
+        isValid = false;
+      }
+      
+      // Validazione email
+      const email = document.getElementById('email').value;
+      if (!validateEmail(email)) {
+        document.getElementById('emailError').classList.add('show');
+        document.getElementById('emailPrefix').classList.add('invalid');
+        isValid = false;
+      }
+      
+      // Validazione password
+      if (!validatePassword(document.getElementById('password').value)) {
+        document.getElementById('passwordError').classList.add('show');
+        document.getElementById('password').classList.add('invalid');
+        isValid = false;
+      }
+      
+      // Validazione ruolo
+      if (!document.getElementById('ruolo').value) {
+        document.getElementById('ruoloError').classList.add('show');
+        document.getElementById('ruolo').classList.add('invalid');
+        isValid = false;
+      }
+      
+      // Validazione admin password se richiesta
+      if (isAdminCheckbox.checked && !document.getElementById('adminPassword').value) {
+        document.getElementById('adminPasswordError').classList.add('show');
+        document.getElementById('adminPassword').classList.add('invalid');
+        isValid = false;
+      }
+      
+      // Validazione campi studente se applicabile
       const ruolo = ruoloSelect.value;
       let anno = null;
       let sezione = null;
@@ -759,29 +1138,36 @@
         anno = parseInt(annoInput.value, 10);
         sezione = sezioneSelect.value ? sezioneSelect.value.toUpperCase() : "";
 
-        // Validazione sezione/anno
-        if (sezione) {
-          if ((anno === 4 && sezione !== "H") ||
-              (anno === 5 && sezione !== "G") ||
-              (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
-            const popup = document.createElement("div");
-            popup.innerText = `La sezione "${sezione}" non esiste per l'anno ${anno}.`;
-            popup.style.position = "fixed";
-            popup.style.top = "20%";
-            popup.style.left = "50%";
-            popup.style.transform = "translateX(-50%)";
-            popup.style.background = "linear-gradient(90deg, #007aff, #00c6ff)";
-            popup.style.color = "#fff";
-            popup.style.padding = "1rem 2rem";
-            popup.style.borderRadius = "12px";
-            popup.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
-            popup.style.fontWeight = "600";
-            popup.style.zIndex = "2000";
-            document.body.appendChild(popup);
-            setTimeout(() => popup.remove(), 4000);
-            return; // Blocca invio
+        // Validazione anno
+        if (!anno || anno < 1 || anno > 5) {
+          document.getElementById('annoError').classList.add('show');
+          annoInput.classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione sezione
+        if (!sezione) {
+          document.getElementById('sezioneError').classList.add('show');
+          sezioneSelect.classList.add('invalid');
+          isValid = false;
+        } else {
+          // Validazione sezione/anno
+          if (sezione) {
+            if ((anno === 4 && sezione !== "H") ||
+                (anno === 5 && sezione !== "G") ||
+                (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
+              mostraPopup(`La sezione "${sezione}" non esiste per l'anno ${anno}.`, "error");
+              isValid = false;
+            }
           }
         }
+      }
+
+      if (!isValid) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Registrati';
+        mostraPopup("Correggi gli errori nel modulo prima di procedere", "error");
+        return;
       }
 
       const dati = {
@@ -797,21 +1183,30 @@
         admin_password: isAdminCheckbox.checked ? document.getElementById('adminPassword').value : ""
       };
 
-      const response = await fetch('/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dati)
-      });
+      try {
+        const response = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dati)
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if(result.success) {
-        mostraPopup("Registrazione completata con successo!", "success");
-        setTimeout(() => {
-          window.location.href = "login.html";
-        }, 1500);
-      } else {
-        mostraPopup(result.message || "Registrazione fallita", "error");
+        if(result.success) {
+          mostraPopup("Registrazione completata con successo!", "success");
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1500);
+        } else {
+          mostraPopup(result.message || "Registrazione fallita", "error");
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Registrati';
+        }
+      } catch (error) {
+        console.error('Errore durante la registrazione:', error);
+        mostraPopup("Errore di connessione. Riprova più tardi.", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Registrati';
       }
     });
 
@@ -826,91 +1221,7 @@
         document.documentElement.removeAttribute('data-theme');
       }
     }
-
-    // Aggiorna stili Google Sign-In quando cambia il tema
-    function updateGoogleButtonStyles() {
-      const googleButtons = document.querySelectorAll('.gsi-material-button');
-      googleButtons.forEach(button => {
-        button.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
-        button.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text').trim();
-        button.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
-      });
-    }
-
-    // Osserva i cambiamenti del tema
-    const observer = new MutationObserver(updateGoogleButtonStyles);
-    observer.observe(document.documentElement, { 
-      attributes: true, 
-      attributeFilter: ['data-theme'] 
-    });
-
-    // Aggiorna gli stili all'avvio
-    setTimeout(updateGoogleButtonStyles, 100);
-
-    // Gestione mostra/nascondi password admin
-    const isAdminCheckbox = document.getElementById('isAdmin');
-    const adminPasswordContainer = document.getElementById('adminPasswordContainer');
-
-    isAdminCheckbox.addEventListener('change', function() {
-      adminPasswordContainer.style.display = this.checked ? 'block' : 'none';
-    });
   });
-</script>
-<script>
-  async function onGoogleSignIn(response) {
-    const credential = response.credential;
-
-    // Decodifica il JWT per estrarre i dati utente
-    const payload = parseJwt(credential);
-    
-    const dati = {
-      nome: payload.given_name,
-      cognome: payload.family_name,
-      email: payload.email,
-      googleId: payload.sub, // ID univoco utente Google
-      immagineProfilo: payload.picture,
-      isGoogleSignup: true
-    };
-
-    // Invia dati al server (endpoint da definire sul backend)
-    const res = await fetch('/register-google', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dati)
-    });
-
-    const result = await res.json();
-
-    if(result.success) {
-      mostraPopup("Registrazione con Google completata!", "success");
-      setTimeout(() => {
-        window.location.href = "login.html"; // o pagina successiva
-      }, 1500);
-    } else {
-      mostraPopup(result.message || "Errore con Google Sign-In", "error");
-    }
-  }
-
-  // Funzione per decodificare il JWT
-  function parseJwt(token) {
-    const base64Url = token.split('.')[1];
-    const base64 = decodeURIComponent(atob(base64Url).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(base64);
-  }
-
-  // Funzione per mostrare popup (definita anche qui per sicurezza)
-  function mostraPopup(messaggio, tipo) {
-    const popup = document.getElementById('popup');
-    popup.textContent = messaggio;
-    popup.className = "popup " + tipo;
-    popup.classList.add("show");
-
-    setTimeout(() => {
-      popup.classList.remove("show");
-    }, 3000);
-  }
 </script>
 
 <div id="popup" class="popup"></div>

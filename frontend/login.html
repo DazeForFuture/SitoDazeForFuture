@@ -432,6 +432,16 @@
         mostraPopup("Errore di connessione al server", "error");
       }
     }
+    // Nel login.html, dopo il login riuscito
+    if (result.success) {
+    // Salva solo le informazioni dell'utente, non lo stato di auth
+    localStorage.setItem('userInfo', JSON.stringify(result.user));
+    
+    // Piccolo delay per assicurarsi che la sessione sia impostata
+    setTimeout(() => {
+        window.location.href = 'documenti.html';
+    }, 500);
+}
   </script>
   <script src="theme.js"></script>
   <script src="css/userbar/userbar.js"></script>

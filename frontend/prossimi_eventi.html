@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="css/userbar/userbar.css" />
 
   <style>
-    /* ... il tuo CSS esistente rimane invariato ... */
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -515,39 +514,16 @@
     </section>
 
     <section class="events-container">
-      <article class="event">
-        <div class="event-header">
-          <h2>Prossimamente - In lavorazione...</h2>
-          <div class="event-meta">
-            <span>📅 Prossimamente...</span>
-            <span>🕒 Prossimamente...</span>
-            <span>📍 Laboratori del Liceo D'Azeglio</span>
-          </div>
-        </div>
-        <div class="event-body">
-          <p>In lavorazione...</p>
-          <ul style="color: var(--muted); margin-left: 1.5rem; margin-bottom: 1.5rem;">
-            <li>Prossimamente...</li>
-            <li>Prossimamente..</li>
-            <li>Prossimamente..</li>
-            <li>Prossimamente..</li>
-          </ul>
-          <p>Tutti gli studenti sono invitati a partecipare e a portare idee per rendere la nostra scuola più green!</p>
-        </div>
-        <div class="event-footer">
-          <button class="btn">Partecipa all'evento</button>
-          <button class="btn btn-outline" style="margin-left: 1rem;">Aggiungi al calendario</button>
-        </div>
-      </article>
+
     </section>
     
     <section class="calendar-section">
       <h2>Calendario Eventi</h2>
       <div class="calendar-grid">
         <div class="calendar-day">
-          <h3>Prossimamente</h3>
-          <p>In lavorazione</p>
-          <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;">Prossimamente</p>
+          <h3></h3>
+          <p></p>
+          <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;"></p>
         </div>
       </div>
     </section>
@@ -652,140 +628,266 @@
     </form>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const ruolo = localStorage.getItem('utente_ruolo');
-      const addPostBtn = document.getElementById('addPostBtn');
-      const postFormContainer = document.getElementById('postFormContainer');
-      const postForm = document.getElementById('postForm');
-      const closePostForm = document.getElementById('closePostForm');
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ruolo = localStorage.getItem('utente_ruolo');
+    const addPostBtn = document.getElementById('addPostBtn');
+    const postFormContainer = document.getElementById('postFormContainer');
+    const postForm = document.getElementById('postForm');
+    const closePostForm = document.getElementById('closePostForm');
 
-      console.log('Ruolo:', ruolo); 
+    console.log('Ruolo utente:', ruolo);
 
-      // Mostra il pulsante + per gli admin
-      if (ruolo === 'admin' && addPostBtn) {
+    // Mostra il pulsante + SOLO per gli admin
+    if (ruolo === 'admin' && addPostBtn) {
         addPostBtn.style.display = 'block';
-        console.log('Mostro il pulsante +'); 
-      }
-
-      // Apri il form
-      if (addPostBtn) {
-        addPostBtn.addEventListener('click', () => {
-          postFormContainer.style.display = 'flex';
-          // Imposta la data di default a oggi
-          document.getElementById('postData').valueAsDate = new Date();
-        });
-      }
-
-      // Chiudi il form
-      if (closePostForm) {
-        closePostForm.addEventListener('click', () => {
-          postFormContainer.style.display = 'none';
-        });
-      }
-
-      // Chiudi il form cliccando fuori
-      postFormContainer.addEventListener('click', (e) => {
-        if (e.target === postFormContainer) {
-          postFormContainer.style.display = 'none';
+        console.log('Pulsante admin mostrato');
+    } else {
+        // Nascondi esplicitamente il pulsante per utenti non admin
+        if (addPostBtn) {
+            addPostBtn.style.display = 'none';
         }
-      });
+        console.log('Utente non admin - pulsante nascosto');
+    }
 
-      // Pubblica l'evento
-      if (postForm) {
+    // Apri il form (solo per admin)
+    if (addPostBtn && addPostBtn.style.display === 'block') {
+        addPostBtn.addEventListener('click', () => {
+            postFormContainer.style.display = 'flex';
+            document.getElementById('postData').valueAsDate = new Date();
+        });
+    }
+
+    // Chiudi il form
+    if (closePostForm) {
+        closePostForm.addEventListener('click', () => {
+            postFormContainer.style.display = 'none';
+        });
+    }
+
+    // Chiudi il form cliccando fuori
+    postFormContainer.addEventListener('click', (e) => {
+        if (e.target === postFormContainer) {
+            postFormContainer.style.display = 'none';
+        }
+    });
+
+    // Pubblica l'evento (con controllo aggiuntivo del ruolo)
+    if (postForm) {
         postForm.addEventListener('submit', async function(e) {
-          e.preventDefault();
-          
-          const titolo = document.getElementById('postTitolo').value;
-          const contenuto = document.getElementById('postContenuto').value;
-          const data = document.getElementById('postData').value;
-          const ora = document.getElementById('postOra').value;
-          const durata = document.getElementById('postDurata').value;
-          const luogo = document.getElementById('postLuogo').value;
-          const indirizzo = document.getElementById('postIndirizzo').value;
-          const immagine = document.getElementById('postImmagine').value;
-          const link = document.getElementById('postLink').value;
-
-          const eventoData = {
-            titolo,
-            contenuto,
-            data,
-            ora,
-            durata,
-            luogo,
-            indirizzo,
-            immagine,
-            link,
-            tipo: 'evento'
-          };
-
-          try {
-            const res = await fetch('http://localhost:5002/api/post', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(eventoData)
-            });
-            const data = await res.json();
-            if (data.success) {
-              alert('Evento creato con successo!');
-              postFormContainer.style.display = 'none';
-              postForm.reset();
-              location.reload(); 
-            } else {
-              alert(data.message || 'Errore nella creazione dell\'evento');
+            e.preventDefault();
+            
+            // Controllo di sicurezza aggiuntivo
+            const ruoloAttuale = localStorage.getItem('utente_ruolo');
+            if (ruoloAttuale !== 'admin') {
+                alert('Non hai i permessi per creare eventi!');
+                postFormContainer.style.display = 'none';
+                return;
             }
-          } catch (error) {
-            console.error('Errore:', error);
-            alert('Errore di connessione');
-          }
-        });
-      }
-    });
 
-    // Carica gli eventi esistenti
-    document.addEventListener('DOMContentLoaded', async function() {
-      const eventsContainer = document.querySelector('.events-container');
-      try {
-        const res = await fetch('http://localhost:5002/api/post');
-        const posts = await res.json();
-        
-        // Filtra solo gli eventi (potresti avere diversi tipi di post)
-        const eventi = posts.filter(post => post.tipo === 'evento' || !post.tipo); // Supporto retroattivo
-        
-        eventi.forEach(post => {
-          const event = document.createElement('article');
-          event.className = 'event';
-          
-          // Formatta la data e l'orario
-          const dataOra = post.data ? 
-            `${new Date(post.data).toLocaleDateString('it-IT')} ${post.ora || ''}` : 
-            'Data da definire';
-          
-          event.innerHTML = `
-            <div class="event-header">
-              <h2>${post.titolo}</h2>
-              <div class="event-meta">
-                <span>📅 ${dataOra}</span>
-                ${post.durata ? `<span>🕒 ${post.durata} ore</span>` : ''}
-                ${post.luogo ? `<span>📍 ${post.luogo}</span>` : ''}
-              </div>
-            </div>
-            <div class="event-body">
-              <p>${post.contenuto}</p>
-              ${post.immagine ? `<img src="${post.immagine}" alt="Immagine evento" style="max-width:100%;border-radius:12px;margin-top:1rem;">` : ''}
-              ${post.link ? `<p><a href="${post.link}" target="_blank" style="color: var(--accent);">🔗 Maggiori informazioni</a></p>` : ''}
-            </div>
-            <div class="event-footer">
-              <button class="btn">Partecipa all'evento</button>
-              <button class="btn btn-outline" style="margin-left: 1rem;">Aggiungi al calendario</button>
-            </div>
-          `;
-          eventsContainer.appendChild(event);
+            const titolo = document.getElementById('postTitolo').value;
+            const contenuto = document.getElementById('postContenuto').value;
+            const data = document.getElementById('postData').value;
+            const orario = document.getElementById('postOra').value;
+            const durata = document.getElementById('postDurata').value;
+            const luogo = document.getElementById('postLuogo').value;
+            const indirizzo = document.getElementById('postIndirizzo').value;
+            const immagine = document.getElementById('postImmagine').value;
+            const link = document.getElementById('postLink').value;
+
+            const eventoData = {
+                titolo: titolo,
+                contenuto: contenuto,
+                data: data,
+                orario: orario,
+                durata: durata,
+                luogo: luogo,
+                indirizzo: indirizzo,
+                immagine: immagine,
+                link: link,
+                tipo: 'evento'
+            };
+
+            console.log('Invio dati:', eventoData);
+
+            try {
+                const res = await fetch('http://localhost:5002/api/post', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(eventoData)
+                });
+                
+                const data = await res.json();
+                console.log('Risposta server:', data);
+                
+                if (data.success) {
+                    alert('Evento creato con successo!');
+                    postFormContainer.style.display = 'none';
+                    postForm.reset();
+                    caricaEventi(); // Ricarica gli eventi
+                } else {
+                    alert(data.message || 'Errore nella creazione dell\'evento');
+                }
+            } catch (error) {
+                console.error('Errore di connessione:', error);
+                alert('Errore di connessione al server. Verifica che il server sia in esecuzione.');
+            }
         });
-      } catch (err) {
+    }
+
+    // Test connessione e carica eventi
+    testConnessione();
+    caricaEventi();
+});
+
+// Testa la connessione al server
+async function testConnessione() {
+    try {
+        const res = await fetch('http://localhost:5002/api/health');
+        const data = await res.json();
+        console.log('Test connessione:', data);
+    } catch (error) {
+        console.error('Server non raggiungibile:', error);
+        alert('Server non raggiungibile! Verifica che il backend sia in esecuzione sulla porta 5002.');
+    }
+}
+
+// Funzione per caricare gli eventi
+async function caricaEventi() {
+    const eventsContainer = document.querySelector('.events-container');
+    const calendarGrid = document.querySelector('.calendar-grid');
+    
+    console.log('Caricamento eventi...');
+    
+    try {
+        const res = await fetch('http://localhost:5002/api/post');
+        
+        if (!res.ok) {
+            throw new Error(`Errore HTTP: ${res.status}`);
+        }
+        
+        const posts = await res.json();
+        console.log('Eventi ricevuti:', posts);
+        
+        // Pulisci i container
+        eventsContainer.innerHTML = '';
+        calendarGrid.innerHTML = '';
+
+        if (!posts || posts.length === 0) {
+            eventsContainer.innerHTML = `
+                <article class="event">
+                    <div class="event-header">
+                        <h2>Nessun evento programmato</h2>
+                    </div>
+                    <div class="event-body">
+                        <p>Non ci sono eventi in programma al momento. Torna presto per scoprire le nuove iniziative!</p>
+                    </div>
+                </article>
+            `;
+            return;
+        }
+
+        // Aggiungi ogni evento al container
+        posts.forEach(post => {
+            const event = document.createElement('article');
+            event.className = 'event';
+            
+            // Formatta la data
+            let dataFormattata = 'Data da definire';
+            if (post.data) {
+                try {
+                    const dataObj = new Date(post.data + 'T00:00:00');
+                    dataFormattata = dataObj.toLocaleDateString('it-IT', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                } catch (e) {
+                    dataFormattata = post.data;
+                }
+            }
+            
+            const orarioFormattato = post.orario || 'Orario da definire';
+            
+            event.innerHTML = `
+                <div class="event-header">
+                    <h2>${post.titolo || 'Titolo non disponibile'}</h2>
+                    <div class="event-meta">
+                        <span>📅 ${dataFormattata}</span>
+                        <span>🕒 ${orarioFormattato}</span>
+                        ${post.durata ? `<span>⏱️ ${post.durata} ore</span>` : ''}
+                        ${post.luogo ? `<span>📍 ${post.luogo}</span>` : ''}
+                    </div>
+                </div>
+                <div class="event-body">
+                    <p>${(post.contenuto || 'Descrizione non disponibile').replace(/\n/g, '<br>')}</p>
+                    ${post.immagine ? `<img src="${post.immagine}" alt="Immagine evento" style="max-width:100%;border-radius:12px;margin-top:1rem;">` : ''}
+                    ${post.link ? `<p><a href="${post.link}" target="_blank" style="color: var(--accent);">🔗 Maggiori informazioni</a></p>` : ''}
+                </div>
+                <div class="event-footer">
+                    <button class="btn" onclick="partecipaEvento(${post.id})">Partecipa all'evento</button>
+                    <button class="btn btn-outline" onclick="aggiungiAlCalendario(${post.id})" style="margin-left: 1rem;">Aggiungi al calendario</button>
+                </div>
+            `;
+            eventsContainer.appendChild(event);
+
+            // Aggiungi al calendario
+            if (post.data) {
+                const calendarDay = document.createElement('div');
+                calendarDay.className = 'calendar-day';
+                
+                let dataBreve = post.data;
+                try {
+                    const dataObj = new Date(post.data + 'T00:00:00');
+                    dataBreve = dataObj.toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
+                } catch (e) {
+                    // Usa la data originale se il parsing fallisce
+                }
+                
+                calendarDay.innerHTML = `
+                    <h3>${dataBreve}</h3>
+                    <p>${post.titolo || 'Evento'}</p>
+                    <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;">${post.orario || 'Orario da definire'}</p>
+                `;
+                calendarGrid.appendChild(calendarDay);
+            }
+        });
+        
+    } catch (err) {
         console.error('Errore nel caricamento degli eventi:', err);
-      }
-    });
-  </script>
+        eventsContainer.innerHTML = `
+            <article class="event">
+                <div class="event-header">
+                    <h2>Errore nel caricamento</h2>
+                </div>
+                <div class="event-body">
+                    <p>Impossibile caricare gli eventi. Errore: ${err.message}</p>
+                    <p>Verifica che il server backend sia in esecuzione sulla porta 5002.</p>
+                </div>
+            </article>
+        `;
+    }
+}
+
+// Funzioni per i pulsanti
+function partecipaEvento(id) {
+    alert(`Hai scelto di partecipare all'evento ${id}!`);
+}
+
+function aggiungiAlCalendario(id) {
+    alert(`Evento ${id} aggiunto al calendario!`);
+}
+
+// Aggiungi anche un listener per cambiamenti nell'autenticazione
+window.addEventListener('storage', function(e) {
+    if (e.key === 'utente_ruolo') {
+        location.reload(); // Ricarica la pagina quando cambia il ruolo
+    }
+});
+</script>
 </body>
 </html>
