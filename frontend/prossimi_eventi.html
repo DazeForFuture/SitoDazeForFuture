@@ -178,6 +178,13 @@
       box-shadow: 0 8px 16px rgba(0,0,0,0.12);
     }
 
+    .event-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
     .event-header {
       padding: 1.5rem;
       border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -685,32 +692,95 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function caricaEventi() {
     try {
+        console.log('🔍 Inizio caricamento eventi...');
         const response = await fetch('http://localhost:5002/api/post');
         const posts = await response.json();
+        
+        console.log('📦 Dati ricevuti dal backend:', posts);
         
         const container = document.querySelector('.events-container');
         container.innerHTML = '';
         
-        posts.forEach(post => {
-            container.innerHTML += `
-                <article class="event">
-                    <div class="event-header">
-                        <h2>${post.titolo}</h2>
-                        <div class="event-meta">
-                            <span>📅 ${post.data}</span>
-                            <span>🕒 ${post.orario}</span>
-                            <span>📍 ${post.luogo}</span>
-                        </div>
-                    </div>
-                    <div class="event-body">
-                        <p>${post.contenuto}</p>
-                    </div>
-                </article>
-            `;
-        });
+        if (posts.length === 0) {
+            container.innerHTML = '<div class="no-events">Nessun evento programmato al momento. Torna presto per scoprire le nuove iniziative!</div>';
+            return;
+        }
+        
+    posts.forEach((post) => {
+      // Gestione dell'immagine
+      let imageHtml = '';
+      if (post.immagine && post.immagine.trim() !== '' && post.immagine !== 'null') {
+        imageHtml = `<img src="${post.immagine}" alt="${post.titolo || 'Evento'}" class="event-image" onerror="this.style.display='none';">`;
+      }
+
+      // Formatta la data
+      const dataEvento = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
+      const orarioEvento = post.orario || 'Orario da definire';
+
+      container.innerHTML += `
+        <article class="event" style="position: relative;">
+          ${imageHtml}
+          <div class="event-header">
+            <h2>${post.titolo || 'Titolo non disponibile'}</h2>
+            <div class="event-meta">
+              <span>📅 ${dataEvento}</span>
+              <span>🕒 ${orarioEvento}</span>
+              <span>📍 ${post.luogo || 'Luogo da definire'}</span>
+            </div>
+          </div>
+          <div class="event-body">
+            <p>${post.contenuto || 'Descrizione non disponibile'}</p>
+          </div>
+          <div class="event-footer">
+            ${post.link ? `<a href="${post.link}" target="_blank" class="btn">Maggiori informazioni</a>` : ''}
+          </div>
+        </article>
+      `;
+    });
+        
+        // Aggiorna anche il calendario
+        aggiornaCalendario(posts);
+        
     } catch (error) {
-        console.error('Errore caricamento eventi:', error);
+        console.error('❌ Errore caricamento eventi:', error);
+        document.querySelector('.events-container').innerHTML = '<div class="no-events">Errore nel caricamento degli eventi. Riprova più tardi.</div>';
     }
+}
+
+function aggiornaCalendario(posts) {
+  const calendarGrid = document.querySelector('.calendar-grid');
+  calendarGrid.innerHTML = '';
+
+  // Raggruppa eventi per data
+  const eventsByDate = {};
+  posts.forEach(post => {
+    if (!eventsByDate[post.data]) {
+      eventsByDate[post.data] = [];
+    }
+    eventsByDate[post.data].push(post);
+  });
+
+  // Crea elementi calendario per ogni data con eventi
+  Object.keys(eventsByDate).sort().forEach(data => {
+    const events = eventsByDate[data];
+    const dateObj = new Date(data);
+    const giorno = dateObj.getDate();
+    const mese = dateObj.toLocaleDateString('it-IT', { month: 'short' });
+    let eventiHtml = '';
+    events.forEach(ev => {
+      eventiHtml += `<div style="margin-bottom: 0.5rem; color: var(--text); font-size: 1rem;">${ev.titolo || 'Evento'}<br><span style='color:var(--muted);font-size:0.9em;'>${ev.orario || ''} - ${ev.luogo || ''}</span></div>`;
+    });
+    calendarGrid.innerHTML += `
+      <div class="calendar-day">
+        <h3>${giorno} ${mese}</h3>
+        ${eventiHtml}
+      </div>
+    `;
+  });
+
+  if (Object.keys(eventsByDate).length === 0) {
+    calendarGrid.innerHTML = '<div class="no-events">Nessun evento in calendario</div>';
+  }
 }
 </script>
 </body>
