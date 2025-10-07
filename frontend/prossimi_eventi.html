@@ -669,7 +669,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         try {
-            const response = await fetch('http://localhost:5002/api/post', {
+            const response = await fetch('http://192.168.0.137:5002/api/post', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData)
@@ -693,7 +693,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function caricaEventi() {
     try {
         console.log('🔍 Inizio caricamento eventi...');
-        const response = await fetch('http://localhost:5002/api/post');
+        const response = await fetch('http://192.168.0.137:5002/api/post');
         const posts = await response.json();
         
         console.log('📦 Dati ricevuti dal backend:', posts);
