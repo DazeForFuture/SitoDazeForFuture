@@ -75,6 +75,63 @@ def leggi_post():
     conn.close()
     return jsonify(posts)
 
+# GET singolo post
+@app.route('/api/post/<int:post_id>', methods=['GET'])
+def get_post(post_id):
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    c.execute("SELECT id, titolo, contenuto, immagine, data, orario, durata, luogo, indirizzo FROM posts WHERE id = ?", (post_id,))
+    row = c.fetchone()
+    conn.close()
+    if row:
+        post = {
+            'id': row[0],
+            'titolo': row[1],
+            'contenuto': row[2],
+            'immagine': row[3],
+            'data': row[4],
+            'orario': row[5],
+            'durata': row[6],
+            'luogo': row[7],
+            'indirizzo': row[8]
+        }
+        return jsonify(post)
+    else:
+        return jsonify({'success': False, 'message': 'Post non trovato'}), 404
+
+# DELETE post
+@app.route('/api/post/<int:post_id>', methods=['DELETE'])
+def elimina_post(post_id):
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    c.execute("DELETE FROM posts WHERE id = ?", (post_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({'success': True, 'message': 'Post eliminato'})
+
+# PUT modifica post
+@app.route('/api/post/<int:post_id>', methods=['PUT'])
+def modifica_post(post_id):
+    data = request.json
+    titolo = data.get('titolo')
+    contenuto = data.get('contenuto')
+    immagine = data.get('immagine')
+    data_evento = data.get('data')
+    orario = data.get('orario')
+    durata = data.get('durata')
+    luogo = data.get('luogo')
+    indirizzo = data.get('indirizzo')
+    if not titolo or not contenuto:
+        return jsonify({'success': False, 'message': 'Titolo e contenuto obbligatori'}), 400
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    c.execute("""
+        UPDATE posts SET titolo=?, contenuto=?, immagine=?, data=?, orario=?, durata=?, luogo=?, indirizzo=? WHERE id=?
+    """, (titolo, contenuto, immagine, data_evento, orario, durata, luogo, indirizzo, post_id))
+    conn.commit()
+    conn.close()
+    return jsonify({'success': True, 'message': 'Post modificato'})
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({'status': 'healthy', 'message': 'Server is running'})

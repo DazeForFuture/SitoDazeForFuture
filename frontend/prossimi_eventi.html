@@ -656,7 +656,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.getElementById('postForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const formData = {
             titolo: document.getElementById('postTitolo').value,
             contenuto: document.getElementById('postContenuto').value,
@@ -667,24 +666,30 @@ document.addEventListener('DOMContentLoaded', function() {
             indirizzo: document.getElementById('postIndirizzo').value,
             immagine: document.getElementById('postImmagine').value
         };
-        
+        const editId = document.getElementById('postForm').getAttribute('data-edit-id');
+        let url = 'http://192.168.0.137:5002/api/post';
+        let method = 'POST';
+        if (editId) {
+            url = `http://192.168.0.137:5002/api/post/${editId}`;
+            method = 'PUT';
+        }
         try {
-            const response = await fetch('http://192.168.0.137:5002/api/post', {
-                method: 'POST',
+            const response = await fetch(url, {
+                method,
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData)
             });
-            
             const result = await response.json();
             if (result.success) {
-                alert('Evento creato!');
-                location.reload(); // Ricarica la pagina
+                alert(editId ? 'Evento modificato!' : 'Evento creato!');
+                location.reload();
             } else {
                 alert('Errore: ' + result.message);
             }
         } catch (error) {
             alert('Errore di connessione: ' + error.message);
         }
+        document.getElementById('postForm').removeAttribute('data-edit-id');
     });
     
     caricaEventi();
@@ -717,6 +722,14 @@ async function caricaEventi() {
       const dataEvento = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
       const orarioEvento = post.orario || 'Orario da definire';
 
+      // Pulsanti admin
+      let adminBtns = '';
+      if (localStorage.getItem('utente_ruolo') === 'admin') {
+        adminBtns = `
+          <button class="btn btn-outline" style="margin-right:8px;" onclick="eliminaPost(${post.id})">Elimina</button>
+        `;
+      }
+
       container.innerHTML += `
         <article class="event" style="position: relative;">
           ${imageHtml}
@@ -733,6 +746,7 @@ async function caricaEventi() {
           </div>
           <div class="event-footer">
             ${post.link ? `<a href="${post.link}" target="_blank" class="btn">Maggiori informazioni</a>` : ''}
+            ${adminBtns}
           </div>
         </article>
       `;
@@ -780,6 +794,25 @@ function aggiornaCalendario(posts) {
 
   if (Object.keys(eventsByDate).length === 0) {
     calendarGrid.innerHTML = '<div class="no-events">Nessun evento in calendario</div>';
+  }
+}
+
+// Funzione elimina post
+async function eliminaPost(id) {
+  if (!confirm('Sei sicuro di voler eliminare questo evento?')) return;
+  try {
+    const response = await fetch(`http://192.168.0.137:5002/api/post/${id}`, {
+      method: 'DELETE'
+    });
+    const result = await response.json();
+    if (result.success) {
+      alert('Evento eliminato!');
+      location.reload();
+    } else {
+      alert('Errore: ' + result.message);
+    }
+  } catch (error) {
+    alert('Errore di connessione: ' + error.message);
   }
 }
 </script>
