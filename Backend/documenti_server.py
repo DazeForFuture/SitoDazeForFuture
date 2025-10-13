@@ -1,481 +1,363 @@
-# app.py
 import os
 import sqlite3
-import base64
-import uuid
 from datetime import datetime
-from flask import Flask, request, jsonify, send_file, session, make_response
-from flask_cors import CORS
-import bcrypt
-import logging
-from werkzeug.security import generate_password_hash, check_password_hash
-
-# Configurazione logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+from flask import Flask, request, jsonify, send_file, g
+from werkzeug.utils import secure_filename
+from flask_cors import CORS  # Per gestire CORS
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-change-in-production'
-app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10MB max file size
+app.config['UPLOAD_FOLDER'] = 'documenti'
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 16MB max file size
+app.config['DATABASE'] = '../../database/documenti.db'
 
-# CORS configuration
-CORS(app, supports_credentials=True, origins=["http://localhost:5000", "http://127.0.0.1:5000","http://0.0.0.0:5000"])
+# Abilita CORS per tutte le origini
+CORS(app)
 
-# Percorsi database
-frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../frontend'))
-static_dir = os.path.join(frontend_dir, 'css')
-db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/utenti.db'))
-documents_db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/documenti.db'))
-ADMIN_PASSWORD = "deidopas0810!"
+# Estensioni permesse
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip'}
 
-# Crea directory se non esiste
-os.makedirs(os.path.dirname(db_path), exist_ok=True)
-os.makedirs(os.path.dirname(documents_db_path), exist_ok=True)
-
-# Database setup
-def init_databases():
-    """Inizializza il database documenti"""    
-    # Database documenti
-    conn = sqlite3.connect(documents_db_path)
-    cursor = conn.cursor()
+# Funzione per inizializzare il database
+def init_db():
+    """Inizializza il database con le tabelle necessarie"""
+    db = get_db()
     
-    cursor.execute('''
+    # Crea tabella documents
+    db.execute('''
         CREATE TABLE IF NOT EXISTS documents (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            filename TEXT NOT NULL,
-            file_data BLOB NOT NULL,
-            file_size INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            file_path TEXT NOT NULL,
             file_type TEXT NOT NULL,
-            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            size INTEGER NOT NULL,
+            upload_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+            uploaded_by TEXT NOT NULL
         )
     ''')
     
-    cursor.execute('''
-        CREATE INDEX IF NOT EXISTS idx_documents_user_id 
-        ON documents(user_id)
+    # Crea tabella document_requests
+    db.execute('''
+        CREATE TABLE IF NOT EXISTS document_requests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            description TEXT,
+            requested_by TEXT NOT NULL,
+            request_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+            status TEXT DEFAULT 'pending'
+        )
     ''')
     
-    cursor.execute('''
-        CREATE INDEX IF NOT EXISTS idx_documents_uploaded_at 
-        ON documents(uploaded_at DESC)
+    # Crea tabella users per gestire autenticazione
+    db.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            role TEXT DEFAULT 'user',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
     ''')
     
-    conn.commit()
-    conn.close()
-    logger.info("Database documenti inizializzato")
-
-def get_users_db_connection():
-    """Connessione al database utenti"""
+    # Inserisce utenti di default
     try:
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        return conn
-    except Exception as e:
-        logger.error(f"Errore connessione database utenti: {str(e)}")
-        raise
-
-def get_documents_db_connection():
-    """Connessione al database documenti"""
-    try:
-        conn = sqlite3.connect(documents_db_path)
-        conn.row_factory = sqlite3.Row
-        return conn
-    except Exception as e:
-        logger.error(f"Errore connessione database documenti: {str(e)}")
-        raise
-
-# Helper functions
-def allowed_file(filename):
-    ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'txt', 'jpg', 'jpeg', 'png', 'gif'}
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def get_file_type(filename):
-    ext = filename.rsplit('.', 1)[1].lower()
-    mime_types = {
-        'pdf': 'application/pdf',
-        'doc': 'application/msword',
-        'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'txt': 'text/plain',
-        'jpg': 'image/jpeg',
-        'jpeg': 'image/jpeg',
-        'png': 'image/png',
-        'gif': 'image/gif'
-    }
-    return mime_types.get(ext, 'application/octet-stream')
-
-# Authentication routes (dal tuo codice esistente)
-@app.route('/register', methods=['POST'])
-def register():
-    data = request.json
-    nome = data.get('nome')
-    cognome = data.get('cognome')
-    email = data.get('email')
-    ruolo = data.get('ruolo')
-    motivazione = data.get('motivazione')
-    password = data.get('password')
-    anno = data.get('anno')
-    sezione = data.get('sezione')
-    is_admin = data.get('is_admin', False)
-    admin_password = data.get('admin_password', '')
-    
-    if is_admin:
-        if admin_password != ADMIN_PASSWORD:
-            return jsonify({'success': False, 'message': 'Password admin errata'}), 403
-        ruolo = 'admin'
-    
-    if not all([nome, cognome, email, ruolo, password]):
-        return jsonify({'success': False, 'message': 'Tutti i campi obbligatori tranne la motivazione'}), 400
-    
-    hashed_pw = generate_password_hash(password)
-    
-    try:
-        conn = get_users_db_connection()
-        c = conn.cursor()
-        c.execute('''
-            INSERT INTO users (nome, cognome, email, ruolo, motivazione, password, anno, sezione)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (nome, cognome, email, ruolo, motivazione, hashed_pw, anno, sezione))
-        conn.commit()
-        conn.close()
-        return jsonify({'success': True, 'message': 'Registrazione avvenuta con successo'})
+        db.execute(
+            'INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)',
+            ('admin@dazefuture.com', 'pbkdf2:sha256:260000$abc123$def456', 'admin')
+        )
+        print("Admin user created: admin@dazefuture.com")
     except sqlite3.IntegrityError:
-        return jsonify({'success': False, 'message': 'Email già registrata'}), 409
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    email = data.get('email')
-    password = data.get('password')
+        pass  # L'utente admin esiste già
     
-    if not email or not password:
-        return jsonify({'success': False, 'message': 'Email e password richiesti'}), 400
-    
-    conn = get_users_db_connection()
-    c = conn.cursor()
-    c.execute('SELECT id, password, ruolo, nome, cognome FROM users WHERE email = ?', (email,))
-    row = c.fetchone()
-    conn.close()
-    
-    if row and check_password_hash(row[1], password):
-        # Imposta la sessione
-        session['user_id'] = row[0]
-        session['user_email'] = email
-        session['user_role'] = row[2]
-        session['user_name'] = f"{row[3]} {row[4]}"
-        
-        response = jsonify({
-            'success': True, 
-            'message': 'Accesso riuscito', 
-            'ruolo': row[2], 
-            'email': email,
-            'user': {
-                'id': row[0],
-                'nome': row[3],
-                'cognome': row[4],
-                'email': email,
-                'ruolo': row[2]
-            }
-        })
-        
-        response.set_cookie(
-            'session_id', 
-            value=str(row[0]),
-            httponly=True,
-            secure=False,
-            samesite='Lax'
+    try:
+        db.execute(
+            'INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)',
+            ('user@dazefuture.com', 'pbkdf2:sha256:260000$xyz789$uvw000', 'user')
         )
-        
-        logger.info(f"Login riuscito per: {email}")
-        return response
-    else:
-        logger.warning(f"Login fallito per: {email}")
-        return jsonify({'success': False, 'message': 'Credenziali non valide'}), 401
+        print("User created: user@dazefuture.com")
+    except sqlite3.IntegrityError:
+        pass  # L'utente user esiste già
+    
+    db.commit()
+    print("Database initialized successfully!")
 
-@app.route('/check_auth', methods=['GET'])
-def check_auth():
-    try:
-        user_id = session.get('user_id')
-        
-        if user_id:
-            conn = get_users_db_connection()
-            user = conn.execute(
-                'SELECT id, email, ruolo, nome, cognome FROM users WHERE id = ?', (user_id,)
-            ).fetchone()
-            conn.close()
-            
-            if user:
-                logger.info(f"Utente autenticato: {user['email']}")
-                return jsonify({
-                    'authenticated': True,
-                    'user': {
-                        'id': user['id'],
-                        'email': user['email'],
-                        'ruolo': user['ruolo'],
-                        'nome': user['nome'],
-                        'cognome': user['cognome']
-                    }
-                })
-        
-        logger.info("Utente non autenticato")
-        return jsonify({'authenticated': False}), 401
-        
-    except Exception as e:
-        logger.error(f"Errore durante check auth: {str(e)}")
-        return jsonify({'authenticated': False}), 401
+def get_db():
+    """Ottiene la connessione al database"""
+    if 'db' not in g:
+        g.db = sqlite3.connect(app.config['DATABASE'])
+        g.db.row_factory = sqlite3.Row
+    return g.db
 
-@app.route('/logout', methods=['POST'])
-def logout():
-    try:
-        session.clear()
-        response = jsonify({'success': True, 'message': 'Logout effettuato'})
-        response.set_cookie('session_id', '', expires=0)
-        logger.info("Logout effettuato")
-        return response
-    except Exception as e:
-        logger.error(f"Errore durante logout: {str(e)}")
-        return jsonify({'success': False, 'message': 'Errore durante il logout'}), 500
+@app.teardown_appcontext
+def close_db(error):
+    """Chiude la connessione al database"""
+    if hasattr(g, 'db'):
+        g.db.close()
 
-# Document routes (nuove funzionalità)
-@app.route('/api/upload_document', methods=['POST'])
-def upload_document():
-    try:
-        # Verifica autenticazione
-        user_id = session.get('user_id')
-        if not user_id:
-            logger.warning("Tentativo upload senza autenticazione")
-            return jsonify({'success': False, 'message': 'Non autenticato'}), 401
-        
-        data = request.get_json()
-        if not data:
-            return jsonify({'success': False, 'message': 'Nessun dato ricevuto'}), 400
-        
-        filename = data.get('filename')
-        filedata = data.get('filedata')
-        
-        if not filename or not filedata:
-            return jsonify({'success': False, 'message': 'Nome file e dati richiesti'}), 400
-        
-        if not allowed_file(filename):
-            return jsonify({'success': False, 'message': 'Tipo di file non supportato'}), 400
-        
-        # Decodifica base64
-        try:
-            file_bytes = base64.b64decode(filedata)
-        except Exception as e:
-            logger.error(f"Errore decodifica base64: {str(e)}")
-            return jsonify({'success': False, 'message': 'Dati file non validi'}), 400
-        
-        file_size = len(file_bytes)
-        file_type = get_file_type(filename)
-        
-        # Salva nel database documenti
-        conn = get_documents_db_connection()
-        cursor = conn.cursor()
-        
-        cursor.execute('''
-            INSERT INTO documents (user_id, filename, file_data, file_size, file_type)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (user_id, filename, file_bytes, file_size, file_type))
-        
-        document_id = cursor.lastrowid
-        conn.commit()
-        conn.close()
-        
-        logger.info(f"Documento caricato: {filename} (ID: {document_id}) per utente {user_id}")
-        
-        return jsonify({
-            'success': True,
-            'message': 'Documento caricato con successo',
-            'document_id': document_id
-        })
-        
-    except Exception as e:
-        logger.error(f"Errore durante l'upload: {str(e)}")
-        return jsonify({'success': False, 'message': 'Errore interno del server'}), 500
+def allowed_file(filename):
+    """Verifica se il tipo di file è permesso"""
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/api/list_documents', methods=['GET'])
-def list_documents():
-    try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'success': False, 'message': 'Non autenticato'}), 401
-        
-        conn = get_documents_db_connection()
-        documents = conn.execute('''
-            SELECT id, filename, file_size, file_type, uploaded_at 
-            FROM documents 
-            WHERE user_id = ? 
-            ORDER BY uploaded_at DESC
-        ''', (user_id,)).fetchall()
-        conn.close()
-        
-        docs_list = []
-        for doc in documents:
-            docs_list.append({
-                'id': doc['id'],
-                'filename': doc['filename'],
-                'file_size': doc['file_size'],
-                'file_type': doc['file_type'],
-                'uploaded_at': doc['uploaded_at']
-            })
-        
-        logger.info(f"Listati {len(docs_list)} documenti per utente {user_id}")
-        return jsonify(docs_list)
-        
-    except Exception as e:
-        logger.error(f"Errore durante il listing documenti: {str(e)}")
-        return jsonify({'success': False, 'message': 'Errore interno del server'}), 500
+# Sistema di autenticazione semplificato
+def get_current_user():
+    """Funzione semplificata per ottenere l'utente corrente"""
+    # In un'app reale, questa funzione verificherebbe il token JWT o la sessione
+    # Per ora simuliamo con header personalizzati
+    user_email = request.headers.get('X-User-Email', 'user@dazefuture.com')
+    user_role = request.headers.get('X-User-Role', 'user')
+    
+    return {
+        'email': user_email,
+        'role': user_role
+    }
 
-@app.route('/api/view_document/<int:doc_id>', methods=['GET'])
-def view_document(doc_id):
-    try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'success': False, 'message': 'Non autenticato'}), 401
-        
-        conn = get_documents_db_connection()
-        document = conn.execute('''
-            SELECT filename, file_data, file_type 
-            FROM documents 
-            WHERE id = ? AND user_id = ?
-        ''', (doc_id, user_id)).fetchone()
-        conn.close()
-        
-        if not document:
-            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
-        
-        # Crea una risposta con il file
-        response = make_response(document['file_data'])
-        response.headers.set('Content-Type', document['file_type'])
-        response.headers.set('Content-Disposition', 'inline', filename=document['filename'])
-        
-        logger.info(f"Documento visualizzato: {document['filename']} (ID: {doc_id})")
-        return response
-        
-    except Exception as e:
-        logger.error(f"Errore durante la visualizzazione documento: {str(e)}")
-        return jsonify({'success': False, 'message': 'Errore interno del server'}), 500
-
-@app.route('/api/download_document/<int:doc_id>', methods=['GET'])
-def download_document(doc_id):
-    try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'success': False, 'message': 'Non autenticato'}), 401
-        
-        conn = get_documents_db_connection()
-        document = conn.execute('''
-            SELECT filename, file_data, file_type 
-            FROM documents 
-            WHERE id = ? AND user_id = ?
-        ''', (doc_id, user_id)).fetchone()
-        conn.close()
-        
-        if not document:
-            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
-        
-        # Crea una risposta con il file per il download
-        response = make_response(document['file_data'])
-        response.headers.set('Content-Type', document['file_type'])
-        response.headers.set('Content-Disposition', 'attachment', filename=document['filename'])
-        
-        logger.info(f"Documento scaricato: {document['filename']} (ID: {doc_id})")
-        return response
-        
-    except Exception as e:
-        logger.error(f"Errore durante il download documento: {str(e)}")
-        return jsonify({'success': False, 'message': 'Errore interno del server'}), 500
-
-@app.route('/api/delete_document/<int:doc_id>', methods=['DELETE'])
-def delete_document(doc_id):
-    try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'success': False, 'message': 'Non autenticato'}), 401
-        
-        conn = get_documents_db_connection()
-        
-        # Prima verifica che il documento appartenga all'utente
-        document = conn.execute('''
-            SELECT filename FROM documents WHERE id = ? AND user_id = ?
-        ''', (doc_id, user_id)).fetchone()
-        
-        if not document:
-            conn.close()
-            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
-        
-        # Elimina il documento
-        conn.execute('DELETE FROM documents WHERE id = ? AND user_id = ?', (doc_id, user_id))
-        conn.commit()
-        conn.close()
-        
-        logger.info(f"Documento eliminato: {document['filename']} (ID: {doc_id})")
-        return jsonify({'success': True, 'message': 'Documento eliminato con successo'})
-        
-    except Exception as e:
-        logger.error(f"Errore durante l'eliminazione documento: {str(e)}")
-        return jsonify({'success': False, 'message': 'Errore interno del server'}), 500
-
-# Routes per servire le pagine (dal tuo codice esistente)
+# API Routes
 @app.route('/')
-def index():
-    return send_from_directory(frontend_dir, 'index.html')
-
-@app.route('/<path:filename>')
-def serve_page(filename):
-    return send_from_directory(frontend_dir, filename)
-
-@app.route('/css/<path:filename>')
-def serve_css(filename):
-    return send_from_directory(static_dir, filename)
-
-# Health check
-@app.route('/health', methods=['GET'])
-def health_check():
+def home():
     return jsonify({
-        'status': 'healthy', 
-        'timestamp': datetime.now().isoformat(),
-        'databases': {
-            'users': 'ok',
-            'documents': 'ok'
+        'message': 'Daze for Future API',
+        'version': '1.0',
+        'port': 5001,
+        'endpoints': {
+            'documents': '/api/documents',
+            'upload': '/api/upload',
+            'download': '/api/download/<id>',
+            'delete': '/api/delete/<id>',
+            'request': '/api/request',
+            'requests': '/api/requests'
         }
     })
 
-# Aggiungi questa route per gestire le richieste proxy dal frontend
-@app.route('/api/<path:api_path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def api_proxy(api_path):
-    """Proxy per le API chiamate dal frontend sulla stessa porta"""
+@app.route('/api/documents', methods=['GET'])
+def get_documents():
+    """Restituisce tutti i documenti disponibili"""
     try:
-        user_id = session.get('user_id')
-        if not user_id:
-            return jsonify({'success': False, 'message': 'Non autenticato'}), 401
+        db = get_db()
+        cursor = db.execute('SELECT * FROM documents ORDER BY upload_date DESC')
+        documents = cursor.fetchall()
         
-        # Gestisci le varie API qui
-        if api_path == 'list_documents':
-            return list_documents()
-        elif api_path.startswith('view_document/'):
-            doc_id = int(api_path.split('/')[1])
-            return view_document(doc_id)
-        elif api_path.startswith('download_document/'):
-            doc_id = int(api_path.split('/')[1])
-            return download_document(doc_id)
-        elif api_path.startswith('delete_document/'):
-            doc_id = int(api_path.split('/')[1])
-            return delete_document(doc_id)
-        elif api_path == 'upload_document':
-            return upload_document()
-        else:
-            return jsonify({'success': False, 'message': 'API non trovata'}), 404
-            
+        result = []
+        for doc in documents:
+            result.append({
+                'id': doc['id'],
+                'name': doc['name'],
+                'file_type': doc['file_type'],
+                'size': doc['size'],
+                'upload_date': doc['upload_date'],
+                'uploaded_by': doc['uploaded_by']
+            })
+        
+        return jsonify({'success': True, 'documents': result})
     except Exception as e:
-        logger.error(f"Errore API proxy: {str(e)}")
-        return jsonify({'success': False, 'message': 'Errore interno del server'}), 500
+        return jsonify({'success': False, 'message': f'Errore nel recupero documenti: {str(e)}'}), 500
 
+@app.route('/api/upload', methods=['POST'])
+def upload_file():
+    """Carica uno o più documenti (solo admin)"""
+    try:
+        # Verifica autenticazione e ruolo admin
+        user = get_current_user()
+        if user['role'] != 'admin':
+            return jsonify({'success': False, 'message': 'Solo gli admin possono caricare documenti'}), 403
+        
+        if 'files' not in request.files:
+            return jsonify({'success': False, 'message': 'Nessun file selezionato'}), 400
+        
+        files = request.files.getlist('files')
+        uploaded_files = []
+        
+        for file in files:
+            if file.filename == '':
+                continue
+                
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                
+                # Crea la cartella uploads se non esiste
+                if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                    os.makedirs(app.config['UPLOAD_FOLDER'])
+                
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                
+                # Gestisci file con lo stesso nome
+                counter = 1
+                original_filename = filename
+                while os.path.exists(file_path):
+                    name, ext = os.path.splitext(original_filename)
+                    filename = f"{name}_{counter}{ext}"
+                    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    counter += 1
+                
+                file.save(file_path)
+                
+                # Salva informazioni nel database
+                db = get_db()
+                db.execute(
+                    'INSERT INTO documents (name, file_path, file_type, size, uploaded_by) VALUES (?, ?, ?, ?, ?)',
+                    (filename, file_path, filename.rsplit('.', 1)[1].lower(), 
+                     os.path.getsize(file_path), user['email'])
+                )
+                db.commit()
+                
+                uploaded_files.append(filename)
+            else:
+                return jsonify({'success': False, 'message': f'Tipo file non supportato: {file.filename}'}), 400
+        
+        return jsonify({
+            'success': True, 
+            'message': f'{len(uploaded_files)} file caricati con successo',
+            'files': uploaded_files
+        })
+    
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Errore nel caricamento: {str(e)}'}), 500
+
+@app.route('/api/download/<int:document_id>')
+def download_document(document_id):
+    """Scarica un documento specifico"""
+    try:
+        db = get_db()
+        cursor = db.execute('SELECT * FROM documents WHERE id = ?', (document_id,))
+        document = cursor.fetchone()
+        
+        if document is None:
+            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
+        
+        if not os.path.exists(document['file_path']):
+            return jsonify({'success': False, 'message': 'File non trovato sul server'}), 404
+        
+        return send_file(
+            document['file_path'], 
+            as_attachment=True, 
+            download_name=document['name']
+        )
+    
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Errore nel download: {str(e)}'}), 500
+
+@app.route('/api/delete/<int:document_id>', methods=['DELETE'])
+def delete_document(document_id):
+    """Elimina un documento (solo admin)"""
+    try:
+        # Verifica autenticazione e ruolo admin
+        user = get_current_user()
+        if user['role'] != 'admin':
+            return jsonify({'success': False, 'message': 'Solo gli admin possono eliminare documenti'}), 403
+        
+        db = get_db()
+        
+        # Recupera informazioni sul file
+        cursor = db.execute('SELECT * FROM documents WHERE id = ?', (document_id,))
+        document = cursor.fetchone()
+        
+        if document is None:
+            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
+        
+        # Elimina il file fisico
+        try:
+            if os.path.exists(document['file_path']):
+                os.remove(document['file_path'])
+        except OSError as e:
+            print(f"Errore nell'eliminazione del file: {e}")
+        
+        # Elimina record dal database
+        db.execute('DELETE FROM documents WHERE id = ?', (document_id,))
+        db.commit()
+        
+        return jsonify({'success': True, 'message': 'Documento eliminato con successo'})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Errore nell\'eliminazione: {str(e)}'}), 500
+
+@app.route('/api/request', methods=['POST'])
+def request_document():
+    """Invia una richiesta per un nuovo documento"""
+    try:
+        # Verifica autenticazione
+        user = get_current_user()
+        
+        data = request.get_json()
+        if not data:
+            return jsonify({'success': False, 'message': 'Dati non validi'}), 400
+        
+        document_name = data.get('name')
+        document_description = data.get('description', '')
+        
+        if not document_name:
+            return jsonify({'success': False, 'message': 'Nome documento richiesto'}), 400
+        
+        # Salva richiesta nel database
+        db = get_db()
+        db.execute(
+            'INSERT INTO document_requests (name, description, requested_by) VALUES (?, ?, ?)',
+            (document_name, document_description, user['email'])
+        )
+        db.commit()
+        
+        return jsonify({
+            'success': True, 
+            'message': 'Richiesta inviata con successo. Gli admin la prenderanno in considerazione.'
+        })
+    
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Errore nell\'invio della richiesta: {str(e)}'}), 500
+
+@app.route('/api/requests', methods=['GET'])
+def get_requests():
+    """Restituisce tutte le richieste (solo admin)"""
+    try:
+        # Verifica autenticazione e ruolo admin
+        user = get_current_user()
+        if user['role'] != 'admin':
+            return jsonify({'success': False, 'message': 'Solo gli admin possono vedere le richieste'}), 403
+        
+        db = get_db()
+        cursor = db.execute('SELECT * FROM document_requests ORDER BY request_date DESC')
+        requests = cursor.fetchall()
+        
+        result = []
+        for req in requests:
+            result.append({
+                'id': req['id'],
+                'name': req['name'],
+                'description': req['description'],
+                'requested_by': req['requested_by'],
+                'request_date': req['request_date'],
+                'status': req['status']
+            })
+        
+        return jsonify({'success': True, 'requests': result})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Errore nel recupero richieste: {str(e)}'}), 500
+
+# API per simulare login
+@app.route('/api/login', methods=['POST'])
+def login():
+    """Endpoint per simulare il login"""
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+# Gestione errori
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'success': False, 'message': 'Endpoint non trovato'}), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({'success': False, 'message': 'Errore interno del server'}), 500
+
+# Inizializzazione dell'app
 if __name__ == '__main__':
-    init_databases()
-    print("=== Sistema di Gestione Documenti ===")
-    print(f"Database utenti: {db_path}")
-    print(f"Database documenti: {documents_db_path}")
-    print("Server in esecuzione su http://localhost:5001")
-    app.run(debug=True, port=5001, host='0.0.0.0')
+    with app.app_context():
+        init_db()
+    
+    print("=" * 60)
+    print("Daze for Future Document Management System")
+    print("Server in esecuzione su porta 5001")
+    print("Database creato automaticamente: documents.db")
+    print("Cartella uploads creata automaticamente")
+    print("Accesso: http://localhost:5001")
+    print("=" * 60)
+    
+    app.run(debug=True, host='0.0.0.0', port=5001)
