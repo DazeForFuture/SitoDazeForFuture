@@ -8,10 +8,12 @@
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Documenti - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
+
   <style>
+    /* --- VARIABILI COERENTI ALLA HOME --- */
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -22,17 +24,16 @@
       --btn-hover-bg: #333;
       --header-bg: rgba(255,255,255,0.9);
       --header-text: #1d1d1f;
+      --card-bg: #f5f5f7;
+      --accent: #007aff;
       --sidebar-bg: rgba(255,255,255,0.95);
       --sidebar-border: rgba(0,0,0,0.1);
       --sidebar-shadow: rgba(0,0,0,0.1);
-      --accent: #007aff;
-      --admin-badge: #ff3b30;
-      --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
+      --btn-spacing: 1rem;
       --success: #34c759;
-      --warning: #ffcc00;
       --error: #ff3b30;
+      --warning: #ff9500;
+      --info: #007aff;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -46,17 +47,15 @@
         --btn-hover-bg: #ddd;
         --header-bg: rgba(29,29,31,0.9);
         --header-text: #f5f5f7;
+        --card-bg: #252526;
+        --accent: #0a84ff;
         --sidebar-bg: rgba(29,29,31,0.95);
         --sidebar-border: rgba(255,255,255,0.1);
         --sidebar-shadow: rgba(0,0,0,0.3);
-        --accent: #0a84ff;
-        --admin-badge: #ff453a;
-        --user-badge: #30d158;
-        --overlay-light: rgba(255, 255, 255, 0.88);
-        --overlay-dark: rgba(29, 29, 31, 0.88);
         --success: #30d158;
-        --warning: #ffd60a;
         --error: #ff453a;
+        --warning: #ff9f0a;
+        --info: #0a84ff;
       }
     }
 
@@ -70,17 +69,15 @@
       --btn-hover-bg: #ddd;
       --header-bg: rgba(29,29,31,0.9);
       --header-text: #f5f5f7;
+      --card-bg: #252526;
+      --accent: #0a84ff;
       --sidebar-bg: rgba(29,29,31,0.95);
       --sidebar-border: rgba(255,255,255,0.1);
       --sidebar-shadow: rgba(0,0,0,0.3);
-      --accent: #0a84ff;
-      --admin-badge: #ff453a;
-      --user-badge: #30d158;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
       --success: #30d158;
-      --warning: #ffd60a;
       --error: #ff453a;
+      --warning: #ff9f0a;
+      --info: #0a84ff;
     }
 
     :root[data-theme="light"] {
@@ -93,68 +90,25 @@
       --btn-hover-bg: #333;
       --header-bg: rgba(255,255,255,0.9);
       --header-text: #1d1d1f;
+      --card-bg: #f5f5f7;
+      --accent: #007aff;
       --sidebar-bg: rgba(255,255,255,0.95);
       --sidebar-border: rgba(0,0,0,0.1);
       --sidebar-shadow: rgba(0,0,0,0.1);
-      --accent: #007aff;
-      --admin-badge: #ff3b30;
-      --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
       --success: #34c759;
-      --warning: #ffcc00;
       --error: #ff3b30;
-    }
-
-    :root[data-theme="dark"] header {
-      background: rgba(29, 29, 31, 0.65);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      --warning: #ff9500;
+      --info: #007aff;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
-      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
       position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      transition: background 0.3s ease;
-    }
-
-    :root[data-theme="light"] body::before {
-      background: var(--overlay-light);
-    }
-
-    :root[data-theme="dark"] body::before {
-      background: var(--overlay-dark);
-    }
-
-    :root:not([data-theme]) body::before {
-      background: var(--overlay-light);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme]) body::before {
-        background: var(--overlay-dark);
-      }
     }
 
     header {
@@ -170,9 +124,9 @@
       z-index: 1000;
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      transition: background 0.3s ease, color 0.3s ease;
       background: var(--header-bg);
     }
+    
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -209,231 +163,46 @@
     nav > a:hover::after {
       width: 100%;
     }
-    section {
-      padding: 140px 2rem 100px;
-      max-width: 1000px;
+
+    main {
+      padding: 160px 2rem 100px;
+      max-width: 1200px;
       margin: auto;
     }
 
-    .hero {
-      text-align: center;
-      padding-top: 200px;
-    }
-
-    .hero h1 {
-      font-size: 3.2rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      background: linear-gradient(90deg, #007aff, #00c6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--muted);
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 2rem;
-      background-color: var(--btn-bg);
-      color: var(--bg);
-      padding: 0.75rem 1.5rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: transform 0.3s, background 0.3s;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background-color: var(--btn-hover-bg);
-      transform: scale(1.05);
-    }
-
     .section-title {
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 800;
       margin-bottom: 1rem;
+      text-align: center;
       background: linear-gradient(90deg, #007aff, #00c6ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .text-muted {
       color: var(--muted);
-      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 2rem;
       font-size: 1.1rem;
     }
 
-    footer {
-      text-align: center;
+    .documents-container {
+      background: var(--card-bg);
       padding: 2rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      background: var(--footer-bg);
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 768px) {
-      nav a {
-        margin-left: 1rem;
-      }
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-      .section-title {
-        font-size: 1.8rem;
-      }
-      .sidebar {
-        width: 280px;
-      }
-    }
-    nav a[href="login.html"],
-    nav a[href="login.html"]:visited {
-      color: #007aff !important;
-      font-weight: 700;
-    }
-
-    nav a[href="login.html"]:hover {
-      text-decoration: underline;
-    }
-
-    #theme-fab {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--accent);
-      color: white;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      font-size: 1.7rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-      z-index: 3000;
-      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    #theme-fab:hover {
-      background: var(--btn-hover-bg);
-      transform: scale(1.1);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-    }
-
-    #theme-fab:active {
-      transform: scale(0.92) rotate(15deg);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    #theme-fab.show {
-      animation: fabPopIn 0.4s ease forwards;
-    }
-
-    @keyframes fabPopIn {
-      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
-    }
-
-    #theme-popup {
-      position: fixed;
-      bottom: 90px;
-      right: 24px;
-      background: var(--sidebar-bg);
-      border: 1px solid var(--sidebar-border);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      border-radius: 12px;
-      display: none;
-      flex-direction: column;
-      padding: 0.5rem;
-      z-index: 3001;
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: translateY(10px) scale(0.95);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-    }
-
-    #theme-popup.show {
-      display: flex;
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    #theme-popup button.theme-option {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      padding: 0.6rem;
-      cursor: pointer;
-      color: var(--text);
-      transition: background 0.25s, transform 0.25s, color 0.25s;
-      border-radius: 8px;
-    }
-
-    #theme-popup button.theme-option:hover {
-      background: var(--hover-bg);
-      transform: scale(1.2) rotate(8deg);
-    }
-
-    #theme-popup button.theme-option:active {
-      transform: scale(0.9) rotate(-8deg);
-    }
-
-    #theme-popup button.theme-option.active {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.15);
-    }
-
-    @keyframes fabClick {
-      0%   { transform: scale(1) rotate(0deg); }
-      30%  { transform: scale(0.8) rotate(-10deg); }
-      60%  { transform: scale(1.2) rotate(10deg); }
-      100% { transform: scale(1) rotate(0deg); }
-    }
-
-    #theme-fab.animate {
-      animation: fabClick 0.4s ease forwards;
-    }
-
-    header {
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-
-    section .btn {
-      display: inline-block;
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
-    /* Stili specifici per la pagina documenti */
-    .documents-section {
-      background: var(--sidebar-bg);
-      border-radius: 12px;
-      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
       margin-bottom: 2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border: 1px solid var(--sidebar-border);
     }
 
-    .documents-section h2 {
+    .documents-container h2 {
       margin-bottom: 1.5rem;
       font-size: 1.5rem;
       color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .upload-area {
@@ -500,16 +269,26 @@
     .document-info {
       display: flex;
       align-items: center;
+      flex: 1;
     }
 
     .document-icon {
       margin-right: 1rem;
       font-size: 1.5rem;
+      min-width: 40px;
+    }
+
+    .document-details {
+      flex: 1;
     }
 
     .document-details h3 {
       font-size: 1rem;
       margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     .document-details p {
@@ -530,6 +309,9 @@
       cursor: pointer;
       transition: background 0.3s;
       color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .action-btn:hover {
@@ -581,30 +363,6 @@
       border-color: var(--accent);
     }
 
-    .alert {
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .alert-success {
-      background: rgba(52, 199, 89, 0.1);
-      border: 1px solid var(--success);
-      color: var(--success);
-    }
-
-    .alert-error {
-      background: rgba(255, 59, 48, 0.1);
-      border: 1px solid var(--error);
-      color: var(--error);
-    }
-
-    .alert-warning {
-      background: rgba(255, 204, 0, 0.1);
-      border: 1px solid var(--warning);
-      color: var(--warning);
-    }
-
     .empty-state {
       text-align: center;
       padding: 2rem;
@@ -623,51 +381,270 @@
       display: none;
     }
 
-    .server-status {
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+      margin-top: 3rem;
+    }
+
+    /* Popup di notifica */
+    .popup {
       position: fixed;
-      top: 80px;
+      top: 20px;
       right: 20px;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
       font-weight: 600;
-      z-index: 1001;
+      max-width: 300px;
     }
 
-    .server-online {
-      background: var(--success);
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left: 6px solid var(--success);
+    }
+
+    .popup.error {
+      border-left: 6px solid var(--error);
+    }
+
+    .popup.warning {
+      border-left: 6px solid var(--warning);
+    }
+
+    .popup.info {
+      border-left: 6px solid var(--info);
+    }
+    
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: #007aff !important;
+      font-weight: 700;
+    }
+
+    /* Badge per stato documento */
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status-published {
+      background: rgba(52, 199, 89, 0.2);
+      color: var(--success);
+    }
+
+    .status-draft {
+      background: rgba(255, 149, 0, 0.2);
+      color: var(--warning);
+    }
+
+    .status-pending {
+      background: rgba(0, 122, 255, 0.2);
+      color: var(--info);
+    }
+
+    .status-rejected {
+      background: rgba(255, 59, 48, 0.2);
+      color: var(--error);
+    }
+
+    /* Pulsante + stile eventi */
+    #addDocumentBtn {
+      display: none;
+      margin-left: 2rem;
+      font-size: 2rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #addDocumentBtn:hover {
+      transform: scale(1.1);
+      background: #0056cc;
+    }
+
+    /* Modal per creazione pubblicazione - Stile Eventi */
+    #publicationModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #publicationForm {
+      background: var(--bg);
+      padding: 2.5rem;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--card-bg);
+    }
+
+    .form-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--card-bg);
+    }
+
+    .btn-secondary {
+      background: var(--muted);
       color: white;
     }
 
-    .server-offline {
-      background: var(--error);
-      color: white;
+    .btn-secondary:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--card-bg);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .cloud-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(0, 122, 255, 0.1);
+      color: var(--accent);
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
     }
 
     @media (max-width: 768px) {
-      section {
-        text-align: center;
+      nav a {
+        margin-left: 1rem;
       }
-
-      nav {
-        display: none;
+      .section-title {
+        font-size: 2rem;
       }
-
       .document-item {
         flex-direction: column;
         align-items: flex-start;
       }
-
       .document-actions {
         margin-top: 1rem;
         width: 100%;
         justify-content: flex-end;
       }
-
-      .server-status {
-        top: 70px;
-        right: 10px;
-        font-size: 0.7rem;
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      #publicationForm {
+        padding: 1.5rem;
+      }
+      #addDocumentBtn {
+        margin-left: 1rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.7rem;
+      }
+      .document-details h3 {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -683,7 +660,6 @@
       <a href="prossimi_eventi.html">Prossimi Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      <a href="documenti.html" style="color: var(--accent);">Documenti</a>
       
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
@@ -702,22 +678,19 @@
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
+    
+    <!-- Pulsante + per creare pubblicazioni -->
+    <button id="addDocumentBtn" title="Crea nuova pubblicazione">+</button>
+    
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
-  <!-- Indicatore stato server -->
-  <div id="serverStatus" class="server-status" style="display: none;">
-    Server: Controllo...
-  </div>
-
   <main>
-    <section id="documenti" class="hero">
-      <h1>Documenti</h1>
-      <p>Consulta e gestisci i documenti dell'associazione</p>
-    </section>
+    <h1 class="section-title">Documenti</h1>
+    <p class="text-muted">Consulta e gestisci i documenti dell'associazione</p>
 
     <!-- Sezione per Admin: Caricamento documenti -->
-    <section class="documents-section admin-only" id="uploadSection">
+    <div class="documents-container admin-only" id="uploadSection">
       <h2>Carica Documenti</h2>
       <div id="uploadArea" class="upload-area">
         <p>Trascina qui i file o clicca per selezionarli</p>
@@ -729,43 +702,88 @@
         <ul id="fileList"></ul>
         <button class="upload-btn" id="uploadBtn" disabled>Carica Documenti</button>
       </div>
-      <div id="uploadAlert" class="alert" style="display: none;"></div>
-    </section>
+    </div>
 
-    <!-- Sezione per User: Richiesta caricamento documenti -->
-    <section class="documents-section user-only" id="requestSection">
-      <h2>Richiedi Documenti</h2>
-      <p class="text-muted">Se hai bisogno di un documento che non trovi, puoi richiederne il caricamento agli amministratori.</p>
-      
-      <div class="request-section">
-        <div class="request-form">
-          <div class="form-group">
-            <label for="documentName">Nome del documento</label>
-            <input type="text" id="documentName" class="form-control" placeholder="Es. Verbale riunione ottobre 2023">
-          </div>
-          <div class="form-group">
-            <label for="documentDescription">Descrizione</label>
-            <textarea id="documentDescription" class="form-control" rows="3" placeholder="Descrivi brevemente il documento che vorresti fosse caricato..."></textarea>
-          </div>
-          <button class="upload-btn" id="requestBtn">Invia Richiesta</button>
+    <!-- Sezione per Admin: Revisione bozze -->
+    <div class="documents-container admin-only" id="reviewSection">
+      <h2>Bozze da Revisionare</h2>
+      <div class="document-list" id="draftList">
+        <div class="empty-state" id="emptyDrafts">
+          <p>Nessuna bozza da revisionare al momento.</p>
         </div>
-        <div id="requestAlert" class="alert" style="display: none;"></div>
       </div>
-    </section>
+    </div>
 
-    <!-- Sezione per tutti: Visualizzazione documenti -->
-    <section class="documents-section">
-      <h2>Documenti Disponibili</h2>
+    <!-- Sezione per tutti: Documenti pubblicati -->
+    <div class="documents-container">
+      <h2>Documenti Pubblicati</h2>
       <div class="document-list" id="documentList">
-        <!-- I documenti verranno caricati dinamicamente qui -->
         <div class="empty-state" id="emptyState">
           <p>Nessun documento disponibile al momento.</p>
-          <p class="text-muted">Controlla più tardi o richiedi un documento se sei un utente registrato.</p>
+          <p class="text-muted">Controlla più tardi o crea una pubblicazione se sei un utente registrato.</p>
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- Sezione per User: Le mie bozze -->
+    <div class="documents-container user-only" id="myDraftsSection">
+      <h2>Le Mie Bozze <span class="cloud-indicator">☁️ Salvate nel cloud</span></h2>
+      <div class="document-list" id="myDraftsList">
+        <div class="empty-state" id="emptyMyDrafts">
+          <p>Non hai ancora creato bozze.</p>
+          <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante + in alto.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sezione per Admin: Tutte le pubblicazioni -->
+    <div class="documents-container admin-only" id="allPublicationsSection">
+      <h2>Tutte le Pubblicazioni <span class="cloud-indicator">☁️ Panoramica completa</span></h2>
+      <div class="document-list" id="allPublicationsList">
+        <div class="empty-state" id="emptyAllPublications">
+          <p>Nessuna pubblicazione trovata.</p>
+        </div>
+      </div>
+    </div>
   </main>
   
+  <!-- Modal per creazione pubblicazione - Stile Eventi -->
+  <div id="publicationModal">
+    <form id="publicationForm">
+      <button type="button" class="close-btn" id="closeModal">&times;</button>
+      <h2 style="margin-bottom: 1.5rem; color: var(--text); font-size: 1.8rem; text-align: center;">Crea Nuova Pubblicazione</h2>
+      
+      <div class="form-section">
+        <div class="form-section-title">📝 Informazioni Base</div>
+        <div class="form-group">
+          <label for="publicationTitle">Titolo *</label>
+          <input type="text" id="publicationTitle" placeholder="Es: Relazione Attività 2024" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="publicationDescription">Descrizione *</label>
+          <textarea id="publicationDescription" placeholder="Descrivi il contenuto del documento, gli obiettivi, i risultati..." rows="4" required></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">📎 Documento</div>
+        <div class="form-group">
+          <label for="publicationFile">File del documento *</label>
+          <input type="file" id="publicationFile" class="form-control" required accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.xls,.xlsx,.ppt,.pptx,.zip">
+          <small style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">
+            Supporta: PDF, DOC, DOCX, TXT, immagini, Excel, PowerPoint, ZIP (max 10MB)
+          </small>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="upload-btn btn-secondary" id="cancelPublication">Annulla</button>
+        <button type="submit" class="upload-btn" id="submitPublication">Crea Bozza</button>
+      </div>
+    </form>
+  </div>
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
@@ -799,20 +817,8 @@
     </div>
   </aside>
 
-  <!-- Floating Theme Button -->
-  <div id="theme-fab" title="Scegli tema">
-    🎨
-  </div>
-
-  <!-- Floating Theme Popup -->
-  <div id="theme-popup">
-    <button class="theme-option" data-theme="light">🌞</button>
-    <button class="theme-option" data-theme="dark">🌙</button>
-    <button class="theme-option" data-theme="auto">🌓</button>
-  </div>
-
   <footer>
-    &copy; 2025 Daze for Future. Tutti i diritti riservati. | Server: <span id="footerServerStatus">Controllo...</span>
+    &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
   <script>
@@ -826,81 +832,19 @@
     const selectedFilesDiv = document.getElementById('selectedFiles');
     const fileList = document.getElementById('fileList');
     const uploadBtn = document.getElementById('uploadBtn');
-    const uploadAlert = document.getElementById('uploadAlert');
-    const requestBtn = document.getElementById('requestBtn');
-    const requestAlert = document.getElementById('requestAlert');
     const documentList = document.getElementById('documentList');
     const emptyState = document.getElementById('emptyState');
-    const serverStatus = document.getElementById('serverStatus');
-    const footerServerStatus = document.getElementById('footerServerStatus');
-
-    // Funzioni per il tema (rimangono uguali)
-    const fab = document.getElementById('theme-fab');
-    const popup = document.getElementById('theme-popup');
-
-    fab.addEventListener('click', () => {
-      fab.classList.add('animate');
-      fab.addEventListener('animationend', () => {
-        fab.classList.remove('animate');
-      }, { once: true });
-      
-      if (popup.classList.contains('show')) {
-        popup.classList.remove('show');
-        setTimeout(() => popup.style.display = 'none', 250);
-      } else {
-        popup.style.display = 'flex';
-        requestAnimationFrame(() => popup.classList.add('show'));
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!fab.contains(e.target) && !popup.contains(e.target)) {
-        if (popup.classList.contains('show')) {
-          popup.classList.remove('show');
-          setTimeout(() => popup.style.display = 'none', 250);
-        }
-      }
-    });
-
-    document.querySelectorAll('.theme-option').forEach(button => {
-      button.addEventListener('click', () => {
-        const theme = button.dataset.theme;
-        localStorage.setItem('theme-preference', theme);
-        applyTheme(theme);
-
-        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        popup.classList.remove('show');
-        setTimeout(() => popup.style.display = 'none', 250);
-      });
-    });
-
-    function applyTheme(theme) {
-      if (theme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-    }
-
-    const savedTheme = localStorage.getItem('theme-preference');
-    if (savedTheme) {
-      applyTheme(savedTheme);
-      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
-      if (btn) btn.classList.add('active');
-    } else {
-      applyTheme('auto');
-      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
-      if (autoBtn) autoBtn.classList.add('active');
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const fab = document.getElementById('theme-fab');
-      fab.classList.add('show');
-    });
+    const addDocumentBtn = document.getElementById('addDocumentBtn');
+    const publicationModal = document.getElementById('publicationModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelPublication = document.getElementById('cancelPublication');
+    const publicationForm = document.getElementById('publicationForm');
+    const draftList = document.getElementById('draftList');
+    const emptyDrafts = document.getElementById('emptyDrafts');
+    const myDraftsList = document.getElementById('myDraftsList');
+    const emptyMyDrafts = document.getElementById('emptyMyDrafts');
+    const allPublicationsList = document.getElementById('allPublicationsList');
+    const emptyAllPublications = document.getElementById('emptyAllPublications');
 
     // Funzioni per la gestione utente
     function getNameFromEmail(email) {
@@ -919,82 +863,106 @@
       return role === 'admin' ? 'badge-admin' : 'badge-user';
     }
 
-    // Funzione per verificare lo stato del server
-    async function checkServerStatus() {
-      try {
-        const response = await fetch(`${API_BASE_URL}/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-        
-        if (response.ok) {
-          serverStatus.textContent = 'Server: Online';
-          serverStatus.className = 'server-status server-online';
-          footerServerStatus.textContent = 'Online (Porta 5001)';
-          serverStatus.style.display = 'block';
-          return true;
-        } else {
-          throw new Error('Server non risponde');
-        }
-      } catch (error) {
-        serverStatus.textContent = 'Server: Offline';
-        serverStatus.className = 'server-status server-offline';
-        footerServerStatus.textContent = 'Offline - Avvia il server Flask';
-        serverStatus.style.display = 'block';
-        return false;
+    // Funzione per mostrare popup
+    function mostraPopup(messaggio, tipo) {
+      // Crea popup se non esiste
+      let popup = document.getElementById('popup');
+      if (!popup) {
+        popup = document.createElement('div');
+        popup.id = 'popup';
+        popup.className = 'popup';
+        document.body.appendChild(popup);
       }
+      
+      popup.textContent = messaggio;
+      popup.className = "popup " + tipo;
+      popup.classList.add("show");
+
+      // Nasconde il popup dopo 3 secondi
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 3000);
     }
 
-    // Gestione login/logout
-    document.addEventListener('DOMContentLoaded', async function() {
-      // Verifica stato server
-      await checkServerStatus();
-      
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo');
-      
-      if(utente) {
-        // Nascondi link login
-        document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
-        
-        // Mostra userbar al posto di "Accedi"
-        const userbar = document.getElementById('userbar');
-        userbar.style.display = 'flex';
-        
-        // Imposta nome utente e badge
-        document.getElementById('userName').innerText = getNameFromEmail(utente);
-        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
-        
-        // Mostra user info mobile nella sidebar
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
-        
-        // Mostra/nasconda sezioni in base al ruolo
-        if (ruolo === 'admin') {
-          document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
-        } else {
-          document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
-        }
-      }
-      
-      // Carica i documenti
-      loadDocuments();
-    });
+// Gestione login/logout
+document.addEventListener('DOMContentLoaded', function() {
+  const utente = localStorage.getItem('utente');
+  const ruolo = localStorage.getItem('utente_ruolo');
+  
+  console.log('🔐 Stato login - Utente:', utente, 'Ruolo:', ruolo); // Debug
+  
+  if(utente) {
+    // Nascondi link login
+    document.getElementById('loginLink').style.display = 'none';
+    document.getElementById('sidebarLoginLink').style.display = 'none';
+    
+    // Mostra userbar al posto di "Accedi"
+    const userbar = document.getElementById('userbar');
+    userbar.style.display = 'flex';
+    
+    // Imposta nome utente e badge
+    document.getElementById('userName').innerText = getNameFromEmail(utente);
+    document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+    document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+    document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+    
+    // Mostra user info mobile nella sidebar
+    const mobileUserInfo = document.getElementById('mobileUserInfo');
+    mobileUserInfo.style.display = 'block';
+    document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+    document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+    document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+    document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+    
+    // Mostra/nasconda sezioni in base al ruolo
+    if (ruolo === 'admin') {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+      console.log('👨‍💼 Sezioni admin mostrate'); // Debug
+    } else {
+      document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
+    }
+    
+    // Mostra pulsante + per utenti loggati (sia user che admin)
+    addDocumentBtn.style.display = 'block';
+  }
+  
+  // Carica i documenti
+  loadDocuments();
+  
+  if (utente && ruolo === 'admin') {
+    console.log('🔄 Caricamento bozze per admin...'); // Debug
+    loadDraftsForReview();
+    loadAllPublications();
+  }
+  
+  if (utente && ruolo === 'user') {
+    loadMyDrafts();
+  }
+});
 
     function logout() {
       localStorage.removeItem('utente');
       localStorage.removeItem('utente_ruolo');
       window.location.href = "login.html";
     }
+
+    // Gestione modal pubblicazione
+    addDocumentBtn.addEventListener('click', () => {
+      publicationModal.style.display = 'flex';
+    });
+
+    closeModal.addEventListener('click', () => {
+      publicationModal.style.display = 'none';
+    });
+
+    cancelPublication.addEventListener('click', () => {
+      publicationModal.style.display = 'none';
+    });
+
+    publicationForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      createPublication();
+    });
 
     // Gestione documenti
     let selectedFiles = [];
@@ -1026,7 +994,6 @@
     });
 
     uploadBtn.addEventListener('click', uploadFiles);
-    requestBtn.addEventListener('click', submitRequest);
 
     function handleFileSelect() {
       selectedFiles = Array.from(fileInput.files);
@@ -1072,80 +1039,89 @@
         method: 'POST',
         body: formData,
         headers: {
-          'X-User-Email': utente || 'user@dazefuture.com',
-          'X-User-Role': ruolo || 'user'
+          'X-User-Email': utente || '',
+          'X-User-Role': ruolo || ''
         }
       })
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          showAlert(uploadAlert, data.message || 'Documenti caricati con successo!', 'success');
+          mostraPopup(data.message || 'Documenti caricati con successo!', 'success');
           selectedFiles = [];
           fileInput.value = '';
           selectedFilesDiv.style.display = 'none';
           uploadBtn.disabled = true;
           uploadBtn.textContent = 'Carica Documenti';
           loadDocuments();
+          loadAllPublications();
         } else {
-          showAlert(uploadAlert, 'Errore nel caricamento: ' + (data.message || 'Errore sconosciuto'), 'error');
+          mostraPopup('Errore nel caricamento: ' + (data.message || 'Errore sconosciuto'), 'error');
           uploadBtn.disabled = false;
           uploadBtn.textContent = 'Carica Documenti';
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        showAlert(uploadAlert, 'Errore di connessione con il server su porta 5001', 'error');
+        mostraPopup('Errore di connessione con il server', 'error');
         uploadBtn.disabled = false;
         uploadBtn.textContent = 'Carica Documenti';
       });
     }
 
-    function submitRequest() {
-      const documentName = document.getElementById('documentName').value.trim();
-      const documentDescription = document.getElementById('documentDescription').value.trim();
+    function createPublication() {
+      const title = document.getElementById('publicationTitle').value.trim();
+      const description = document.getElementById('publicationDescription').value.trim();
+      const fileInput = document.getElementById('publicationFile');
       
-      if (!documentName) {
-        showAlert(requestAlert, 'Inserisci un nome per il documento', 'error');
+      if (!title || !description || !fileInput.files[0]) {
+        mostraPopup('Compila tutti i campi richiesti', 'error');
         return;
       }
+      
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('file', fileInput.files[0]);
       
       // Aggiungi headers per autenticazione
       const utente = localStorage.getItem('utente');
       const ruolo = localStorage.getItem('utente_ruolo');
       
-      requestBtn.disabled = true;
-      requestBtn.textContent = 'Invio...';
+      const submitBtn = document.getElementById('submitPublication');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creazione...';
       
       // Chiamata API Flask su porta 5001
-      fetch(`${API_BASE_URL}/api/request`, {
+      fetch(`${API_BASE_URL}/api/create_publication`, {
         method: 'POST',
+        body: formData,
         headers: {
-          'Content-Type': 'application/json',
-          'X-User-Email': utente || 'user@dazefuture.com',
-          'X-User-Role': ruolo || 'user'
-        },
-        body: JSON.stringify({
-          name: documentName,
-          description: documentDescription
-        })
+          'X-User-Email': utente || '',
+          'X-User-Role': ruolo || ''
+        }
       })
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          showAlert(requestAlert, data.message || 'Richiesta inviata con successo!', 'success');
-          document.getElementById('documentName').value = '';
-          document.getElementById('documentDescription').value = '';
+          mostraPopup(data.message || 'Bozza creata con successo! In attesa di revisione.', 'success');
+          publicationModal.style.display = 'none';
+          publicationForm.reset();
+          loadMyDrafts();
+          if (ruolo === 'admin') {
+            loadDraftsForReview();
+            loadAllPublications();
+          }
         } else {
-          showAlert(requestAlert, 'Errore nell\'invio della richiesta: ' + (data.message || 'Errore sconosciuto'), 'error');
+          mostraPopup('Errore nella creazione: ' + (data.message || 'Errore sconosciuto'), 'error');
         }
-        requestBtn.disabled = false;
-        requestBtn.textContent = 'Invia Richiesta';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Crea Bozza';
       })
       .catch(error => {
         console.error('Error:', error);
-        showAlert(requestAlert, 'Errore di connessione con il server su porta 5001', 'error');
-        requestBtn.disabled = false;
-        requestBtn.textContent = 'Invia Richiesta';
+        mostraPopup('Errore di connessione con il server', 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Crea Bozza';
       });
     }
 
@@ -1159,7 +1135,7 @@
             documentList.innerHTML = '';
             
             data.documents.forEach(doc => {
-              const documentItem = createDocumentElement(doc);
+              const documentItem = createDocumentElement(doc, 'published');
               documentList.appendChild(documentItem);
             });
           } else {
@@ -1174,12 +1150,120 @@
           emptyState.style.display = 'block';
           emptyState.innerHTML = `
             <p>Errore nel caricamento dei documenti</p>
-            <p class="text-muted">Verifica che il server Flask sia in esecuzione sulla porta 5001</p>
+            <p class="text-muted">Verifica che il server Flask sia in esecuzione</p>
           `;
         });
     }
 
-    function createDocumentElement(doc) {
+function loadDraftsForReview() {
+  const utente = localStorage.getItem('utente');
+  const ruolo = localStorage.getItem('utente_ruolo');
+  
+  console.log('🔍 Caricamento bozze per revisione - Utente:', utente, 'Ruolo:', ruolo); // Debug
+  
+  // Chiamata API Flask su porta 5001
+  fetch(`${API_BASE_URL}/api/drafts`, {
+    headers: {
+      'X-User-Email': utente || '',
+      'X-User-Role': ruolo || ''
+    }
+  })
+  .then(response => {
+    console.log('📡 Risposta API drafts:', response.status); // Debug
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('📋 Dati bozze ricevuti:', data); // Debug
+    if (data.success && data.drafts && data.drafts.length > 0) {
+      emptyDrafts.style.display = 'none';
+      draftList.innerHTML = '';
+      
+      data.drafts.forEach(draft => {
+        const draftItem = createDraftElement(draft);
+        draftList.appendChild(draftItem);
+      });
+    } else {
+      emptyDrafts.style.display = 'block';
+      if (data.message) {
+        emptyDrafts.innerHTML = `<p>${data.message}</p>`;
+      }
+    }
+  })
+  .catch(error => {
+    console.error('❌ Error loading drafts:', error);
+    emptyDrafts.style.display = 'block';
+    emptyDrafts.innerHTML = `
+      <p>Errore nel caricamento delle bozze</p>
+      <p class="text-muted">${error.message}</p>
+    `;
+  });
+}
+
+    function loadMyDrafts() {
+      const utente = localStorage.getItem('utente');
+      
+      // Chiamata API Flask su porta 5001
+      fetch(`${API_BASE_URL}/api/my_drafts`, {
+        headers: {
+          'X-User-Email': utente || ''
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success && data.drafts && data.drafts.length > 0) {
+            emptyMyDrafts.style.display = 'none';
+            myDraftsList.innerHTML = '';
+            
+            data.drafts.forEach(draft => {
+              const draftItem = createMyDraftElement(draft);
+              myDraftsList.appendChild(draftItem);
+            });
+          } else {
+            emptyMyDrafts.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          console.error('Error loading my drafts:', error);
+          emptyMyDrafts.style.display = 'block';
+        });
+    }
+
+    function loadAllPublications() {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo');
+      
+      if (ruolo !== 'admin') return;
+      
+      fetch(`${API_BASE_URL}/api/all_publications`, {
+        headers: {
+          'X-User-Email': utente || '',
+          'X-User-Role': ruolo || ''
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.publications && data.publications.length > 0) {
+          emptyAllPublications.style.display = 'none';
+          allPublicationsList.innerHTML = '';
+          
+          data.publications.forEach(pub => {
+            const pubItem = createPublicationElement(pub);
+            allPublicationsList.appendChild(pubItem);
+          });
+        } else {
+          emptyAllPublications.style.display = 'block';
+        }
+      })
+      .catch(error => {
+        console.error('Error loading all publications:', error);
+        emptyAllPublications.style.display = 'block';
+      });
+    }
+
+    function createDocumentElement(doc, status) {
       const item = document.createElement('div');
       item.className = 'document-item';
       
@@ -1194,10 +1278,10 @@
       documentDetails.className = 'document-details';
       
       const documentName = document.createElement('h3');
-      documentName.textContent = doc.name;
+      documentName.textContent = doc.title || doc.name;
       
       const documentMeta = document.createElement('p');
-      documentMeta.textContent = `${formatFileSize(doc.size)} - Caricato il ${formatDate(doc.upload_date)} da ${doc.uploaded_by}`;
+      documentMeta.textContent = `${doc.description || ''} - ${formatFileSize(doc.size)} - Caricato il ${formatDate(doc.upload_date)} da ${doc.uploaded_by}`;
       
       documentDetails.appendChild(documentName);
       documentDetails.appendChild(documentMeta);
@@ -1236,6 +1320,227 @@
       return item;
     }
 
+    function createDraftElement(draft) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      
+      const documentInfo = document.createElement('div');
+      documentInfo.className = 'document-info';
+      
+      const documentIcon = document.createElement('div');
+      documentIcon.className = 'document-icon';
+      documentIcon.textContent = getFileIcon(draft.file_type);
+      
+      const documentDetails = document.createElement('div');
+      documentDetails.className = 'document-details';
+      
+      const documentName = document.createElement('h3');
+      documentName.textContent = draft.title;
+      
+      const documentMeta = document.createElement('p');
+      documentMeta.textContent = `${draft.description} - Creato da ${draft.author} il ${formatDate(draft.created_at)}`;
+      
+      const statusBadge = document.createElement('span');
+      statusBadge.className = `status-badge status-${draft.status}`;
+      statusBadge.textContent = getStatusText(draft.status);
+      
+      documentName.appendChild(statusBadge);
+      
+      documentDetails.appendChild(documentName);
+      documentDetails.appendChild(documentMeta);
+      
+      documentInfo.appendChild(documentIcon);
+      documentInfo.appendChild(documentDetails);
+      
+      const documentActions = document.createElement('div');
+      documentActions.className = 'document-actions';
+      
+      const viewBtn = document.createElement('button');
+      viewBtn.className = 'action-btn download-btn';
+      viewBtn.title = 'Visualizza';
+      viewBtn.innerHTML = '👁️';
+      viewBtn.addEventListener('click', () => viewDraft(draft.id));
+      
+      const approveBtn = document.createElement('button');
+      approveBtn.className = 'action-btn download-btn';
+      approveBtn.title = 'Approva';
+      approveBtn.innerHTML = '✅';
+      approveBtn.addEventListener('click', () => reviewDraft(draft.id, 'approved'));
+      
+      const rejectBtn = document.createElement('button');
+      rejectBtn.className = 'action-btn delete-btn';
+      rejectBtn.title = 'Rifiuta';
+      rejectBtn.innerHTML = '❌';
+      rejectBtn.addEventListener('click', () => reviewDraft(draft.id, 'rejected'));
+      
+      documentActions.appendChild(viewBtn);
+      documentActions.appendChild(approveBtn);
+      documentActions.appendChild(rejectBtn);
+      
+      item.appendChild(documentInfo);
+      item.appendChild(documentActions);
+      
+      return item;
+    }
+
+    function createMyDraftElement(draft) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      
+      const documentInfo = document.createElement('div');
+      documentInfo.className = 'document-info';
+      
+      const documentIcon = document.createElement('div');
+      documentIcon.className = 'document-icon';
+      documentIcon.textContent = getFileIcon(draft.file_type);
+      
+      const documentDetails = document.createElement('div');
+      documentDetails.className = 'document-details';
+      
+      const documentName = document.createElement('h3');
+      documentName.textContent = draft.title;
+      
+      const documentMeta = document.createElement('p');
+      documentMeta.textContent = `${draft.description} - Creato il ${formatDate(draft.created_at)}`;
+      
+      const statusBadge = document.createElement('span');
+      statusBadge.className = `status-badge status-${draft.status}`;
+      statusBadge.textContent = getStatusText(draft.status);
+      
+      const cloudIndicator = document.createElement('span');
+      cloudIndicator.className = 'cloud-indicator';
+      cloudIndicator.textContent = '☁️ Salvato nel cloud';
+      
+      documentName.appendChild(statusBadge);
+      documentName.appendChild(cloudIndicator);
+      
+      documentDetails.appendChild(documentName);
+      documentDetails.appendChild(documentMeta);
+      
+      documentInfo.appendChild(documentIcon);
+      documentInfo.appendChild(documentDetails);
+      
+      const documentActions = document.createElement('div');
+      documentActions.className = 'document-actions';
+      
+      const viewBtn = document.createElement('button');
+      viewBtn.className = 'action-btn download-btn';
+      viewBtn.title = 'Visualizza';
+      viewBtn.innerHTML = '👁️';
+      viewBtn.addEventListener('click', () => viewDraft(draft.id));
+      
+      documentActions.appendChild(viewBtn);
+      
+      item.appendChild(documentInfo);
+      item.appendChild(documentActions);
+      
+      return item;
+    }
+
+    function createPublicationElement(pub) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      
+      const documentInfo = document.createElement('div');
+      documentInfo.className = 'document-info';
+      
+      const documentIcon = document.createElement('div');
+      documentIcon.className = 'document-icon';
+      documentIcon.textContent = getFileIcon(pub.file_type);
+      
+      const documentDetails = document.createElement('div');
+      documentDetails.className = 'document-details';
+      
+      const documentName = document.createElement('h3');
+      documentName.textContent = pub.title;
+      
+      const documentMeta = document.createElement('p');
+      let metaText = `${pub.description || 'Nessuna descrizione'} - ${formatFileSize(pub.size)} - Creato da ${pub.author} il ${formatDate(pub.created_at)}`;
+      if (pub.type === 'publication') {
+        metaText += ` - ${getStatusText(pub.status)}`;
+      } else {
+        metaText += ' - Pubblicato';
+      }
+      documentMeta.textContent = metaText;
+      
+      const statusBadge = document.createElement('span');
+      statusBadge.className = `status-badge status-${pub.status}`;
+      statusBadge.textContent = pub.type === 'document' ? 'Pubblicato' : getStatusText(pub.status);
+      
+      documentName.appendChild(statusBadge);
+      documentDetails.appendChild(documentName);
+      documentDetails.appendChild(documentMeta);
+      
+      documentInfo.appendChild(documentIcon);
+      documentInfo.appendChild(documentDetails);
+      
+      const documentActions = document.createElement('div');
+      documentActions.className = 'document-actions';
+      
+      const viewBtn = document.createElement('button');
+      viewBtn.className = 'action-btn download-btn';
+      viewBtn.title = 'Visualizza';
+      viewBtn.innerHTML = '👁️';
+      viewBtn.addEventListener('click', () => {
+        if (pub.type === 'document') {
+          downloadDocument(pub.id.replace('doc_', ''));
+        } else {
+          viewDraft(pub.id.replace('pub_', ''));
+        }
+      });
+      
+      documentActions.appendChild(viewBtn);
+      
+      // Aggiungi azioni specifiche per admin
+      if (pub.type === 'publication' && pub.status === 'pending') {
+        const approveBtn = document.createElement('button');
+        approveBtn.className = 'action-btn download-btn';
+        approveBtn.title = 'Approva';
+        approveBtn.innerHTML = '✅';
+        approveBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'approved'));
+        
+        const rejectBtn = document.createElement('button');
+        rejectBtn.className = 'action-btn delete-btn';
+        rejectBtn.title = 'Rifiuta';
+        rejectBtn.innerHTML = '❌';
+        rejectBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'rejected'));
+        
+        documentActions.appendChild(approveBtn);
+        documentActions.appendChild(rejectBtn);
+      }
+      
+      // Eliminazione per admin
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'action-btn delete-btn';
+      deleteBtn.title = 'Elimina';
+      deleteBtn.innerHTML = '🗑️';
+      deleteBtn.addEventListener('click', () => {
+        if (pub.type === 'document') {
+          deleteDocument(pub.id.replace('doc_', ''));
+        } else {
+          deleteDraft(pub.id.replace('pub_', ''));
+        }
+      });
+      
+      documentActions.appendChild(deleteBtn);
+      
+      item.appendChild(documentInfo);
+      item.appendChild(documentActions);
+      
+      return item;
+    }
+
+    function getStatusText(status) {
+      const statusMap = {
+        'draft': 'Bozza',
+        'pending': 'In Revisione',
+        'approved': 'Approvato',
+        'rejected': 'Rifiutato',
+        'published': 'Pubblicato'
+      };
+      return statusMap[status] || status;
+    }
+
     function getFileIcon(fileType) {
       const icons = {
         'pdf': '📕',
@@ -1263,6 +1568,88 @@
       window.open(`${API_BASE_URL}/api/download/${id}`, '_blank');
     }
 
+    function viewDraft(id) {
+        const utente = localStorage.getItem('utente');
+        const ruolo = localStorage.getItem('utente_ruolo');
+        
+        if (!utente) {
+            mostraPopup('Devi essere loggato per visualizzare le bozze', 'error');
+            return;
+        }
+        
+        fetch(`${API_BASE_URL}/api/view_draft/${id}`, {
+            method: 'GET',
+            headers: {
+                'X-User-Email': utente || '',
+                'X-User-Role': ruolo || ''
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Errore nel recupero del file');
+            }
+            
+            // Ottieni il nome file dall'header Content-Disposition o usa un nome generico
+            const contentDisposition = response.headers.get('Content-Disposition');
+            let filename = 'documento.pdf';
+            if (contentDisposition) {
+                const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+                if (filenameMatch) {
+                    filename = filenameMatch[1];
+                }
+            }
+            
+            return response.blob().then(blob => ({ blob, filename }));
+        })
+        .then(({ blob, filename }) => {
+            // Crea un URL temporaneo per il blob e lo apre in una nuova finestra
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            mostraPopup('Errore nel visualizzare la bozza: ' + error.message, 'error');
+        });
+    }
+    function reviewDraft(id, action) {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo');
+      
+      fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-User-Email': utente || '',
+          'X-User-Role': ruolo || ''
+        },
+        body: JSON.stringify({
+          action: action
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          mostraPopup(data.message || `Bozza ${action === 'approved' ? 'approvata' : 'rifiutata'} con successo`, 'success');
+          loadDraftsForReview();
+          loadDocuments();
+          loadAllPublications();
+        } else {
+          mostraPopup('Errore nella revisione: ' + (data.message || 'Errore sconosciuto'), 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        mostraPopup('Errore di connessione con il server', 'error');
+      });
+    }
+
     function deleteDocument(id) {
       if (confirm('Sei sicuro di voler eliminare questo documento?')) {
         // Aggiungi headers per autenticazione
@@ -1272,34 +1659,55 @@
         fetch(`${API_BASE_URL}/api/delete/${id}`, {
           method: 'DELETE',
           headers: {
-            'X-User-Email': utente || 'user@dazefuture.com',
-            'X-User-Role': ruolo || 'user'
+            'X-User-Email': utente || '',
+            'X-User-Role': ruolo || ''
           }
         })
         .then(response => response.json())
         .then(data => {
           if (data.success) {
             loadDocuments();
-            showAlert(uploadAlert, data.message || 'Documento eliminato con successo', 'success');
+            loadAllPublications();
+            mostraPopup(data.message || 'Documento eliminato con successo', 'success');
           } else {
-            alert('Errore nell\'eliminazione del documento: ' + (data.message || 'Errore sconosciuto'));
+            mostraPopup('Errore nell\'eliminazione del documento: ' + (data.message || 'Errore sconosciuto'), 'error');
           }
         })
         .catch(error => {
           console.error('Error:', error);
-          alert('Errore di connessione con il server su porta 5001');
+          mostraPopup('Errore di connessione con il server', 'error');
         });
       }
     }
 
-    function showAlert(alertElement, message, type) {
-      alertElement.textContent = message;
-      alertElement.className = `alert alert-${type}`;
-      alertElement.style.display = 'block';
-      
-      setTimeout(() => {
-        alertElement.style.display = 'none';
-      }, 5000);
+    function deleteDraft(id) {
+      if (confirm('Sei sicuro di voler eliminare questa bozza?')) {
+        const utente = localStorage.getItem('utente');
+        const ruolo = localStorage.getItem('utente_ruolo');
+        
+        fetch(`${API_BASE_URL}/api/delete_draft/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-User-Email': utente || '',
+            'X-User-Role': ruolo || ''
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            mostraPopup(data.message || 'Bozza eliminata con successo', 'success');
+            loadAllPublications();
+            loadDraftsForReview();
+            loadMyDrafts();
+          } else {
+            mostraPopup('Errore nell\'eliminazione della bozza: ' + (data.message || 'Errore sconosciuto'), 'error');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          mostraPopup('Errore di connessione con il server', 'error');
+        });
+      }
     }
   </script>
   <script src="theme.js"></script>
