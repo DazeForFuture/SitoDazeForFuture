@@ -7,9 +7,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Documenti - Daze for Future</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
 
   <style>
@@ -22,14 +22,18 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
-      --btn-spacing: 1rem;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
@@ -45,13 +49,18 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.9);
-        --header-text: #f5f5f7;
-        --card-bg: #252526;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
-        --sidebar-bg: rgba(29,29,31,0.95);
-        --sidebar-border: rgba(255,255,255,0.1);
-        --sidebar-shadow: rgba(0,0,0,0.3);
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         --success: #30d158;
         --error: #ff453a;
         --warning: #ff9f0a;
@@ -67,13 +76,18 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --card-bg: #252526;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
-      --sidebar-bg: rgba(29,29,31,0.95);
-      --sidebar-border: rgba(255,255,255,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.3);
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       --success: #30d158;
       --error: #ff453a;
       --warning: #ff9f0a;
@@ -88,27 +102,85 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
       --info: #007aff;
     }
 
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
+      /* Sfondo ottimizzato per tutti i temi */
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       position: relative;
+    }
+
+    /* Overlay dinamico che si adatta al tema */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    /* Tema chiaro - overlay chiaro per contrasto */
+    :root[data-theme="light"] body::before {
+      background: var(--overlay-light);
+    }
+
+    /* Tema scuro - overlay scuro per contrasto */
+    :root[data-theme="dark"] body::before {
+      background: var(--overlay-dark);
+    }
+
+    /* Tema automatico - usa preferenza sistema */
+    :root:not([data-theme]) body::before {
+      background: var(--overlay-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) body::before {
+        background: var(--overlay-dark);
+      }
     }
 
     header {
@@ -126,13 +198,15 @@
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
     }
-    
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
       cursor: pointer;
       user-select: none;
       color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     nav {
@@ -164,35 +238,447 @@
       width: 100%;
     }
 
-    main {
-      padding: 160px 2rem 100px;
+    section {
+      padding: 140px 2rem 100px;
       max-width: 1200px;
       margin: auto;
     }
 
-    .section-title {
-      font-size: 2.5rem;
+    .hero {
+      text-align: center;
+      padding-top: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
       font-weight: 800;
       margin-bottom: 1rem;
-      text-align: center;
       background: linear-gradient(90deg, #007aff, #00c6ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--btn-bg);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .text-muted {
       color: var(--muted);
-      text-align: center;
-      margin-bottom: 2rem;
+      line-height: 1.6;
       font-size: 1.1rem;
     }
 
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* MIGLIORAMENTI MOBILE COMPLETI */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .sidebar {
+        width: 280px;
+      }
+      
+      section {
+        padding: 120px 1rem 80px;
+      }
+      
+      .hero {
+        padding-top: 160px;
+      }
+      
+      .card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      /* Miglioramenti specifici per documenti su mobile */
+      .documents-container {
+        padding: 1.5rem;
+      }
+      
+      .document-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .document-actions {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: flex-end;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+      
+      /* FAB più piccolo su mobile */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      #theme-popup {
+        bottom: 80px;
+        right: 20px;
+      }
+      
+      #addDocumentBtn {
+        margin-left: 1rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.7rem;
+      }
+    }
+
+    /* Per schermi molto piccoli */
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .documents-container {
+        padding: 1rem;
+      }
+    }
+
+    /* Mostra hamburger menu solo su mobile */
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      #sidebarToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
+
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Stili per la sezione documenti */
     .documents-container {
       background: var(--card-bg);
-      padding: 2rem;
+      backdrop-filter: blur(10px);
       border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
       margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .documents-container:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
     .documents-container h2 {
@@ -207,16 +693,18 @@
 
     .upload-area {
       border: 2px dashed var(--muted);
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 2rem;
       text-align: center;
       margin-bottom: 1.5rem;
       transition: border-color 0.3s;
       cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .upload-area:hover, .upload-area.dragover {
       border-color: var(--accent);
+      background: rgba(0, 122, 255, 0.05);
     }
 
     .upload-area p {
@@ -229,19 +717,21 @@
       color: white;
       border: none;
       padding: 0.75rem 1.5rem;
-      border-radius: 8px;
+      border-radius: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.3s;
     }
 
     .upload-btn:hover {
       background: var(--btn-hover-bg);
+      transform: translateY(-2px);
     }
 
     .upload-btn:disabled {
       background: var(--muted);
       cursor: not-allowed;
+      transform: none;
     }
 
     .file-input {
@@ -257,13 +747,13 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem;
-      border-bottom: 1px solid var(--sidebar-border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       transition: background 0.3s;
+      border-radius: 8px;
     }
 
     .document-item:hover {
       background: var(--hover-bg);
-      border-radius: 8px;
     }
 
     .document-info {
@@ -305,7 +795,7 @@
       background: none;
       border: none;
       padding: 0.5rem;
-      border-radius: 4px;
+      border-radius: 8px;
       cursor: pointer;
       transition: background 0.3s;
       color: var(--text);
@@ -326,43 +816,6 @@
       color: var(--accent);
     }
 
-    .request-section {
-      margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--sidebar-border);
-    }
-
-    .request-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-group label {
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-
-    .form-control {
-      padding: 0.75rem;
-      border-radius: 8px;
-      border: 1px solid var(--sidebar-border);
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
     .empty-state {
       text-align: center;
       padding: 2rem;
@@ -381,15 +834,6 @@
       display: none;
     }
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      background: var(--footer-bg);
-      margin-top: 3rem;
-    }
-
     /* Popup di notifica */
     .popup {
       position: fixed;
@@ -406,6 +850,7 @@
       z-index: 2000;
       font-weight: 600;
       max-width: 300px;
+      backdrop-filter: blur(10px);
     }
 
     .popup.show {
@@ -427,12 +872,6 @@
 
     .popup.info {
       border-left: 6px solid var(--info);
-    }
-    
-    nav a[href="login.html"],
-    nav a[href="login.html"]:visited {
-      color: #007aff !important;
-      font-weight: 700;
     }
 
     /* Badge per stato documento */
@@ -468,7 +907,7 @@
     #addDocumentBtn {
       display: none;
       margin-left: 2rem;
-      font-size: 2rem;
+      font-size: 1.5rem;
       background: var(--accent);
       color: #fff;
       border: none;
@@ -477,14 +916,16 @@
       height: 48px;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     #addDocumentBtn:hover {
       transform: scale(1.1);
       background: #0056cc;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     }
 
-    /* Modal per creazione pubblicazione - Stile Eventi */
+    /* Modal per creazione pubblicazione */
     #publicationModal {
       display: none;
       position: fixed;
@@ -500,7 +941,7 @@
     }
 
     #publicationForm {
-      background: var(--bg);
+      background: var(--card-bg);
       padding: 2.5rem;
       border-radius: 20px;
       max-width: 600px;
@@ -534,7 +975,7 @@
     .form-section {
       margin-bottom: 2rem;
       padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--card-bg);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     .form-section-title {
@@ -559,7 +1000,7 @@
       justify-content: flex-end;
       margin-top: 2rem;
       padding-top: 1.5rem;
-      border-top: 1px solid var(--card-bg);
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
 
     .btn-secondary {
@@ -583,7 +1024,7 @@
     input, textarea, select {
       width: 100%;
       padding: 0.75rem 1rem;
-      border: 2px solid var(--card-bg);
+      border: 2px solid rgba(255,255,255,0.1);
       border-radius: 12px;
       background: var(--bg);
       color: var(--text);
@@ -614,33 +1055,119 @@
       font-size: 0.75rem;
     }
 
-    @media (max-width: 768px) {
-      nav a {
-        margin-left: 1rem;
-      }
-      .section-title {
-        font-size: 2rem;
-      }
-      .document-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .document-actions {
-        margin-top: 1rem;
-        width: 100%;
-        justify-content: flex-end;
-      }
+
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 320px;
+      height: 100vh;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 2000;
+      transition: right 0.3s ease;
+      padding: 2rem 1.5rem;
+      box-shadow: -5px 0 15px var(--sidebar-shadow);
+      border-left: 1px solid var(--sidebar-border);
+      overflow-y: auto;
+    }
+
+    .sidebar.open {
+      right: 0;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+
+    .sidebar-close:hover {
+      background: var(--hover-bg);
+    }
+
+    .sidebar h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--sidebar-border);
+      padding-bottom: 0.5rem;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: var(--text);
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .sidebar-menu a:hover {
+      background: var(--hover-bg);
+    }
+
+    .sidebar-menu span {
+      font-size: 1.2rem;
+    }
+
+    .mobile-user-info {
+      padding: 1.5rem;
+      background: var(--hover-bg);
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+
+    .mobile-user-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .mobile-user-display {
+      margin-bottom: 1rem;
+    }
+
+    .mobile-user-name {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .mobile-user-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 480px) {
       .form-row {
         grid-template-columns: 1fr;
       }
       #publicationForm {
         padding: 1.5rem;
-      }
-      #addDocumentBtn {
-        margin-left: 1rem;
-        width: 42px;
-        height: 42px;
-        font-size: 1.7rem;
       }
       .document-details h3 {
         flex-direction: column;
@@ -651,13 +1178,16 @@
 </head>
 <body>
   <header>
-    <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
+    </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       
@@ -686,68 +1216,80 @@
   </header>
 
   <main>
-    <h1 class="section-title">Documenti</h1>
-    <p class="text-muted">Consulta e gestisci i documenti dell'associazione</p>
-
-    <!-- Sezione per Admin: Caricamento documenti -->
-    <div class="documents-container admin-only" id="uploadSection">
-      <h2>Carica Documenti</h2>
-      <div id="uploadArea" class="upload-area">
-        <p>Trascina qui i file o clicca per selezionarli</p>
-        <input type="file" id="fileInput" class="file-input" multiple>
-        <button class="upload-btn" id="selectFilesBtn">Seleziona File</button>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Documenti</h1>
+        <p>Consulta e gestisci i documenti dell'associazione</p>
       </div>
-      <div id="selectedFiles" style="display: none;">
-        <h3>File selezionati:</h3>
-        <ul id="fileList"></ul>
-        <button class="upload-btn" id="uploadBtn" disabled>Carica Documenti</button>
-      </div>
-    </div>
+    </section>
 
-    <!-- Sezione per Admin: Revisione bozze -->
-    <div class="documents-container admin-only" id="reviewSection">
-      <h2>Bozze da Revisionare</h2>
-      <div class="document-list" id="draftList">
-        <div class="empty-state" id="emptyDrafts">
-          <p>Nessuna bozza da revisionare al momento.</p>
+    <section>
+      <!-- Sezione per Admin: Caricamento documenti -->
+      <div class="card admin-only fade-in-up" id="uploadSection">
+        <h2 class="section-title">Carica Documenti</h2>
+        <div id="uploadArea" class="upload-area">
+          <p>Trascina qui i file o clicca per selezionarli</p>
+          <input type="file" id="fileInput" class="file-input" multiple>
+          <button class="btn upload-btn" id="selectFilesBtn">
+            <i class="fas fa-folder-open"></i>
+            Seleziona File
+          </button>
+        </div>
+        <div id="selectedFiles" style="display: none;">
+          <h3>File selezionati:</h3>
+          <ul id="fileList"></ul>
+          <button class="btn upload-btn" id="uploadBtn" disabled>
+            <i class="fas fa-upload"></i>
+            Carica Documenti
+          </button>
         </div>
       </div>
-    </div>
 
-    <!-- Sezione per tutti: Documenti pubblicati -->
-    <div class="documents-container">
-      <h2>Documenti Pubblicati</h2>
-      <div class="document-list" id="documentList">
-        <div class="empty-state" id="emptyState">
-          <p>Nessun documento disponibile al momento.</p>
-          <p class="text-muted">Controlla più tardi o crea una pubblicazione se sei un utente registrato.</p>
+      <!-- Sezione per Admin: Revisione bozze -->
+      <div class="card admin-only fade-in-up" id="reviewSection">
+        <h2 class="section-title">Bozze da Revisionare</h2>
+        <div class="document-list" id="draftList">
+          <div class="empty-state" id="emptyDrafts">
+            <p>Nessuna bozza da revisionare al momento.</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Sezione per User: Le mie bozze -->
-    <div class="documents-container user-only" id="myDraftsSection">
-      <h2>Le Mie Bozze <span class="cloud-indicator">☁️ Salvate nel cloud</span></h2>
-      <div class="document-list" id="myDraftsList">
-        <div class="empty-state" id="emptyMyDrafts">
-          <p>Non hai ancora creato bozze.</p>
-          <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante + in alto.</p>
+      <!-- Sezione per tutti: Documenti pubblicati -->
+      <div class="card fade-in-up">
+        <h2 class="section-title">Documenti Pubblicati</h2>
+        <div class="document-list" id="documentList">
+          <div class="empty-state" id="emptyState">
+            <p>Nessun documento disponibile al momento.</p>
+            <p class="text-muted">Controlla più tardi o crea una pubblicazione se sei un utente registrato.</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Sezione per Admin: Tutte le pubblicazioni -->
-    <div class="documents-container admin-only" id="allPublicationsSection">
-      <h2>Tutte le Pubblicazioni <span class="cloud-indicator">☁️ Panoramica completa</span></h2>
-      <div class="document-list" id="allPublicationsList">
-        <div class="empty-state" id="emptyAllPublications">
-          <p>Nessuna pubblicazione trovata.</p>
+      <!-- Sezione per User: Le mie bozze -->
+      <div class="card user-only fade-in-up" id="myDraftsSection">
+        <h2 class="section-title">Le Mie Bozze <span class="cloud-indicator">☁️ Salvate nel cloud</span></h2>
+        <div class="document-list" id="myDraftsList">
+          <div class="empty-state" id="emptyMyDrafts">
+            <p>Non hai ancora creato bozze.</p>
+            <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante + in alto.</p>
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- Sezione per Admin: Tutte le pubblicazioni -->
+      <div class="card admin-only fade-in-up" id="allPublicationsSection">
+        <h2 class="section-title">Tutte le Pubblicazioni <span class="cloud-indicator">☁️ Panoramica completa</span></h2>
+        <div class="document-list" id="allPublicationsList">
+          <div class="empty-state" id="emptyAllPublications">
+            <p>Nessuna pubblicazione trovata.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   
-  <!-- Modal per creazione pubblicazione - Stile Eventi -->
+  <!-- Modal per creazione pubblicazione -->
   <div id="publicationModal">
     <form id="publicationForm">
       <button type="button" class="close-btn" id="closeModal">&times;</button>
@@ -778,8 +1320,11 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="upload-btn btn-secondary" id="cancelPublication">Annulla</button>
-        <button type="submit" class="upload-btn" id="submitPublication">Crea Bozza</button>
+        <button type="button" class="btn btn-secondary" id="cancelPublication">Annulla</button>
+        <button type="submit" class="btn" id="submitPublication">
+          <i class="fas fa-save"></i>
+          Crea Bozza
+        </button>
       </div>
     </form>
   </div>
@@ -817,349 +1362,412 @@
     </div>
   </aside>
 
+  <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
+
+  <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
+  </div>
+
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
-
+  
   <script>
-    // Configurazione - PORTA 5001
-    const API_BASE_URL = 'http://localhost:5001';
-    
-    // Elementi DOM
-    const uploadArea = document.getElementById('uploadArea');
-    const fileInput = document.getElementById('fileInput');
-    const selectFilesBtn = document.getElementById('selectFilesBtn');
-    const selectedFilesDiv = document.getElementById('selectedFiles');
-    const fileList = document.getElementById('fileList');
-    const uploadBtn = document.getElementById('uploadBtn');
-    const documentList = document.getElementById('documentList');
-    const emptyState = document.getElementById('emptyState');
-    const addDocumentBtn = document.getElementById('addDocumentBtn');
-    const publicationModal = document.getElementById('publicationModal');
-    const closeModal = document.getElementById('closeModal');
-    const cancelPublication = document.getElementById('cancelPublication');
-    const publicationForm = document.getElementById('publicationForm');
-    const draftList = document.getElementById('draftList');
-    const emptyDrafts = document.getElementById('emptyDrafts');
-    const myDraftsList = document.getElementById('myDraftsList');
-    const emptyMyDrafts = document.getElementById('emptyMyDrafts');
-    const allPublicationsList = document.getElementById('allPublicationsList');
-    const emptyAllPublications = document.getElementById('emptyAllPublications');
 
-    // Funzioni per la gestione utente
-    function getNameFromEmail(email) {
-      return email.split('@')[0];
-    }
+// Configurazione - PORTA 5001
+const API_BASE_URL = 'http://localhost:5001';
 
-    function getInitialFromEmail(email) {
-      return email.charAt(0).toUpperCase();
-    }
+// Elementi DOM
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+const selectFilesBtn = document.getElementById('selectFilesBtn');
+const selectedFilesDiv = document.getElementById('selectedFiles');
+const fileList = document.getElementById('fileList');
+const uploadBtn = document.getElementById('uploadBtn');
+const documentList = document.getElementById('documentList');
+const emptyState = document.getElementById('emptyState');
+const addDocumentBtn = document.getElementById('addDocumentBtn');
+const publicationModal = document.getElementById('publicationModal');
+const closeModal = document.getElementById('closeModal');
+const cancelPublication = document.getElementById('cancelPublication');
+const publicationForm = document.getElementById('publicationForm');
+const draftList = document.getElementById('draftList');
+const emptyDrafts = document.getElementById('emptyDrafts');
+const myDraftsList = document.getElementById('myDraftsList');
+const emptyMyDrafts = document.getElementById('emptyMyDrafts');
+const allPublicationsList = document.getElementById('allPublicationsList');
+const emptyAllPublications = document.getElementById('emptyAllPublications');
 
-    function getBadgeText(role) {
-      return role === 'admin' ? 'Admin' : 'User';
-    }
+// Funzioni per la gestione utente
+function getNameFromEmail(email) {
+  return email.split('@')[0];
+}
 
-    function getBadgeClass(role) {
-      return role === 'admin' ? 'badge-admin' : 'badge-user';
-    }
+function getInitialFromEmail(email) {
+  return email.charAt(0).toUpperCase();
+}
 
-    // Funzione per mostrare popup
-    function mostraPopup(messaggio, tipo) {
-      // Crea popup se non esiste
-      let popup = document.getElementById('popup');
-      if (!popup) {
-        popup = document.createElement('div');
-        popup.id = 'popup';
-        popup.className = 'popup';
-        document.body.appendChild(popup);
-      }
-      
-      popup.textContent = messaggio;
-      popup.className = "popup " + tipo;
-      popup.classList.add("show");
+function getBadgeText(role) {
+  return role === 'admin' ? 'Admin' : 'User';
+}
 
-      // Nasconde il popup dopo 3 secondi
-      setTimeout(() => {
-        popup.classList.remove("show");
-      }, 3000);
-    }
+function getBadgeClass(role) {
+  return role === 'admin' ? 'badge-admin' : 'badge-user';
+}
+
+// Funzione per mostrare popup
+function mostraPopup(messaggio, tipo) {
+  // Crea popup se non esiste
+  let popup = document.getElementById('popup');
+  if (!popup) {
+    popup = document.createElement('div');
+    popup.id = 'popup';
+    popup.className = 'popup';
+    document.body.appendChild(popup);
+  }
+  
+  popup.textContent = messaggio;
+  popup.className = "popup " + tipo;
+  popup.classList.add("show");
+
+  // Nasconde il popup dopo 3 secondi
+  setTimeout(() => {
+    popup.classList.remove("show");
+  }, 3000);
+}
 
 // Gestione login/logout
 document.addEventListener('DOMContentLoaded', function() {
   const utente = localStorage.getItem('utente');
   const ruolo = localStorage.getItem('utente_ruolo');
   
-  console.log('🔐 Stato login - Utente:', utente, 'Ruolo:', ruolo); // Debug
+  console.log('🔐 Stato login - Utente:', utente, 'Ruolo:', ruolo);
   
   if(utente) {
     // Nascondi link login
-    document.getElementById('loginLink').style.display = 'none';
-    document.getElementById('sidebarLoginLink').style.display = 'none';
+    const loginLink = document.getElementById('loginLink');
+    const sidebarLoginLink = document.getElementById('sidebarLoginLink');
+    
+    if (loginLink) loginLink.style.display = 'none';
+    if (sidebarLoginLink) sidebarLoginLink.style.display = 'none';
     
     // Mostra userbar al posto di "Accedi"
     const userbar = document.getElementById('userbar');
-    userbar.style.display = 'flex';
-    
-    // Imposta nome utente e badge
-    document.getElementById('userName').innerText = getNameFromEmail(utente);
-    document.getElementById('userBadge').innerText = getBadgeText(ruolo);
-    document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
-    document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+    if (userbar) {
+      userbar.style.display = 'flex';
+      
+      // Imposta nome utente e badge
+      const userName = document.getElementById('userName');
+      const userBadge = document.getElementById('userBadge');
+      const userAvatar = document.getElementById('userAvatar');
+      
+      if (userName) userName.innerText = getNameFromEmail(utente);
+      if (userBadge) {
+        userBadge.innerText = getBadgeText(ruolo);
+        userBadge.className = `user-badge ${getBadgeClass(ruolo)}`;
+      }
+      if (userAvatar) userAvatar.innerText = getInitialFromEmail(utente);
+    }
     
     // Mostra user info mobile nella sidebar
     const mobileUserInfo = document.getElementById('mobileUserInfo');
-    mobileUserInfo.style.display = 'block';
-    document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-    document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-    document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-    document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+    if (mobileUserInfo) {
+      mobileUserInfo.style.display = 'block';
+      
+      const mobileUserName = document.getElementById('mobileUserName');
+      const mobileUserBadge = document.getElementById('mobileUserBadge');
+      const mobileUserAvatar = document.getElementById('mobileUserAvatar');
+      
+      if (mobileUserName) mobileUserName.innerText = getNameFromEmail(utente);
+      if (mobileUserBadge) {
+        mobileUserBadge.innerText = getBadgeText(ruolo);
+        mobileUserBadge.className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+      }
+      if (mobileUserAvatar) mobileUserAvatar.innerText = getInitialFromEmail(utente);
+    }
     
     // Mostra/nasconda sezioni in base al ruolo
     if (ruolo === 'admin') {
       document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
-      console.log('👨‍💼 Sezioni admin mostrate'); // Debug
+      console.log('👨‍💼 Sezioni admin mostrate');
     } else {
       document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
     }
     
     // Mostra pulsante + per utenti loggati (sia user che admin)
-    addDocumentBtn.style.display = 'block';
+    if (addDocumentBtn) addDocumentBtn.style.display = 'block';
   }
   
   // Carica i documenti
   loadDocuments();
   
   if (utente && ruolo === 'admin') {
-    console.log('🔄 Caricamento bozze per admin...'); // Debug
+    console.log('🔄 Caricamento bozze per admin...');
     loadDraftsForReview();
     loadAllPublications();
   }
   
-  if (utente && ruolo === 'user') {
+  if (utente) {
+    console.log('🔄 Caricamento bozze personali...');
     loadMyDrafts();
+  }
+  
+  // Inizializza sidebar
+  initSidebar();
+  
+  // Inizializza tema
+  initTheme();
+});
+
+function logout() {
+  localStorage.removeItem('utente');
+  localStorage.removeItem('utente_ruolo');
+  window.location.href = "login.html";
+}
+
+// Gestione modal pubblicazione
+addDocumentBtn.addEventListener('click', () => {
+  publicationModal.style.display = 'flex';
+});
+
+closeModal.addEventListener('click', () => {
+  publicationModal.style.display = 'none';
+});
+
+cancelPublication.addEventListener('click', () => {
+  publicationModal.style.display = 'none';
+});
+
+publicationForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  createPublication();
+});
+
+// Gestione documenti
+let selectedFiles = [];
+
+// Event listeners per il caricamento file
+selectFilesBtn.addEventListener('click', () => {
+  fileInput.click();
+});
+
+fileInput.addEventListener('change', handleFileSelect);
+
+uploadArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  uploadArea.classList.add('dragover');
+});
+
+uploadArea.addEventListener('dragleave', () => {
+  uploadArea.classList.remove('dragover');
+});
+
+uploadArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+  
+  if (e.dataTransfer.files.length) {
+    fileInput.files = e.dataTransfer.files;
+    handleFileSelect();
   }
 });
 
-    function logout() {
-      localStorage.removeItem('utente');
-      localStorage.removeItem('utente_ruolo');
-      window.location.href = "login.html";
-    }
+uploadBtn.addEventListener('click', uploadFiles);
 
-    // Gestione modal pubblicazione
-    addDocumentBtn.addEventListener('click', () => {
-      publicationModal.style.display = 'flex';
-    });
-
-    closeModal.addEventListener('click', () => {
-      publicationModal.style.display = 'none';
-    });
-
-    cancelPublication.addEventListener('click', () => {
-      publicationModal.style.display = 'none';
-    });
-
-    publicationForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      createPublication();
-    });
-
-    // Gestione documenti
-    let selectedFiles = [];
-
-    // Event listeners per il caricamento file
-    selectFilesBtn.addEventListener('click', () => {
-      fileInput.click();
-    });
-
-    fileInput.addEventListener('change', handleFileSelect);
-    
-    uploadArea.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      uploadArea.classList.add('dragover');
+function handleFileSelect() {
+  selectedFiles = Array.from(fileInput.files);
+  
+  if (selectedFiles.length > 0) {
+    fileList.innerHTML = '';
+    selectedFiles.forEach((file, index) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${file.name} (${formatFileSize(file.size)})`;
+      fileList.appendChild(listItem);
     });
     
-    uploadArea.addEventListener('dragleave', () => {
-      uploadArea.classList.remove('dragover');
-    });
-    
-    uploadArea.addEventListener('drop', (e) => {
-      e.preventDefault();
-      uploadArea.classList.remove('dragover');
-      
-      if (e.dataTransfer.files.length) {
-        fileInput.files = e.dataTransfer.files;
-        handleFileSelect();
-      }
-    });
+    selectedFilesDiv.style.display = 'block';
+    uploadBtn.disabled = false;
+  }
+}
 
-    uploadBtn.addEventListener('click', uploadFiles);
+function formatFileSize(bytes) {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
 
-    function handleFileSelect() {
-      selectedFiles = Array.from(fileInput.files);
-      
-      if (selectedFiles.length > 0) {
-        fileList.innerHTML = '';
-        selectedFiles.forEach((file, index) => {
-          const listItem = document.createElement('li');
-          listItem.textContent = `${file.name} (${formatFileSize(file.size)})`;
-          fileList.appendChild(listItem);
-        });
-        
-        selectedFilesDiv.style.display = 'block';
-        uploadBtn.disabled = false;
-      }
+function uploadFiles() {
+  if (selectedFiles.length === 0) return;
+  
+  const formData = new FormData();
+  selectedFiles.forEach(file => {
+    formData.append('files', file);
+  });
+  
+  // Aggiungi headers per autenticazione
+  const utente = localStorage.getItem('utente');
+  const ruolo = localStorage.getItem('utente_ruolo');
+  
+  uploadBtn.disabled = true;
+  uploadBtn.textContent = 'Caricamento...';
+  
+  // Chiamata API Flask su porta 5001
+  fetch(`${API_BASE_URL}/api/upload`, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-User-Email': utente || '',
+      'X-User-Role': ruolo || ''
     }
-
-    function formatFileSize(bytes) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    function uploadFiles() {
-      if (selectedFiles.length === 0) return;
-      
-      const formData = new FormData();
-      selectedFiles.forEach(file => {
-        formData.append('files', file);
-      });
-      
-      // Aggiungi headers per autenticazione
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo');
-      
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      mostraPopup(data.message || 'Documenti caricati con successo!', 'success');
+      selectedFiles = [];
+      fileInput.value = '';
+      selectedFilesDiv.style.display = 'none';
       uploadBtn.disabled = true;
-      uploadBtn.textContent = 'Caricamento...';
+      uploadBtn.textContent = 'Carica Documenti';
+      loadDocuments();
+      loadAllPublications();
+    } else {
+      mostraPopup('Errore nel caricamento: ' + (data.message || 'Errore sconosciuto'), 'error');
+      uploadBtn.disabled = false;
+      uploadBtn.textContent = 'Carica Documenti';
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    mostraPopup('Errore di connessione con il server', 'error');
+    uploadBtn.disabled = false;
+    uploadBtn.textContent = 'Carica Documenti';
+  });
+}
+
+function createPublication() {
+  const title = document.getElementById('publicationTitle').value.trim();
+  const description = document.getElementById('publicationDescription').value.trim();
+  const fileInput = document.getElementById('publicationFile');
+  
+  if (!title || !description || !fileInput.files[0]) {
+    mostraPopup('Compila tutti i campi richiesti', 'error');
+    return;
+  }
+  
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('description', description);
+  formData.append('file', fileInput.files[0]);
+  
+  // Aggiungi headers per autenticazione
+  const utente = localStorage.getItem('utente');
+  const ruolo = localStorage.getItem('utente_ruolo');
+  
+  console.log('📝 Creazione bozza - Utente:', utente, 'Ruolo:', ruolo);
+  
+  const submitBtn = document.getElementById('submitPublication');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Creazione...';
+  
+  // Chiamata API Flask su porta 5001
+  fetch(`${API_BASE_URL}/api/create_publication`, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-User-Email': utente || '',
+      'X-User-Role': ruolo || ''
+    }
+  })
+  .then(response => {
+    console.log('📡 Risposta creazione bozza:', response.status);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('📋 Dati risposta creazione:', data);
+    
+    if (data.success) {
+      mostraPopup(data.message || 'Bozza creata con successo! In attesa di revisione.', 'success');
+      publicationModal.style.display = 'none';
+      publicationForm.reset();
       
-      // Chiamata API Flask su porta 5001
-      fetch(`${API_BASE_URL}/api/upload`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'X-User-Email': utente || '',
-          'X-User-Role': ruolo || ''
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          mostraPopup(data.message || 'Documenti caricati con successo!', 'success');
-          selectedFiles = [];
-          fileInput.value = '';
-          selectedFilesDiv.style.display = 'none';
-          uploadBtn.disabled = true;
-          uploadBtn.textContent = 'Carica Documenti';
-          loadDocuments();
+      // FORZA il refresh delle bozze con ritardo per dare tempo al server
+      setTimeout(() => {
+        console.log('🔄 Forzato refresh bozze personali');
+        loadMyDrafts();
+        
+        // Se admin, aggiorna anche le altre sezioni
+        if (ruolo === 'admin') {
+          console.log('🔄 Aggiornamento sezioni admin');
+          loadDraftsForReview();
           loadAllPublications();
-        } else {
-          mostraPopup('Errore nel caricamento: ' + (data.message || 'Errore sconosciuto'), 'error');
-          uploadBtn.disabled = false;
-          uploadBtn.textContent = 'Carica Documenti';
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        mostraPopup('Errore di connessione con il server', 'error');
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = 'Carica Documenti';
-      });
+      }, 800);
+      
+    } else {
+      mostraPopup('Errore nella creazione: ' + (data.message || 'Errore sconosciuto'), 'error');
     }
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Crea Bozza';
+  })
+  .catch(error => {
+    console.error('❌ Error:', error);
+    mostraPopup('Errore di connessione con il server', 'error');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Crea Bozza';
+  });
+}
 
-    function createPublication() {
-      const title = document.getElementById('publicationTitle').value.trim();
-      const description = document.getElementById('publicationDescription').value.trim();
-      const fileInput = document.getElementById('publicationFile');
-      
-      if (!title || !description || !fileInput.files[0]) {
-        mostraPopup('Compila tutti i campi richiesti', 'error');
-        return;
-      }
-      
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('file', fileInput.files[0]);
-      
-      // Aggiungi headers per autenticazione
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo');
-      
-      const submitBtn = document.getElementById('submitPublication');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Creazione...';
-      
-      // Chiamata API Flask su porta 5001
-      fetch(`${API_BASE_URL}/api/create_publication`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'X-User-Email': utente || '',
-          'X-User-Role': ruolo || ''
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          mostraPopup(data.message || 'Bozza creata con successo! In attesa di revisione.', 'success');
-          publicationModal.style.display = 'none';
-          publicationForm.reset();
-          loadMyDrafts();
-          if (ruolo === 'admin') {
-            loadDraftsForReview();
-            loadAllPublications();
-          }
-        } else {
-          mostraPopup('Errore nella creazione: ' + (data.message || 'Errore sconosciuto'), 'error');
-        }
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Crea Bozza';
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        mostraPopup('Errore di connessione con il server', 'error');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Crea Bozza';
-      });
-    }
-
-    function loadDocuments() {
-      // Chiamata API Flask su porta 5001
-      fetch(`${API_BASE_URL}/api/documents`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.success && data.documents && data.documents.length > 0) {
-            emptyState.style.display = 'none';
-            documentList.innerHTML = '';
-            
-            data.documents.forEach(doc => {
-              const documentItem = createDocumentElement(doc, 'published');
-              documentList.appendChild(documentItem);
-            });
-          } else {
-            emptyState.style.display = 'block';
-            if (data.message) {
-              emptyState.innerHTML = `<p>${data.message}</p>`;
-            }
-          }
-        })
-        .catch(error => {
-          console.error('Error loading documents:', error);
-          emptyState.style.display = 'block';
-          emptyState.innerHTML = `
-            <p>Errore nel caricamento dei documenti</p>
-            <p class="text-muted">Verifica che il server Flask sia in esecuzione</p>
-          `;
+function loadDocuments() {
+  console.log('📄 Caricamento documenti pubblicati');
+  
+  // Chiamata API Flask su porta 5001
+  fetch(`${API_BASE_URL}/api/documents`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success && data.documents && data.documents.length > 0) {
+        console.log(`✅ ${data.documents.length} documenti trovati`);
+        emptyState.style.display = 'none';
+        documentList.innerHTML = '';
+        
+        data.documents.forEach(doc => {
+          const documentItem = createDocumentElement(doc, 'published');
+          documentList.appendChild(documentItem);
         });
-    }
+      } else {
+        console.log('ℹ️ Nessun documento trovato');
+        emptyState.style.display = 'block';
+        if (data.message) {
+          emptyState.innerHTML = `<p>${data.message}</p>`;
+        }
+      }
+    })
+    .catch(error => {
+      console.error('❌ Error loading documents:', error);
+      emptyState.style.display = 'block';
+      emptyState.innerHTML = `
+        <p>Errore nel caricamento dei documenti</p>
+        <p class="text-muted">Verifica che il server Flask sia in esecuzione</p>
+      `;
+    });
+}
 
 function loadDraftsForReview() {
   const utente = localStorage.getItem('utente');
   const ruolo = localStorage.getItem('utente_ruolo');
   
-  console.log('🔍 Caricamento bozze per revisione - Utente:', utente, 'Ruolo:', ruolo); // Debug
+  console.log('🔍 Caricamento bozze per revisione - Utente:', utente, 'Ruolo:', ruolo);
   
   // Chiamata API Flask su porta 5001
   fetch(`${API_BASE_URL}/api/drafts`, {
@@ -1169,15 +1777,16 @@ function loadDraftsForReview() {
     }
   })
   .then(response => {
-    console.log('📡 Risposta API drafts:', response.status); // Debug
+    console.log('📡 Risposta API drafts:', response.status);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json();
   })
   .then(data => {
-    console.log('📋 Dati bozze ricevuti:', data); // Debug
+    console.log('📋 Dati bozze ricevuti:', data);
     if (data.success && data.drafts && data.drafts.length > 0) {
+      console.log(`✅ ${data.drafts.length} bozze da revisionare`);
       emptyDrafts.style.display = 'none';
       draftList.innerHTML = '';
       
@@ -1186,6 +1795,7 @@ function loadDraftsForReview() {
         draftList.appendChild(draftItem);
       });
     } else {
+      console.log('ℹ️ Nessuna bozza da revisionare');
       emptyDrafts.style.display = 'block';
       if (data.message) {
         emptyDrafts.innerHTML = `<p>${data.message}</p>`;
@@ -1202,515 +1812,695 @@ function loadDraftsForReview() {
   });
 }
 
-    function loadMyDrafts() {
-      const utente = localStorage.getItem('utente');
-      
-      // Chiamata API Flask su porta 5001
-      fetch(`${API_BASE_URL}/api/my_drafts`, {
-        headers: {
-          'X-User-Email': utente || ''
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success && data.drafts && data.drafts.length > 0) {
-            emptyMyDrafts.style.display = 'none';
-            myDraftsList.innerHTML = '';
-            
-            data.drafts.forEach(draft => {
-              const draftItem = createMyDraftElement(draft);
-              myDraftsList.appendChild(draftItem);
-            });
-          } else {
-            emptyMyDrafts.style.display = 'block';
-          }
-        })
-        .catch(error => {
-          console.error('Error loading my drafts:', error);
-          emptyMyDrafts.style.display = 'block';
-        });
+function loadMyDrafts() {
+  const utente = localStorage.getItem('utente');
+  
+  if (!utente) {
+    console.log('❌ Nessun utente loggato per caricare bozze');
+    emptyMyDrafts.style.display = 'block';
+    return;
+  }
+  
+  console.log('🔄 Caricamento bozze personali per:', utente);
+  
+  // Chiamata API Flask su porta 5001
+  fetch(`${API_BASE_URL}/api/my_drafts`, {
+    headers: {
+      'X-User-Email': utente || ''
     }
-
-    function loadAllPublications() {
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo');
+  })
+  .then(response => {
+    console.log('📡 Risposta API my_drafts:', response.status);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('📋 Dati bozze personali ricevuti:', data);
+    
+    if (data.success && data.drafts && data.drafts.length > 0) {
+      console.log(`✅ ${data.drafts.length} bozze personali trovate`);
       
-      if (ruolo !== 'admin') return;
+      // NASCONDI lo stato vuoto e PULISCI la lista
+      emptyMyDrafts.style.display = 'none';
+      myDraftsList.innerHTML = '';
       
-      fetch(`${API_BASE_URL}/api/all_publications`, {
-        headers: {
-          'X-User-Email': utente || '',
-          'X-User-Role': ruolo || ''
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success && data.publications && data.publications.length > 0) {
-          emptyAllPublications.style.display = 'none';
-          allPublicationsList.innerHTML = '';
-          
-          data.publications.forEach(pub => {
-            const pubItem = createPublicationElement(pub);
-            allPublicationsList.appendChild(pubItem);
-          });
-        } else {
-          emptyAllPublications.style.display = 'block';
-        }
-      })
-      .catch(error => {
-        console.error('Error loading all publications:', error);
-        emptyAllPublications.style.display = 'block';
+      // Aggiungi ogni bozza alla lista
+      data.drafts.forEach(draft => {
+        const draftItem = createMyDraftElement(draft);
+        myDraftsList.appendChild(draftItem);
       });
-    }
-
-    function createDocumentElement(doc, status) {
-      const item = document.createElement('div');
-      item.className = 'document-item';
       
-      const documentInfo = document.createElement('div');
-      documentInfo.className = 'document-info';
+      console.log('✅ Lista bozze aggiornata visivamente');
       
-      const documentIcon = document.createElement('div');
-      documentIcon.className = 'document-icon';
-      documentIcon.textContent = getFileIcon(doc.file_type);
+    } else {
+      console.log('ℹ️ Nessuna bozza personale trovata');
+      emptyMyDrafts.style.display = 'block';
+      myDraftsList.innerHTML = '';
       
-      const documentDetails = document.createElement('div');
-      documentDetails.className = 'document-details';
-      
-      const documentName = document.createElement('h3');
-      documentName.textContent = doc.title || doc.name;
-      
-      const documentMeta = document.createElement('p');
-      documentMeta.textContent = `${doc.description || ''} - ${formatFileSize(doc.size)} - Caricato il ${formatDate(doc.upload_date)} da ${doc.uploaded_by}`;
-      
-      documentDetails.appendChild(documentName);
-      documentDetails.appendChild(documentMeta);
-      
-      documentInfo.appendChild(documentIcon);
-      documentInfo.appendChild(documentDetails);
-      
-      const documentActions = document.createElement('div');
-      documentActions.className = 'document-actions';
-      
-      const downloadBtn = document.createElement('button');
-      downloadBtn.className = 'action-btn download-btn';
-      downloadBtn.title = 'Scarica';
-      downloadBtn.innerHTML = '⬇️';
-      downloadBtn.addEventListener('click', () => downloadDocument(doc.id));
-      
-      documentActions.appendChild(downloadBtn);
-      
-      // Solo gli admin possono eliminare documenti
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo');
-      
-      if (utente && ruolo === 'admin') {
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'action-btn delete-btn';
-        deleteBtn.title = 'Elimina';
-        deleteBtn.innerHTML = '🗑️';
-        deleteBtn.addEventListener('click', () => deleteDocument(doc.id));
-        
-        documentActions.appendChild(deleteBtn);
-      }
-      
-      item.appendChild(documentInfo);
-      item.appendChild(documentActions);
-      
-      return item;
-    }
-
-    function createDraftElement(draft) {
-      const item = document.createElement('div');
-      item.className = 'document-item';
-      
-      const documentInfo = document.createElement('div');
-      documentInfo.className = 'document-info';
-      
-      const documentIcon = document.createElement('div');
-      documentIcon.className = 'document-icon';
-      documentIcon.textContent = getFileIcon(draft.file_type);
-      
-      const documentDetails = document.createElement('div');
-      documentDetails.className = 'document-details';
-      
-      const documentName = document.createElement('h3');
-      documentName.textContent = draft.title;
-      
-      const documentMeta = document.createElement('p');
-      documentMeta.textContent = `${draft.description} - Creato da ${draft.author} il ${formatDate(draft.created_at)}`;
-      
-      const statusBadge = document.createElement('span');
-      statusBadge.className = `status-badge status-${draft.status}`;
-      statusBadge.textContent = getStatusText(draft.status);
-      
-      documentName.appendChild(statusBadge);
-      
-      documentDetails.appendChild(documentName);
-      documentDetails.appendChild(documentMeta);
-      
-      documentInfo.appendChild(documentIcon);
-      documentInfo.appendChild(documentDetails);
-      
-      const documentActions = document.createElement('div');
-      documentActions.className = 'document-actions';
-      
-      const viewBtn = document.createElement('button');
-      viewBtn.className = 'action-btn download-btn';
-      viewBtn.title = 'Visualizza';
-      viewBtn.innerHTML = '👁️';
-      viewBtn.addEventListener('click', () => viewDraft(draft.id));
-      
-      const approveBtn = document.createElement('button');
-      approveBtn.className = 'action-btn download-btn';
-      approveBtn.title = 'Approva';
-      approveBtn.innerHTML = '✅';
-      approveBtn.addEventListener('click', () => reviewDraft(draft.id, 'approved'));
-      
-      const rejectBtn = document.createElement('button');
-      rejectBtn.className = 'action-btn delete-btn';
-      rejectBtn.title = 'Rifiuta';
-      rejectBtn.innerHTML = '❌';
-      rejectBtn.addEventListener('click', () => reviewDraft(draft.id, 'rejected'));
-      
-      documentActions.appendChild(viewBtn);
-      documentActions.appendChild(approveBtn);
-      documentActions.appendChild(rejectBtn);
-      
-      item.appendChild(documentInfo);
-      item.appendChild(documentActions);
-      
-      return item;
-    }
-
-    function createMyDraftElement(draft) {
-      const item = document.createElement('div');
-      item.className = 'document-item';
-      
-      const documentInfo = document.createElement('div');
-      documentInfo.className = 'document-info';
-      
-      const documentIcon = document.createElement('div');
-      documentIcon.className = 'document-icon';
-      documentIcon.textContent = getFileIcon(draft.file_type);
-      
-      const documentDetails = document.createElement('div');
-      documentDetails.className = 'document-details';
-      
-      const documentName = document.createElement('h3');
-      documentName.textContent = draft.title;
-      
-      const documentMeta = document.createElement('p');
-      documentMeta.textContent = `${draft.description} - Creato il ${formatDate(draft.created_at)}`;
-      
-      const statusBadge = document.createElement('span');
-      statusBadge.className = `status-badge status-${draft.status}`;
-      statusBadge.textContent = getStatusText(draft.status);
-      
-      const cloudIndicator = document.createElement('span');
-      cloudIndicator.className = 'cloud-indicator';
-      cloudIndicator.textContent = '☁️ Salvato nel cloud';
-      
-      documentName.appendChild(statusBadge);
-      documentName.appendChild(cloudIndicator);
-      
-      documentDetails.appendChild(documentName);
-      documentDetails.appendChild(documentMeta);
-      
-      documentInfo.appendChild(documentIcon);
-      documentInfo.appendChild(documentDetails);
-      
-      const documentActions = document.createElement('div');
-      documentActions.className = 'document-actions';
-      
-      const viewBtn = document.createElement('button');
-      viewBtn.className = 'action-btn download-btn';
-      viewBtn.title = 'Visualizza';
-      viewBtn.innerHTML = '👁️';
-      viewBtn.addEventListener('click', () => viewDraft(draft.id));
-      
-      documentActions.appendChild(viewBtn);
-      
-      item.appendChild(documentInfo);
-      item.appendChild(documentActions);
-      
-      return item;
-    }
-
-    function createPublicationElement(pub) {
-      const item = document.createElement('div');
-      item.className = 'document-item';
-      
-      const documentInfo = document.createElement('div');
-      documentInfo.className = 'document-info';
-      
-      const documentIcon = document.createElement('div');
-      documentIcon.className = 'document-icon';
-      documentIcon.textContent = getFileIcon(pub.file_type);
-      
-      const documentDetails = document.createElement('div');
-      documentDetails.className = 'document-details';
-      
-      const documentName = document.createElement('h3');
-      documentName.textContent = pub.title;
-      
-      const documentMeta = document.createElement('p');
-      let metaText = `${pub.description || 'Nessuna descrizione'} - ${formatFileSize(pub.size)} - Creato da ${pub.author} il ${formatDate(pub.created_at)}`;
-      if (pub.type === 'publication') {
-        metaText += ` - ${getStatusText(pub.status)}`;
+      if (data.message) {
+        emptyMyDrafts.innerHTML = `<p>${data.message}</p>`;
       } else {
-        metaText += ' - Pubblicato';
+        emptyMyDrafts.innerHTML = `
+          <p>Non hai ancora creato bozze.</p>
+          <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante + in alto.</p>
+        `;
       }
-      documentMeta.textContent = metaText;
+    }
+  })
+  .catch(error => {
+    console.error('❌ Error loading my drafts:', error);
+    emptyMyDrafts.style.display = 'block';
+    myDraftsList.innerHTML = '';
+    emptyMyDrafts.innerHTML = `
+      <p>Errore nel caricamento delle bozze</p>
+      <p class="text-muted">${error.message}</p>
+    `;
+  });
+}
+
+function loadAllPublications() {
+  const utente = localStorage.getItem('utente');
+  const ruolo = localStorage.getItem('utente_ruolo');
+  
+  if (ruolo !== 'admin') return;
+  
+  console.log('📊 Caricamento tutte le pubblicazioni');
+  
+  fetch(`${API_BASE_URL}/api/all_publications`, {
+    headers: {
+      'X-User-Email': utente || '',
+      'X-User-Role': ruolo || ''
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success && data.publications && data.publications.length > 0) {
+      console.log(`✅ ${data.publications.length} pubblicazioni totali`);
+      emptyAllPublications.style.display = 'none';
+      allPublicationsList.innerHTML = '';
       
-      const statusBadge = document.createElement('span');
-      statusBadge.className = `status-badge status-${pub.status}`;
-      statusBadge.textContent = pub.type === 'document' ? 'Pubblicato' : getStatusText(pub.status);
-      
-      documentName.appendChild(statusBadge);
-      documentDetails.appendChild(documentName);
-      documentDetails.appendChild(documentMeta);
-      
-      documentInfo.appendChild(documentIcon);
-      documentInfo.appendChild(documentDetails);
-      
-      const documentActions = document.createElement('div');
-      documentActions.className = 'document-actions';
-      
-      const viewBtn = document.createElement('button');
-      viewBtn.className = 'action-btn download-btn';
-      viewBtn.title = 'Visualizza';
-      viewBtn.innerHTML = '👁️';
-      viewBtn.addEventListener('click', () => {
-        if (pub.type === 'document') {
-          downloadDocument(pub.id.replace('doc_', ''));
-        } else {
-          viewDraft(pub.id.replace('pub_', ''));
-        }
+      data.publications.forEach(pub => {
+        const pubItem = createPublicationElement(pub);
+        allPublicationsList.appendChild(pubItem);
       });
-      
-      documentActions.appendChild(viewBtn);
-      
-      // Aggiungi azioni specifiche per admin
-      if (pub.type === 'publication' && pub.status === 'pending') {
-        const approveBtn = document.createElement('button');
-        approveBtn.className = 'action-btn download-btn';
-        approveBtn.title = 'Approva';
-        approveBtn.innerHTML = '✅';
-        approveBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'approved'));
-        
-        const rejectBtn = document.createElement('button');
-        rejectBtn.className = 'action-btn delete-btn';
-        rejectBtn.title = 'Rifiuta';
-        rejectBtn.innerHTML = '❌';
-        rejectBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'rejected'));
-        
-        documentActions.appendChild(approveBtn);
-        documentActions.appendChild(rejectBtn);
-      }
-      
-      // Eliminazione per admin
-      const deleteBtn = document.createElement('button');
-      deleteBtn.className = 'action-btn delete-btn';
-      deleteBtn.title = 'Elimina';
-      deleteBtn.innerHTML = '🗑️';
-      deleteBtn.addEventListener('click', () => {
-        if (pub.type === 'document') {
-          deleteDocument(pub.id.replace('doc_', ''));
-        } else {
-          deleteDraft(pub.id.replace('pub_', ''));
-        }
-      });
-      
-      documentActions.appendChild(deleteBtn);
-      
-      item.appendChild(documentInfo);
-      item.appendChild(documentActions);
-      
-      return item;
+    } else {
+      console.log('ℹ️ Nessuna pubblicazione trovata');
+      emptyAllPublications.style.display = 'block';
     }
+  })
+  .catch(error => {
+    console.error('❌ Error loading all publications:', error);
+    emptyAllPublications.style.display = 'block';
+  });
+}
 
-    function getStatusText(status) {
-      const statusMap = {
-        'draft': 'Bozza',
-        'pending': 'In Revisione',
-        'approved': 'Approvato',
-        'rejected': 'Rifiutato',
-        'published': 'Pubblicato'
-      };
-      return statusMap[status] || status;
-    }
+function createDocumentElement(doc, status) {
+  const item = document.createElement('div');
+  item.className = 'document-item';
+  
+  const documentInfo = document.createElement('div');
+  documentInfo.className = 'document-info';
+  
+  const documentIcon = document.createElement('div');
+  documentIcon.className = 'document-icon';
+  documentIcon.textContent = getFileIcon(doc.file_type);
+  
+  const documentDetails = document.createElement('div');
+  documentDetails.className = 'document-details';
+  
+  const documentName = document.createElement('h3');
+  documentName.textContent = doc.title || doc.name;
+  
+  const documentMeta = document.createElement('p');
+  documentMeta.textContent = `${doc.description || ''} - ${formatFileSize(doc.size)} - Caricato il ${formatDate(doc.upload_date)} da ${doc.uploaded_by}`;
+  
+  documentDetails.appendChild(documentName);
+  documentDetails.appendChild(documentMeta);
+  
+  documentInfo.appendChild(documentIcon);
+  documentInfo.appendChild(documentDetails);
+  
+  const documentActions = document.createElement('div');
+  documentActions.className = 'document-actions';
+  
+  const downloadBtn = document.createElement('button');
+  downloadBtn.className = 'action-btn download-btn';
+  downloadBtn.title = 'Scarica';
+  downloadBtn.innerHTML = '⬇️';
+  downloadBtn.addEventListener('click', () => downloadDocument(doc.id));
+  
+  documentActions.appendChild(downloadBtn);
+  
+  // Solo gli admin possono eliminare documenti
+  const utente = localStorage.getItem('utente');
+  const ruolo = localStorage.getItem('utente_ruolo');
+  
+  if (utente && ruolo === 'admin') {
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'action-btn delete-btn';
+    deleteBtn.title = 'Elimina';
+    deleteBtn.innerHTML = '🗑️';
+    deleteBtn.addEventListener('click', () => deleteDocument(doc.id));
+    
+    documentActions.appendChild(deleteBtn);
+  }
+  
+  item.appendChild(documentInfo);
+  item.appendChild(documentActions);
+  
+  return item;
+}
 
-    function getFileIcon(fileType) {
-      const icons = {
-        'pdf': '📕',
-        'doc': '📘',
-        'docx': '📘',
-        'xls': '📗',
-        'xlsx': '📗',
-        'ppt': '📙',
-        'pptx': '📙',
-        'txt': '📄',
-        'zip': '📦',
-        'rar': '📦'
-      };
-      
-      const extension = fileType ? fileType.toLowerCase() : '';
-      return icons[extension] || '📄';
-    }
+function createDraftElement(draft) {
+  const item = document.createElement('div');
+  item.className = 'document-item';
+  
+  const documentInfo = document.createElement('div');
+  documentInfo.className = 'document-info';
+  
+  const documentIcon = document.createElement('div');
+  documentIcon.className = 'document-icon';
+  documentIcon.textContent = getFileIcon(draft.file_type);
+  
+  const documentDetails = document.createElement('div');
+  documentDetails.className = 'document-details';
+  
+  const documentName = document.createElement('h3');
+  documentName.textContent = draft.title;
+  
+  const documentMeta = document.createElement('p');
+  documentMeta.textContent = `${draft.description} - Creato da ${draft.author} il ${formatDate(draft.created_at)}`;
+  
+  const statusBadge = document.createElement('span');
+  statusBadge.className = `status-badge status-${draft.status}`;
+  statusBadge.textContent = getStatusText(draft.status);
+  
+  documentName.appendChild(statusBadge);
+  
+  documentDetails.appendChild(documentName);
+  documentDetails.appendChild(documentMeta);
+  
+  documentInfo.appendChild(documentIcon);
+  documentInfo.appendChild(documentDetails);
+  
+  const documentActions = document.createElement('div');
+  documentActions.className = 'document-actions';
+  
+  const viewBtn = document.createElement('button');
+  viewBtn.className = 'action-btn download-btn';
+  viewBtn.title = 'Visualizza';
+  viewBtn.innerHTML = '👁️';
+  viewBtn.addEventListener('click', () => viewDraft(draft.id));
+  
+  const approveBtn = document.createElement('button');
+  approveBtn.className = 'action-btn download-btn';
+  approveBtn.title = 'Approva';
+  approveBtn.innerHTML = '✅';
+  approveBtn.addEventListener('click', () => reviewDraft(draft.id, 'approved'));
+  
+  const rejectBtn = document.createElement('button');
+  rejectBtn.className = 'action-btn delete-btn';
+  rejectBtn.title = 'Rifiuta';
+  rejectBtn.innerHTML = '❌';
+  rejectBtn.addEventListener('click', () => reviewDraft(draft.id, 'rejected'));
+  
+  documentActions.appendChild(viewBtn);
+  documentActions.appendChild(approveBtn);
+  documentActions.appendChild(rejectBtn);
+  
+  item.appendChild(documentInfo);
+  item.appendChild(documentActions);
+  
+  return item;
+}
 
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('it-IT');
-    }
+function createMyDraftElement(draft) {
+  const item = document.createElement('div');
+  item.className = 'document-item';
+  
+  const documentInfo = document.createElement('div');
+  documentInfo.className = 'document-info';
+  
+  const documentIcon = document.createElement('div');
+  documentIcon.className = 'document-icon';
+  documentIcon.textContent = getFileIcon(draft.file_type);
+  
+  const documentDetails = document.createElement('div');
+  documentDetails.className = 'document-details';
+  
+  const documentName = document.createElement('h3');
+  documentName.textContent = draft.title;
+  
+  const documentMeta = document.createElement('p');
+  documentMeta.textContent = `${draft.description} - Creato il ${formatDate(draft.created_at)}`;
+  
+  const statusBadge = document.createElement('span');
+  statusBadge.className = `status-badge status-${draft.status}`;
+  statusBadge.textContent = getStatusText(draft.status);
+  
+  const cloudIndicator = document.createElement('span');
+  cloudIndicator.className = 'cloud-indicator';
+  cloudIndicator.textContent = '☁️ Salvato nel cloud';
+  
+  documentName.appendChild(statusBadge);
+  documentName.appendChild(cloudIndicator);
+  
+  documentDetails.appendChild(documentName);
+  documentDetails.appendChild(documentMeta);
+  
+  documentInfo.appendChild(documentIcon);
+  documentInfo.appendChild(documentDetails);
+  
+  const documentActions = document.createElement('div');
+  documentActions.className = 'document-actions';
+  
+  const viewBtn = document.createElement('button');
+  viewBtn.className = 'action-btn download-btn';
+  viewBtn.title = 'Visualizza';
+  viewBtn.innerHTML = '👁️';
+  viewBtn.addEventListener('click', () => viewDraft(draft.id));
+  
+  // Se la bozza è rifiutata, mostra anche il motivo
+  if (draft.status === 'rejected' && draft.review_notes) {
+    const rejectInfo = document.createElement('div');
+    rejectInfo.style.marginTop = '0.5rem';
+    rejectInfo.style.fontSize = '0.8rem';
+    rejectInfo.style.color = 'var(--error)';
+    rejectInfo.innerHTML = `<strong>Motivo rifiuto:</strong> ${draft.review_notes}`;
+    documentDetails.appendChild(rejectInfo);
+  }
+  
+  documentActions.appendChild(viewBtn);
+  
+  item.appendChild(documentInfo);
+  item.appendChild(documentActions);
+  
+  return item;
+}
 
-    function downloadDocument(id) {
-      window.open(`${API_BASE_URL}/api/download/${id}`, '_blank');
+function createPublicationElement(pub) {
+  const item = document.createElement('div');
+  item.className = 'document-item';
+  
+  const documentInfo = document.createElement('div');
+  documentInfo.className = 'document-info';
+  
+  const documentIcon = document.createElement('div');
+  documentIcon.className = 'document-icon';
+  documentIcon.textContent = getFileIcon(pub.file_type);
+  
+  const documentDetails = document.createElement('div');
+  documentDetails.className = 'document-details';
+  
+  const documentName = document.createElement('h3');
+  documentName.textContent = pub.title;
+  
+  const documentMeta = document.createElement('p');
+  let metaText = `${pub.description || 'Nessuna descrizione'} - ${formatFileSize(pub.size)} - Creato da ${pub.author} il ${formatDate(pub.created_at)}`;
+  if (pub.type === 'publication') {
+    metaText += ` - ${getStatusText(pub.status)}`;
+  } else {
+    metaText += ' - Pubblicato';
+  }
+  documentMeta.textContent = metaText;
+  
+  const statusBadge = document.createElement('span');
+  statusBadge.className = `status-badge status-${pub.status}`;
+  statusBadge.textContent = pub.type === 'document' ? 'Pubblicato' : getStatusText(pub.status);
+  
+  documentName.appendChild(statusBadge);
+  documentDetails.appendChild(documentName);
+  documentDetails.appendChild(documentMeta);
+  
+  documentInfo.appendChild(documentIcon);
+  documentInfo.appendChild(documentDetails);
+  
+  const documentActions = document.createElement('div');
+  documentActions.className = 'document-actions';
+  
+  const viewBtn = document.createElement('button');
+  viewBtn.className = 'action-btn download-btn';
+  viewBtn.title = 'Visualizza';
+  viewBtn.innerHTML = '👁️';
+  viewBtn.addEventListener('click', () => {
+    if (pub.type === 'document') {
+      downloadDocument(pub.id.replace('doc_', ''));
+    } else {
+      viewDraft(pub.id.replace('pub_', ''));
     }
+  });
+  
+  documentActions.appendChild(viewBtn);
+  
+  // Aggiungi azioni specifiche per admin
+  if (pub.type === 'publication' && pub.status === 'pending') {
+    const approveBtn = document.createElement('button');
+    approveBtn.className = 'action-btn download-btn';
+    approveBtn.title = 'Approva';
+    approveBtn.innerHTML = '✅';
+    approveBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'approved'));
+    
+    const rejectBtn = document.createElement('button');
+    rejectBtn.className = 'action-btn delete-btn';
+    rejectBtn.title = 'Rifiuta';
+    rejectBtn.innerHTML = '❌';
+    rejectBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'rejected'));
+    
+    documentActions.appendChild(approveBtn);
+    documentActions.appendChild(rejectBtn);
+  }
+  
+  // Eliminazione per admin
+  const deleteBtn = document.createElement('button');
+  deleteBtn.className = 'action-btn delete-btn';
+  deleteBtn.title = 'Elimina';
+  deleteBtn.innerHTML = '🗑️';
+  deleteBtn.addEventListener('click', () => {
+    if (pub.type === 'document') {
+      deleteDocument(pub.id.replace('doc_', ''));
+    } else {
+      deleteDraft(pub.id.replace('pub_', ''));
+    }
+  });
+  
+  documentActions.appendChild(deleteBtn);
+  
+  item.appendChild(documentInfo);
+  item.appendChild(documentActions);
+  
+  return item;
+}
 
-    function viewDraft(id) {
-        const utente = localStorage.getItem('utente');
-        const ruolo = localStorage.getItem('utente_ruolo');
-        
-        if (!utente) {
-            mostraPopup('Devi essere loggato per visualizzare le bozze', 'error');
-            return;
-        }
-        
-        fetch(`${API_BASE_URL}/api/view_draft/${id}`, {
-            method: 'GET',
-            headers: {
-                'X-User-Email': utente || '',
-                'X-User-Role': ruolo || ''
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Errore nel recupero del file');
-            }
-            
-            // Ottieni il nome file dall'header Content-Disposition o usa un nome generico
-            const contentDisposition = response.headers.get('Content-Disposition');
-            let filename = 'documento.pdf';
-            if (contentDisposition) {
-                const filenameMatch = contentDisposition.match(/filename="(.+)"/);
-                if (filenameMatch) {
-                    filename = filenameMatch[1];
-                }
-            }
-            
-            return response.blob().then(blob => ({ blob, filename }));
-        })
-        .then(({ blob, filename }) => {
-            // Crea un URL temporaneo per il blob e lo apre in una nuova finestra
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            mostraPopup('Errore nel visualizzare la bozza: ' + error.message, 'error');
-        });
+function getStatusText(status) {
+  const statusMap = {
+    'draft': 'Bozza',
+    'pending': 'In Revisione',
+    'approved': 'Approvato',
+    'rejected': 'Rifiutato',
+    'published': 'Pubblicato'
+  };
+  return statusMap[status] || status;
+}
+
+function getFileIcon(fileType) {
+  const icons = {
+    'pdf': '📕',
+    'doc': '📘',
+    'docx': '📘',
+    'xls': '📗',
+    'xlsx': '📗',
+    'ppt': '📙',
+    'pptx': '📙',
+    'txt': '📄',
+    'zip': '📦',
+    'rar': '📦'
+  };
+  
+  const extension = fileType ? fileType.toLowerCase() : '';
+  return icons[extension] || '📄';
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('it-IT');
+}
+
+function downloadDocument(id) {
+  window.open(`${API_BASE_URL}/api/download/${id}`, '_blank');
+}
+
+function viewDraft(id) {
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
+    
+    if (!utente) {
+        mostraPopup('Devi essere loggato per visualizzare le bozze', 'error');
+        return;
     }
-    function reviewDraft(id, action) {
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo');
-      
-      fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
-        method: 'POST',
+    
+    fetch(`${API_BASE_URL}/api/view_draft/${id}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'X-User-Email': utente || '',
-          'X-User-Role': ruolo || ''
-        },
-        body: JSON.stringify({
-          action: action
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          mostraPopup(data.message || `Bozza ${action === 'approved' ? 'approvata' : 'rifiutata'} con successo`, 'success');
-          loadDraftsForReview();
-          loadDocuments();
-          loadAllPublications();
-        } else {
-          mostraPopup('Errore nella revisione: ' + (data.message || 'Errore sconosciuto'), 'error');
+            'X-User-Email': utente || '',
+            'X-User-Role': ruolo || ''
         }
-      })
-      .catch(error => {
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Errore nel recupero del file');
+        }
+        
+        // Ottieni il nome file dall'header Content-Disposition o usa un nome generico
+        const contentDisposition = response.headers.get('Content-Disposition');
+        let filename = 'documento.pdf';
+        if (contentDisposition) {
+            const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+            if (filenameMatch) {
+                filename = filenameMatch[1];
+            }
+        }
+        
+        return response.blob().then(blob => ({ blob, filename }));
+    })
+    .then(({ blob, filename }) => {
+        // Crea un URL temporaneo per il blob e lo apre in una nuova finestra
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    })
+    .catch(error => {
         console.error('Error:', error);
-        mostraPopup('Errore di connessione con il server', 'error');
-      });
-    }
+        mostraPopup('Errore nel visualizzare la bozza: ' + error.message, 'error');
+    });
+}
 
-    function deleteDocument(id) {
-      if (confirm('Sei sicuro di voler eliminare questo documento?')) {
-        // Aggiungi headers per autenticazione
-        const utente = localStorage.getItem('utente');
-        const ruolo = localStorage.getItem('utente_ruolo');
+function reviewDraft(id, action) {
+  const utente = localStorage.getItem('utente');
+  const ruolo = localStorage.getItem('utente_ruolo');
+  
+  fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-User-Email': utente || '',
+      'X-User-Role': ruolo || ''
+    },
+    body: JSON.stringify({
+      action: action
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      mostraPopup(data.message || `Bozza ${action === 'approved' ? 'approvata' : 'rifiutata'} con successo`, 'success');
+      loadDraftsForReview();
+      loadDocuments();
+      loadAllPublications();
+      
+      // Aggiorna anche le bozze personali se l'utente è l'autore
+      setTimeout(() => {
+        loadMyDrafts();
+      }, 500);
+    } else {
+      mostraPopup('Errore nella revisione: ' + (data.message || 'Errore sconosciuto'), 'error');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    mostraPopup('Errore di connessione con il server', 'error');
+  });
+}
+
+function deleteDocument(id) {
+  if (confirm('Sei sicuro di voler eliminare questo documento?')) {
+    // Aggiungi headers per autenticazione
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
+    
+    fetch(`${API_BASE_URL}/api/delete/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'X-User-Email': utente || '',
+        'X-User-Role': ruolo || ''
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        loadDocuments();
+        loadAllPublications();
+        mostraPopup(data.message || 'Documento eliminato con successo', 'success');
+      } else {
+        mostraPopup('Errore nell\'eliminazione del documento: ' + (data.message || 'Errore sconosciuto'), 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      mostraPopup('Errore di connessione con il server', 'error');
+    });
+  }
+}
+
+function deleteDraft(id) {
+  if (confirm('Sei sicuro di voler eliminare questa bozza?')) {
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
+    
+    fetch(`${API_BASE_URL}/api/delete_draft/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'X-User-Email': utente || '',
+        'X-User-Role': ruolo || ''
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        mostraPopup(data.message || 'Bozza eliminata con successo', 'success');
+        loadAllPublications();
+        loadDraftsForReview();
         
-        fetch(`${API_BASE_URL}/api/delete/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'X-User-Email': utente || '',
-            'X-User-Role': ruolo || ''
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            loadDocuments();
-            loadAllPublications();
-            mostraPopup(data.message || 'Documento eliminato con successo', 'success');
-          } else {
-            mostraPopup('Errore nell\'eliminazione del documento: ' + (data.message || 'Errore sconosciuto'), 'error');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          mostraPopup('Errore di connessione con il server', 'error');
-        });
+        // Aggiorna le bozze personali
+        setTimeout(() => {
+          loadMyDrafts();
+        }, 500);
+      } else {
+        mostraPopup('Errore nell\'eliminazione della bozza: ' + (data.message || 'Errore sconosciuto'), 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      mostraPopup('Errore di connessione con il server', 'error');
+    });
+  }
+}
+
+// Funzione di test per debug
+function testMyDrafts() {
+  console.log('🧪 Test manuale bozze personali');
+  const utente = localStorage.getItem('utente');
+  console.log('Utente corrente:', utente);
+  loadMyDrafts();
+}
+
+// Sidebar functionality
+function initSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebarClose = document.querySelector('.sidebar-close');
+  const toggleSidebar = document.getElementById('toggleSidebar');
+  
+  // Apri sidebar
+  sidebarToggle.addEventListener('click', () => {
+    sidebar.classList.add('open');
+  });
+  
+  toggleSidebar.addEventListener('click', () => {
+    sidebar.classList.add('open');
+  });
+  
+  // Chiudi sidebar
+  sidebarClose.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+  });
+  
+  // Chiudi sidebar cliccando fuori
+  document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && 
+        !sidebarToggle.contains(e.target) && 
+        !toggleSidebar.contains(e.target) && 
+        sidebar.classList.contains('open')) {
+      sidebar.classList.remove('open');
+    }
+  });
+}
+
+// Theme functionality
+function initTheme() {
+  const fab = document.getElementById('theme-fab');
+  const popup = document.getElementById('theme-popup');
+
+  fab.addEventListener('click', () => {
+    fab.classList.add('animate');
+    fab.addEventListener('animationend', () => {
+      fab.classList.remove('animate');
+    }, { once: true });
+    
+    if (popup.classList.contains('show')) {
+      popup.classList.remove('show');
+      setTimeout(() => popup.style.display = 'none', 250);
+    } else {
+      popup.style.display = 'flex';
+      requestAnimationFrame(() => popup.classList.add('show'));
+    }
+  });
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!fab.contains(e.target) && !popup.contains(e.target)) {
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
       }
     }
+  });
 
-    function deleteDraft(id) {
-      if (confirm('Sei sicuro di voler eliminare questa bozza?')) {
-        const utente = localStorage.getItem('utente');
-        const ruolo = localStorage.getItem('utente_ruolo');
-        
-        fetch(`${API_BASE_URL}/api/delete_draft/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'X-User-Email': utente || '',
-            'X-User-Role': ruolo || ''
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            mostraPopup(data.message || 'Bozza eliminata con successo', 'success');
-            loadAllPublications();
-            loadDraftsForReview();
-            loadMyDrafts();
-          } else {
-            mostraPopup('Errore nell\'eliminazione della bozza: ' + (data.message || 'Errore sconosciuto'), 'error');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          mostraPopup('Errore di connessione con il server', 'error');
-        });
-      }
+  // Apply theme and highlight selection
+  document.querySelectorAll('.theme-option').forEach(button => {
+    button.addEventListener('click', () => {
+      const theme = button.dataset.theme;
+      localStorage.setItem('theme-preference', theme);
+      applyTheme(theme);
+
+      // Highlight active button
+      document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      popup.classList.remove('show');
+      setTimeout(() => popup.style.display = 'none', 250);
+    });
+  });
+
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
     }
-  </script>
-  <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script>
+  }
+
+  // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+  const savedTheme = localStorage.getItem('theme-preference');
+  if (savedTheme) {
+    applyTheme(savedTheme);
+    const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+    if (btn) btn.classList.add('active');
+  } else {
+    // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
+    applyTheme('auto');
+    const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+    if (autoBtn) autoBtn.classList.add('active');
+  }
+
+  // Mostra FAB con animazione al caricamento
+  fab.classList.add('show');
+  
+  // Animazioni per le card
+  const cards = document.querySelectorAll('.fade-in-up');
+  cards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.1}s`;
+  });
+}
+</script>
 </body>
 </html>

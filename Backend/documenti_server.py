@@ -157,8 +157,8 @@ def get_documents():
         for doc in documents:
             result.append({
                 'id': doc['id'],
-                'name': doc['name'],
-                'title': doc['title'] or doc['name'],
+                'name': doc['name'],  # Nome file originale per download
+                'title': doc['title'] or doc['name'],  # Titolo per visualizzazione
                 'description': doc['description'],
                 'file_type': doc['file_type'],
                 'size': doc['size'],
@@ -177,35 +177,43 @@ def get_all_publications():
     try:
         # Verifica autenticazione e ruolo admin
         user = get_current_user()
+        print(f"🔍 Debug all_publications - User: {user}")
+        
         if user['role'] != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono vedere tutte le pubblicazioni'}), 403
         
         db = get_db()
         
-        # Recupera documenti pubblicati
+        # Recupera documenti pubblicati con più debug
+        print("📋 Recupero documenti pubblicati...")
         cursor = db.execute('''
             SELECT id, name as title, description, file_type, size, 
                    uploaded_by as author, upload_date as created_at, 
-                   'published' as status, NULL as reviewed_by, NULL as reviewed_at
+                   'published' as status, NULL as reviewed_by, NULL as reviewed_at,
+                   name as original_filename
             FROM documents 
             WHERE status = 'published'
             ORDER BY upload_date DESC
         ''')
         documents = cursor.fetchall()
+        print(f"✅ Documenti trovati: {len(documents)}")
         
-        # Recupera bozze
+        # Recupera bozze con più debug
+        print("📋 Recupero bozze...")
         cursor = db.execute('''
             SELECT id, title, description, file_type, size, author, 
-                   created_at, status, reviewed_by, reviewed_at
+                   created_at, status, reviewed_by, reviewed_at, original_filename
             FROM publications 
             ORDER BY created_at DESC
         ''')
         publications = cursor.fetchall()
+        print(f"✅ Bozze trovate: {len(publications)}")
         
         result = []
         
         # Aggiungi documenti pubblicati
         for doc in documents:
+            print(f"📄 Elaborazione documento: {doc['title']}")
             result.append({
                 'id': f"doc_{doc['id']}",
                 'title': doc['title'],
@@ -217,11 +225,13 @@ def get_all_publications():
                 'status': 'published',
                 'type': 'document',
                 'reviewed_by': doc['reviewed_by'],
-                'reviewed_at': doc['reviewed_at']
+                'reviewed_at': doc['reviewed_at'],
+                'original_filename': doc['original_filename']
             })
         
         # Aggiungi bozze
         for pub in publications:
+            print(f"📝 Elaborazione bozza: {pub['title']}")
             result.append({
                 'id': f"pub_{pub['id']}",
                 'title': pub['title'],
@@ -233,17 +243,23 @@ def get_all_publications():
                 'status': pub['status'],
                 'type': 'publication',
                 'reviewed_by': pub['reviewed_by'],
-                'reviewed_at': pub['reviewed_at']
+                'reviewed_at': pub['reviewed_at'],
+                'original_filename': pub['original_filename']
             })
         
         # Ordina per data di creazione
+        print("🔄 Ordinamento risultati...")
         result.sort(key=lambda x: x['created_at'], reverse=True)
         
+        print(f"✅ Totale pubblicazioni: {len(result)}")
         return jsonify({'success': True, 'publications': result})
     
     except Exception as e:
+        print(f"❌ Errore critico in get_all_publications: {str(e)}")
+        import traceback
+        print(f"🔍 Traceback completo: {traceback.format_exc()}")
         return jsonify({'success': False, 'message': f'Errore nel recupero pubblicazioni: {str(e)}'}), 500
-
+    
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
     """Carica uno o più documenti (solo admin) - metodo diretto"""
@@ -267,12 +283,12 @@ def upload_file():
                 continue
                 
             if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
+                original_filename = secure_filename(file.filename)
+                filename = original_filename  # Usa il nome originale come punto di partenza
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 
                 # Gestisci file con lo stesso nome
                 counter = 1
-                original_filename = filename
                 while os.path.exists(file_path):
                     name, ext = os.path.splitext(original_filename)
                     filename = f"{name}_{counter}{ext}"
@@ -283,15 +299,15 @@ def upload_file():
                 file_size = os.path.getsize(file_path)
                 file_type = filename.rsplit('.', 1)[1].lower()
                 
-                # Salva informazioni nel database
+                # Salva informazioni nel database - usa il nome ORIGINALE per il download
                 db = get_db()
                 db.execute(
                     'INSERT INTO documents (name, file_path, file_type, size, uploaded_by, status) VALUES (?, ?, ?, ?, ?, ?)',
-                    (filename, file_path, file_type, file_size, user['email'], 'published')
+                    (original_filename, file_path, file_type, file_size, user['email'], 'published')  # Salva original_filename come name
                 )
                 db.commit()
                 
-                uploaded_files.append(filename)
+                uploaded_files.append(original_filename)
             else:
                 return jsonify({'success': False, 'message': f'Tipo file non supportato: {file.filename}'}), 400
         
@@ -303,7 +319,7 @@ def upload_file():
     
     except Exception as e:
         return jsonify({'success': False, 'message': f'Errore nel caricamento: {str(e)}'}), 500
-
+    
 @app.route('/api/create_publication', methods=['POST'])
 def create_publication():
     """Crea una nuova pubblicazione (sia user che admin) - VERSIONE PERSISTENTE"""
@@ -328,7 +344,8 @@ def create_publication():
             return jsonify({'success': False, 'message': 'Titolo richiesto'}), 400
         
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            original_filename = secure_filename(file.filename)
+            filename = original_filename
             
             # Crea la cartella uploads se non esiste
             os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -339,7 +356,6 @@ def create_publication():
                 
                 # Gestisci file con lo stesso nome
                 counter = 1
-                original_filename = filename
                 while os.path.exists(file_path):
                     name, ext = os.path.splitext(original_filename)
                     filename = f"{name}_{counter}{ext}"
@@ -350,11 +366,11 @@ def create_publication():
                 file_type = filename.rsplit('.', 1)[1].lower()
                 file_size = os.path.getsize(file_path)
                 
-                # Salva direttamente come documento pubblicato
+                # Salva direttamente come documento pubblicato - usa nome originale per download
                 db = get_db()
                 db.execute(
                     'INSERT INTO documents (name, file_path, file_type, size, uploaded_by, title, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                    (filename, file_path, file_type, file_size, user['email'], title, description, 'published')
+                    (original_filename, file_path, file_type, file_size, user['email'], title, description, 'published')
                 )
                 db.commit()
                 
@@ -373,13 +389,13 @@ def create_publication():
                 file_type = filename.rsplit('.', 1)[1].lower()
                 file_size = os.path.getsize(file_path)
                 
-                # Salva come bozza PERSISTENTE nel database
+                # Salva come bozza PERSISTENTE nel database - salva nome originale
                 db = get_db()
                 db.execute(
                     '''INSERT INTO publications 
                     (title, description, file_path, file_type, size, author, status, original_filename, last_modified) 
                     VALUES (?, ?, ?, ?, ?, ?, 'pending', ?, CURRENT_TIMESTAMP)''',
-                    (title, description, file_path, file_type, file_size, user['email'], filename)
+                    (title, description, file_path, file_type, file_size, user['email'], original_filename)
                 )
                 db.commit()
                 
@@ -425,14 +441,14 @@ def get_drafts():
         for draft in drafts:
             result.append({
                 'id': draft['id'],
-                'title': draft['title'],
+                'title': draft['title'],  # Titolo della pubblicazione
                 'description': draft['description'],
                 'file_type': draft['file_type'],
                 'size': draft['size'],
                 'author': draft['author'],
                 'created_at': draft['created_at'],
                 'status': draft['status'],
-                'original_filename': draft['original_filename'],
+                'original_filename': draft['original_filename'],  # Nome file originale
                 'last_modified': draft['last_modified']
             })
         
@@ -462,7 +478,7 @@ def get_my_drafts():
         for draft in drafts:
             result.append({
                 'id': draft['id'],
-                'title': draft['title'],
+                'title': draft['title'],  # Titolo della pubblicazione
                 'description': draft['description'],
                 'file_type': draft['file_type'],
                 'size': draft['size'],
@@ -472,7 +488,7 @@ def get_my_drafts():
                 'review_notes': draft['review_notes'],
                 'reviewed_by': draft['reviewed_by'],
                 'reviewed_at': draft['reviewed_at'],
-                'original_filename': draft['original_filename'],
+                'original_filename': draft['original_filename'],  # Nome file originale
                 'last_modified': draft['last_modified'],
                 'cloud_saved': True
             })
@@ -511,19 +527,18 @@ def review_draft(draft_id):
             # Sposta il file dalla cartella bozze a documenti pubblicati
             original_path = draft['file_path']
             
-            # Usa il nome file originale se disponibile, altrimenti genera un nome
+            # Usa SEMPRE il nome file originale per il file pubblicato
             if draft['original_filename']:
                 filename = draft['original_filename']
             else:
-                # Estrai il nome file dal path e rimuovi il prefisso "draft_"
+                # Fallback: estrai dal path
                 original_name = os.path.basename(original_path)
                 if original_name.startswith('draft_'):
-                    # Rimuove il prefisso draft_TIMESTAMP_
                     parts = original_name.split('_', 2)
                     if len(parts) >= 3:
-                        filename = parts[2]  # Prende la parte dopo timestamp
+                        filename = parts[2]
                     else:
-                        filename = original_name[6:]  # Rimuove solo "draft_"
+                        filename = original_name[6:]
                 else:
                     filename = original_name
             
@@ -540,11 +555,11 @@ def review_draft(draft_id):
             # Rinomina il file
             os.rename(original_path, new_path)
             
-            # Aggiungi ai documenti pubblicati
+            # Aggiungi ai documenti pubblicati - usa nome originale per download
             db.execute(
                 '''INSERT INTO documents (name, file_path, file_type, size, uploaded_by, title, description, status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
-                (os.path.basename(new_path), new_path, draft['file_type'], 
+                (draft['original_filename'], new_path, draft['file_type'], 
                  draft['size'], draft['author'], draft['title'], draft['description'], 'published')
             )
             
@@ -575,7 +590,7 @@ def review_draft(draft_id):
 
 @app.route('/api/view_draft/<int:draft_id>')
 def view_draft(draft_id):
-    """Visualizza una bozza PERSISTENTE"""
+    """Visualizza una bozza PERSISTENTE con il nome originale e mimetype corretto"""
     try:
         user = get_current_user()
         if not user['email']:
@@ -595,13 +610,37 @@ def view_draft(draft_id):
         if not os.path.exists(draft['file_path']):
             return jsonify({'success': False, 'message': 'File non trovato sul server'}), 404
         
-        # Usa il nome file originale per il download
+        # Usa SEMPRE il nome file originale per il download
         download_name = draft['original_filename'] or f"{draft['title']}.{draft['file_type']}"
+        
+        # Determina il mimetype corretto in base all'estensione
+        mimetype = None
+        file_extension = download_name.lower().split('.')[-1]
+        
+        # Mappa delle estensioni ai mimetype comuni
+        mimetype_map = {
+            'pdf': 'application/pdf',
+            'jpg': 'image/jpeg',
+            'jpeg': 'image/jpeg',
+            'png': 'image/png',
+            'gif': 'image/gif',
+            'txt': 'text/plain',
+            'doc': 'application/msword',
+            'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls': 'application/vnd.ms-excel',
+            'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'ppt': 'application/vnd.ms-powerpoint',
+            'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'zip': 'application/zip'
+        }
+        
+        mimetype = mimetype_map.get(file_extension, 'application/octet-stream')
         
         return send_file(
             draft['file_path'], 
             as_attachment=True, 
-            download_name=download_name
+            download_name=download_name,
+            mimetype=mimetype  # Usa il mimetype corretto
         )
     
     except Exception as e:
@@ -609,7 +648,7 @@ def view_draft(draft_id):
 
 @app.route('/api/download/<int:document_id>')
 def download_document(document_id):
-    """Scarica un documento specifico"""
+    """Scarica un documento specifico con il nome originale e mimetype corretto"""
     try:
         db = get_db()
         cursor = db.execute('SELECT * FROM documents WHERE id = ?', (document_id,))
@@ -621,10 +660,37 @@ def download_document(document_id):
         if not os.path.exists(document['file_path']):
             return jsonify({'success': False, 'message': 'File non trovato sul server'}), 404
         
+        # Usa SEMPRE il nome originale dal database per il download
+        original_filename = document['name']
+        
+        # Determina il mimetype corretto in base all'estensione
+        mimetype = None
+        file_extension = original_filename.lower().split('.')[-1]
+        
+        # Mappa delle estensioni ai mimetype comuni
+        mimetype_map = {
+            'pdf': 'application/pdf',
+            'jpg': 'image/jpeg',
+            'jpeg': 'image/jpeg',
+            'png': 'image/png',
+            'gif': 'image/gif',
+            'txt': 'text/plain',
+            'doc': 'application/msword',
+            'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls': 'application/vnd.ms-excel',
+            'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'ppt': 'application/vnd.ms-powerpoint',
+            'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'zip': 'application/zip'
+        }
+        
+        mimetype = mimetype_map.get(file_extension, 'application/octet-stream')
+        
         return send_file(
             document['file_path'], 
             as_attachment=True, 
-            download_name=document['name']
+            download_name=original_filename,
+            mimetype=mimetype  # Usa il mimetype corretto
         )
     
     except Exception as e:
@@ -700,6 +766,48 @@ def delete_draft(draft_id):
     
     except Exception as e:
         return jsonify({'success': False, 'message': f'Errore nell\'eliminazione: {str(e)}'}), 500
+
+@app.route('/api/debug/database')
+def debug_database():
+    """Endpoint di debug per verificare lo stato del database"""
+    try:
+        db = get_db()
+        
+        # Conta record nelle tabelle
+        cursor = db.execute("SELECT COUNT(*) as count FROM publications")
+        publications_count = cursor.fetchone()['count']
+        
+        cursor = db.execute("SELECT COUNT(*) as count FROM documents")
+        documents_count = cursor.fetchone()['count']
+        
+        # Verifica struttura tabelle
+        cursor = db.execute("PRAGMA table_info(publications)")
+        publications_columns = [dict(row) for row in cursor.fetchall()]
+        
+        cursor = db.execute("PRAGMA table_info(documents)")
+        documents_columns = [dict(row) for row in cursor.fetchall()]
+        
+        return jsonify({
+            'success': True,
+            'database_path': app.config['DATABASE'],
+            'tables': {
+                'publications': {
+                    'count': publications_count,
+                    'columns': publications_columns
+                },
+                'documents': {
+                    'count': documents_count,
+                    'columns': documents_columns
+                }
+            },
+            'upload_folder': {
+                'path': app.config['UPLOAD_FOLDER'],
+                'exists': os.path.exists(app.config['UPLOAD_FOLDER'])
+            }
+        })
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 # Gestione errori
 @app.errorhandler(404)

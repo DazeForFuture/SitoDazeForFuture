@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>La nostra missione - Daze for Future</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
-
-<style>
+  <style>
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -18,11 +21,20 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
-      --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
-      --accent: #007aff; /* Aggiunto colore accent */
+      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
+      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6); /* RIDOTTA OPACITÀ PER VEDERE MEGLIO LO SFONDO */
+      --overlay-dark: rgba(29, 29, 31, 0.8); /* AUMENTATA OPACITÀ */
+      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
     }
+
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme]) {
         --bg: #1d1d1f;
@@ -32,10 +44,18 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.9);
-        --header-text: #f5f5f7;
-        --card-bg: #252526;
-        --accent: #0a84ff; /* Aggiunto per dark mode */
+        --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+        --header-text: #ffffff;
+        --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
+        --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+        --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
+        --accent: #0a84ff;
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
       }
     }
 
@@ -47,10 +67,18 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --card-bg: #252526;
-      --accent: #0a84ff; /* Aggiunto per dark mode */
+      --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #ffffff;
+      --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
+      --accent: #0a84ff;
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
     }
 
     :root[data-theme="light"] {
@@ -61,19 +89,81 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
-      --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
-      --accent: #007aff; /* Aggiunto per light mode */
+      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
+      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
     }
+
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
+      /* Sfondo ottimizzato per tutti i temi */
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    /* Overlay dinamico che si adatta al tema */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    /* Tema chiaro - overlay chiaro per contrasto */
+    :root[data-theme="light"] body::before {
+      background: var(--overlay-light);
+    }
+
+    /* Tema scuro - overlay scuro per contrasto */
+    :root[data-theme="dark"] body::before {
+      background: var(--overlay-dark);
+    }
+
+    /* Tema automatico - usa preferenza sistema */
+    :root:not([data-theme]) body::before {
+      background: var(--overlay-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) body::before {
+        background: var(--overlay-dark);
+      }
     }
 
     header {
@@ -97,6 +187,9 @@
       cursor: pointer;
       user-select: none;
       color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     nav {
@@ -128,7 +221,245 @@
       width: 100%;
     }
 
-    /* Stile specifico per il link Accedi */
+    section {
+      padding: 140px 2rem 100px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding-top: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2rem;
+      background-color: var(--btn-bg);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-muted {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* MIGLIORAMENTI MOBILE COMPLETI */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .sidebar {
+        width: 280px;
+      }
+      
+      section {
+        padding: 120px 1rem 80px;
+      }
+      
+      .hero {
+        padding-top: 160px; /* RIDOTTO PER MOBILE */
+      }
+      
+      .card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .card-image {
+        height: 160px;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      /* Miglioramenti specifici per missione su mobile */
+      .mission-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .mission-card {
+        padding: 1.5rem;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+      
+      /* FAB più piccolo su mobile */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      #theme-popup {
+        bottom: 80px;
+        right: 20px;
+      }
+    }
+
+    /* Per schermi molto piccoli */
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .mission-card {
+        padding: 1rem;
+      }
+    }
+
+    /* Mostra hamburger menu solo su mobile */
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      #sidebarToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
     nav a[href="login.html"],
     nav a[href="login.html"]:visited {
       color: var(--accent) !important;
@@ -139,61 +470,191 @@
       text-decoration: underline;
     }
 
-    section {
-      padding: 140px 2rem 100px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .hero {
-      text-align: center;
-      padding-top: 200px;
-    }
-
-    .hero h1 {
-      font-size: 3.2rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      background: linear-gradient(90deg, #007aff, #00c6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--muted);
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 2rem;
-      background-color: var(--btn-bg);
-      color: var(--bg);
-      padding: 0.75rem 1.5rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: transform 0.3s, background 0.3s;
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
     }
 
-    .btn:hover {
-      background-color: var(--btn-hover-bg);
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    section .btn {
+      display: inline-flex;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
       transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-
-    .section-title {
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-    }
-
-    .text-muted {
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 1.1rem;
-    }
-
+    
+    /* Stili per la sezione missione */
     .mission-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -203,13 +664,17 @@
 
     .mission-card {
       background: var(--card-bg);
-      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
       padding: 2rem;
-      transition: transform 0.3s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--card-shadow);
     }
 
     .mission-card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
     .mission-card h3 {
@@ -220,6 +685,7 @@
 
     .mission-card p {
       color: var(--muted);
+      line-height: 1.6;
     }
 
     .mission-card .icon {
@@ -227,37 +693,31 @@
       margin-bottom: 1rem;
       color: #007aff;
     }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
+    
+    /* Stili per la lista obiettivi */
+    .objectives-list {
       color: var(--muted);
-      font-size: 0.9rem;
-      background: var(--footer-bg);
-    }
-
-    @media (max-width: 768px) {
-      nav a {
-        margin-left: 1rem;
-      }
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-      .mission-cards {
-        grid-template-columns: 1fr;
-      }
+      margin-left: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
     }
     
-</style>
+    .objectives-list li {
+      margin-bottom: 0.8rem;
+    }
+  </style>
 </head>
 <body>
- <header>
-    <div class="logo" id="toggleSidebar">Daze for Future</div>
+  <header>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
+    </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
@@ -281,73 +741,283 @@
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
-    <main>
+
+  <main>
     <section class="hero">
-      <h1>La nostra missione</h1>
-      <p>Scopri i valori e gli obiettivi che guidano il nostro impegno quotidiano</p>
+      <div class="hero-content">
+        <h1>La nostra missione</h1>
+        <p>Scopri i valori e gli obiettivi che guidano il nostro impegno quotidiano</p>
+      </div>
     </section>
 
     <section>
-      <p class="text-muted">Daze for Future è un'associazione studentesca nata con l'obiettivo di promuovere la sostenibilità ambientale, l'uso consapevole della tecnologia e la collaborazione tra studenti, docenti e comunità locale. Crediamo che piccole azioni possano portare a grandi cambiamenti.</p>
-      
-      <div class="mission-cards">
-        <div class="mission-card">
-          <div class="icon">🌱</div>
-          <h3>Sostenibilità Ambientale</h3>
-          <p>Promuoviamo pratiche sostenibili all'interno della scuola e nella comunità, organizzando campagne di sensibilizzazione, giornate ecologiche e progetti per ridurre l'impatto ambientale.</p>
-        </div>
+      <div class="card fade-in-up">
+        <p class="text-muted">Daze for Future è un'associazione studentesca nata con l'obiettivo di promuovere la sostenibilità ambientale, l'uso consapevole della tecnologia e la collaborazione tra studenti, docenti e comunità locale. Crediamo che piccole azioni possano portare a grandi cambiamenti.</p>
         
-        <div class="mission-card">
-          <div class="icon">💻</div>
-          <h3>Open Source</h3>
-          <p>Incoraggiamo l'uso di software libero e open source, organizzando workshop e fornendo supporto per la migrazione a soluzioni tecnologiche etiche e accessibili a tutti.</p>
-        </div>
-        
-        <div class="mission-card">
-          <div class="icon">👥</div>
-          <h3>Comunità</h3>
-          <p>Costruiamo una rete di studenti, insegnanti e cittadini impegnati per un futuro migliore, attraverso eventi, collaborazioni con altre associazioni e progetti condivisi.</p>
+        <div class="mission-cards">
+          <div class="mission-card fade-in-up">
+            <div class="icon">🌱</div>
+            <h3>Sostenibilità Ambientale</h3>
+            <p>Promuoviamo pratiche sostenibili all'interno della scuola e nella comunità, organizzando campagne di sensibilizzazione, giornate ecologiche e progetti per ridurre l'impatto ambientale.</p>
+          </div>
+          
+          <div class="mission-card fade-in-up">
+            <div class="icon">💻</div>
+            <h3>Open Source</h3>
+            <p>Incoraggiamo l'uso di software libero e open source, organizzando workshop e fornendo supporto per la migrazione a soluzioni tecnologiche etiche e accessibili a tutti.</p>
+          </div>
+          
+          <div class="mission-card fade-in-up">
+            <div class="icon">👥</div>
+            <h3>Comunità</h3>
+            <p>Costruiamo una rete di studenti, insegnanti e cittadini impegnati per un futuro migliore, attraverso eventi, collaborazioni con altre associazioni e progetti condivisi.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section>
-      <h2 class="section-title">I nostri obiettivi</h2>
-      <ul style="color: var(--muted); margin-left: 1.5rem; font-size: 1.1rem; line-height: 1.8;">
-        <li>Ridurre l'impatto ambientale della scuola attraverso iniziative concrete</li>
-        <li>Educare alla sostenibilità attraverso workshop e materiali didattici</li>
-        <li>Promuovere l'uso di software open source e competenze digitali etiche</li>
-        <li>Creare una comunità attiva e consapevole sui temi ambientali</li>
-        <li>Collaborare con altre organizzazioni per amplificare il nostro impatto</li>
-      </ul>
+      <div class="card fade-in-up">
+        <h2 class="section-title">I nostri obiettivi</h2>
+        <ul class="objectives-list">
+          <li>Ridurre l'impatto ambientale della scuola attraverso iniziative concrete</li>
+          <li>Educare alla sostenibilità attraverso workshop e materiali didattici</li>
+          <li>Promuovere l'uso di software open source e competenze digitali etiche</li>
+          <li>Creare una comunità attiva e consapevole sui temi ambientali</li>
+          <li>Collaborare con altre organizzazioni per amplificare il nostro impatto</li>
+        </ul>
+      </div>
     </section>
 
-    <section style="text-align: center;">
-      <h2 class="section-title">Unisciti a noi</h2>
-      <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono partecipare alle nostre attività e contribuire ai progetti in corso.</p>
-      <a href="/contatti.html" class="btn">I nostri contatti</a>
+    <section>
+      <div class="card fade-in-up" style="text-align: center;">
+        <h2 class="section-title">Unisciti a noi</h2>
+        <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono partecipare alle nostre attività e contribuire ai progetti in corso.</p>
+        <a href="contatti.html" class="btn">
+          <i class="fas fa-envelope"></i>
+          I nostri contatti
+        </a>
+      </div>
     </section>
   </main>
   
   <!-- Sidebar -->
-<aside class="sidebar">
-  <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
-  <h2>Menu</h2>
-  <ul class="sidebar-menu">
-    <li><a href="index.html"><span>🏠</span> Home</a></li>
-    <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-    <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-    <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-    <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-    <li><a href="login.html"><span>🔐</span> Accedi</a></li>
-  </ul>
-</aside>
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
+    <h2>Menu</h2>
+    <ul class="sidebar-menu">
+      <li><a href="index.html"><span>🏠</span> Home</a></li>
+      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
+      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+    </ul>
+
+    <!-- User info per mobile nella sidebar -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+      <div class="mobile-user-header">
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+      </div>
+      <div class="mobile-user-display">
+        <span class="mobile-user-name" id="mobileUserName"></span>
+        <span class="mobile-user-badge" id="mobileUserBadge"></span>
+      </div>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
+
+  <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
+  </div>
 
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
-<script src="theme.js"></script>
-<script src="css/sidebar/sidebar.js"></script>
-<script src="css/userbar/userbar.js"></script>
+
+<script>
+    // Theme functionality
+    const fab = document.getElementById('theme-fab');
+    const popup = document.getElementById('theme-popup');
+
+    fab.addEventListener('click', () => {
+      fab.classList.add('animate');
+      fab.addEventListener('animationend', () => {
+        fab.classList.remove('animate');
+      }, { once: true });
+      
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      } else {
+        popup.style.display = 'flex';
+        requestAnimationFrame(() => popup.classList.add('show'));
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!fab.contains(e.target) && !popup.contains(e.target)) {
+        if (popup.classList.contains('show')) {
+          popup.classList.remove('show');
+          setTimeout(() => popup.style.display = 'none', 250);
+        }
+      }
+    });
+
+    // Apply theme and highlight selection
+    document.querySelectorAll('.theme-option').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+
+        // Highlight active button
+        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
+
+    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+      if (btn) btn.classList.add('active');
+    } else {
+      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
+      applyTheme('auto');
+      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+      if (autoBtn) autoBtn.classList.add('active');
+    }
+
+    // Mostra FAB con animazione al caricamento
+    window.addEventListener('DOMContentLoaded', () => {
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+
+    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    function getNameFromEmail(email) {
+      return email.split('@')[0];
+    }
+
+    // Funzione per generare l'iniziale dall'email
+    function getInitialFromEmail(email) {
+      return email.charAt(0).toUpperCase();
+    }
+
+    // Funzione per ottenere il testo del badge in base al ruolo
+    function getBadgeText(role) {
+      return role === 'admin' ? 'Admin' : 'User';
+    }
+
+    // Funzione per ottenere la classe CSS del badge in base al ruolo
+    function getBadgeClass(role) {
+      return role === 'admin' ? 'badge-admin' : 'badge-user';
+    }
+
+    // Mostra la barra utente se loggato
+    document.addEventListener('DOMContentLoaded', function() {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      
+      if(utente) {
+        // Nascondi link login
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('sidebarLoginLink').style.display = 'none';
+        
+        // Mostra userbar al posto di "Accedi"
+        const userbar = document.getElementById('userbar');
+        userbar.style.display = 'flex';
+        
+        // Imposta nome utente e badge
+        document.getElementById('userName').innerText = getNameFromEmail(utente);
+        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra user info mobile nella sidebar
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        mobileUserInfo.style.display = 'block';
+        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      window.location.href = "login.html";
+    }
+
+    // Scroll animations
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = 'none';
+      }
+    });
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards for animation
+    document.querySelectorAll('.card, .mission-card').forEach(card => {
+      observer.observe(card);
+    });
+</script>
+  <script src="theme.js"></script>
+  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>
