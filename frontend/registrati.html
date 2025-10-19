@@ -7,35 +7,41 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Registrazione - Daze for Future</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
+  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  
 
   <style>
     :root {
-      --bg: #ffffff;
-      --fg: #000000;
+      --bg: #fff;
       --text: #1d1d1f;
       --muted: #6e6e73;
       --footer-bg: #f9f9f9;
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
+      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
+      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
       --accent: #007aff;
-      --card-bg: #f5f5f7;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6); /* RIDOTTA OPACITÀ PER VEDERE MEGLIO LO SFONDO */
+      --overlay-dark: rgba(29, 29, 31, 0.8); /* AUMENTATA OPACITÀ */
+      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
     }
 
-    /* Tema scuro AUTOMATICO solo se non c'è data-theme */
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme]) {
         --bg: #1d1d1f;
@@ -45,20 +51,24 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.9);
-        --header-text: #f5f5f7;
-        --sidebar-bg: rgba(29,29,31,0.95);
-        --sidebar-border: rgba(255,255,255,0.1);
-        --sidebar-shadow: rgba(0,0,0,0.3);
+        --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+        --header-text: #ffffff;
+        --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
+        --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+        --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
         --accent: #0a84ff;
-        --card-bg: #2c2c2e;
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
         --success: #30d158;
         --error: #ff453a;
         --warning: #ff9f0a;
       }
     }
 
-    /* Tema scuro FORZATO */
     :root[data-theme="dark"] {
       --bg: #1d1d1f;
       --text: #f5f5f7;
@@ -67,48 +77,111 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --sidebar-bg: rgba(29,29,31,0.95);
-      --sidebar-border: rgba(255,255,255,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.3);
+      --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #ffffff;
+      --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
       --accent: #0a84ff;
-      --card-bg: #2c2c2e;
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
       --success: #30d158;
       --error: #ff453a;
       --warning: #ff9f0a;
     }
 
-    /* Tema chiaro FORZATO */
     :root[data-theme="light"] {
-      --bg: #ffffff;
+      --bg: #fff;
       --text: #1d1d1f;
       --muted: #6e6e73;
       --footer-bg: #f9f9f9;
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
+      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
+      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
       --accent: #007aff;
-      --card-bg: #f5f5f7;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
     }
 
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
       overflow-x: hidden;
+      line-height: 1.5;
+      /* Sfondo ottimizzato per tutti i temi */
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       position: relative;
     }
+
+    /* Overlay dinamico che si adatta al tema */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    /* Tema chiaro - overlay chiaro per contrasto */
+    :root[data-theme="light"] body::before {
+      background: var(--overlay-light);
+    }
+
+    /* Tema scuro - overlay scuro per contrasto */
+    :root[data-theme="dark"] body::before {
+      background: var(--overlay-dark);
+    }
+
+    /* Tema automatico - usa preferenza sistema */
+    :root:not([data-theme]) body::before {
+      background: var(--overlay-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) body::before {
+        background: var(--overlay-dark);
+      }
+    }
+
     header {
       position: fixed;
       top: 0;
@@ -122,7 +195,7 @@
       z-index: 1000;
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      background: var(--header-bg); 
+      background: var(--header-bg);
     }
     .logo {
       font-weight: 800;
@@ -130,6 +203,9 @@
       cursor: pointer;
       user-select: none;
       color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     nav {
@@ -140,7 +216,7 @@
     nav > a {
       margin-left: 2rem;
       text-decoration: none;
-      color: var(--header-text, var,--text);
+      color: var(--header-text, var(--text));
       font-weight: 600;
       position: relative;
       padding: 0.5rem;
@@ -165,6 +241,15 @@
       max-width: 700px;
       margin: auto;
     }
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+}
     .section-title {
       font-size: 2.5rem;
       font-weight: 800;
@@ -173,6 +258,7 @@
       background: linear-gradient(90deg, #007aff, #00c6ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .text-muted {
       color: var(--muted);
@@ -185,8 +271,10 @@
       background: var(--card-bg);
       padding: 2rem;
       border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      box-shadow: var(--card-shadow);
       position: relative;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .form-group {
@@ -310,6 +398,8 @@
       font-size: 0.9rem;
       background: var(--footer-bg);
       margin-top: 3rem;
+      position: relative;
+      z-index: 1;
     }
     
     .center-btn {
@@ -400,6 +490,7 @@
       color: var(--accent);
     }
 
+    
     /* Overlay per quando la sidebar è aperta */
     .overlay {
       position: fixed;
@@ -457,6 +548,10 @@
       form {
         padding: 1.5rem;
       }
+      
+      .section-title {
+        font-size: 2rem;
+      }
     }
     
     /* Email container come in login */
@@ -485,6 +580,8 @@
       z-index: 2000;
       font-weight: 600;
       max-width: 300px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .popup.show {
@@ -609,26 +706,253 @@
       stroke-linejoin: round;
     }
 
+    
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Miglioramenti mobile completi */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .sidebar {
+        width: 280px;
+      }
+      
+      main {
+        padding: 120px 1rem 80px;
+      }
+      
+      form {
+        padding: 1.5rem;
+      }
+      
+      .email-container {
+        flex-direction: column;
+      }
+      
+      .domain-select {
+        width: 100%;
+      }
+      
+      /* FAB più piccolo su mobile */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      #theme-popup {
+        bottom: 80px;
+        right: 20px;
+      }
+    }
+
+    /* Per schermi molto piccoli */
+    @media (max-width: 480px) {
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      form {
+        padding: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo" id="title">Daze for Future</div>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
-    <nav>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
+    </div>
+    <div style="flex:1"></div>
+    
+    <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <div class="user-display">
+          <span class="user-name" id="userName"></span>
+          <span class="user-badge" id="userBadge"></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
   <main>
-    <h1 class="section-title">Registrati all'associazione</h1>
-    <p class="text-muted">Compila il modulo qui sotto per diventare parte di Daze for Future.</p>
+    <h1 class="section-title fade-in-up">Registrati all'associazione</h1>
+    <p class="text-muted fade-in-up">Compila il modulo qui sotto per diventare parte di Daze for Future.</p>
 
-    <form id="registrationForm">
+    <form id="registrationForm" class="fade-in-up">
       <div class="form-group">
         <label for="nome">Nome</label>
         <input type="text" id="nome" name="nome" required />
@@ -767,7 +1091,10 @@
         <div class="user-avatar" id="mobileUserAvatar"></div>
         <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
       </div>
-      <div class="mobile-user-email" id="mobileUseremail"></div>
+      <div class="mobile-user-display">
+        <span class="mobile-user-name" id="mobileUserName"></span>
+        <span class="mobile-user-badge" id="mobileUserBadge"></span>
+      </div>
       <button class="logout-btn" onclick="logout()" style="justify-content: center;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -776,6 +1103,18 @@
       </button>
     </div>
   </aside>
+
+  <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
+
+  <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
+  </div>
 
   <footer>&copy; 2025 Daze for Future. Tutti i diritti riservati.</footer>
 
@@ -1209,17 +1548,170 @@
       }
     });
 
-    // Applica il tema salvato all'avvio
-    const savedTheme = localStorage.getItem('theme-preference');
-    if (savedTheme) {
-      if (savedTheme === 'light') {
+    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    function getNameFromEmail(email) {
+      return email.split('@')[0];
+    }
+
+    // Funzione per generare l'iniziale dall'email
+    function getInitialFromEmail(email) {
+      return email.charAt(0).toUpperCase();
+    }
+
+    // Funzione per ottenere il testo del badge in base al ruolo
+    function getBadgeText(role) {
+      return role === 'admin' ? 'Admin' : 'User';
+    }
+
+    // Funzione per ottenere la classe CSS del badge in base al ruolo
+    function getBadgeClass(role) {
+      return role === 'admin' ? 'badge-admin' : 'badge-user';
+    }
+
+    // Mostra la barra utente se loggato
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+    
+    if(utente) {
+      // Nascondi link login
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('sidebarLoginLink').style.display = 'none';
+      
+      // Mostra userbar al posto di "Accedi"
+      const userbar = document.getElementById('userbar');
+      userbar.style.display = 'flex';
+      
+      // Imposta nome utente e badge
+      document.getElementById('userName').innerText = getNameFromEmail(utente);
+      document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+      document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+      document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+      
+      // Mostra user info mobile nella sidebar
+      const mobileUserInfo = document.getElementById('mobileUserInfo');
+      mobileUserInfo.style.display = 'block';
+      document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+      document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+      document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+      document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+    }
+
+    function logout() {
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      window.location.href = "login.html";
+    }
+
+    // Theme functionality
+    const fab = document.getElementById('theme-fab');
+    const popup = document.getElementById('theme-popup');
+
+    fab.addEventListener('click', () => {
+      fab.classList.add('animate');
+      fab.addEventListener('animationend', () => {
+        fab.classList.remove('animate');
+      }, { once: true });
+      
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      } else {
+        popup.style.display = 'flex';
+        requestAnimationFrame(() => popup.classList.add('show'));
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!fab.contains(e.target) && !popup.contains(e.target)) {
+        if (popup.classList.contains('show')) {
+          popup.classList.remove('show');
+          setTimeout(() => popup.style.display = 'none', 250);
+        }
+      }
+    });
+
+    // Apply theme and highlight selection
+    document.querySelectorAll('.theme-option').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+
+        // Highlight active button
+        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
-      } else if (savedTheme === 'dark') {
+      } else if (theme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
       } else {
         document.documentElement.removeAttribute('data-theme');
       }
     }
+
+    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+      if (btn) btn.classList.add('active');
+    } else {
+      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
+      applyTheme('auto');
+      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+      if (autoBtn) autoBtn.classList.add('active');
+    }
+
+    // Mostra FAB con animazione al caricamento
+    window.addEventListener('DOMContentLoaded', () => {
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+
+    // Scroll animations
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = 'none';
+      }
+    });
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards for animation
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
   });
 </script>
 <div id="popup" class="popup"></div>

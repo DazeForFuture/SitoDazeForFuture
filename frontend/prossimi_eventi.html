@@ -1299,10 +1299,10 @@
                 immagine: document.getElementById('postImmagine').value
             };
             const editId = document.getElementById('postForm').getAttribute('data-edit-id');
-            let url = 'http://localhost:5002/api/post';
+            let url = 'http://192.168.0.137:5002/api/post';
             let method = 'POST';
             if (editId) {
-                url = `http://localhost:5002/api/post/${editId}`;
+                url = `http://192.168.0.137:5002/api/post/${editId}`;
                 method = 'PUT';
             }
             try {
@@ -1328,7 +1328,7 @@
     async function caricaEventi() {
         try {
             console.log('🔍 Inizio caricamento eventi...');
-            const response = await fetch('http://localhost:5002/api/post');
+            const response = await fetch('http://192.168.0.137:5002/api/post');
             const posts = await response.json();
             
             console.log('📦 Dati ricevuti dal backend:', posts);
@@ -1432,7 +1432,7 @@
     async function eliminaPost(id) {
         if (!confirm('Sei sicuro di voler eliminare questo evento?')) return;
         try {
-            const response = await fetch(`http://localhost:5002/api/post/${id}`, {
+            const response = await fetch(`http://192.168.0.137:5002/api/post/${id}`, {
                 method: 'DELETE'
             });
             const result = await response.json();

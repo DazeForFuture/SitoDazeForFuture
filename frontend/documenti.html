@@ -1178,7 +1178,7 @@
 </head>
 <body>
   <header>
-    <div class="logo" id="toggleSidebar">
+    <div class="logo" id="">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
       Daze for Future
     </div>
@@ -1379,1001 +1379,936 @@
   </footer>
   
   <script>
+  // Configurazione - PORTA 5001
+  const API_BASE_URL = 'http://localhost:5001';
+  // Elementi DOM
+  const uploadArea = document.getElementById('uploadArea');
+  const fileInput = document.getElementById('fileInput');
+  const selectFilesBtn = document.getElementById('selectFilesBtn');
+  const selectedFilesDiv = document.getElementById('selectedFiles');
+  const fileList = document.getElementById('fileList');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const documentList = document.getElementById('documentList');
+  const emptyState = document.getElementById('emptyState');
+  const addDocumentBtn = document.getElementById('addDocumentBtn');
+  const publicationModal = document.getElementById('publicationModal');
+  const closeModal = document.getElementById('closeModal');
+  const cancelPublication = document.getElementById('cancelPublication');
+  const publicationForm = document.getElementById('publicationForm');
+  const draftList = document.getElementById('draftList');
+  const emptyDrafts = document.getElementById('emptyDrafts');
+  const myDraftsList = document.getElementById('myDraftsList');
+  const emptyMyDrafts = document.getElementById('emptyMyDrafts');
+  const allPublicationsList = document.getElementById('allPublicationsList');
+  const emptyAllPublications = document.getElementById('emptyAllPublications');
 
-// Configurazione - PORTA 5001
-const API_BASE_URL = 'http://localhost:5001';
-
-// Elementi DOM
-const uploadArea = document.getElementById('uploadArea');
-const fileInput = document.getElementById('fileInput');
-const selectFilesBtn = document.getElementById('selectFilesBtn');
-const selectedFilesDiv = document.getElementById('selectedFiles');
-const fileList = document.getElementById('fileList');
-const uploadBtn = document.getElementById('uploadBtn');
-const documentList = document.getElementById('documentList');
-const emptyState = document.getElementById('emptyState');
-const addDocumentBtn = document.getElementById('addDocumentBtn');
-const publicationModal = document.getElementById('publicationModal');
-const closeModal = document.getElementById('closeModal');
-const cancelPublication = document.getElementById('cancelPublication');
-const publicationForm = document.getElementById('publicationForm');
-const draftList = document.getElementById('draftList');
-const emptyDrafts = document.getElementById('emptyDrafts');
-const myDraftsList = document.getElementById('myDraftsList');
-const emptyMyDrafts = document.getElementById('emptyMyDrafts');
-const allPublicationsList = document.getElementById('allPublicationsList');
-const emptyAllPublications = document.getElementById('emptyAllPublications');
-
-// Funzioni per la gestione utente
-function getNameFromEmail(email) {
-  return email.split('@')[0];
-}
-
-function getInitialFromEmail(email) {
-  return email.charAt(0).toUpperCase();
-}
-
-function getBadgeText(role) {
-  return role === 'admin' ? 'Admin' : 'User';
-}
-
-function getBadgeClass(role) {
-  return role === 'admin' ? 'badge-admin' : 'badge-user';
-}
-
-// Funzione per mostrare popup
-function mostraPopup(messaggio, tipo) {
-  // Crea popup se non esiste
-  let popup = document.getElementById('popup');
-  if (!popup) {
-    popup = document.createElement('div');
-    popup.id = 'popup';
-    popup.className = 'popup';
-    document.body.appendChild(popup);
+  // Funzioni per la gestione utente
+  function getNameFromEmail(email) {
+    return email.split('@')[0];
   }
-  
-  popup.textContent = messaggio;
-  popup.className = "popup " + tipo;
-  popup.classList.add("show");
 
-  // Nasconde il popup dopo 3 secondi
-  setTimeout(() => {
-    popup.classList.remove("show");
-  }, 3000);
-}
+  function getInitialFromEmail(email) {
+    return email.charAt(0).toUpperCase();
+  }
 
-// Gestione login/logout
-document.addEventListener('DOMContentLoaded', function() {
-  const utente = localStorage.getItem('utente');
-  const ruolo = localStorage.getItem('utente_ruolo');
-  
-  console.log('🔐 Stato login - Utente:', utente, 'Ruolo:', ruolo);
-  
-  if(utente) {
-    // Nascondi link login
-    const loginLink = document.getElementById('loginLink');
-    const sidebarLoginLink = document.getElementById('sidebarLoginLink');
+  function getBadgeText(role) {
+    return role === 'admin' ? 'Admin' : 'User';
+  }
+
+  function getBadgeClass(role) {
+    return role === 'admin' ? 'badge-admin' : 'badge-user';
+  }
+
+  // Funzione per mostrare popup
+  function mostraPopup(messaggio, tipo) {
+    // Crea popup se non esiste
+    let popup = document.getElementById('popup');
+    if (!popup) {
+      popup = document.createElement('div');
+      popup.id = 'popup';
+      popup.className = 'popup';
+      document.body.appendChild(popup);
+    }
     
-    if (loginLink) loginLink.style.display = 'none';
-    if (sidebarLoginLink) sidebarLoginLink.style.display = 'none';
+    popup.textContent = messaggio;
+    popup.className = "popup " + tipo;
+    popup.classList.add("show");
+
+    // Nasconde il popup dopo 3 secondi
+    setTimeout(() => {
+      popup.classList.remove("show");
+    }, 3000);
+  }
+
+  // Gestione login/logout
+  document.addEventListener('DOMContentLoaded', function() {
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
     
-    // Mostra userbar al posto di "Accedi"
-    const userbar = document.getElementById('userbar');
-    if (userbar) {
-      userbar.style.display = 'flex';
+    console.log('🔐 Stato login - Utente:', utente, 'Ruolo:', ruolo);
+    
+    if(utente) {
+      // Nascondi link login
+      const loginLink = document.getElementById('loginLink');
+      const sidebarLoginLink = document.getElementById('sidebarLoginLink');
       
-      // Imposta nome utente e badge
-      const userName = document.getElementById('userName');
-      const userBadge = document.getElementById('userBadge');
-      const userAvatar = document.getElementById('userAvatar');
+      if (loginLink) loginLink.style.display = 'none';
+      if (sidebarLoginLink) sidebarLoginLink.style.display = 'none';
       
-      if (userName) userName.innerText = getNameFromEmail(utente);
-      if (userBadge) {
-        userBadge.innerText = getBadgeText(ruolo);
-        userBadge.className = `user-badge ${getBadgeClass(ruolo)}`;
+      // Mostra userbar al posto di "Accedi"
+      const userbar = document.getElementById('userbar');
+      if (userbar) {
+        userbar.style.display = 'flex';
+        
+        // Imposta nome utente e badge
+        const userName = document.getElementById('userName');
+        const userBadge = document.getElementById('userBadge');
+        const userAvatar = document.getElementById('userAvatar');
+        
+        if (userName) userName.innerText = getNameFromEmail(utente);
+        if (userBadge) {
+          userBadge.innerText = getBadgeText(ruolo);
+          userBadge.className = `user-badge ${getBadgeClass(ruolo)}`;
+        }
+        if (userAvatar) userAvatar.innerText = getInitialFromEmail(utente);
       }
-      if (userAvatar) userAvatar.innerText = getInitialFromEmail(utente);
-    }
-    
-    // Mostra user info mobile nella sidebar
-    const mobileUserInfo = document.getElementById('mobileUserInfo');
-    if (mobileUserInfo) {
-      mobileUserInfo.style.display = 'block';
       
-      const mobileUserName = document.getElementById('mobileUserName');
-      const mobileUserBadge = document.getElementById('mobileUserBadge');
-      const mobileUserAvatar = document.getElementById('mobileUserAvatar');
-      
-      if (mobileUserName) mobileUserName.innerText = getNameFromEmail(utente);
-      if (mobileUserBadge) {
-        mobileUserBadge.innerText = getBadgeText(ruolo);
-        mobileUserBadge.className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+      // Mostra user info mobile nella sidebar
+      const mobileUserInfo = document.getElementById('mobileUserInfo');
+      if (mobileUserInfo) {
+        mobileUserInfo.style.display = 'block';
+        
+        const mobileUserName = document.getElementById('mobileUserName');
+        const mobileUserBadge = document.getElementById('mobileUserBadge');
+        const mobileUserAvatar = document.getElementById('mobileUserAvatar');
+        
+        if (mobileUserName) mobileUserName.innerText = getNameFromEmail(utente);
+        if (mobileUserBadge) {
+          mobileUserBadge.innerText = getBadgeText(ruolo);
+          mobileUserBadge.className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+        }
+        if (mobileUserAvatar) mobileUserAvatar.innerText = getInitialFromEmail(utente);
       }
-      if (mobileUserAvatar) mobileUserAvatar.innerText = getInitialFromEmail(utente);
+      
+      // Mostra/nasconda sezioni in base al ruolo
+      if (ruolo === 'admin') {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+        console.log('👨‍💼 Sezioni admin mostrate');
+      } else {
+        document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
+      }
+      
+      // Mostra pulsante + per utenti loggati (sia user che admin)
+      if (addDocumentBtn) addDocumentBtn.style.display = 'block';
     }
     
-    // Mostra/nasconda sezioni in base al ruolo
-    if (ruolo === 'admin') {
-      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
-      console.log('👨‍💼 Sezioni admin mostrate');
-    } else {
-      document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
+    // Carica i documenti
+    loadDocuments();
+    
+    if (utente && ruolo === 'admin') {
+      console.log('🔄 Caricamento bozze per admin...');
+      loadDraftsForReview();
+      loadAllPublications();
     }
     
-    // Mostra pulsante + per utenti loggati (sia user che admin)
-    if (addDocumentBtn) addDocumentBtn.style.display = 'block';
+    if (utente) {
+      console.log('🔄 Caricamento bozze personali...');
+      loadMyDrafts();
+    }
+    
+    // Inizializza sidebar
+    initSidebar();
+    
+    // Inizializza tema
+    initTheme();
+  });
+
+  function logout() {
+    localStorage.removeItem('utente');
+    localStorage.removeItem('utente_ruolo');
+    window.location.href = "login.html";
   }
-  
-  // Carica i documenti
-  loadDocuments();
-  
-  if (utente && ruolo === 'admin') {
-    console.log('🔄 Caricamento bozze per admin...');
-    loadDraftsForReview();
-    loadAllPublications();
+
+  // Gestione modal pubblicazione
+  addDocumentBtn.addEventListener('click', () => {
+    publicationModal.style.display = 'flex';
+  });
+
+  closeModal.addEventListener('click', () => {
+    publicationModal.style.display = 'none';
+  });
+
+  cancelPublication.addEventListener('click', () => {
+    publicationModal.style.display = 'none';
+  });
+
+  publicationForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    createPublication();
+  });
+
+  // Gestione documenti
+  let selectedFiles = [];
+
+  // Event listeners per il caricamento file
+  selectFilesBtn.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', handleFileSelect);
+
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+  });
+
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragover');
+  });
+
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      handleFileSelect();
+    }
+  });
+
+  uploadBtn.addEventListener('click', uploadFiles);
+
+  function handleFileSelect() {
+    selectedFiles = Array.from(fileInput.files);
+    
+    if (selectedFiles.length > 0) {
+      fileList.innerHTML = '';
+      selectedFiles.forEach((file, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${file.name} (${formatFileSize(file.size)})`;
+        fileList.appendChild(listItem);
+      });
+      
+      selectedFilesDiv.style.display = 'block';
+      uploadBtn.disabled = false;
+    }
   }
-  
-  if (utente) {
-    console.log('🔄 Caricamento bozze personali...');
-    loadMyDrafts();
+
+  function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
-  
-  // Inizializza sidebar
-  initSidebar();
-  
-  // Inizializza tema
-  initTheme();
-});
 
-function logout() {
-  localStorage.removeItem('utente');
-  localStorage.removeItem('utente_ruolo');
-  window.location.href = "login.html";
-}
-
-// Gestione modal pubblicazione
-addDocumentBtn.addEventListener('click', () => {
-  publicationModal.style.display = 'flex';
-});
-
-closeModal.addEventListener('click', () => {
-  publicationModal.style.display = 'none';
-});
-
-cancelPublication.addEventListener('click', () => {
-  publicationModal.style.display = 'none';
-});
-
-publicationForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  createPublication();
-});
-
-// Gestione documenti
-let selectedFiles = [];
-
-// Event listeners per il caricamento file
-selectFilesBtn.addEventListener('click', () => {
-  fileInput.click();
-});
-
-fileInput.addEventListener('change', handleFileSelect);
-
-uploadArea.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  uploadArea.classList.add('dragover');
-});
-
-uploadArea.addEventListener('dragleave', () => {
-  uploadArea.classList.remove('dragover');
-});
-
-uploadArea.addEventListener('drop', (e) => {
-  e.preventDefault();
-  uploadArea.classList.remove('dragover');
-  
-  if (e.dataTransfer.files.length) {
-    fileInput.files = e.dataTransfer.files;
-    handleFileSelect();
-  }
-});
-
-uploadBtn.addEventListener('click', uploadFiles);
-
-function handleFileSelect() {
-  selectedFiles = Array.from(fileInput.files);
-  
-  if (selectedFiles.length > 0) {
-    fileList.innerHTML = '';
-    selectedFiles.forEach((file, index) => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `${file.name} (${formatFileSize(file.size)})`;
-      fileList.appendChild(listItem);
+  function uploadFiles() {
+    if (selectedFiles.length === 0) return;
+    
+    const formData = new FormData();
+    selectedFiles.forEach(file => {
+      formData.append('files', file);
     });
     
-    selectedFilesDiv.style.display = 'block';
-    uploadBtn.disabled = false;
-  }
-}
-
-function formatFileSize(bytes) {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
-function uploadFiles() {
-  if (selectedFiles.length === 0) return;
-  
-  const formData = new FormData();
-  selectedFiles.forEach(file => {
-    formData.append('files', file);
-  });
-  
-  // Aggiungi headers per autenticazione
-  const utente = localStorage.getItem('utente');
-  const ruolo = localStorage.getItem('utente_ruolo');
-  
-  uploadBtn.disabled = true;
-  uploadBtn.textContent = 'Caricamento...';
-  
-  // Chiamata API Flask su porta 5001
-  fetch(`${API_BASE_URL}/api/upload`, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'X-User-Email': utente || '',
-      'X-User-Role': ruolo || ''
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      mostraPopup(data.message || 'Documenti caricati con successo!', 'success');
-      selectedFiles = [];
-      fileInput.value = '';
-      selectedFilesDiv.style.display = 'none';
-      uploadBtn.disabled = true;
-      uploadBtn.textContent = 'Carica Documenti';
-      loadDocuments();
-      loadAllPublications();
-    } else {
-      mostraPopup('Errore nel caricamento: ' + (data.message || 'Errore sconosciuto'), 'error');
-      uploadBtn.disabled = false;
-      uploadBtn.textContent = 'Carica Documenti';
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    mostraPopup('Errore di connessione con il server', 'error');
-    uploadBtn.disabled = false;
-    uploadBtn.textContent = 'Carica Documenti';
-  });
-}
-
-function createPublication() {
-  const title = document.getElementById('publicationTitle').value.trim();
-  const description = document.getElementById('publicationDescription').value.trim();
-  const fileInput = document.getElementById('publicationFile');
-  
-  if (!title || !description || !fileInput.files[0]) {
-    mostraPopup('Compila tutti i campi richiesti', 'error');
-    return;
-  }
-  
-  const formData = new FormData();
-  formData.append('title', title);
-  formData.append('description', description);
-  formData.append('file', fileInput.files[0]);
-  
-  // Aggiungi headers per autenticazione
-  const utente = localStorage.getItem('utente');
-  const ruolo = localStorage.getItem('utente_ruolo');
-  
-  console.log('📝 Creazione bozza - Utente:', utente, 'Ruolo:', ruolo);
-  
-  const submitBtn = document.getElementById('submitPublication');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Creazione...';
-  
-  // Chiamata API Flask su porta 5001
-  fetch(`${API_BASE_URL}/api/create_publication`, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'X-User-Email': utente || '',
-      'X-User-Role': ruolo || ''
-    }
-  })
-  .then(response => {
-    console.log('📡 Risposta creazione bozza:', response.status);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('📋 Dati risposta creazione:', data);
+    // Aggiungi headers per autenticazione
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
     
-    if (data.success) {
-      mostraPopup(data.message || 'Bozza creata con successo! In attesa di revisione.', 'success');
-      publicationModal.style.display = 'none';
-      publicationForm.reset();
-      
-      // FORZA il refresh delle bozze con ritardo per dare tempo al server
-      setTimeout(() => {
-        console.log('🔄 Forzato refresh bozze personali');
-        loadMyDrafts();
-        
-        // Se admin, aggiorna anche le altre sezioni
-        if (ruolo === 'admin') {
-          console.log('🔄 Aggiornamento sezioni admin');
-          loadDraftsForReview();
-          loadAllPublications();
-        }
-      }, 800);
-      
-    } else {
-      mostraPopup('Errore nella creazione: ' + (data.message || 'Errore sconosciuto'), 'error');
-    }
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Crea Bozza';
-  })
-  .catch(error => {
-    console.error('❌ Error:', error);
-    mostraPopup('Errore di connessione con il server', 'error');
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Crea Bozza';
-  });
-}
-
-function loadDocuments() {
-  console.log('📄 Caricamento documenti pubblicati');
-  
-  // Chiamata API Flask su porta 5001
-  fetch(`${API_BASE_URL}/api/documents`)
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = 'Caricamento...';
+    
+    // Chiamata API Flask su porta 5001
+    fetch(`${API_BASE_URL}/api/upload`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-User-Email': utente || '',
+        'X-User-Role': ruolo || ''
+      }
+    })
     .then(response => response.json())
     .then(data => {
-      if (data.success && data.documents && data.documents.length > 0) {
-        console.log(`✅ ${data.documents.length} documenti trovati`);
-        emptyState.style.display = 'none';
-        documentList.innerHTML = '';
+      if (data.success) {
+        mostraPopup(data.message || 'Documenti caricati con successo!', 'success');
+        selectedFiles = [];
+        fileInput.value = '';
+        selectedFilesDiv.style.display = 'none';
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = 'Carica Documenti';
+        loadDocuments();
+        loadAllPublications();
+      } else {
+        mostraPopup('Errore nel caricamento: ' + (data.message || 'Errore sconosciuto'), 'error');
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'Carica Documenti';
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      mostraPopup('Errore di connessione con il server', 'error');
+      uploadBtn.disabled = false;
+      uploadBtn.textContent = 'Carica Documenti';
+    });
+  }
+
+  function createPublication() {
+    const title = document.getElementById('publicationTitle').value.trim();
+    const description = document.getElementById('publicationDescription').value.trim();
+    const fileInput = document.getElementById('publicationFile');
+    
+    if (!title || !description || !fileInput.files[0]) {
+      mostraPopup('Compila tutti i campi richiesti', 'error');
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('file', fileInput.files[0]);
+    
+    // Aggiungi headers per autenticazione
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
+    
+    console.log('📝 Creazione bozza - Utente:', utente, 'Ruolo:', ruolo);
+    
+    const submitBtn = document.getElementById('submitPublication');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creazione...';
+    
+    // Chiamata API Flask su porta 5001
+    fetch(`${API_BASE_URL}/api/create_publication`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-User-Email': utente || '',
+        'X-User-Role': ruolo || ''
+      }
+    })
+    .then(response => {
+      console.log('📡 Risposta creazione bozza:', response.status);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('📋 Dati risposta creazione:', data);
+      
+      if (data.success) {
+        mostraPopup(data.message || 'Bozza creata con successo! In attesa di revisione.', 'success');
+        publicationModal.style.display = 'none';
+        publicationForm.reset();
         
-        data.documents.forEach(doc => {
-          const documentItem = createDocumentElement(doc, 'published');
-          documentList.appendChild(documentItem);
+        // FORZA il refresh delle bozze con ritardo per dare tempo al server
+        setTimeout(() => {
+          console.log('🔄 Forzato refresh bozze personali');
+          loadMyDrafts();
+          
+          // Se admin, aggiorna anche le altre sezioni
+          if (ruolo === 'admin') {
+            console.log('🔄 Aggiornamento sezioni admin');
+            loadDraftsForReview();
+            loadAllPublications();
+          }
+        }, 800);
+        
+      } else {
+        mostraPopup('Errore nella creazione: ' + (data.message || 'Errore sconosciuto'), 'error');
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Crea Bozza';
+    })
+    .catch(error => {
+      console.error('❌ Error:', error);
+      mostraPopup('Errore di connessione con il server', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Crea Bozza';
+    });
+  }
+
+  function loadDocuments() {
+    console.log('📄 Caricamento documenti pubblicati');
+    
+    // Chiamata API Flask su porta 5001
+    fetch(`${API_BASE_URL}/api/documents`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.documents && data.documents.length > 0) {
+          console.log(`✅ ${data.documents.length} documenti trovati`);
+          emptyState.style.display = 'none';
+          documentList.innerHTML = '';
+          
+          data.documents.forEach(doc => {
+            const documentItem = createDocumentElement(doc, 'published');
+            documentList.appendChild(documentItem);
+          });
+        } else {
+          console.log('ℹ️ Nessun documento trovato');
+          emptyState.style.display = 'block';
+          if (data.message) {
+            emptyState.innerHTML = `<p>${data.message}</p>`;
+          }
+        }
+      })
+      .catch(error => {
+        console.error('❌ Error loading documents:', error);
+        emptyState.style.display = 'block';
+        emptyState.innerHTML = `
+          <p>Errore nel caricamento dei documenti</p>
+          <p class="text-muted">Verifica che il server Flask sia in esecuzione</p>
+        `;
+      });
+  }
+
+  function loadDraftsForReview() {
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
+    
+    console.log('🔍 Caricamento bozze per revisione - Utente:', utente, 'Ruolo:', ruolo);
+    
+    // Chiamata API Flask su porta 5001
+    fetch(`${API_BASE_URL}/api/drafts`, {
+      headers: {
+        'X-User-Email': utente || '',
+        'X-User-Role': ruolo || ''
+      }
+    })
+    .then(response => {
+      console.log('📡 Risposta API drafts:', response.status);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('📋 Dati bozze ricevuti:', data);
+      if (data.success && data.drafts && data.drafts.length > 0) {
+        console.log(`✅ ${data.drafts.length} bozze da revisionare`);
+        emptyDrafts.style.display = 'none';
+        draftList.innerHTML = '';
+        
+        data.drafts.forEach(draft => {
+          const draftItem = createDraftElement(draft);
+          draftList.appendChild(draftItem);
         });
       } else {
-        console.log('ℹ️ Nessun documento trovato');
-        emptyState.style.display = 'block';
+        console.log('ℹ️ Nessuna bozza da revisionare');
+        emptyDrafts.style.display = 'block';
         if (data.message) {
-          emptyState.innerHTML = `<p>${data.message}</p>`;
+          emptyDrafts.innerHTML = `<p>${data.message}</p>`;
         }
       }
     })
     .catch(error => {
-      console.error('❌ Error loading documents:', error);
-      emptyState.style.display = 'block';
-      emptyState.innerHTML = `
-        <p>Errore nel caricamento dei documenti</p>
-        <p class="text-muted">Verifica che il server Flask sia in esecuzione</p>
+      console.error('❌ Error loading drafts:', error);
+      emptyDrafts.style.display = 'block';
+      emptyDrafts.innerHTML = `
+        <p>Errore nel caricamento delle bozze</p>
+        <p class="text-muted">${error.message}</p>
       `;
     });
-}
-
-function loadDraftsForReview() {
-  const utente = localStorage.getItem('utente');
-  const ruolo = localStorage.getItem('utente_ruolo');
-  
-  console.log('🔍 Caricamento bozze per revisione - Utente:', utente, 'Ruolo:', ruolo);
-  
-  // Chiamata API Flask su porta 5001
-  fetch(`${API_BASE_URL}/api/drafts`, {
-    headers: {
-      'X-User-Email': utente || '',
-      'X-User-Role': ruolo || ''
-    }
-  })
-  .then(response => {
-    console.log('📡 Risposta API drafts:', response.status);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('📋 Dati bozze ricevuti:', data);
-    if (data.success && data.drafts && data.drafts.length > 0) {
-      console.log(`✅ ${data.drafts.length} bozze da revisionare`);
-      emptyDrafts.style.display = 'none';
-      draftList.innerHTML = '';
-      
-      data.drafts.forEach(draft => {
-        const draftItem = createDraftElement(draft);
-        draftList.appendChild(draftItem);
-      });
-    } else {
-      console.log('ℹ️ Nessuna bozza da revisionare');
-      emptyDrafts.style.display = 'block';
-      if (data.message) {
-        emptyDrafts.innerHTML = `<p>${data.message}</p>`;
-      }
-    }
-  })
-  .catch(error => {
-    console.error('❌ Error loading drafts:', error);
-    emptyDrafts.style.display = 'block';
-    emptyDrafts.innerHTML = `
-      <p>Errore nel caricamento delle bozze</p>
-      <p class="text-muted">${error.message}</p>
-    `;
-  });
-}
-
-function loadMyDrafts() {
-  const utente = localStorage.getItem('utente');
-  
-  if (!utente) {
-    console.log('❌ Nessun utente loggato per caricare bozze');
-    emptyMyDrafts.style.display = 'block';
-    return;
   }
-  
-  console.log('🔄 Caricamento bozze personali per:', utente);
-  
-  // Chiamata API Flask su porta 5001
-  fetch(`${API_BASE_URL}/api/my_drafts`, {
-    headers: {
-      'X-User-Email': utente || ''
-    }
-  })
-  .then(response => {
-    console.log('📡 Risposta API my_drafts:', response.status);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('📋 Dati bozze personali ricevuti:', data);
+
+  function loadMyDrafts() {
+    const utente = localStorage.getItem('utente');
     
-    if (data.success && data.drafts && data.drafts.length > 0) {
-      console.log(`✅ ${data.drafts.length} bozze personali trovate`);
+    if (!utente) {
+      console.log('❌ Nessun utente loggato per caricare bozze');
+      emptyMyDrafts.style.display = 'block';
+      return;
+    }
+    
+    console.log('🔄 Caricamento bozze personali per:', utente);
+    
+    // Chiamata API Flask su porta 5001
+    fetch(`${API_BASE_URL}/api/my_drafts`, {
+      headers: {
+        'X-User-Email': utente || ''
+      }
+    })
+    .then(response => {
+      console.log('📡 Risposta API my_drafts:', response.status);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('📋 Dati bozze personali ricevuti:', data);
       
-      // NASCONDI lo stato vuoto e PULISCI la lista
-      emptyMyDrafts.style.display = 'none';
-      myDraftsList.innerHTML = '';
-      
-      // Aggiungi ogni bozza alla lista
-      data.drafts.forEach(draft => {
-        const draftItem = createMyDraftElement(draft);
-        myDraftsList.appendChild(draftItem);
-      });
-      
-      console.log('✅ Lista bozze aggiornata visivamente');
-      
-    } else {
-      console.log('ℹ️ Nessuna bozza personale trovata');
+      if (data.success && data.drafts && data.drafts.length > 0) {
+        console.log(`✅ ${data.drafts.length} bozze personali trovate`);
+        
+        // NASCONDI lo stato vuoto e PULISCI la lista
+        emptyMyDrafts.style.display = 'none';
+        myDraftsList.innerHTML = '';
+        
+        // Aggiungi ogni bozza alla lista
+        data.drafts.forEach(draft => {
+          const draftItem = createMyDraftElement(draft);
+          myDraftsList.appendChild(draftItem);
+        });
+        
+        console.log('✅ Lista bozze aggiornata visivamente');
+        
+      } else {
+        console.log('ℹ️ Nessuna bozza personale trovata');
+        emptyMyDrafts.style.display = 'block';
+        myDraftsList.innerHTML = '';
+        
+        if (data.message) {
+          emptyMyDrafts.innerHTML = `<p>${data.message}</p>`;
+        } else {
+          emptyMyDrafts.innerHTML = `
+            <p>Non hai ancora creato bozze.</p>
+            <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante + in alto.</p>
+          `;
+        }
+      }
+    })
+    .catch(error => {
+      console.error('❌ Error loading my drafts:', error);
       emptyMyDrafts.style.display = 'block';
       myDraftsList.innerHTML = '';
-      
-      if (data.message) {
-        emptyMyDrafts.innerHTML = `<p>${data.message}</p>`;
-      } else {
-        emptyMyDrafts.innerHTML = `
-          <p>Non hai ancora creato bozze.</p>
-          <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante + in alto.</p>
-        `;
-      }
-    }
-  })
-  .catch(error => {
-    console.error('❌ Error loading my drafts:', error);
-    emptyMyDrafts.style.display = 'block';
-    myDraftsList.innerHTML = '';
-    emptyMyDrafts.innerHTML = `
-      <p>Errore nel caricamento delle bozze</p>
-      <p class="text-muted">${error.message}</p>
-    `;
-  });
-}
+      emptyMyDrafts.innerHTML = `
+        <p>Errore nel caricamento delle bozze</p>
+        <p class="text-muted">${error.message}</p>
+      `;
+    });
+  }
 
-function loadAllPublications() {
-  const utente = localStorage.getItem('utente');
-  const ruolo = localStorage.getItem('utente_ruolo');
-  
-  if (ruolo !== 'admin') return;
-  
-  console.log('📊 Caricamento tutte le pubblicazioni');
-  
-  fetch(`${API_BASE_URL}/api/all_publications`, {
-    headers: {
-      'X-User-Email': utente || '',
-      'X-User-Role': ruolo || ''
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success && data.publications && data.publications.length > 0) {
-      console.log(`✅ ${data.publications.length} pubblicazioni totali`);
-      emptyAllPublications.style.display = 'none';
-      allPublicationsList.innerHTML = '';
-      
-      data.publications.forEach(pub => {
-        const pubItem = createPublicationElement(pub);
-        allPublicationsList.appendChild(pubItem);
-      });
-    } else {
-      console.log('ℹ️ Nessuna pubblicazione trovata');
-      emptyAllPublications.style.display = 'block';
-    }
-  })
-  .catch(error => {
-    console.error('❌ Error loading all publications:', error);
-    emptyAllPublications.style.display = 'block';
-  });
-}
-
-function createDocumentElement(doc, status) {
-  const item = document.createElement('div');
-  item.className = 'document-item';
-  
-  const documentInfo = document.createElement('div');
-  documentInfo.className = 'document-info';
-  
-  const documentIcon = document.createElement('div');
-  documentIcon.className = 'document-icon';
-  documentIcon.textContent = getFileIcon(doc.file_type);
-  
-  const documentDetails = document.createElement('div');
-  documentDetails.className = 'document-details';
-  
-  const documentName = document.createElement('h3');
-  documentName.textContent = doc.title || doc.name;
-  
-  const documentMeta = document.createElement('p');
-  documentMeta.textContent = `${doc.description || ''} - ${formatFileSize(doc.size)} - Caricato il ${formatDate(doc.upload_date)} da ${doc.uploaded_by}`;
-  
-  documentDetails.appendChild(documentName);
-  documentDetails.appendChild(documentMeta);
-  
-  documentInfo.appendChild(documentIcon);
-  documentInfo.appendChild(documentDetails);
-  
-  const documentActions = document.createElement('div');
-  documentActions.className = 'document-actions';
-  
-  const downloadBtn = document.createElement('button');
-  downloadBtn.className = 'action-btn download-btn';
-  downloadBtn.title = 'Scarica';
-  downloadBtn.innerHTML = '⬇️';
-  downloadBtn.addEventListener('click', () => downloadDocument(doc.id));
-  
-  documentActions.appendChild(downloadBtn);
-  
-  // Solo gli admin possono eliminare documenti
-  const utente = localStorage.getItem('utente');
-  const ruolo = localStorage.getItem('utente_ruolo');
-  
-  if (utente && ruolo === 'admin') {
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'action-btn delete-btn';
-    deleteBtn.title = 'Elimina';
-    deleteBtn.innerHTML = '🗑️';
-    deleteBtn.addEventListener('click', () => deleteDocument(doc.id));
+  function loadAllPublications() {
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
     
-    documentActions.appendChild(deleteBtn);
+    if (ruolo !== 'admin') return;
+    
+    console.log('📊 Caricamento tutte le pubblicazioni');
+    
+    fetch(`${API_BASE_URL}/api/all_publications`, {
+      headers: {
+        'X-User-Email': utente || '',
+        'X-User-Role': ruolo || ''
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success && data.publications && data.publications.length > 0) {
+        console.log(`✅ ${data.publications.length} pubblicazioni totali`);
+        emptyAllPublications.style.display = 'none';
+        allPublicationsList.innerHTML = '';
+        
+        data.publications.forEach(pub => {
+          const pubItem = createPublicationElement(pub);
+          allPublicationsList.appendChild(pubItem);
+        });
+      } else {
+        console.log('ℹ️ Nessuna pubblicazione trovata');
+        emptyAllPublications.style.display = 'block';
+      }
+    })
+    .catch(error => {
+      console.error('❌ Error loading all publications:', error);
+      emptyAllPublications.style.display = 'block';
+    });
   }
-  
-  item.appendChild(documentInfo);
-  item.appendChild(documentActions);
-  
-  return item;
-}
 
-function createDraftElement(draft) {
-  const item = document.createElement('div');
-  item.className = 'document-item';
-  
-  const documentInfo = document.createElement('div');
-  documentInfo.className = 'document-info';
-  
-  const documentIcon = document.createElement('div');
-  documentIcon.className = 'document-icon';
-  documentIcon.textContent = getFileIcon(draft.file_type);
-  
-  const documentDetails = document.createElement('div');
-  documentDetails.className = 'document-details';
-  
-  const documentName = document.createElement('h3');
-  documentName.textContent = draft.title;
-  
-  const documentMeta = document.createElement('p');
-  documentMeta.textContent = `${draft.description} - Creato da ${draft.author} il ${formatDate(draft.created_at)}`;
-  
-  const statusBadge = document.createElement('span');
-  statusBadge.className = `status-badge status-${draft.status}`;
-  statusBadge.textContent = getStatusText(draft.status);
-  
-  documentName.appendChild(statusBadge);
-  
-  documentDetails.appendChild(documentName);
-  documentDetails.appendChild(documentMeta);
-  
-  documentInfo.appendChild(documentIcon);
-  documentInfo.appendChild(documentDetails);
-  
-  const documentActions = document.createElement('div');
-  documentActions.className = 'document-actions';
-  
-  const viewBtn = document.createElement('button');
-  viewBtn.className = 'action-btn download-btn';
-  viewBtn.title = 'Visualizza';
-  viewBtn.innerHTML = '👁️';
-  viewBtn.addEventListener('click', () => viewDraft(draft.id));
-  
-  const approveBtn = document.createElement('button');
-  approveBtn.className = 'action-btn download-btn';
-  approveBtn.title = 'Approva';
-  approveBtn.innerHTML = '✅';
-  approveBtn.addEventListener('click', () => reviewDraft(draft.id, 'approved'));
-  
-  const rejectBtn = document.createElement('button');
-  rejectBtn.className = 'action-btn delete-btn';
-  rejectBtn.title = 'Rifiuta';
-  rejectBtn.innerHTML = '❌';
-  rejectBtn.addEventListener('click', () => reviewDraft(draft.id, 'rejected'));
-  
-  documentActions.appendChild(viewBtn);
-  documentActions.appendChild(approveBtn);
-  documentActions.appendChild(rejectBtn);
-  
-  item.appendChild(documentInfo);
-  item.appendChild(documentActions);
-  
-  return item;
-}
-
-function createMyDraftElement(draft) {
-  const item = document.createElement('div');
-  item.className = 'document-item';
-  
-  const documentInfo = document.createElement('div');
-  documentInfo.className = 'document-info';
-  
-  const documentIcon = document.createElement('div');
-  documentIcon.className = 'document-icon';
-  documentIcon.textContent = getFileIcon(draft.file_type);
-  
-  const documentDetails = document.createElement('div');
-  documentDetails.className = 'document-details';
-  
-  const documentName = document.createElement('h3');
-  documentName.textContent = draft.title;
-  
-  const documentMeta = document.createElement('p');
-  documentMeta.textContent = `${draft.description} - Creato il ${formatDate(draft.created_at)}`;
-  
-  const statusBadge = document.createElement('span');
-  statusBadge.className = `status-badge status-${draft.status}`;
-  statusBadge.textContent = getStatusText(draft.status);
-  
-  const cloudIndicator = document.createElement('span');
-  cloudIndicator.className = 'cloud-indicator';
-  cloudIndicator.textContent = '☁️ Salvato nel cloud';
-  
-  documentName.appendChild(statusBadge);
-  documentName.appendChild(cloudIndicator);
-  
-  documentDetails.appendChild(documentName);
-  documentDetails.appendChild(documentMeta);
-  
-  documentInfo.appendChild(documentIcon);
-  documentInfo.appendChild(documentDetails);
-  
-  const documentActions = document.createElement('div');
-  documentActions.className = 'document-actions';
-  
-  const viewBtn = document.createElement('button');
-  viewBtn.className = 'action-btn download-btn';
-  viewBtn.title = 'Visualizza';
-  viewBtn.innerHTML = '👁️';
-  viewBtn.addEventListener('click', () => viewDraft(draft.id));
-  
-  // Se la bozza è rifiutata, mostra anche il motivo
-  if (draft.status === 'rejected' && draft.review_notes) {
-    const rejectInfo = document.createElement('div');
-    rejectInfo.style.marginTop = '0.5rem';
-    rejectInfo.style.fontSize = '0.8rem';
-    rejectInfo.style.color = 'var(--error)';
-    rejectInfo.innerHTML = `<strong>Motivo rifiuto:</strong> ${draft.review_notes}`;
-    documentDetails.appendChild(rejectInfo);
-  }
-  
-  documentActions.appendChild(viewBtn);
-  
-  item.appendChild(documentInfo);
-  item.appendChild(documentActions);
-  
-  return item;
-}
-
-function createPublicationElement(pub) {
-  const item = document.createElement('div');
-  item.className = 'document-item';
-  
-  const documentInfo = document.createElement('div');
-  documentInfo.className = 'document-info';
-  
-  const documentIcon = document.createElement('div');
-  documentIcon.className = 'document-icon';
-  documentIcon.textContent = getFileIcon(pub.file_type);
-  
-  const documentDetails = document.createElement('div');
-  documentDetails.className = 'document-details';
-  
-  const documentName = document.createElement('h3');
-  documentName.textContent = pub.title;
-  
-  const documentMeta = document.createElement('p');
-  let metaText = `${pub.description || 'Nessuna descrizione'} - ${formatFileSize(pub.size)} - Creato da ${pub.author} il ${formatDate(pub.created_at)}`;
-  if (pub.type === 'publication') {
-    metaText += ` - ${getStatusText(pub.status)}`;
-  } else {
-    metaText += ' - Pubblicato';
-  }
-  documentMeta.textContent = metaText;
-  
-  const statusBadge = document.createElement('span');
-  statusBadge.className = `status-badge status-${pub.status}`;
-  statusBadge.textContent = pub.type === 'document' ? 'Pubblicato' : getStatusText(pub.status);
-  
-  documentName.appendChild(statusBadge);
-  documentDetails.appendChild(documentName);
-  documentDetails.appendChild(documentMeta);
-  
-  documentInfo.appendChild(documentIcon);
-  documentInfo.appendChild(documentDetails);
-  
-  const documentActions = document.createElement('div');
-  documentActions.className = 'document-actions';
-  
-  const viewBtn = document.createElement('button');
-  viewBtn.className = 'action-btn download-btn';
-  viewBtn.title = 'Visualizza';
-  viewBtn.innerHTML = '👁️';
-  viewBtn.addEventListener('click', () => {
-    if (pub.type === 'document') {
-      downloadDocument(pub.id.replace('doc_', ''));
-    } else {
-      viewDraft(pub.id.replace('pub_', ''));
+  function createDocumentElement(doc, status) {
+    const item = document.createElement('div');
+    item.className = 'document-item';
+    
+    const documentInfo = document.createElement('div');
+    documentInfo.className = 'document-info';
+    
+    const documentIcon = document.createElement('div');
+    documentIcon.className = 'document-icon';
+    documentIcon.textContent = getFileIcon(doc.file_type);
+    
+    const documentDetails = document.createElement('div');
+    documentDetails.className = 'document-details';
+    
+    const documentName = document.createElement('h3');
+    documentName.textContent = doc.title || doc.name;
+    
+    const documentMeta = document.createElement('p');
+    documentMeta.textContent = `${doc.description || ''} - ${formatFileSize(doc.size)} - Caricato il ${formatDate(doc.upload_date)} da ${doc.uploaded_by}`;
+    
+    documentDetails.appendChild(documentName);
+    documentDetails.appendChild(documentMeta);
+    
+    documentInfo.appendChild(documentIcon);
+    documentInfo.appendChild(documentDetails);
+    
+    const documentActions = document.createElement('div');
+    documentActions.className = 'document-actions';
+    
+    const downloadBtn = document.createElement('button');
+    downloadBtn.className = 'action-btn download-btn';
+    downloadBtn.title = 'Scarica';
+    downloadBtn.innerHTML = '⬇️';
+    downloadBtn.addEventListener('click', () => downloadDocument(doc.id));
+    
+    documentActions.appendChild(downloadBtn);
+    
+    // Solo gli admin possono eliminare documenti
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo');
+    
+    if (utente && ruolo === 'admin') {
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'action-btn delete-btn';
+      deleteBtn.title = 'Elimina';
+      deleteBtn.innerHTML = '🗑️';
+      deleteBtn.addEventListener('click', () => deleteDocument(doc.id));
+      
+      documentActions.appendChild(deleteBtn);
     }
-  });
-  
-  documentActions.appendChild(viewBtn);
-  
-  // Aggiungi azioni specifiche per admin
-  if (pub.type === 'publication' && pub.status === 'pending') {
+    
+    item.appendChild(documentInfo);
+    item.appendChild(documentActions);
+    
+    return item;
+  }
+
+  function createDraftElement(draft) {
+    const item = document.createElement('div');
+    item.className = 'document-item';
+    
+    const documentInfo = document.createElement('div');
+    documentInfo.className = 'document-info';
+    
+    const documentIcon = document.createElement('div');
+    documentIcon.className = 'document-icon';
+    documentIcon.textContent = getFileIcon(draft.file_type);
+    
+    const documentDetails = document.createElement('div');
+    documentDetails.className = 'document-details';
+    
+    const documentName = document.createElement('h3');
+    documentName.textContent = draft.title;
+    
+    const documentMeta = document.createElement('p');
+    documentMeta.textContent = `${draft.description} - Creato da ${draft.author} il ${formatDate(draft.created_at)}`;
+    
+    const statusBadge = document.createElement('span');
+    statusBadge.className = `status-badge status-${draft.status}`;
+    statusBadge.textContent = getStatusText(draft.status);
+    
+    documentName.appendChild(statusBadge);
+    
+    documentDetails.appendChild(documentName);
+    documentDetails.appendChild(documentMeta);
+    
+    documentInfo.appendChild(documentIcon);
+    documentInfo.appendChild(documentDetails);
+    
+    const documentActions = document.createElement('div');
+    documentActions.className = 'document-actions';
+    
+    const viewBtn = document.createElement('button');
+    viewBtn.className = 'action-btn download-btn';
+    viewBtn.title = 'Visualizza';
+    viewBtn.innerHTML = '👁️';
+    viewBtn.addEventListener('click', () => viewDraft(draft.id));
+    
     const approveBtn = document.createElement('button');
     approveBtn.className = 'action-btn download-btn';
     approveBtn.title = 'Approva';
     approveBtn.innerHTML = '✅';
-    approveBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'approved'));
+    approveBtn.addEventListener('click', () => reviewDraft(draft.id, 'approved'));
     
     const rejectBtn = document.createElement('button');
     rejectBtn.className = 'action-btn delete-btn';
     rejectBtn.title = 'Rifiuta';
     rejectBtn.innerHTML = '❌';
-    rejectBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'rejected'));
+    rejectBtn.addEventListener('click', () => reviewDraft(draft.id, 'rejected'));
     
+    documentActions.appendChild(viewBtn);
     documentActions.appendChild(approveBtn);
     documentActions.appendChild(rejectBtn);
+    
+    item.appendChild(documentInfo);
+    item.appendChild(documentActions);
+    
+    return item;
   }
-  
-  // Eliminazione per admin
-  const deleteBtn = document.createElement('button');
-  deleteBtn.className = 'action-btn delete-btn';
-  deleteBtn.title = 'Elimina';
-  deleteBtn.innerHTML = '🗑️';
-  deleteBtn.addEventListener('click', () => {
-    if (pub.type === 'document') {
-      deleteDocument(pub.id.replace('doc_', ''));
+
+  function createMyDraftElement(draft) {
+    const item = document.createElement('div');
+    item.className = 'document-item';
+    
+    const documentInfo = document.createElement('div');
+    documentInfo.className = 'document-info';
+    
+    const documentIcon = document.createElement('div');
+    documentIcon.className = 'document-icon';
+    documentIcon.textContent = getFileIcon(draft.file_type);
+    
+    const documentDetails = document.createElement('div');
+    documentDetails.className = 'document-details';
+    
+    const documentName = document.createElement('h3');
+    documentName.textContent = draft.title;
+    
+    const documentMeta = document.createElement('p');
+    documentMeta.textContent = `${draft.description} - Creato il ${formatDate(draft.created_at)}`;
+    
+    const statusBadge = document.createElement('span');
+    statusBadge.className = `status-badge status-${draft.status}`;
+    statusBadge.textContent = getStatusText(draft.status);
+    
+    const cloudIndicator = document.createElement('span');
+    cloudIndicator.className = 'cloud-indicator';
+    cloudIndicator.textContent = '☁️ Salvato nel cloud';
+    
+    documentName.appendChild(statusBadge);
+    documentName.appendChild(cloudIndicator);
+    
+    documentDetails.appendChild(documentName);
+    documentDetails.appendChild(documentMeta);
+    
+    documentInfo.appendChild(documentIcon);
+    documentInfo.appendChild(documentDetails);
+    
+    const documentActions = document.createElement('div');
+    documentActions.className = 'document-actions';
+    
+    const viewBtn = document.createElement('button');
+    viewBtn.className = 'action-btn download-btn';
+    viewBtn.title = 'Visualizza';
+    viewBtn.innerHTML = '👁️';
+    viewBtn.addEventListener('click', () => viewDraft(draft.id));
+    
+    // Se la bozza è rifiutata, mostra anche il motivo
+    if (draft.status === 'rejected' && draft.review_notes) {
+      const rejectInfo = document.createElement('div');
+      rejectInfo.style.marginTop = '0.5rem';
+      rejectInfo.style.fontSize = '0.8rem';
+      rejectInfo.style.color = 'var(--error)';
+      rejectInfo.innerHTML = `<strong>Motivo rifiuto:</strong> ${draft.review_notes}`;
+      documentDetails.appendChild(rejectInfo);
+    }
+    
+    documentActions.appendChild(viewBtn);
+    
+    item.appendChild(documentInfo);
+    item.appendChild(documentActions);
+    
+    return item;
+  }
+
+  function createPublicationElement(pub) {
+    const item = document.createElement('div');
+    item.className = 'document-item';
+    
+    const documentInfo = document.createElement('div');
+    documentInfo.className = 'document-info';
+    
+    const documentIcon = document.createElement('div');
+    documentIcon.className = 'document-icon';
+    documentIcon.textContent = getFileIcon(pub.file_type);
+    
+    const documentDetails = document.createElement('div');
+    documentDetails.className = 'document-details';
+    
+    const documentName = document.createElement('h3');
+    documentName.textContent = pub.title;
+    
+    const documentMeta = document.createElement('p');
+    let metaText = `${pub.description || 'Nessuna descrizione'} - ${formatFileSize(pub.size)} - Creato da ${pub.author} il ${formatDate(pub.created_at)}`;
+    if (pub.type === 'publication') {
+      metaText += ` - ${getStatusText(pub.status)}`;
     } else {
-      deleteDraft(pub.id.replace('pub_', ''));
+      metaText += ' - Pubblicato';
     }
-  });
-  
-  documentActions.appendChild(deleteBtn);
-  
-  item.appendChild(documentInfo);
-  item.appendChild(documentActions);
-  
-  return item;
-}
-
-function getStatusText(status) {
-  const statusMap = {
-    'draft': 'Bozza',
-    'pending': 'In Revisione',
-    'approved': 'Approvato',
-    'rejected': 'Rifiutato',
-    'published': 'Pubblicato'
-  };
-  return statusMap[status] || status;
-}
-
-function getFileIcon(fileType) {
-  const icons = {
-    'pdf': '📕',
-    'doc': '📘',
-    'docx': '📘',
-    'xls': '📗',
-    'xlsx': '📗',
-    'ppt': '📙',
-    'pptx': '📙',
-    'txt': '📄',
-    'zip': '📦',
-    'rar': '📦'
-  };
-  
-  const extension = fileType ? fileType.toLowerCase() : '';
-  return icons[extension] || '📄';
-}
-
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('it-IT');
-}
-
-function downloadDocument(id) {
-  window.open(`${API_BASE_URL}/api/download/${id}`, '_blank');
-}
-
-function viewDraft(id) {
-    const utente = localStorage.getItem('utente');
-    const ruolo = localStorage.getItem('utente_ruolo');
+    documentMeta.textContent = metaText;
     
-    if (!utente) {
-        mostraPopup('Devi essere loggato per visualizzare le bozze', 'error');
-        return;
-    }
+    const statusBadge = document.createElement('span');
+    statusBadge.className = `status-badge status-${pub.status}`;
+    statusBadge.textContent = pub.type === 'document' ? 'Pubblicato' : getStatusText(pub.status);
     
-    fetch(`${API_BASE_URL}/api/view_draft/${id}`, {
-        method: 'GET',
-        headers: {
-            'X-User-Email': utente || '',
-            'X-User-Role': ruolo || ''
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Errore nel recupero del file');
-        }
-        
-        // Ottieni il nome file dall'header Content-Disposition o usa un nome generico
-        const contentDisposition = response.headers.get('Content-Disposition');
-        let filename = 'documento.pdf';
-        if (contentDisposition) {
-            const filenameMatch = contentDisposition.match(/filename="(.+)"/);
-            if (filenameMatch) {
-                filename = filenameMatch[1];
-            }
-        }
-        
-        return response.blob().then(blob => ({ blob, filename }));
-    })
-    .then(({ blob, filename }) => {
-        // Crea un URL temporaneo per il blob e lo apre in una nuova finestra
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        mostraPopup('Errore nel visualizzare la bozza: ' + error.message, 'error');
+    documentName.appendChild(statusBadge);
+    documentDetails.appendChild(documentName);
+    documentDetails.appendChild(documentMeta);
+    
+    documentInfo.appendChild(documentIcon);
+    documentInfo.appendChild(documentDetails);
+    
+    const documentActions = document.createElement('div');
+    documentActions.className = 'document-actions';
+    
+    const viewBtn = document.createElement('button');
+    viewBtn.className = 'action-btn download-btn';
+    viewBtn.title = 'Visualizza';
+    viewBtn.innerHTML = '👁️';
+    viewBtn.addEventListener('click', () => {
+      if (pub.type === 'document') {
+        downloadDocument(pub.id.replace('doc_', ''));
+      } else {
+        viewDraft(pub.id.replace('pub_', ''));
+      }
     });
-}
-
-function reviewDraft(id, action) {
-  const utente = localStorage.getItem('utente');
-  const ruolo = localStorage.getItem('utente_ruolo');
-  
-  fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-User-Email': utente || '',
-      'X-User-Role': ruolo || ''
-    },
-    body: JSON.stringify({
-      action: action
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      mostraPopup(data.message || `Bozza ${action === 'approved' ? 'approvata' : 'rifiutata'} con successo`, 'success');
-      loadDraftsForReview();
-      loadDocuments();
-      loadAllPublications();
+    
+    documentActions.appendChild(viewBtn);
+    
+    // Aggiungi azioni specifiche per admin
+    if (pub.type === 'publication' && pub.status === 'pending') {
+      const approveBtn = document.createElement('button');
+      approveBtn.className = 'action-btn download-btn';
+      approveBtn.title = 'Approva';
+      approveBtn.innerHTML = '✅';
+      approveBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'approved'));
       
-      // Aggiorna anche le bozze personali se l'utente è l'autore
-      setTimeout(() => {
-        loadMyDrafts();
-      }, 500);
-    } else {
-      mostraPopup('Errore nella revisione: ' + (data.message || 'Errore sconosciuto'), 'error');
+      const rejectBtn = document.createElement('button');
+      rejectBtn.className = 'action-btn delete-btn';
+      rejectBtn.title = 'Rifiuta';
+      rejectBtn.innerHTML = '❌';
+      rejectBtn.addEventListener('click', () => reviewDraft(pub.id.replace('pub_', ''), 'rejected'));
+      
+      documentActions.appendChild(approveBtn);
+      documentActions.appendChild(rejectBtn);
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    mostraPopup('Errore di connessione con il server', 'error');
-  });
-}
+    
+    // Eliminazione per admin
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'action-btn delete-btn';
+    deleteBtn.title = 'Elimina';
+    deleteBtn.innerHTML = '🗑️';
+    deleteBtn.addEventListener('click', () => {
+      if (pub.type === 'document') {
+        deleteDocument(pub.id.replace('doc_', ''));
+      } else {
+        deleteDraft(pub.id.replace('pub_', ''));
+      }
+    });
+    
+    documentActions.appendChild(deleteBtn);
+    
+    item.appendChild(documentInfo);
+    item.appendChild(documentActions);
+    
+    return item;
+  }
 
-function deleteDocument(id) {
-  if (confirm('Sei sicuro di voler eliminare questo documento?')) {
-    // Aggiungi headers per autenticazione
+  function getStatusText(status) {
+    const statusMap = {
+      'draft': 'Bozza',
+      'pending': 'In Revisione',
+      'approved': 'Approvato',
+      'rejected': 'Rifiutato',
+      'published': 'Pubblicato'
+    };
+    return statusMap[status] || status;
+  }
+
+  function getFileIcon(fileType) {
+    const icons = {
+      'pdf': '📕',
+      'doc': '📘',
+      'docx': '📘',
+      'xls': '📗',
+      'xlsx': '📗',
+      'ppt': '📙',
+      'pptx': '📙',
+      'txt': '📄',
+      'zip': '📦',
+      'rar': '📦'
+    };
+    
+    const extension = fileType ? fileType.toLowerCase() : '';
+    return icons[extension] || '📄';
+  }
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('it-IT');
+  }
+
+  function downloadDocument(id) {
+    window.open(`${API_BASE_URL}/api/download/${id}`, '_blank');
+  }
+
+  function viewDraft(id) {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo');
+      
+      if (!utente) {
+          mostraPopup('Devi essere loggato per visualizzare le bozze', 'error');
+          return;
+      }
+      
+      fetch(`${API_BASE_URL}/api/view_draft/${id}`, {
+          method: 'GET',
+          headers: {
+              'X-User-Email': utente || '',
+              'X-User-Role': ruolo || ''
+          }
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Errore nel recupero del file');
+          }
+          
+          // Ottieni il nome file dall'header Content-Disposition o usa un nome generico
+          const contentDisposition = response.headers.get('Content-Disposition');
+          let filename = 'documento.pdf';
+          if (contentDisposition) {
+              const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+              if (filenameMatch) {
+                  filename = filenameMatch[1];
+              }
+          }
+          
+          return response.blob().then(blob => ({ blob, filename }));
+      })
+      .then(({ blob, filename }) => {
+          // Crea un URL temporaneo per il blob e lo apre in una nuova finestra
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          mostraPopup('Errore nel visualizzare la bozza: ' + error.message, 'error');
+      });
+  }
+
+  function reviewDraft(id, action) {
     const utente = localStorage.getItem('utente');
     const ruolo = localStorage.getItem('utente_ruolo');
     
-    fetch(`${API_BASE_URL}/api/delete/${id}`, {
-      method: 'DELETE',
+    fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
+      method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-User-Email': utente || '',
         'X-User-Role': ruolo || ''
-      }
+      },
+      body: JSON.stringify({
+        action: action
+      })
     })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
+        mostraPopup(data.message || `Bozza ${action === 'approved' ? 'approvata' : 'rifiutata'} con successo`, 'success');
+        loadDraftsForReview();
         loadDocuments();
         loadAllPublications();
-        mostraPopup(data.message || 'Documento eliminato con successo', 'success');
-      } else {
-        mostraPopup('Errore nell\'eliminazione del documento: ' + (data.message || 'Errore sconosciuto'), 'error');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      mostraPopup('Errore di connessione con il server', 'error');
-    });
-  }
-}
-
-function deleteDraft(id) {
-  if (confirm('Sei sicuro di voler eliminare questa bozza?')) {
-    const utente = localStorage.getItem('utente');
-    const ruolo = localStorage.getItem('utente_ruolo');
-    
-    fetch(`${API_BASE_URL}/api/delete_draft/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'X-User-Email': utente || '',
-        'X-User-Role': ruolo || ''
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        mostraPopup(data.message || 'Bozza eliminata con successo', 'success');
-        loadAllPublications();
-        loadDraftsForReview();
         
-        // Aggiorna le bozze personali
+        // Aggiorna anche le bozze personali se l'utente è l'autore
         setTimeout(() => {
           loadMyDrafts();
         }, 500);
       } else {
-        mostraPopup('Errore nell\'eliminazione della bozza: ' + (data.message || 'Errore sconosciuto'), 'error');
+        mostraPopup('Errore nella revisione: ' + (data.message || 'Errore sconosciuto'), 'error');
       }
     })
     .catch(error => {
@@ -2381,126 +2316,189 @@ function deleteDraft(id) {
       mostraPopup('Errore di connessione con il server', 'error');
     });
   }
-}
 
-// Funzione di test per debug
-function testMyDrafts() {
-  console.log('🧪 Test manuale bozze personali');
-  const utente = localStorage.getItem('utente');
-  console.log('Utente corrente:', utente);
-  loadMyDrafts();
-}
-
-// Sidebar functionality
-function initSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  const sidebarToggle = document.getElementById('sidebarToggle');
-  const sidebarClose = document.querySelector('.sidebar-close');
-  const toggleSidebar = document.getElementById('toggleSidebar');
-  
-  // Apri sidebar
-  sidebarToggle.addEventListener('click', () => {
-    sidebar.classList.add('open');
-  });
-  
-  toggleSidebar.addEventListener('click', () => {
-    sidebar.classList.add('open');
-  });
-  
-  // Chiudi sidebar
-  sidebarClose.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-  });
-  
-  // Chiudi sidebar cliccando fuori
-  document.addEventListener('click', (e) => {
-    if (!sidebar.contains(e.target) && 
-        !sidebarToggle.contains(e.target) && 
-        !toggleSidebar.contains(e.target) && 
-        sidebar.classList.contains('open')) {
-      sidebar.classList.remove('open');
+  function deleteDocument(id) {
+    if (confirm('Sei sicuro di voler eliminare questo documento?')) {
+      // Aggiungi headers per autenticazione
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo');
+      
+      fetch(`${API_BASE_URL}/api/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-User-Email': utente || '',
+          'X-User-Role': ruolo || ''
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          loadDocuments();
+          loadAllPublications();
+          mostraPopup(data.message || 'Documento eliminato con successo', 'success');
+        } else {
+          mostraPopup('Errore nell\'eliminazione del documento: ' + (data.message || 'Errore sconosciuto'), 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        mostraPopup('Errore di connessione con il server', 'error');
+      });
     }
-  });
-}
+  }
 
-// Theme functionality
-function initTheme() {
-  const fab = document.getElementById('theme-fab');
-  const popup = document.getElementById('theme-popup');
+  function deleteDraft(id) {
+    if (confirm('Sei sicuro di voler eliminare questa bozza?')) {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo');
+      
+      fetch(`${API_BASE_URL}/api/delete_draft/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-User-Email': utente || '',
+          'X-User-Role': ruolo || ''
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          mostraPopup(data.message || 'Bozza eliminata con successo', 'success');
+          loadAllPublications();
+          loadDraftsForReview();
+          
+          // Aggiorna le bozze personali
+          setTimeout(() => {
+            loadMyDrafts();
+          }, 500);
+        } else {
+          mostraPopup('Errore nell\'eliminazione della bozza: ' + (data.message || 'Errore sconosciuto'), 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        mostraPopup('Errore di connessione con il server', 'error');
+      });
+    }
+  }
 
-  fab.addEventListener('click', () => {
-    fab.classList.add('animate');
-    fab.addEventListener('animationend', () => {
-      fab.classList.remove('animate');
-    }, { once: true });
+  // Funzione di test per debug
+  function testMyDrafts() {
+    console.log('🧪 Test manuale bozze personali');
+    const utente = localStorage.getItem('utente');
+    console.log('Utente corrente:', utente);
+    loadMyDrafts();
+  }
+
+  // Sidebar functionality
+  function initSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose = document.querySelector('.sidebar-close');
+    const toggleSidebar = document.getElementById('toggleSidebar');
     
-    if (popup.classList.contains('show')) {
-      popup.classList.remove('show');
-      setTimeout(() => popup.style.display = 'none', 250);
-    } else {
-      popup.style.display = 'flex';
-      requestAnimationFrame(() => popup.classList.add('show'));
-    }
-  });
+    // Apri sidebar
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.add('open');
+    });
+    
+    toggleSidebar.addEventListener('click', () => {
+      sidebar.classList.add('open');
+    });
+    
+    // Chiudi sidebar
+    sidebarClose.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+    });
+    
+    // Chiudi sidebar cliccando fuori
+    document.addEventListener('click', (e) => {
+      if (!sidebar.contains(e.target) && 
+          !sidebarToggle.contains(e.target) && 
+          !toggleSidebar.contains(e.target) && 
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+  }
 
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    if (!fab.contains(e.target) && !popup.contains(e.target)) {
+  // Theme functionality
+  function initTheme() {
+    const fab = document.getElementById('theme-fab');
+    const popup = document.getElementById('theme-popup');
+
+    fab.addEventListener('click', () => {
+      fab.classList.add('animate');
+      fab.addEventListener('animationend', () => {
+        fab.classList.remove('animate');
+      }, { once: true });
+      
       if (popup.classList.contains('show')) {
         popup.classList.remove('show');
         setTimeout(() => popup.style.display = 'none', 250);
+      } else {
+        popup.style.display = 'flex';
+        requestAnimationFrame(() => popup.classList.add('show'));
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!fab.contains(e.target) && !popup.contains(e.target)) {
+        if (popup.classList.contains('show')) {
+          popup.classList.remove('show');
+          setTimeout(() => popup.style.display = 'none', 250);
+        }
+      }
+    });
+
+    // Apply theme and highlight selection
+    document.querySelectorAll('.theme-option').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+
+        // Highlight active button
+        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
       }
     }
-  });
 
-  // Apply theme and highlight selection
-  document.querySelectorAll('.theme-option').forEach(button => {
-    button.addEventListener('click', () => {
-      const theme = button.dataset.theme;
-      localStorage.setItem('theme-preference', theme);
-      applyTheme(theme);
-
-      // Highlight active button
-      document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-
-      popup.classList.remove('show');
-      setTimeout(() => popup.style.display = 'none', 250);
-    });
-  });
-
-  function applyTheme(theme) {
-    if (theme === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light');
-    } else if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
+    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+      if (btn) btn.classList.add('active');
     } else {
-      document.documentElement.removeAttribute('data-theme');
+      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
+      applyTheme('auto');
+      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+      if (autoBtn) autoBtn.classList.add('active');
     }
-  }
 
-  // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
-  const savedTheme = localStorage.getItem('theme-preference');
-  if (savedTheme) {
-    applyTheme(savedTheme);
-    const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
-    if (btn) btn.classList.add('active');
-  } else {
-    // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
-    applyTheme('auto');
-    const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
-    if (autoBtn) autoBtn.classList.add('active');
+    // Mostra FAB con animazione al caricamento
+    fab.classList.add('show');
+    
+    // Animazioni per le card
+    const cards = document.querySelectorAll('.fade-in-up');
+    cards.forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.1}s`;
+    });
   }
-
-  // Mostra FAB con animazione al caricamento
-  fab.classList.add('show');
-  
-  // Animazioni per le card
-  const cards = document.querySelectorAll('.fade-in-up');
-  cards.forEach((card, index) => {
-    card.style.animationDelay = `${index * 0.1}s`;
-  });
-}
 </script>
 </body>
 </html>
