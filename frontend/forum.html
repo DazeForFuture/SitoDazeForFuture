@@ -137,10 +137,11 @@
     <script>
         // Forum functionality
         let currentUser = null;
+        let currentThreadId = null;
 
-            const FORUM_API = 'http://localhost:5003';
+        const FORUM_API = 'http://localhost:5003';
             
-            // Check authentication status on page load
+        // Check authentication status on page load
         window.addEventListener('load', async () => {
             try {
                 // Get email from localStorage (set by main login system)
@@ -151,13 +152,31 @@
                     if (data.authenticated) {
                         currentUser = data.user;
                         updateUI();
+                        // Also load categories after authentication
+                        await loadCategories();
+                        // Load categories in thread creation form
+                        await loadCategorySelect();
                     }
                 }
             } catch (error) {
                 console.error('Error checking auth status:', error);
             }
             loadCategories();
-        });        async function loadCategories() {
+        });
+
+        async function loadCategorySelect() {
+            try {
+                const response = await fetch(`${FORUM_API}/api/categories`);
+                const categories = await response.json();
+                const categorySelect = document.getElementById('thread-category');
+                categorySelect.innerHTML = '<option value="">Seleziona una categoria</option>' +
+                    categories.map(category => `
+                        <option value="${category.id}">${category.name}</option>
+                    `).join('');
+            } catch (error) {
+                console.error('Error loading categories for select:', error);
+            }
+        }        async function loadCategories() {
             try {
                 const response = await fetch(`${FORUM_API}/api/categories`);
                 const categories = await response.json();
@@ -203,6 +222,7 @@
         async function showThread(threadId) {
             document.getElementById('threads-view').style.display = 'none';
             document.getElementById('thread-view').style.display = 'block';
+            currentThreadId = threadId;
             
             try {
                 const response = await fetch(`${FORUM_API}/api/threads/${threadId}`);
@@ -226,6 +246,8 @@
 
                 if (currentUser) {
                     document.getElementById('post-form').style.display = 'block';
+                } else {
+                    document.getElementById('post-form').style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error loading thread:', error);
@@ -281,7 +303,12 @@
                         'Content-Type': 'application/json'
                     },
                     credentials: 'include',
-                    body: JSON.stringify({ title, content, category_id: categoryId })
+                    body: JSON.stringify({ 
+                        title, 
+                        content, 
+                        category_id: categoryId,
+                        email: currentUser.email 
+                    })
                 });
 
                 if (response.ok) {
@@ -312,7 +339,10 @@
                         'Content-Type': 'application/json'
                     },
                     credentials: 'include',
-                    body: JSON.stringify({ content })
+                    body: JSON.stringify({ 
+                        content,
+                        email: currentUser.email
+                    })
                 });
 
                 if (response.ok) {

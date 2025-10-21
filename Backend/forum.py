@@ -10,8 +10,8 @@ app.secret_key = 'your-secret-key-here'  # Usa la stessa secret_key di server.py
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Database paths
-db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'forum.db'))
-users_db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'utenti.db'))
+db_path = os.path.abspath(os.path.join(r'C:\Users\achenio\Documents\GitHub\database', 'forum.db'))
+users_db_path = os.path.abspath(os.path.join(r'C:\Users\achenio\Documents\GitHub\database', 'utenti.db'))
 
 # Database initialization
 def init_db():
@@ -82,7 +82,7 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def get_db_connection():
-    conn = sqlite3.connect('forum.db')
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
