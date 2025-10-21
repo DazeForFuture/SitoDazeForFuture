@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Daze For Future</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar/hamburger.css">
+    <link rel="stylesheet" href="css/sidebar/sidebar.css">
+    <link rel="stylesheet" href="css/userbar/userbar.css">
+    <style>
+        .forum-container {
+            padding-top: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+        .category-card {
+            background: var(--sidebar-bg);
+            border: 1px solid var(--sidebar-border);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: transform 0.2s;
+        }
+        .category-card:hover {
+            transform: translateY(-2px);
+        }
+        .threads-list {
+            background: var(--sidebar-bg);
+            border: 1px solid var(--sidebar-border);
+            border-radius: 8px;
+            margin: 1rem;
+        }
+        .thread-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--sidebar-border);
+        }
+        .thread-item:last-child {
+            border-bottom: none;
+        }
+        .btn {
+            background-color: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header>
+            <button id="menu" class="hamburger" onclick="handleClick()">☰</button>
+            <div class="logo">Daze For Future</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="chi_siamo.html">Chi siamo</a>
+                <a href="missione.html">Missione</a>
+                <a href="forum.html" class="active">Forum</a>
+                <a href="documenti.html">Documenti</a>
+                <a href="prossimi_eventi.html">Eventi</a>
+                <a href="centrale_meteo.html">Meteo</a>
+                <a href="contatti.html">Contatti</a>
+            </nav>
+            <div id="userbar"></div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="forum-container">
+            <!-- Categories View -->
+            <div id="categories-view" class="view">
+                <h2 class="section-title">Forum - Categorie</h2>
+                <div id="categories-list" class="categories-grid"></div>
+            </div>
+
+            <!-- Threads View -->
+            <div id="threads-view" class="view" style="display: none;">
+                <div class="threads-header">
+                    <button onclick="showCategories()" class="btn btn-outline">← Torna alle Categorie</button>
+                    <h2 id="threads-title" class="section-title"></h2>
+                    <button onclick="showCreateThread()" class="btn" id="create-thread-btn" style="display: none;">Nuova Discussione</button>
+                </div>
+                <div id="threads-list" class="threads-list"></div>
+            </div>
+
+            <!-- Thread Detail View -->
+            <div id="thread-view" class="view" style="display: none;">
+                <div class="thread-header">
+                    <button onclick="showThreads()" class="btn btn-outline">← Torna alle Discussioni</button>
+                    <h2 id="thread-title" class="section-title"></h2>
+                </div>
+                <div id="thread-content" class="thread-content"></div>
+                <div id="posts-list" class="posts-list"></div>
+                <div id="post-form" class="post-form" style="display: none;">
+                    <h3>Rispondi</h3>
+                    <textarea id="post-content" placeholder="Scrivi la tua risposta..." rows="4"></textarea>
+                    <button onclick="createPost()" class="btn">Invia Risposta</button>
+                </div>
+            </div>
+
+            <!-- Create Thread View -->
+            <div id="create-thread-view" class="view" style="display: none;">
+                <div class="create-thread-header">
+                    <button onclick="showThreads()" class="btn btn-outline">← Annulla</button>
+                    <h2 class="section-title">Nuova Discussione</h2>
+                </div>
+                <form id="create-thread-form" class="create-thread-form">
+                    <input type="text" id="thread-title-input" placeholder="Titolo della discussione" required>
+                    <select id="thread-category" required>
+                        <option value="">Seleziona una categoria</option>
+                    </select>
+                    <textarea id="thread-content-input" placeholder="Contenuto della discussione..." rows="8" required></textarea>
+                    <button type="submit" class="btn">Crea Discussione</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="css/sidebar/sidebar.js"></script>
+    <script src="css/userbar/userbar.js"></script>
+    <script src="theme.js"></script>
+    <script>
+        // Forum functionality
+        let currentUser = null;
+
+            const FORUM_API = 'http://localhost:5003';
+            
+            // Check authentication status on page load
+        window.addEventListener('load', async () => {
+            try {
+                // Get email from localStorage (set by main login system)
+                const userEmail = localStorage.getItem('userEmail');
+                if (userEmail) {
+                    const response = await fetch(`${FORUM_API}/api/check-auth?email=${encodeURIComponent(userEmail)}`);
+                    const data = await response.json();
+                    if (data.authenticated) {
+                        currentUser = data.user;
+                        updateUI();
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking auth status:', error);
+            }
+            loadCategories();
+        });        async function loadCategories() {
+            try {
+                const response = await fetch(`${FORUM_API}/api/categories`);
+                const categories = await response.json();
+                const categoriesList = document.getElementById('categories-list');
+                categoriesList.innerHTML = categories.map(category => `
+                    <div class="category-card" onclick="showThreadsForCategory(${category.id}, '${category.name}')">
+                        <h3>${category.name}</h3>
+                        <p>${category.description}</p>
+                        <p>Discussioni: ${category.thread_count}</p>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        async function showThreadsForCategory(categoryId, categoryName) {
+            document.getElementById('categories-view').style.display = 'none';
+            document.getElementById('threads-view').style.display = 'block';
+            document.getElementById('threads-title').textContent = categoryName;
+            
+            if (currentUser) {
+                document.getElementById('create-thread-btn').style.display = 'block';
+            }
+
+            try {
+                const response = await fetch(`${FORUM_API}/api/threads?category_id=${categoryId}`);
+                const threads = await response.json();
+                const threadsList = document.getElementById('threads-list');
+                threadsList.innerHTML = threads.map(thread => `
+                    <div class="thread-item" onclick="showThread(${thread.id})">
+                        <h3>${thread.title}</h3>
+                        <p>Autore: ${thread.username}</p>
+                        <p>Risposte: ${thread.post_count}</p>
+                        <p>Data: ${new Date(thread.created_at).toLocaleString()}</p>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading threads:', error);
+            }
+        }
+
+        async function showThread(threadId) {
+            document.getElementById('threads-view').style.display = 'none';
+            document.getElementById('thread-view').style.display = 'block';
+            
+            try {
+                const response = await fetch(`${FORUM_API}/api/threads/${threadId}`);
+                const thread = await response.json();
+                
+                document.getElementById('thread-title').textContent = thread.title;
+                document.getElementById('thread-content').innerHTML = `
+                    <div class="thread-item">
+                        <p>${thread.content}</p>
+                        <small>Scritto da ${thread.username} - ${new Date(thread.created_at).toLocaleString()}</small>
+                    </div>
+                `;
+                
+                const postsList = document.getElementById('posts-list');
+                postsList.innerHTML = thread.posts.map(post => `
+                    <div class="thread-item">
+                        <p>${post.content}</p>
+                        <small>Scritto da ${post.username} - ${new Date(post.created_at).toLocaleString()}</small>
+                    </div>
+                `).join('');
+
+                if (currentUser) {
+                    document.getElementById('post-form').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading thread:', error);
+            }
+        }
+
+        function showCategories() {
+            document.getElementById('threads-view').style.display = 'none';
+            document.getElementById('thread-view').style.display = 'none';
+            document.getElementById('categories-view').style.display = 'block';
+        }
+
+        function showThreads() {
+            document.getElementById('thread-view').style.display = 'none';
+            document.getElementById('create-thread-view').style.display = 'none';
+            document.getElementById('threads-view').style.display = 'block';
+        }
+
+        function showCreateThread() {
+            document.getElementById('threads-view').style.display = 'none';
+            document.getElementById('create-thread-view').style.display = 'block';
+        }
+
+        function updateUI() {
+            const createThreadBtn = document.getElementById('create-thread-btn');
+            const postForm = document.getElementById('post-form');
+            
+            if (currentUser) {
+                createThreadBtn.style.display = 'block';
+                postForm.style.display = 'block';
+            } else {
+                createThreadBtn.style.display = 'none';
+                postForm.style.display = 'none';
+            }
+        }
+
+        // Form submissions
+        document.getElementById('create-thread-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) {
+                alert('Devi effettuare il login per creare una discussione');
+                return;
+            }
+
+            const title = document.getElementById('thread-title-input').value;
+            const content = document.getElementById('thread-content-input').value;
+            const categoryId = document.getElementById('thread-category').value;
+
+            try {
+                const response = await fetch(`${FORUM_API}/api/threads`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ title, content, category_id: categoryId })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showThreadsForCategory(categoryId, document.getElementById('threads-title').textContent);
+                } else {
+                    alert('Errore nella creazione della discussione');
+                }
+            } catch (error) {
+                console.error('Error creating thread:', error);
+                alert('Errore nella creazione della discussione');
+            }
+        });
+
+        async function createPost() {
+            if (!currentUser) {
+                alert('Devi effettuare il login per rispondere');
+                return;
+            }
+
+            const content = document.getElementById('post-content').value;
+            const threadId = currentThreadId;
+
+            try {
+                const response = await fetch(`${FORUM_API}/api/threads/${threadId}/posts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ content })
+                });
+
+                if (response.ok) {
+                    document.getElementById('post-content').value = '';
+                    showThread(threadId);
+                } else {
+                    alert('Errore nella creazione della risposta');
+                }
+            } catch (error) {
+                console.error('Error creating post:', error);
+                alert('Errore nella creazione della risposta');
+            }
+        }
+    </script>
+</body>
+</html>

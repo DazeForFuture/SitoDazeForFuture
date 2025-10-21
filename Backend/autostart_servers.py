@@ -13,7 +13,10 @@ servers = [
         "name": "documenti_server.py",
         "cmd": [sys.executable, "documenti_server.py"]
     },
-
+    {
+        "name": "forum.py",
+        "cmd": [sys.executable, "forum.py"]
+    },
     {
         "name": "post.py",
         "cmd": [sys.executable, "post.py"]
