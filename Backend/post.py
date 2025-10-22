@@ -4,7 +4,7 @@ import os
 import sqlite3
 
 app = Flask(__name__)
-CORS(app, origins="*", supports_credentials=True)
+CORS(app, origins=["http://localhost:5000"], supports_credentials=True)
 db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/post.db'))
 
 def init_db():
