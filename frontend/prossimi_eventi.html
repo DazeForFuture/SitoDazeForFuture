@@ -1308,6 +1308,7 @@
             try {
                 const response = await fetch(url, {
                     method,
+                    credentials: 'include', // solo se necessario
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(formData)
                 });
@@ -1328,7 +1329,10 @@
     async function caricaEventi() {
         try {
             console.log('🔍 Inizio caricamento eventi...');
-            const response = await fetch('http://192.168.0.137:5002/api/post');
+            const response = await fetch('http://192.168.0.137:5002/api/post', {
+              method: 'GET',
+              credentials: 'include' // solo se hai supports_credentials=True e stai usando cookie/session
+            });
             const posts = await response.json();
             
             console.log('📦 Dati ricevuti dal backend:', posts);
@@ -1433,7 +1437,8 @@
         if (!confirm('Sei sicuro di voler eliminare questo evento?')) return;
         try {
             const response = await fetch(`http://192.168.0.137:5002/api/post/${id}`, {
-                method: 'DELETE'
+              method: 'DELETE',
+              credentials: 'include' // solo se necessario
             });
             const result = await response.json();
             if (result.success) {
