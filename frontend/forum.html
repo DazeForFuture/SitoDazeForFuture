@@ -8,82 +8,849 @@
     <link rel="stylesheet" href="css/sidebar/hamburger.css">
     <link rel="stylesheet" href="css/sidebar/sidebar.css">
     <link rel="stylesheet" href="css/userbar/userbar.css">
+    <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Stile migliorato per la pagina forum */
+        :root {
+            --bg: #fff;
+            --text: #1d1d1f;
+            --muted: #6e6e73;
+            --footer-bg: #f9f9f9;
+            --hover-bg: rgba(0,0,0,0.05);
+            --btn-bg: var(--text);
+            --btn-hover-bg: #333;
+            --header-bg: rgba(255,255,255,0.95);
+            --header-text: #1d1d1f;
+            --sidebar-bg: rgba(255,255,255,0.98);
+            --sidebar-border: rgba(0,0,0,0.15);
+            --sidebar-shadow: rgba(0,0,0,0.15);
+            --accent: #007aff;
+            --admin-badge: #ff3b30;
+            --user-badge: #34c759;
+            --overlay-light: rgba(255, 255, 255, 0.6);
+            --overlay-dark: rgba(29, 29, 31, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme]) {
+                --bg: #1d1d1f;
+                --text: #f5f5f7;
+                --muted: #a1a1a6;
+                --footer-bg: #111;
+                --hover-bg: rgba(255,255,255,0.05);
+                --btn-bg: var(--text);
+                --btn-hover-bg: #ddd;
+                --header-bg: rgba(29,29,31,0.95);
+                --header-text: #ffffff;
+                --sidebar-bg: rgba(29,29,31,0.98);
+                --sidebar-border: rgba(255,255,255,0.15);
+                --sidebar-shadow: rgba(0,0,0,0.4);
+                --accent: #0a84ff;
+                --admin-badge: #ff453a;
+                --user-badge: #30d158;
+                --overlay-light: rgba(255, 255, 255, 0.6);
+                --overlay-dark: rgba(29, 29, 31, 0.8);
+                --card-bg: rgba(29, 29, 31, 0.9);
+                --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #1d1d1f;
+            --text: #f5f5f7;
+            --muted: #a1a1a6;
+            --footer-bg: #111;
+            --hover-bg: rgba(255,255,255,0.05);
+            --btn-bg: var(--text);
+            --btn-hover-bg: #ddd;
+            --header-bg: rgba(29,29,31,0.95);
+            --header-text: #ffffff;
+            --sidebar-bg: rgba(29,29,31,0.98);
+            --sidebar-border: rgba(255,255,255,0.15);
+            --sidebar-shadow: rgba(0,0,0,0.4);
+            --accent: #0a84ff;
+            --admin-badge: #ff453a;
+            --user-badge: #30d158;
+            --overlay-light: rgba(255, 255, 255, 0.6);
+            --overlay-dark: rgba(29, 29, 31, 0.8);
+            --card-bg: rgba(29, 29, 31, 0.9);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        :root[data-theme="light"] {
+            --bg: #fff;
+            --text: #1d1d1f;
+            --muted: #6e6e73;
+            --footer-bg: #f9f9f9;
+            --hover-bg: rgba(0,0,0,0.05);
+            --btn-bg: var(--text);
+            --btn-hover-bg: #333;
+            --header-bg: rgba(255,255,255,0.95);
+            --header-text: #1d1d1f;
+            --sidebar-bg: rgba(255,255,255,0.98);
+            --sidebar-border: rgba(0,0,0,0.15);
+            --sidebar-shadow: rgba(0,0,0,0.15);
+            --accent: #007aff;
+            --admin-badge: #ff3b30;
+            --user-badge: #34c759;
+            --overlay-light: rgba(255, 255, 255, 0.6);
+            --overlay-dark: rgba(29, 29, 31, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.5;
+            background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: background 0.3s ease;
+        }
+
+        :root[data-theme="light"] body::before {
+            background: var(--overlay-light);
+        }
+
+        :root[data-theme="dark"] body::before {
+            background: var(--overlay-dark);
+        }
+
+        :root:not([data-theme]) body::before {
+            background: var(--overlay-light);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme]) body::before {
+                background: var(--overlay-dark);
+            }
+        }
+
+        /* HEADER IDENTICO ALLA PAGINA CONTATTI */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            z-index: 1000;
+            color: var(--header-text, var(--text));
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            background: var(--header-bg);
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            cursor: pointer;
+            user-select: none;
+            color: var(--header-text, var(--text));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav > a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--header-text, var(--text));
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem;
+        }
+
+        nav > a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: var(--text);
+            transition: width 0.3s;
+        }
+
+        nav > a:hover::after {
+            width: 100%;
+        }
+
+        /* Mostra hamburger menu solo su mobile */
+        #sidebarToggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--header-text);
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            #sidebarToggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            #mainNav {
+                display: none;
+            }
+        }
+
+        nav a[href="login.html"],
+        nav a[href="login.html"]:visited {
+            color: var(--accent) !important;
+            font-weight: 700;
+        }
+
+        nav a[href="login.html"]:hover {
+            text-decoration: underline;
+        }
+
+        /* Logo image */
+        .logo-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo:hover .logo-img {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding-top: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #007aff, #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--btn-bg);
+            color: var(--bg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background-color: var(--btn-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-accent {
+            background: linear-gradient(90deg, #007aff, #00c6ff);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background: linear-gradient(90deg, #0062cc, #0099cc);
+        }
+
+        /* Forum Container */
         .forum-container {
             padding-top: 80px;
             max-width: 1200px;
             margin: 0 auto;
+            min-height: calc(100vh - 200px);
         }
+
+        /* Views Management */
+        .view {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #007aff, #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Categories Grid */
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
             padding: 1rem;
         }
+
         .category-card {
-            background: var(--sidebar-bg);
+            background: var(--card-bg);
             border: 1px solid var(--sidebar-border);
-            border-radius: 8px;
-            padding: 1rem;
-            transition: transform 0.2s;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), #00c6ff);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
         .category-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .category-card p {
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .category-card .thread-count {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Threads List */
         .threads-list {
-            background: var(--sidebar-bg);
+            background: var(--card-bg);
             border: 1px solid var(--sidebar-border);
-            border-radius: 8px;
+            border-radius: 12px;
             margin: 1rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
         }
+
         .thread-item {
-            padding: 1rem;
+            padding: 1.25rem;
             border-bottom: 1px solid var(--sidebar-border);
+            transition: background-color 0.2s ease;
+            cursor: pointer;
         }
+
         .thread-item:last-child {
             border-bottom: none;
         }
-        .btn {
-            background-color: var(--accent);
-            color: var(--bg);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
+
+        .thread-item:hover {
+            background-color: var(--hover-bg);
         }
+
+        .thread-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .thread-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--muted);
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+        }
+
+        .thread-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Thread Detail View */
+        .thread-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .thread-header, .threads-header, .create-thread-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .thread-header h2, .threads-header h2, .create-thread-header h2 {
+            flex: 1;
+            margin: 0;
+        }
+
+        .posts-list {
+            margin-bottom: 2rem;
+        }
+
+        .post-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--accent);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .post-date {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .post-content {
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        /* Forms */
+        .post-form, .create-thread-form {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .post-form h3, .create-thread-form h2 {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        textarea, input[type="text"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--sidebar-border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        textarea:focus, input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
         .btn-outline {
             background-color: transparent;
             border: 1px solid var(--accent);
             color: var(--accent);
         }
+
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--muted);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* User Roles Badges */
+        .user-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-admin {
+            background-color: var(--admin-badge);
+            color: white;
+        }
+
+        .badge-user {
+            background-color: var(--user-badge);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .forum-container {
+                padding-top: 70px;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0.5rem;
+            }
+            
+            .threads-list {
+                margin: 0.5rem;
+            }
+            
+            .thread-header, .threads-header, .create-thread-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .thread-header .btn, .threads-header .btn, .create-thread-header .btn {
+                align-self: stretch;
+                text-align: center;
+            }
+            
+            .thread-meta {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            
+            .category-card, .thread-content, .post-item, .post-form, .create-thread-form {
+                padding: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            header {
+                padding: 0.8rem 1rem;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            nav > a {
+                margin-left: 1rem;
+                font-size: 0.9rem;
+                padding: 0.4rem;
+            }
+
+            .hero {
+                padding-top: 160px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .forum-container {
+                padding-top: 60px;
+            }
+            
+            .category-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .thread-item h3 {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Accessibility Improvements */
+        .btn:focus, textarea:focus, input[type="text"]:focus, select:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+            background: var(--footer-bg);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Userbar styles */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: var(--hover-bg);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-display {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            color: var(--text);
+            background: var(--hover-bg);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease;
+        }
     </style>
 </head>
 <body>
     <div id="app">
-        <!-- Header -->
+        <!-- HEADER IDENTICO ALLA PAGINA CONTATTI -->
         <header>
-            <button id="menu" class="hamburger" onclick="handleClick()">☰</button>
-            <div class="logo">Daze For Future</div>
-            <nav>
+            <div class="logo" id="toggleSidebar">
+                <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+                <span>Daze for Future</span>
+            </div>
+            <div style="flex:1"></div>
+            
+            <nav id="mainNav">
                 <a href="index.html">Home</a>
-                <a href="chi_siamo.html">Chi siamo</a>
                 <a href="missione.html">Missione</a>
-                <a href="forum.html" class="active">Forum</a>
-                <a href="documenti.html">Documenti</a>
                 <a href="prossimi_eventi.html">Eventi</a>
-                <a href="centrale_meteo.html">Meteo</a>
-                <a href="contatti.html">Contatti</a>
+                <a href="chi_siamo.html">Chi siamo</a>
+                <a href="documenti.html">Documenti</a>
+                
+                <!-- Userbar che sostituisce "Accedi" quando loggato -->
+                <div id="userbar" class="user-info" style="display:none;">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <div class="user-display">
+                        <span class="user-name" id="userName"></span>
+                        <span class="user-badge" id="userBadge"></span>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <span>Logout</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Link "Accedi" che viene nascosto quando loggato -->
+                <a href="login.html" id="loginLink">Accedi</a>
             </nav>
-            <div id="userbar"></div>
+            <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
         </header>
 
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Benvenuto su Daze for Future</h1>
+                <p>Promuoviamo la sostenibilità, l'open source e la consapevolezza ambientale nella nostra scuola.</p>
+                <a href="#forum" class="btn btn-accent">
+                    <i class="fas fa-comments"></i>
+                    Accedi al Forum
+                </a>
+            </div>
+        </section>
+
         <!-- Main Content -->
-        <div class="forum-container">
+        <div class="forum-container" id="forum">
             <!-- Categories View -->
             <div id="categories-view" class="view">
                 <h2 class="section-title">Forum - Categorie</h2>
-                <div id="categories-list" class="categories-grid"></div>
+                <div id="categories-list" class="categories-grid">
+                    <!-- Le categorie verranno caricate dinamicamente qui -->
+                </div>
             </div>
 
             <!-- Threads View -->
@@ -91,9 +858,14 @@
                 <div class="threads-header">
                     <button onclick="showCategories()" class="btn btn-outline">← Torna alle Categorie</button>
                     <h2 id="threads-title" class="section-title"></h2>
-                    <button onclick="showCreateThread()" class="btn" id="create-thread-btn" style="display: none;">Nuova Discussione</button>
+                    <button onclick="showCreateThread()" class="btn" id="create-thread-btn" style="display: none;">
+                        <i class="fas fa-plus"></i>
+                        Nuova Discussione
+                    </button>
                 </div>
-                <div id="threads-list" class="threads-list"></div>
+                <div id="threads-list" class="threads-list">
+                    <!-- Le discussioni verranno caricate dinamicamente qui -->
+                </div>
             </div>
 
             <!-- Thread Detail View -->
@@ -102,12 +874,19 @@
                     <button onclick="showThreads()" class="btn btn-outline">← Torna alle Discussioni</button>
                     <h2 id="thread-title" class="section-title"></h2>
                 </div>
-                <div id="thread-content" class="thread-content"></div>
-                <div id="posts-list" class="posts-list"></div>
+                <div id="thread-content" class="thread-content">
+                    <!-- Il contenuto del thread verrà caricato dinamicamente qui -->
+                </div>
+                <div id="posts-list" class="posts-list">
+                    <!-- I post verranno caricati dinamicamente qui -->
+                </div>
                 <div id="post-form" class="post-form" style="display: none;">
                     <h3>Rispondi</h3>
                     <textarea id="post-content" placeholder="Scrivi la tua risposta..." rows="4"></textarea>
-                    <button onclick="createPost()" class="btn">Invia Risposta</button>
+                    <button onclick="createPost()" class="btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Invia Risposta
+                    </button>
                 </div>
             </div>
 
@@ -123,12 +902,20 @@
                         <option value="">Seleziona una categoria</option>
                     </select>
                     <textarea id="thread-content-input" placeholder="Contenuto della discussione..." rows="8" required></textarea>
-                    <button type="submit" class="btn">Crea Discussione</button>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-plus"></i>
+                        Crea Discussione
+                    </button>
                 </form>
             </div>
         </div>
 
     </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 Daze for Future. Tutti i diritti riservati.
+    </footer>
 
     <!-- Scripts -->
     <script src="css/sidebar/sidebar.js"></script>
@@ -138,6 +925,7 @@
         // Forum functionality
         let currentUser = null;
         let currentThreadId = null;
+        let currentCategoryId = null;
 
         const FORUM_API = 'http://localhost:5003';
             
@@ -152,16 +940,24 @@
                     if (data.authenticated) {
                         currentUser = data.user;
                         updateUI();
-                        // Also load categories after authentication
-                        await loadCategories();
-                        // Load categories in thread creation form
-                        await loadCategorySelect();
                     }
                 }
+                
+                // Load categories after authentication
+                await loadCategories();
+                // Load categories in thread creation form
+                await loadCategorySelect();
+                
+                // Update user interface based on login status
+                updateUserInterface();
+                
             } catch (error) {
                 console.error('Error checking auth status:', error);
+                // Show error but continue loading
+                await loadCategories();
+                await loadCategorySelect();
+                updateUserInterface();
             }
-            loadCategories();
         });
 
         async function loadCategorySelect() {
@@ -176,20 +972,42 @@
             } catch (error) {
                 console.error('Error loading categories for select:', error);
             }
-        }        async function loadCategories() {
+        }
+
+        async function loadCategories() {
             try {
                 const response = await fetch(`${FORUM_API}/api/categories`);
                 const categories = await response.json();
                 const categoriesList = document.getElementById('categories-list');
+                
+                if (categories.length === 0) {
+                    categoriesList.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📝</div>
+                            <h3>Nessuna categoria disponibile</h3>
+                            <p>Le categorie del forum verranno create presto.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
                 categoriesList.innerHTML = categories.map(category => `
-                    <div class="category-card" onclick="showThreadsForCategory(${category.id}, '${category.name}')">
+                    <div class="category-card" onclick="showThreadsForCategory(${category.id}, '${category.name.replace(/'/g, "\\'")}')">
                         <h3>${category.name}</h3>
                         <p>${category.description}</p>
-                        <p>Discussioni: ${category.thread_count}</p>
+                        <p class="thread-count">Discussioni: ${category.thread_count}</p>
                     </div>
                 `).join('');
             } catch (error) {
                 console.error('Error loading categories:', error);
+                const categoriesList = document.getElementById('categories-list');
+                categoriesList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">❌</div>
+                        <h3>Errore nel caricamento</h3>
+                        <p>Impossibile caricare le categorie del forum. Riprova più tardi.</p>
+                    </div>
+                `;
             }
         }
 
@@ -197,6 +1015,7 @@
             document.getElementById('categories-view').style.display = 'none';
             document.getElementById('threads-view').style.display = 'block';
             document.getElementById('threads-title').textContent = categoryName;
+            currentCategoryId = categoryId;
             
             if (currentUser) {
                 document.getElementById('create-thread-btn').style.display = 'block';
@@ -206,16 +1025,42 @@
                 const response = await fetch(`${FORUM_API}/api/threads?category_id=${categoryId}`);
                 const threads = await response.json();
                 const threadsList = document.getElementById('threads-list');
+                
+                if (threads.length === 0) {
+                    threadsList.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">💬</div>
+                            <h3>Nessuna discussione</h3>
+                            <p>Sii il primo a creare una discussione in questa categoria!</p>
+                            ${currentUser ? `<button onclick="showCreateThread()" class="btn" style="margin-top: 1rem;">
+                                <i class="fas fa-plus"></i>
+                                Crea la prima discussione
+                            </button>` : ''}
+                        </div>
+                    `;
+                    return;
+                }
+                
                 threadsList.innerHTML = threads.map(thread => `
                     <div class="thread-item" onclick="showThread(${thread.id})">
                         <h3>${thread.title}</h3>
-                        <p>Autore: ${thread.username}</p>
-                        <p>Risposte: ${thread.post_count}</p>
-                        <p>Data: ${new Date(thread.created_at).toLocaleString()}</p>
+                        <div class="thread-meta">
+                            <span><i class="fas fa-user"></i> ${thread.username}</span>
+                            <span><i class="fas fa-comment"></i> ${thread.post_count} risposte</span>
+                            <span><i class="fas fa-clock"></i> ${new Date(thread.created_at).toLocaleString()}</span>
+                        </div>
                     </div>
                 `).join('');
             } catch (error) {
                 console.error('Error loading threads:', error);
+                const threadsList = document.getElementById('threads-list');
+                threadsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">❌</div>
+                        <h3>Errore nel caricamento</h3>
+                        <p>Impossibile caricare le discussioni. Riprova più tardi.</p>
+                    </div>
+                `;
             }
         }
 
@@ -230,19 +1075,39 @@
                 
                 document.getElementById('thread-title').textContent = thread.title;
                 document.getElementById('thread-content').innerHTML = `
-                    <div class="thread-item">
-                        <p>${thread.content}</p>
-                        <small>Scritto da ${thread.username} - ${new Date(thread.created_at).toLocaleString()}</small>
+                    <div class="post-item">
+                        <div class="post-header">
+                            <span class="post-author">${thread.username}</span>
+                            <span class="post-date">${new Date(thread.created_at).toLocaleString()}</span>
+                        </div>
+                        <div class="post-content">
+                            ${thread.content}
+                        </div>
                     </div>
                 `;
                 
                 const postsList = document.getElementById('posts-list');
-                postsList.innerHTML = thread.posts.map(post => `
-                    <div class="thread-item">
-                        <p>${post.content}</p>
-                        <small>Scritto da ${post.username} - ${new Date(post.created_at).toLocaleString()}</small>
-                    </div>
-                `).join('');
+                if (thread.posts && thread.posts.length > 0) {
+                    postsList.innerHTML = thread.posts.map(post => `
+                        <div class="post-item">
+                            <div class="post-header">
+                                <span class="post-author">${post.username}</span>
+                                <span class="post-date">${new Date(post.created_at).toLocaleString()}</span>
+                            </div>
+                            <div class="post-content">
+                                ${post.content}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    postsList.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">💬</div>
+                            <h3>Nessuna risposta</h3>
+                            <p>Sii il primo a rispondere a questa discussione!</p>
+                        </div>
+                    `;
+                }
 
                 if (currentUser) {
                     document.getElementById('post-form').style.display = 'block';
@@ -251,12 +1116,20 @@
                 }
             } catch (error) {
                 console.error('Error loading thread:', error);
+                document.getElementById('thread-content').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">❌</div>
+                        <h3>Errore nel caricamento</h3>
+                        <p>Impossibile caricare la discussione. Riprova più tardi.</p>
+                    </div>
+                `;
             }
         }
 
         function showCategories() {
             document.getElementById('threads-view').style.display = 'none';
             document.getElementById('thread-view').style.display = 'none';
+            document.getElementById('create-thread-view').style.display = 'none';
             document.getElementById('categories-view').style.display = 'block';
         }
 
@@ -267,6 +1140,11 @@
         }
 
         function showCreateThread() {
+            if (!currentUser) {
+                alert('Devi effettuare il login per creare una discussione');
+                window.location.href = 'login.html';
+                return;
+            }
             document.getElementById('threads-view').style.display = 'none';
             document.getElementById('create-thread-view').style.display = 'block';
         }
@@ -289,12 +1167,18 @@
             e.preventDefault();
             if (!currentUser) {
                 alert('Devi effettuare il login per creare una discussione');
+                window.location.href = 'login.html';
                 return;
             }
 
             const title = document.getElementById('thread-title-input').value;
             const content = document.getElementById('thread-content-input').value;
             const categoryId = document.getElementById('thread-category').value;
+
+            if (!title || !content || !categoryId) {
+                alert('Per favore, compila tutti i campi richiesti');
+                return;
+            }
 
             try {
                 const response = await fetch(`${FORUM_API}/api/threads`, {
@@ -326,11 +1210,17 @@
         async function createPost() {
             if (!currentUser) {
                 alert('Devi effettuare il login per rispondere');
+                window.location.href = 'login.html';
                 return;
             }
 
             const content = document.getElementById('post-content').value;
             const threadId = currentThreadId;
+
+            if (!content.trim()) {
+                alert('Per favore, inserisci il contenuto della risposta');
+                return;
+            }
 
             try {
                 const response = await fetch(`${FORUM_API}/api/threads/${threadId}/posts`, {
@@ -354,6 +1244,58 @@
             } catch (error) {
                 console.error('Error creating post:', error);
                 alert('Errore nella creazione della risposta');
+            }
+        }
+
+        // User management functions
+        function getNameFromEmail(email) {
+            return email.split('@')[0];
+        }
+
+        function getInitialFromEmail(email) {
+            return email.charAt(0).toUpperCase();
+        }
+
+        function getBadgeText(role) {
+            return role === 'admin' ? 'Admin' : 'User';
+        }
+
+        function getBadgeClass(role) {
+            return role === 'admin' ? 'badge-admin' : 'badge-user';
+        }
+
+        function updateUserInterface() {
+            const utente = localStorage.getItem('utente');
+            const ruolo = localStorage.getItem('utente_ruolo') || 'user';
+            
+            if(utente) {
+                // Nascondi link login
+                document.getElementById('loginLink').style.display = 'none';
+                
+                // Mostra userbar al posto di "Accedi"
+                const userbar = document.getElementById('userbar');
+                userbar.style.display = 'flex';
+                
+                // Imposta nome utente e badge
+                document.getElementById('userName').innerText = getNameFromEmail(utente);
+                document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+                document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+                document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('utente');
+            localStorage.removeItem('utente_ruolo');
+            localStorage.removeItem('userEmail');
+            window.location.href = "login.html";
+        }
+
+        // Handle sidebar
+        function handleClick() {
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('active');
             }
         }
     </script>

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
   <style>
     :root {
       --bg: #fff;
@@ -165,7 +166,6 @@
         background: var(--overlay-dark);
       }
     }
-
     header {
       position: fixed;
       top: 0;
@@ -705,6 +705,91 @@
     .objectives-list li {
       margin-bottom: 0.8rem;
     }
+    /* Stili per il dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--sidebar-border);
+      margin: 0.25rem 0;
+    }
+
   </style>
 </head>
 <body>
@@ -718,6 +803,25 @@
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="prossimi_eventi.html">Eventi</a>
+      
+      <!-- Menu a tendina Progetti -->
+      <div class="dropdown">
+        <button class="dropdown-toggle">
+          Progetti
+        </button>
+        <div class="dropdown-menu">
+          <a href="centrale_meteo.html" class="dropdown-item">
+            <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
+            Centrale Meteorologica
+          </a>
+   <!--     <div class="dropdown-divider"></div>
+          <a href="altroprogetto.html" class="dropdown-item">
+            <i class="fas fa-lock" style="margin-right: 8px;"></i>
+            ///
+          </a> -->
+        </div>
+      </div>
+      
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>

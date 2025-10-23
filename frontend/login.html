@@ -9,6 +9,8 @@
   <title>Login - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+
   <style>
     /* --- VARIABILI COERENTI ALLA HOME --- */
     :root {
@@ -32,6 +34,9 @@
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -55,6 +60,9 @@
         --overlay-light: rgba(255, 255, 255, 0.6);
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --success: #30d158;
+        --error: #ff453a;
+        --warning: #ff9f0a;
       }
     }
 
@@ -78,6 +86,9 @@
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --success: #30d158;
+      --error: #ff453a;
+      --warning: #ff9f0a;
     }
 
     :root[data-theme="light"] {
@@ -100,6 +111,9 @@
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
     }
 
     :root[data-theme="dark"] header {
@@ -233,6 +247,86 @@
 
     nav > a:hover::after {
       width: 100%;
+    }
+
+    /* Stile per il link Accedi evidenziato */
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
+
+    /* Userbar styles */
+    .user-info {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin-left: 2rem;
+      padding: 0.5rem;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .user-display {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .user-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .badge-admin {
+      background: var(--admin-badge);
+      color: white;
+    }
+
+    .badge-user {
+      background: var(--user-badge);
+      color: white;
+    }
+
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn:hover {
+      background: var(--hover-bg);
     }
 
     main {
@@ -400,21 +494,11 @@
     }
 
     .popup.success {
-      border-left-color: #34c759;
+      border-left-color: var(--success);
     }
 
     .popup.error {
-      border-left-color: #ff3b30;
-    }
-
-    /* Stile per il link Accedi evidenziato */
-    #loginLink {
-      color: var(--accent) !important;
-      font-weight: 700;
-    }
-
-    #loginLink:hover {
-      text-decoration: underline;
+      border-left-color: var(--error);
     }
 
     /* Popup per utente già loggato */
@@ -485,7 +569,7 @@
     }
     
     .already-logged-buttons .logout-btn-popup {
-      background: #ff3b30 !important;
+      background: var(--error) !important;
       color: white !important;
     }
     
@@ -493,26 +577,34 @@
       background: #d70015 !important;
     }
 
-    /* Sidebar styles */
+    /* Sidebar styles - IDENTICA A REGISTRATI */
     .sidebar {
       position: fixed;
       top: 0;
-      right: -300px;
-      width: 300px;
+      left: -280px;
+      width: 280px;
       height: 100%;
       background: var(--sidebar-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: -5px 0 15px var(--sidebar-shadow);
-      transition: right 0.3s ease;
-      z-index: 2000;
-      padding: 2rem 1.5rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 2px 0 10px var(--sidebar-shadow);
+      border-right: 1px solid var(--sidebar-border);
+      transition: left 0.3s ease;
+      z-index: 1200;
+      padding: 2rem 1rem;
       overflow-y: auto;
-      border-left: 1px solid var(--sidebar-border);
     }
 
-    .sidebar.show {
-      right: 0;
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
     }
 
     .sidebar-close {
@@ -521,72 +613,122 @@
       right: 1rem;
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 2rem;
+      color: var(--muted);
       cursor: pointer;
-      color: var(--text);
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: background 0.3s;
+      transition: color 0.3s ease;
+      width: auto;
+      padding: 0.5rem;
     }
 
     .sidebar-close:hover {
-      background: var(--hover-bg);
-    }
-
-    .sidebar h2 {
-      margin-bottom: 1.5rem;
-      font-weight: 700;
       color: var(--text);
+      background: transparent;
+      transform: scale(1.1);
     }
 
     .sidebar-menu {
       list-style: none;
-      margin-bottom: 2rem;
+      padding: 0;
+      margin: 0;
     }
 
     .sidebar-menu li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
     }
 
     .sidebar-menu a {
       display: flex;
       align-items: center;
+      gap: 1rem;
       padding: 0.75rem 1rem;
       text-decoration: none;
+      font-weight: 600;
       color: var(--text);
       border-radius: 8px;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      font-size: 1.05rem;
     }
 
-    .sidebar-menu a:hover {
+    .sidebar-menu a span {
+      font-size: 1.3rem;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background-color: rgba(0, 122, 255, 0.2);
+      color: var(--accent);
+    }
+
+    /* Mobile user info nella sidebar */
+    .mobile-user-info {
+      display: none;
       background: var(--hover-bg);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .sidebar-menu span {
-      margin-right: 10px;
-      font-size: 1.2rem;
+    .mobile-user-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
     }
 
+    .mobile-user-display {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .mobile-user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .mobile-user-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* Overlay per quando la sidebar è aperta */
     .overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 1500;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1100;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      transition: all 0.3s ease;
     }
 
-    .overlay.show {
+    .overlay.active {
       opacity: 1;
       visibility: visible;
+    }
+
+    /* Pulsante hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      width: auto;
+      padding: 0.5rem;
+    }
+
+    .hamburger:hover {
+      background: transparent;
+      transform: scale(1.1);
     }
 
     /* Floating Action Button */
@@ -726,17 +868,7 @@
       animation: fadeInUp 0.8s ease;
     }
 
-    /* Mostra hamburger menu solo su mobile */
-    #sidebarToggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      padding: 0.5rem;
-    }
-
+    /* Responsive */
     @media (max-width: 768px) {
       header {
         padding: 0.8rem 1rem;
@@ -782,7 +914,7 @@
         display: none;
       }
       
-      #sidebarToggle {
+      .hamburger {
         display: flex;
       }
       
@@ -798,6 +930,11 @@
       #theme-popup {
         bottom: 80px;
         right: 20px;
+      }
+      
+      /* Userbar nascosta su mobile */
+      .user-info {
+        display: none !important;
       }
     }
 
@@ -826,18 +963,32 @@
       <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      <a href="documenti.html">Documenti</a>
-      <!-- Link "Accedi" sempre visibile -->
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <div class="user-display">
+          <span class="user-name" id="userName"></span>
+          <span class="user-badge" id="userBadge"></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
   <main>
-    <h1 class="section-title">Accedi</h1>
-    <p class="text-muted">Inserisci le tue credenziali per entrare nell'area riservata.</p>
+    <h1 class="section-title fade-in-up">Accedi</h1>
+    <p class="text-muted fade-in-up">Inserisci le tue credenziali per entrare nell'area riservata.</p>
 
-    <form onsubmit="event.preventDefault(); loginUtente();">
+    <form onsubmit="event.preventDefault(); loginUtente();" class="fade-in-up">
       <label for="email">Email</label>
       <div class="email-container">
         <div class="email-input">
@@ -864,7 +1015,7 @@
     </form>
   </main>
   
-  <!-- Sidebar -->
+  <!-- Sidebar - IDENTICA A REGISTRATI -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
     <h2>Menu</h2>
@@ -876,6 +1027,24 @@
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
+
+    <!-- User info per mobile nella sidebar -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+      <div class="mobile-user-header">
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+      </div>
+      <div class="mobile-user-display">
+        <span class="mobile-user-name" id="mobileUserName"></span>
+        <span class="mobile-user-badge" id="mobileUserBadge"></span>
+      </div>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
   </aside>
 
   <!-- Overlay per sidebar -->
@@ -982,6 +1151,12 @@
     window.addEventListener('DOMContentLoaded', () => {
       const fab = document.getElementById('theme-fab');
       fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
     });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
@@ -1014,6 +1189,24 @@
         document.getElementById('loginLink').style.display = 'none';
         document.getElementById('sidebarLoginLink').style.display = 'none';
         
+        // Mostra userbar al posto di "Accedi"
+        const userbar = document.getElementById('userbar');
+        userbar.style.display = 'flex';
+        
+        // Imposta nome utente e badge
+        document.getElementById('userName').innerText = getNameFromEmail(utente);
+        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra user info mobile nella sidebar
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        mobileUserInfo.style.display = 'block';
+        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+        
         // Mostra popup se l'utente è già loggato e sta visitando la pagina di login
         if (window.location.pathname.includes('login.html')) {
           setTimeout(() => {
@@ -1025,6 +1218,8 @@
         // Se non loggato, assicurati che i link di login siano visibili
         document.getElementById('loginLink').style.display = 'block';
         document.getElementById('sidebarLoginLink').style.display = 'block';
+        document.getElementById('userbar').style.display = 'none';
+        document.getElementById('mobileUserInfo').style.display = 'none';
       }
     }
 
@@ -1127,7 +1322,7 @@
       }
     }
 
-    // Gestione sidebar
+    // Gestione sidebar - IDENTICA A REGISTRATI
     document.addEventListener('DOMContentLoaded', function() {
       updateUserInterface();
       
@@ -1138,18 +1333,18 @@
       
       if (sidebarToggle && sidebar && sidebarClose && overlay) {
         sidebarToggle.addEventListener('click', function() {
-          sidebar.classList.add('show');
-          overlay.classList.add('show');
+          sidebar.classList.add('active');
+          overlay.classList.add('active');
         });
         
         sidebarClose.addEventListener('click', function() {
-          sidebar.classList.remove('show');
-          overlay.classList.remove('show');
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
         });
         
         overlay.addEventListener('click', function() {
-          sidebar.classList.remove('show');
-          overlay.classList.remove('show');
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
         });
       }
     });

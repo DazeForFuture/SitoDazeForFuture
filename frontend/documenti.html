@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <style>
+    /* CSS esistente mantenuto */
     :root {
       --bg: #fff;
       --text: #1d1d1f;
@@ -21,18 +22,22 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
-      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
-      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.6); /* RIDOTTA OPACITÀ PER VEDERE MEGLIO LO SFONDO */
-      --overlay-dark: rgba(29, 29, 31, 0.8); /* AUMENTATA OPACITÀ */
-      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
+      --info: #007aff;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -44,18 +49,22 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+        --header-bg: rgba(29,29,31,0.95);
         --header-text: #ffffff;
-        --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
-        --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
-        --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
         --overlay-light: rgba(255, 255, 255, 0.6);
         --overlay-dark: rgba(29, 29, 31, 0.8);
-        --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --success: #30d158;
+        --error: #ff453a;
+        --warning: #ff9f0a;
+        --info: #0a84ff;
       }
     }
 
@@ -67,18 +76,22 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+      --header-bg: rgba(29,29,31,0.95);
       --header-text: #ffffff;
-      --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
-      --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --success: #30d158;
+      --error: #ff453a;
+      --warning: #ff9f0a;
+      --info: #0a84ff;
     }
 
     :root[data-theme="light"] {
@@ -89,32 +102,22 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
-      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
-      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
-      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
-    }
-
-    :root[data-theme="dark"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
-    }
-
-    :root[data-theme="light"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
+      --info: #007aff;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -125,7 +128,6 @@
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
-      /* Sfondo ottimizzato per tutti i temi */
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
@@ -133,7 +135,6 @@
       position: relative;
     }
 
-    /* Overlay dinamico che si adatta al tema */
     body::before {
       content: '';
       position: fixed;
@@ -145,17 +146,14 @@
       transition: background 0.3s ease;
     }
 
-    /* Tema chiaro - overlay chiaro per contrasto */
     :root[data-theme="light"] body::before {
       background: var(--overlay-light);
     }
 
-    /* Tema scuro - overlay scuro per contrasto */
     :root[data-theme="dark"] body::before {
       background: var(--overlay-dark);
     }
 
-    /* Tema automatico - usa preferenza sistema */
     :root:not([data-theme]) body::before {
       background: var(--overlay-light);
     }
@@ -181,6 +179,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
     }
+
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -223,7 +222,7 @@
 
     section {
       padding: 140px 2rem 100px;
-      max-width: 1000px;
+      max-width: 1200px;
       margin: auto;
     }
 
@@ -261,7 +260,6 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-top: 2rem;
       background-color: var(--btn-bg);
       color: var(--bg);
       padding: 0.75rem 1.5rem;
@@ -272,7 +270,6 @@
       cursor: pointer;
       border: none;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      animation: fadeInUp 1s ease 0.4s both;
     }
 
     .btn:hover {
@@ -320,283 +317,6 @@
       z-index: 1;
     }
 
-    /* MIGLIORAMENTI MOBILE COMPLETI */
-    @media (max-width: 768px) {
-      header {
-        padding: 0.8rem 1rem;
-      }
-      
-      .logo {
-        font-size: 1.2rem;
-      }
-      
-      .logo-img {
-        width: 32px;
-        height: 32px;
-      }
-      
-      nav > a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
-      }
-      
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-      
-      .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .section-title {
-        font-size: 1.8rem;
-      }
-      
-      .sidebar {
-        width: 280px;
-      }
-      
-      section {
-        padding: 120px 1rem 80px;
-      }
-      
-      .hero {
-        padding-top: 160px; /* RIDOTTO PER MOBILE */
-      }
-      
-      .card {
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      .card-image {
-        height: 160px;
-      }
-      
-      .btn {
-        padding: 0.7rem 1.2rem;
-        font-size: 0.9rem;
-      }
-      
-      /* Miglioramenti specifici per documenti su mobile */
-      .documents-container {
-        padding: 1.5rem;
-      }
-      
-      .document-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .document-actions {
-        margin-top: 1rem;
-        width: 100%;
-        justify-content: flex-end;
-      }
-      
-      /* Nascondi navigation su mobile e mostra hamburger */
-      #mainNav {
-        display: none;
-      }
-      
-      #sidebarToggle {
-        display: flex;
-      }
-      
-      /* FAB più piccolo su mobile */
-      #theme-fab {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-        bottom: 20px;
-        right: 20px;
-      }
-      
-      #theme-popup {
-        bottom: 80px;
-        right: 20px;
-      }
-      
-      #addDocumentBtn {
-        margin-left: 1rem;
-        width: 42px;
-        height: 42px;
-        font-size: 1.7rem;
-      }
-    }
-
-    /* Per schermi molto piccoli */
-    @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-      }
-      
-      .section-title {
-        font-size: 1.5rem;
-      }
-      
-      .card {
-        padding: 1rem;
-      }
-      
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .documents-container {
-        padding: 1rem;
-      }
-    }
-
-    /* Mostra hamburger menu solo su mobile */
-    #sidebarToggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      padding: 0.5rem;
-    }
-
-    @media (max-width: 768px) {
-      #sidebarToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-
-    nav a[href="login.html"],
-    nav a[href="login.html"]:visited {
-      color: var(--accent) !important;
-      font-weight: 700;
-    }
-
-    nav a[href="login.html"]:hover {
-      text-decoration: underline;
-    }
-
-    /* Floating Action Button */
-    #theme-fab {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--accent);
-      color: white;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      font-size: 1.7rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-      z-index: 3000;
-      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    #theme-fab:hover {
-      background: var(--btn-hover-bg);
-      transform: scale(1.1);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-    }
-
-    #theme-fab:active {
-      transform: scale(0.92) rotate(15deg);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    #theme-fab.show {
-      animation: fabPopIn 0.4s ease forwards;
-    }
-
-    @keyframes fabPopIn {
-      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
-    }
-
-    #theme-popup {
-      position: fixed;
-      bottom: 90px;
-      right: 24px;
-      background: var(--sidebar-bg);
-      border: 1px solid var(--sidebar-border);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      border-radius: 12px;
-      display: none;
-      flex-direction: column;
-      padding: 0.5rem;
-      z-index: 3001;
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: translateY(10px) scale(0.95);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-    }
-
-    #theme-popup.show {
-      display: flex;
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    #theme-popup button.theme-option {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      padding: 0.6rem;
-      cursor: pointer;
-      color: var(--text);
-      transition: background 0.25s, transform 0.25s, color 0.25s;
-      border-radius: 8px;
-    }
-
-    #theme-popup button.theme-option:hover {
-      background: var(--hover-bg);
-      transform: scale(1.2) rotate(8deg);
-    }
-
-    #theme-popup button.theme-option:active {
-      transform: scale(0.9) rotate(-8deg);
-    }
-
-    #theme-popup button.theme-option.active {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.15);
-    }
-
-    @keyframes fabClick {
-      0%   { transform: scale(1) rotate(0deg); }
-      30%  { transform: scale(0.8) rotate(-10deg); }
-      60%  { transform: scale(1.2) rotate(10deg); }
-      100% { transform: scale(1) rotate(0deg); }
-    }
-
-    #theme-fab.animate {
-      animation: fabClick 0.4s ease forwards;
-    }
-
-    section .btn {
-      display: inline-flex;
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
     /* Card Styles */
     .card {
       background: var(--card-bg);
@@ -614,14 +334,6 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
-    .card-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-
     /* Animations */
     @keyframes fadeInUp {
       from {
@@ -634,24 +346,10 @@
       }
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    .fade-in {
-      animation: fadeIn 1s ease;
-    }
-
     .fade-in-up {
       animation: fadeInUp 0.8s ease;
     }
 
-    /* Logo image */
     .logo-img {
       width: 36px;
       height: 36px;
@@ -659,91 +357,252 @@
       object-fit: cover;
       border: 2px solid var(--accent);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .logo:hover .logo-img {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    /* Sezioni specifiche per ruoli */
+    .admin-only {
+      display: none;
     }
-    
-    /* Stili per la sezione documenti */
-    .documents-container {
-      display: grid;
-      gap: 2rem;
+
+    .user-only {
+      display: none;
+    }
+
+    /* Stili per le liste documenti */
+    .document-list {
       margin-top: 2rem;
     }
-    
-    .document-card {
+
+    .document-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+      border-radius: 8px;
+    }
+
+    .document-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .document-info {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .document-icon {
+      margin-right: 1rem;
+      font-size: 1.5rem;
+      min-width: 40px;
+    }
+
+    .document-details {
+      flex: 1;
+    }
+
+    .document-details h3 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .document-details p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .document-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btn:hover {
+      background: var(--hover-bg);
+    }
+
+    .delete-btn:hover {
+      color: var(--error);
+    }
+
+    .download-btn:hover {
+      color: var(--accent);
+    }
+
+    .view-btn:hover {
+      color: var(--info);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+    }
+
+    /* Badge per stato */
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status-published {
+      background: rgba(52, 199, 89, 0.2);
+      color: var(--success);
+    }
+
+    .status-pending {
+      background: rgba(0, 122, 255, 0.2);
+      color: var(--info);
+    }
+
+    .status-rejected {
+      background: rgba(255, 59, 48, 0.2);
+      color: var(--error);
+    }
+
+    .status-approved {
+      background: rgba(52, 199, 89, 0.2);
+      color: var(--success);
+    }
+
+    /* Badge bozza */
+    .draft-badge {
+      background: rgba(255, 149, 0, 0.2);
+      color: var(--warning);
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .cloud-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(0, 122, 255, 0.1);
+      color: var(--accent);
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+    }
+
+    .admin-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(255, 59, 48, 0.1);
+      color: var(--admin-badge);
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .review-notes {
+      background: rgba(255, 149, 0, 0.1);
+      padding: 0.75rem;
+      border-radius: 8px;
+      border-left: 3px solid #ff9500;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Modal per visualizzazione documenti */
+    #viewerModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #viewerContent {
       background: var(--card-bg);
+      padding: 2rem;
       border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 90vw;
+      max-height: 90vh;
+      width: 800px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      position: relative;
     }
-    
-    .document-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+    .viewer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    
-    .document-content {
-      padding: 1.5rem;
-    }
-    
-    .document-title {
+
+    .viewer-title {
       font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
       color: var(--text);
     }
-    
-    .document-meta {
+
+    .viewer-body {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 1rem 0;
+    }
+
+    .viewer-actions {
       display: flex;
       gap: 1rem;
-      margin-bottom: 1rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      flex-wrap: wrap;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
-    
-    .document-description {
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-    
-    .no-documents {
+
+    .file-preview {
       text-align: center;
+      padding: 2rem;
+    }
+
+    .file-preview img {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 8px;
+    }
+
+    .file-preview .unsupported-format {
       padding: 3rem;
       color: var(--muted);
       font-size: 1.1rem;
     }
-    
-    /* Pulsante aggiungi documento per admin */
-    #addDocumentBtn {
-      display: none;
-      margin-left: 2rem;
-      font-size: 1.5rem;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
 
-    #addDocumentBtn:hover {
-      transform: scale(1.1);
-      background: #0056cc;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-    }
-
-    /* Stili migliorati per il popup */
-    #documentFormContainer {
+    /* Modal pubblicazione */
+    #publicationModal {
       display: none;
       position: fixed;
       top: 0;
@@ -757,7 +616,7 @@
       backdrop-filter: blur(5px);
     }
 
-    #documentForm {
+    #publicationForm {
       background: var(--card-bg);
       padding: 2.5rem;
       border-radius: 20px;
@@ -767,69 +626,7 @@
       overflow-y: auto;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    #documentForm h2 {
-      margin-bottom: 1.5rem;
-      color: var(--text);
-      font-size: 1.8rem;
-      text-align: center;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 480px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: var(--text);
-      font-size: 0.9rem;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 2px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      position: relative;
     }
 
     .close-btn {
@@ -867,13 +664,577 @@
       gap: 0.5rem;
     }
 
-    .optional-badge {
-      font-size: 0.7rem;
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* Pulsante + */
+    #addDocumentBtn {
+      display: none;
+      margin-left: 2rem;
+      font-size: 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    #addDocumentBtn:hover {
+      transform: scale(1.1);
+      background: #0056cc;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    /* Popup notifiche */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
+      font-weight: 600;
+      max-width: 300px;
+      backdrop-filter: blur(10px);
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left: 6px solid var(--success);
+    }
+
+    .popup.error {
+      border-left: 6px solid var(--error);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      section {
+        padding: 120px 1rem 80px;
+      }
+      
+      .hero {
+        padding-top: 160px;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+
+      .document-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .document-actions {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      #viewerContent {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+
+      .viewer-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .viewer-actions {
+        flex-direction: column;
+      }
+    }
+
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      #sidebarToggle {
+        display: flex;
+      }
+    }
+
+    /* Theme FAB */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+    }
+
+    #theme-popup.show {
+      display: flex;
+    }
+
+    .theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      border-radius: 8px;
+    }
+
+    /* MIGLIORAMENTI CSS FILTRI */
+    
+    /* Filtri per documenti - VERSIONE MIGLIORATA */
+    .document-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .document-filters:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 180px;
+      flex: 1;
+    }
+    
+    .filter-group label {
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* SVG al posto delle emoji */
+    .filter-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .filter-group label::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+    }
+
+    #typeFilter + label::before { 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z'/%3E%3C/svg%3E");
+    }
+    
+    #statusFilter + label::before { 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    
+    #dateFilter + label::before { 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z'/%3E%3Cpath fill-rule='evenodd' d='M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    
+    .filter-group select {
+      padding: 0.85rem 1rem;
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%236e6e73' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 12px;
+    }
+
+    .filter-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .filter-group select:hover {
+      border-color: var(--accent);
+    }
+    
+    /* Pulsante reset filtri migliorato */
+    .filter-actions {
+      display: flex;
+      align-items: flex-end;
+      margin-left: auto;
+    }
+
+    #resetFilters {
+      background: transparent;
+      border: 2px solid var(--muted);
+      color: var(--muted);
+      padding: 0.85rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #resetFilters:hover {
       background: var(--muted);
       color: var(--bg);
-      padding: 0.2rem 0.5rem;
+      border-color: var(--muted);
+      transform: translateY(-2px);
+    }
+
+    #resetFilters:active {
+      transform: translateY(0);
+    }
+    
+    /* Badge per tipo documento */
+    .type-badge {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
       border-radius: 10px;
-      font-weight: 400;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .type-statuto {
+      background: rgba(0, 122, 255, 0.15);
+      color: var(--info);
+      border: 1px solid rgba(0, 122, 255, 0.3);
+    }
+    
+    .type-relazione {
+      background: rgba(52, 199, 89, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(52, 199, 89, 0.3);
+    }
+    
+    .type-verbale {
+      background: rgba(255, 149, 0, 0.15);
+      color: var(--warning);
+      border: 1px solid rgba(255, 149, 0, 0.3);
+    }
+    
+    .type-bilancio {
+      background: rgba(175, 82, 222, 0.15);
+      color: #af52de;
+      border: 1px solid rgba(175, 82, 222, 0.3);
+    }
+    
+    .type-altro {
+      background: rgba(142, 142, 147, 0.15);
+      color: var(--muted);
+      border: 1px solid rgba(142, 142, 147, 0.3);
+    }
+
+    /* Responsive per filtri */
+    @media (max-width: 768px) {
+      .document-filters {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.25rem;
+      }
+      
+      .filter-group {
+        min-width: 100%;
+      }
+      
+      .filter-actions {
+        margin-left: 0;
+        width: 100%;
+      }
+      
+      #resetFilters {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Document card migliorata */
+    .document-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .document-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .document-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .document-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .document-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    
+    .document-card-description {
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+    
+    .document-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .document-card-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    /* Tabella documenti per admin */
+    .documents-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    
+    .documents-table th,
+    .documents-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .documents-table th {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+    .documents-table tr:hover {
+      background: var(--hover-bg);
+    }
+    
+    /* Pulsanti azione migliorati */
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+    
+    .btn-outline:hover {
+      background: var(--accent);
+      color: white;
+    }
+    
+    /* Modal migliorato per tipi documento */
+    .document-type-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .document-type-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .document-type-option:hover {
+      border-color: var(--accent);
+      background: rgba(0, 122, 255, 0.05);
+    }
+    
+    .document-type-option.selected {
+      border-color: var(--accent);
+      background: rgba(0, 122, 255, 0.1);
+    }
+    
+    .document-type-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 0.5rem;
+      fill: currentColor;
+    }
+    
+    .document-type-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* SVG per azioni documento */
+    .action-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* SVG per cloud indicator */
+    .cloud-icon {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
     }
   </style>
 </head>
@@ -892,7 +1253,7 @@
       <a href="contatti.html">Contatti</a>
       <a href="prossimi_eventi.html">Eventi</a>
       
-      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <!-- Userbar -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
         <div class="user-display">
@@ -906,12 +1267,14 @@
           </svg>
         </button>
       </div>
-      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      
+      <!-- Link Accedi -->
       <a href="login.html" id="loginLink">Accedi</a>
       
-      <!-- Pulsante aggiungi documento per admin -->
-      <button id="addDocumentBtn" style="display:none; margin-left:2rem; font-size:1.5rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
+      <!-- Pulsante + per creare pubblicazioni -->
+      <button id="addDocumentBtn" title="Crea nuova pubblicazione">+</button>
     </nav>
+    
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
@@ -919,44 +1282,278 @@
     <section class="hero">
       <div class="hero-content">
         <h1>Documenti</h1>
-        <p>Consulta i documenti ufficiali dell'associazione e le nostre pubblicazioni</p>
+        <p>Consulta e gestisci i documenti dell'associazione</p>
       </div>
     </section>
 
     <section>
+      <!-- Filtri per documenti - VERSIONE MIGLIORATA -->
       <div class="card fade-in-up">
-        <h2 class="section-title">Documenti disponibili</h2>
-        <div class="documents-container" id="documentsContainer">
-          <!-- I documenti verranno caricati dinamicamente qui -->
+        <h2 class="section-title">Filtra Documenti</h2>
+        <div class="document-filters">
+          <div class="filter-group">
+            <label for="typeFilter">Tipo Documento</label>
+            <select id="typeFilter">
+              <option value="all">Tutti i tipi</option>
+              <option value="statuto">Statuto</option>
+              <option value="relazione">Relazione</option>
+              <option value="verbale">Verbale</option>
+              <option value="bilancio">Bilancio</option>
+              <option value="altro">Altro</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="statusFilter">Stato</label>
+            <select id="statusFilter">
+              <option value="all">Tutti gli stati</option>
+              <option value="published">Pubblicato</option>
+              <option value="pending">In revisione</option>
+              <option value="approved">Approvato</option>
+              <option value="rejected">Rifiutato</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="dateFilter">Ordina per data</label>
+            <select id="dateFilter">
+              <option value="newest">Più recenti</option>
+              <option value="oldest">Più vecchi</option>
+            </select>
+          </div>
+          
+          <div class="filter-actions">
+            <button class="btn" id="resetFilters">
+              <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z" clip-rule="evenodd" />
+              </svg>
+              Reset Filtri
+            </button>
+          </div>
         </div>
       </div>
-    </section>
-    
-    <section>
-      <div class="card fade-in-up">
-        <h2 class="section-title">Pubblicazioni recenti</h2>
-        <div class="documents-container" id="publicationsContainer">
-          <!-- Le pubblicazioni verranno popolate dinamicamente -->
+
+      <!-- Sezione Admin: Bozze da revisionare -->
+      <div class="card admin-only fade-in-up" id="reviewSection">
+        <h2 class="section-title">Bozze da Revisionare</h2>
+        <div class="document-list" id="draftList">
+          <div class="empty-state" id="emptyDrafts">
+            <p>Nessuna bozza da revisionare al momento.</p>
+          </div>
         </div>
       </div>
-    </section>
+
+      <!-- Sezione per tutti: Documenti pubblicati -->
+      <div class="card fade-in-up">
+        <h2 class="section-title">Documenti Pubblicati</h2>
+        <div class="document-list" id="documentList">
+          <div class="empty-state" id="emptyState">
+            <p>Nessun documento disponibile al momento.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sezione User: Le mie bozze -->
+      <div class="card user-only fade-in-up" id="myDraftsSection">
+        <h2 class="section-title">Le Mie Bozze <span class="cloud-indicator">
+          <svg class="cloud-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd" />
+          </svg>
+          Salvate nel cloud
+        </span></h2>
+        <div class="document-list" id="myDraftsList">
+          <div class="empty-state" id="emptyMyDrafts">
+            <p>Non hai ancora creato bozze.</p>
+            <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante + in alto.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sezione Admin: Tutte le pubblicazioni 
+      <div class="card admin-only fade-in-up" id="allPublicationsSection">
+        <h2 class="section-title">Tutte le pubblicazioni <span class="admin-indicator">
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+          </svg>
+          Solo Admin
+        </span></h2>
+        <div class="document-list" id="allPublicationsList">
+          <div class="empty-state" id="emptyAllPublications">
+            <p>Nessuna pubblicazione trovata.</p>
+          </div>
+        </div>
+      </div>
+    </section>  -->
   </main>
-  
+
+  <!-- Modal per visualizzazione documenti -->
+  <div id="viewerModal">
+    <div id="viewerContent">
+      <div class="viewer-header">
+        <h3 class="viewer-title" id="viewerTitle">Documento</h3>
+        <button class="close-btn" id="closeViewer">&times;</button>
+      </div>
+      <div class="viewer-body" id="viewerBody">
+        <div class="file-preview">
+          <div class="unsupported-format">
+            <p>Anteprima non disponibile per questo formato.</p>
+            <p>Scarica il file per visualizzarlo.</p>
+          </div>
+        </div>
+      </div>
+      <div class="viewer-actions">
+        <button class="btn" id="downloadFromViewer">
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+          </svg>
+          Scarica
+        </button>
+        <button class="btn btn-outline" id="closeViewerBtn">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal per creazione pubblicazione -->
+  <div id="publicationModal">
+    <form id="publicationForm">
+      <button type="button" class="close-btn" id="closeModal">&times;</button>
+      <h2 style="margin-bottom: 1.5rem; color: var(--text); font-size: 1.8rem; text-align: center;">Crea Nuova Pubblicazione</h2>
+      
+      <div class="form-section">
+        <div class="form-section-title">
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+          </svg>
+          Informazioni Base
+        </div>
+        <div class="form-group">
+          <label for="publicationTitle">Titolo *</label>
+          <input type="text" id="publicationTitle" placeholder="Es: Relazione Attività 2024" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="publicationDescription">Descrizione *</label>
+          <textarea id="publicationDescription" placeholder="Descrivi il contenuto del documento..." rows="4" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="publicationType">Tipo Documento *</label>
+          <div class="document-type-selector">
+            <div class="document-type-option" data-type="statuto">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
+                <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
+              </svg>
+              <div class="document-type-name">Statuto</div>
+            </div>
+            <div class="document-type-option" data-type="relazione">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 0 1 8.25-8.25.75.75 0 0 1 .75.75v6.75H18a.75.75 0 0 1 .75.75 8.25 8.25 0 0 1-16.5 0Z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd" />
+              </svg>
+              <div class="document-type-name">Relazione</div>
+            </div>
+            <div class="document-type-option" data-type="verbale">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+              </svg>
+              <div class="document-type-name">Verbale</div>
+            </div>
+            <div class="document-type-option" data-type="bilancio">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+                <path fill-rule="evenodd" d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z" clip-rule="evenodd" />
+                <path d="M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z" />
+              </svg>
+              <div class="document-type-name">Bilancio</div>
+            </div>
+            <div class="document-type-option" data-type="altro">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM9.75 17.25a.75.75 0 0 0-1.5 0V18a3 3 0 1 0 6 0v-.75a.75.75 0 0 0-1.5 0V18a1.5 1.5 0 0 1-3 0v-.75Z" clip-rule="evenodd" />
+                <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
+              </svg>
+              <div class="document-type-name">Altro</div>
+            </div>
+          </div>
+          <input type="hidden" id="publicationType" required>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M18.97 2.659a2.25 2.25 0 0 0-3.182 0l-10.94 10.94a3.75 3.75 0 1 0 5.304 5.303l7.693-7.693a.75.75 0 0 1 1.06 1.06l-7.693 7.693a5.25 5.25 0 1 1-7.424-7.424l10.939-10.94a3.75 3.75 0 1 1 5.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 0 1 5.91 15.66l7.81-7.81a.75.75 0 0 1 1.061 1.06l-7.81 7.81a.75.75 0 0 0 1.054 1.068L18.97 5.84a2.25 2.25 0 0 0 0-3.182Z" clip-rule="evenodd" />
+          </svg>
+          Documento
+        </div>
+        <div class="form-group">
+          <label for="publicationFile">File del documento *</label>
+          <input type="file" id="publicationFile" required accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.xls,.xlsx,.ppt,.pptx,.zip">
+          <small style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">
+            Supporta: PDF, DOC, DOCX, TXT, immagini, Excel, PowerPoint, ZIP (max 10MB)
+          </small>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn" id="cancelPublication" style="background: var(--muted);">Annulla</button>
+        <button type="submit" class="btn" id="submitPublication">
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd" />
+          </svg>
+          Crea Bozza
+        </button>
+      </div>
+    </form>
+  </div>
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
     <h2>Menu</h2>
     <ul class="sidebar-menu">
-      <li><a href="index.html"><span>🏠</span> Home</a></li>
-      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html" style="color: var(--accent);"><span>📄</span> Documenti</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+      <li><a href="index.html">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.47 3.84a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.06l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 0 0 1.061 1.06l8.69-8.69Z" />
+          <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.43Z" />
+        </svg>
+        Home</a></li>
+      <li><a href="missione.html">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.5 9.75a6 6 0 0 1 11.573-2.226 3.75 3.75 0 0 1 4.133 4.303A4.5 4.5 0 0 1 18 20.25H6.75a5.25 5.25 0 0 1-2.23-10.004 6.072 6.072 0 0 1-.02-.496Z" clip-rule="evenodd" />
+        </svg>
+        Missione</a></li>
+      <li><a href="prossimi_eventi.html">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
+        </svg>
+        Eventi</a></li>
+      <li><a href="chi_siamo.html">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clip-rule="evenodd" />
+          <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+        </svg>
+        Chi siamo</a></li>
+      <li><a href="contatti.html">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+          <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+        </svg>
+        Contatti</a></li>
+      <li><a href="documenti.html" style="color: var(--accent);">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM9.75 17.25a.75.75 0 0 0-1.5 0V18a3 3 0 1 0 6 0v-.75a.75.75 0 0 0-1.5 0V18a1.5 1.5 0 0 1-3 0v-.75Z" clip-rule="evenodd" />
+          <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
+        </svg>
+        Documenti</a></li>
+      <li><a href="login.html" id="sidebarLoginLink">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+        </svg>
+        Accedi</a></li>
     </ul>
 
-    <!-- User info per mobile nella sidebar -->
+    <!-- User info mobile -->
     <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
       <div class="mobile-user-header">
         <div class="user-avatar" id="mobileUserAvatar"></div>
@@ -977,230 +1574,153 @@
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
-    🎨
+    <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
+    </svg>
   </div>
 
   <!-- Floating Theme Popup -->
   <div id="theme-popup">
-    <button class="theme-option" data-theme="light">🌞</button>
-    <button class="theme-option" data-theme="dark">🌙</button>
-    <button class="theme-option" data-theme="auto">🌓</button>
+    <button class="theme-option" data-theme="light" title="Tema chiaro">
+      <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
+      </svg>
+    </button>
+    <button class="theme-option" data-theme="dark" title="Tema scuro">
+      <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+    <button class="theme-option" data-theme="auto" title="Tema automatico">
+      <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" d="M9 2.25a.75.75 0 0 1 .75.75v1.506a49.384 49.384 0 0 1 5.343.371.75.75 0 1 1-.186 1.489c-.66-.083-1.323-.151-1.99-.206a18.67 18.67 0 0 1-2.97 6.323c.318.384.65.753 1 1.107a.75.75 0 0 1-1.07 1.052A18.902 18.902 0 0 1 9 13.687a18.823 18.823 0 0 1-5.656 4.482.75.75 0 0 1-.688-1.333 17.323 17.323 0 0 0 5.396-4.353A18.72 18.72 0 0 1 5.89 8.598a.75.75 0 0 1 1.388-.568A17.21 17.21 0 0 0 9 11.224a17.17 17.17 0 0 0 2.391-5.165 48.04 48.04 0 0 0-8.298.307.75.75 0 0 1-.186-1.489 49.159 49.159 0 0 1 5.343-.371V3A.75.75 0 0 1 9 2.25ZM15.75 9a.75.75 0 0 1 .68.433l5.25 11.25a.75.75 0 1 1-1.36.634l-1.198-2.567h-6.744l-1.198 2.567a.75.75 0 0 1-1.36-.634l5.25-11.25A.75.75 0 0 1 15.75 9Zm-2.672 8.25h5.344l-2.672-5.726-2.672 5.726Z" clip-rule="evenodd" />
+      </svg>
+    </button>
   </div>
 
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
-  <!-- Popup migliorato per aggiungere documenti -->
-  <div id="documentFormContainer" style="display:none;">
-    <form id="documentForm">
-      <button type="button" class="close-btn" id="closeDocumentForm">&times;</button>
-      <h2>Crea Nuovo Documento</h2>
+  <script>
+    // ===== CONFIGURAZIONE =====
+    (async function() {
+      // Hostname corrente
+      const currentHost = window.location.hostname;
       
-      <div class="form-section">
-        <div class="form-section-title">📝 Informazioni Base</div>
-        <div class="form-group">
-          <label for="documentTitolo">Titolo Documento *</label>
-          <input type="text" id="documentTitolo" placeholder="Es: Statuto Associazione" required />
-        </div>
-        
-        <div class="form-group">
-          <label for="documentContenuto">Descrizione Documento *</label>
-          <textarea id="documentContenuto" placeholder="Descrivi il documento, il suo scopo, il contenuto..." rows="4" required></textarea>
-        </div>
-      </div>
-
-      <div class="form-section">
-        <div class="form-section-title">📅 Informazioni Documento</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="documentData">Data Pubblicazione *</label>
-            <input type="date" id="documentData" required />
-          </div>
-          <div class="form-group">
-            <label for="documentTipo">Tipo Documento *</label>
-            <select id="documentTipo" required>
-              <option value="">Seleziona tipo</option>
-              <option value="statuto">Statuto</option>
-              <option value="relazione">Relazione</option>
-              <option value="verbale">Verbale</option>
-              <option value="bilancio">Bilancio</option>
-              <option value="altro">Altro</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-section">
-        <div class="form-section-title">📍 Informazioni Aggiuntive</div>
-        <div class="form-group">
-          <label for="documentAutore">Autore</label>
-          <input type="text" id="documentAutore" placeholder="Es: Consiglio Direttivo" />
-        </div>
-      </div>
-
-      <div class="form-section">
-        <div class="form-section-title">
-          🖼️ Media
-          <span class="optional-badge">Opzionale</span>
-        </div>
-        <div class="form-group">
-          <label for="documentImmagine">URL Immagine Copertina</label>
-          <input type="url" id="documentImmagine" placeholder="https://example.com/immagine.jpg" />
-        </div>
-        <div class="form-group">
-          <label for="documentLink">Link Documento Esterno</label>
-          <input type="url" id="documentLink" placeholder="https://example.com/documento" />
-        </div>
-      </div>
-
-      <div class="form-actions">
-        <button type="button" class="btn btn-outline" id="cancelDocumentForm">Annulla</button>
-        <button type="submit" class="btn">Crea Documento</button>
-      </div>
-    </form>
-  </div>
-
-<script>
-    // Configurazione - PORTA 5001 per documenti
-    const API_BASE_URL = 'http://192.168.0.137:5001';
-
-    // Theme functionality
-    const fab = document.getElementById('theme-fab');
-    const popup = document.getElementById('theme-popup');
-
-    fab.addEventListener('click', () => {
-      fab.classList.add('animate');
-      fab.addEventListener('animationend', () => {
-        fab.classList.remove('animate');
-      }, { once: true });
+      // Lista di endpoint da testare
+      const endpointsToTest = [
+        `http://${currentHost}:5001`,
+        'http://localhost:5001', 
+        'http://192.168.0.92:5001'
+      ];
       
-      if (popup.classList.contains('show')) {
-        popup.classList.remove('show');
-        setTimeout(() => popup.style.display = 'none', 250);
-      } else {
-        popup.style.display = 'flex';
-        requestAnimationFrame(() => popup.classList.add('show'));
-      }
-    });
-
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!fab.contains(e.target) && !popup.contains(e.target)) {
-        if (popup.classList.contains('show')) {
-          popup.classList.remove('show');
-          setTimeout(() => popup.style.display = 'none', 250);
+      // Funzione per testare la connettività
+      async function testEndpoint(url) {
+        try {
+          const response = await fetch(`${url}/api/documents`, {
+            method: 'GET',
+            signal: AbortSignal.timeout(3000) // Timeout di 3 secondi
+          });
+          return response.ok ? url : null;
+        } catch (error) {
+          return null;
         }
       }
-    });
-
-    // Apply theme and highlight selection
-    document.querySelectorAll('.theme-option').forEach(button => {
-      button.addEventListener('click', () => {
-        const theme = button.dataset.theme;
-        localStorage.setItem('theme-preference', theme);
-        applyTheme(theme);
-
-        // Highlight active button
-        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        popup.classList.remove('show');
-        setTimeout(() => popup.style.display = 'none', 250);
-      });
-    });
-
-    function applyTheme(theme) {
-      if (theme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
+      
+      // Prova ogni endpoint
+      for (const endpoint of endpointsToTest) {
+        const workingEndpoint = await testEndpoint(endpoint);
+        if (workingEndpoint) {
+          window.API_BASE_URL = workingEndpoint;
+          console.log('✅ Server API trovato:', window.API_BASE_URL);
+          break;
+        }
       }
-    }
-
-    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
-    const savedTheme = localStorage.getItem('theme-preference');
-    if (savedTheme) {
-      applyTheme(savedTheme);
-      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
-      if (btn) btn.classList.add('active');
-    } else {
-      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
-      applyTheme('auto');
-      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
-      if (autoBtn) autoBtn.classList.add('active');
-    }
-
-    // Mostra FAB con animazione al caricamento
-    window.addEventListener('DOMContentLoaded', () => {
-      const fab = document.getElementById('theme-fab');
-      fab.classList.add('show');
       
-      // Animazioni per le card
-      const cards = document.querySelectorAll('.fade-in-up');
-      cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-      });
-      
-      // Carica documenti dal backend
-      caricaDocumenti();
-    });
-
-    // Funzione per estrarre il nome dall'email (prima parte prima della @)
-    function getNameFromEmail(email) {
-      return email.split('@')[0];
+      // Fallback se nessun endpoint funziona
+      if (!window.API_BASE_URL) {
+        window.API_BASE_URL = endpointsToTest[0];
+        console.warn('⚠️ Usando endpoint di default:', window.API_BASE_URL);
+      }
+    })();
+    // ===== HELPERS =====
+    function authHeaders() {
+      const email = localStorage.getItem('utente') || '';
+      const role = localStorage.getItem('utente_ruolo') || 'user';
+      return { 'X-User-Email': email, 'X-User-Role': role };
     }
 
-    // Funzione per generare l'iniziale dall'email
-    function getInitialFromEmail(email) {
-      return email.charAt(0).toUpperCase();
+    function mostraPopup(messaggio, tipo) {
+      let popup = document.getElementById('popup');
+      if (!popup) {
+        popup = document.createElement('div');
+        popup.id = 'popup';
+        popup.className = 'popup';
+        document.body.appendChild(popup);
+      }
+      popup.textContent = messaggio;
+      popup.className = "popup " + tipo;
+      popup.classList.add("show");
+      setTimeout(() => popup.classList.remove("show"), 3000);
     }
 
-    // Funzione per ottenere il testo del badge in base al ruolo
-    function getBadgeText(role) {
-      return role === 'admin' ? 'Admin' : 'User';
-    }
-
-    // Funzione per ottenere la classe CSS del badge in base al ruolo
-    function getBadgeClass(role) {
-      return role === 'admin' ? 'badge-admin' : 'badge-user';
-    }
-
-    // Mostra la barra utente se loggato
+    // ===== GESTIONE UTENTE =====
     document.addEventListener('DOMContentLoaded', function() {
       const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
       
       if(utente) {
         // Nascondi link login
         document.getElementById('loginLink').style.display = 'none';
         document.getElementById('sidebarLoginLink').style.display = 'none';
         
-        // Mostra userbar al posto di "Accedi"
+        // Mostra userbar
         const userbar = document.getElementById('userbar');
-        userbar.style.display = 'flex';
-        
-        // Imposta nome utente e badge
-        document.getElementById('userName').innerText = getNameFromEmail(utente);
-        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
-        
-        // Mostra user info mobile nella sidebar
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
-        
-        // Mostra pulsante aggiungi documento per admin
-        if (ruolo === 'admin') {
-          document.getElementById('addDocumentBtn').style.display = 'block';
+        if (userbar) {
+          userbar.style.display = 'flex';
+          document.getElementById('userName').innerText = utente.split('@')[0];
+          document.getElementById('userBadge').innerText = ruolo === 'admin' ? 'Admin' : 'User';
+          document.getElementById('userBadge').className = `user-badge ${ruolo === 'admin' ? 'badge-admin' : 'badge-user'}`;
+          document.getElementById('userAvatar').innerText = utente.charAt(0).toUpperCase();
         }
+
+        // Mostra user info mobile
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        if (mobileUserInfo) {
+          mobileUserInfo.style.display = 'block';
+          document.getElementById('mobileUserName').innerText = utente.split('@')[0];
+          document.getElementById('mobileUserBadge').innerText = ruolo === 'admin' ? 'Admin' : 'User';
+          document.getElementById('mobileUserBadge').className = `mobile-user-badge ${ruolo === 'admin' ? 'badge-admin' : 'badge-user'}`;
+          document.getElementById('mobileUserAvatar').innerText = utente.charAt(0).toUpperCase();
+        }
+
+        // Mostra sezioni in base al ruolo
+        if (ruolo === 'admin') {
+          document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+        } else {
+          document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
+        }
+        
+        // Mostra pulsante +
+        document.getElementById('addDocumentBtn').style.display = 'block';
       }
+      
+      // Carica i contenuti
+      loadDocuments();
+      if (utente && ruolo === 'admin') {
+        loadDraftsForReview();
+        loadAllPublications();
+      }
+      if (utente) {
+        loadMyDrafts();
+      }
+      
+      initSidebar();
+      initTheme();
+      initFilters();
+      initDocumentTypeSelector();
+      initViewerModal();
     });
 
     function logout() {
@@ -1209,226 +1729,878 @@
       window.location.href = "login.html";
     }
 
-    // Scroll animations
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
-      if (window.scrollY > 50) {
-        header.style.background = 'var(--header-bg)';
-        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-      } else {
-        header.style.background = 'var(--header-bg)';
-        header.style.boxShadow = 'none';
+    // ===== GESTIONE FILTRI =====
+    function initFilters() {
+      const typeFilter = document.getElementById('typeFilter');
+      const statusFilter = document.getElementById('statusFilter');
+      const dateFilter = document.getElementById('dateFilter');
+      const resetFilters = document.getElementById('resetFilters');
+      
+      if (typeFilter && statusFilter && dateFilter) {
+        typeFilter.addEventListener('change', applyFilters);
+        statusFilter.addEventListener('change', applyFilters);
+        dateFilter.addEventListener('change', applyFilters);
+        resetFilters.addEventListener('click', resetAllFilters);
       }
-    });
-
-    // Intersection Observer for animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in-up');
+    }
+    
+    function applyFilters() {
+      const typeFilter = document.getElementById('typeFilter').value;
+      const statusFilter = document.getElementById('statusFilter').value;
+      const dateFilter = document.getElementById('dateFilter').value;
+      
+      // Applica filtri a tutti i documenti
+      document.querySelectorAll('.document-item, .document-card').forEach(item => {
+        let show = true;
+        
+        // Filtro per tipo
+        if (typeFilter !== 'all') {
+          const itemType = item.getAttribute('data-type') || '';
+          if (itemType !== typeFilter) {
+            show = false;
+          }
+        }
+        
+        // Filtro per stato
+        if (statusFilter !== 'all') {
+          const itemStatus = item.getAttribute('data-status') || '';
+          if (itemStatus !== statusFilter) {
+            show = false;
+          }
+        }
+        
+        // Mostra/nascondi elemento
+        item.style.display = show ? 'flex' : 'none';
+        if (item.classList.contains('document-card')) {
+          item.style.display = show ? 'block' : 'none';
         }
       });
-    }, observerOptions);
-
-    // Observe all cards for animation
-    document.querySelectorAll('.card').forEach(card => {
-      observer.observe(card);
-    });
-
-    // Versione semplificata per backend esistente
-    document.addEventListener('DOMContentLoaded', function() {
-        const ruolo = localStorage.getItem('utente_ruolo');
-        const addDocumentBtn = document.getElementById('addDocumentBtn');
+      
+      // Controlla se ci sono risultati
+      checkEmptyStates();
+    }
+    
+    function resetAllFilters() {
+      document.getElementById('typeFilter').value = 'all';
+      document.getElementById('statusFilter').value = 'all';
+      document.getElementById('dateFilter').value = 'newest';
+      applyFilters();
+    }
+    
+    function checkEmptyStates() {
+      // Controlla se ci sono documenti visibili in ogni sezione
+      const sections = ['documentList', 'draftList', 'myDraftsList', 'allPublicationsList'];
+      
+      sections.forEach(sectionId => {
+        const container = document.getElementById(sectionId);
+        if (!container) return;
         
-        if (ruolo === 'admin' && addDocumentBtn) {
-            addDocumentBtn.style.display = 'block';
-            
-            addDocumentBtn.addEventListener('click', () => {
-                document.getElementById('documentFormContainer').style.display = 'flex';
-            });
+        const visibleItems = container.querySelectorAll('.document-item[style*="display: flex"], .document-item:not([style]), .document-card[style*="display: block"], .document-card:not([style])');
+        const emptyState = container.querySelector('.empty-state');
+        
+        if (visibleItems.length === 0 && emptyState) {
+          emptyState.style.display = 'block';
+        } else if (emptyState) {
+          emptyState.style.display = 'none';
         }
-        
-        // Setup form
-        document.getElementById('closeDocumentForm').addEventListener('click', () => {
-            document.getElementById('documentFormContainer').style.display = 'none';
-        });
-        
-        document.getElementById('cancelDocumentForm').addEventListener('click', () => {
-            document.getElementById('documentFormContainer').style.display = 'none';
-        });
-        
-        document.getElementById('documentForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = {
-                titolo: document.getElementById('documentTitolo').value,
-                contenuto: document.getElementById('documentContenuto').value,
-                data: document.getElementById('documentData').value,
-                tipo: document.getElementById('documentTipo').value,
-                autore: document.getElementById('documentAutore').value,
-                immagine: document.getElementById('documentImmagine').value,
-                link: document.getElementById('documentLink').value
-            };
-            const editId = document.getElementById('documentForm').getAttribute('data-edit-id');
-            let url = `${API_BASE_URL}/api/document`;
-            let method = 'POST';
-            if (editId) {
-                url = `${API_BASE_URL}/api/document/${editId}`;
-                method = 'PUT';
-            }
-            try {
-                const response = await fetch(url, {
-                    method,
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(formData)
-                });
-                const result = await response.json();
-                if (result.success) {
-                    alert(editId ? 'Documento modificato!' : 'Documento creato!');
-                    location.reload();
-                } else {
-                    alert('Errore: ' + result.message);
-                }
-            } catch (error) {
-                alert('Errore di connessione: ' + error.message);
-            }
-            document.getElementById('documentForm').removeAttribute('data-edit-id');
-        });
-    });
-
-    async function caricaDocumenti() {
-        try {
-            console.log('🔍 Inizio caricamento documenti...');
-            const response = await fetch(`${API_BASE_URL}/api/documents`);
-            const documents = await response.json();
-            
-            console.log('📦 Dati ricevuti dal backend:', documents);
-            
-            const container = document.getElementById('documentsContainer');
-            const publicationsContainer = document.getElementById('publicationsContainer');
-            container.innerHTML = '';
-            publicationsContainer.innerHTML = '';
-            
-            if (documents.length === 0) {
-                container.innerHTML = '<div class="no-documents">Nessun documento disponibile al momento. Torna presto per scoprire le nuove pubblicazioni!</div>';
-                publicationsContainer.innerHTML = '<div class="no-documents">Nessuna pubblicazione recente disponibile.</div>';
-                return;
-            }
-            
-            // Separa documenti e pubblicazioni
-            const documenti = documents.filter(doc => doc.tipo !== 'pubblicazione');
-            const pubblicazioni = documents.filter(doc => doc.tipo === 'pubblicazione');
-            
-            // Carica documenti
-            if (documenti.length === 0) {
-                container.innerHTML = '<div class="no-documents">Nessun documento disponibile al momento.</div>';
-            } else {
-                documenti.forEach((doc) => {
-                    // Gestione dell'immagine
-                    let imageHtml = '';
-                    if (doc.immagine && doc.immagine.trim() !== '' && doc.immagine !== 'null') {
-                        imageHtml = `<img src="${doc.immagine}" alt="${doc.titolo || 'Documento'}" class="card-image" onerror="this.style.display='none';">`;
-                    }
-
-                    // Formatta la data
-                    const dataDocumento = doc.data ? new Date(doc.data).toLocaleDateString('it-IT') : 'Data non specificata';
-
-                    // Pulsanti admin
-                    let adminBtns = '';
-                    if (localStorage.getItem('utente_ruolo') === 'admin') {
-                        adminBtns = `
-                        <button class="btn" style="margin-right:8px; background: var(--accent);" onclick="eliminaDocumento(${doc.id})">
-                            <i class="fas fa-trash"></i>
-                            Elimina
-                        </button>
-                        `;
-                    }
-
-                    container.innerHTML += `
-                    <article class="document-card fade-in-up">
-                        ${imageHtml}
-                        <div class="document-content">
-                            <h3 class="document-title">${doc.titolo || 'Titolo non disponibile'}</h3>
-                            <div class="document-meta">
-                                <span>📅 ${dataDocumento}</span>
-                                <span>📄 ${doc.tipo || 'Tipo non specificato'}</span>
-                                <span>👤 ${doc.autore || 'Autore non specificato'}</span>
-                            </div>
-                            <p class="document-description">${doc.contenuto || 'Descrizione non disponibile'}</p>
-                            <div class="document-footer">
-                                ${doc.link ? `<a href="${doc.link}" target="_blank" class="btn">Scarica documento</a>` : ''}
-                                ${adminBtns}
-                            </div>
-                        </div>
-                    </article>
-                    `;
-                });
-            }
-            
-            // Carica pubblicazioni
-            if (pubblicazioni.length === 0) {
-                publicationsContainer.innerHTML = '<div class="no-documents">Nessuna pubblicazione recente disponibile.</div>';
-            } else {
-                pubblicazioni.forEach((pub) => {
-                    // Gestione dell'immagine
-                    let imageHtml = '';
-                    if (pub.immagine && pub.immagine.trim() !== '' && pub.immagine !== 'null') {
-                        imageHtml = `<img src="${pub.immagine}" alt="${pub.titolo || 'Pubblicazione'}" class="card-image" onerror="this.style.display='none';">`;
-                    }
-
-                    // Formatta la data
-                    const dataPubblicazione = pub.data ? new Date(pub.data).toLocaleDateString('it-IT') : 'Data non specificata';
-
-                    publicationsContainer.innerHTML += `
-                    <article class="document-card fade-in-up">
-                        ${imageHtml}
-                        <div class="document-content">
-                            <h3 class="document-title">${pub.titolo || 'Titolo non disponibile'}</h3>
-                            <div class="document-meta">
-                                <span>📅 ${dataPubblicazione}</span>
-                                <span>👤 ${pub.autore || 'Autore non specificato'}</span>
-                            </div>
-                            <p class="document-description">${pub.contenuto || 'Descrizione non disponibile'}</p>
-                            <div class="document-footer">
-                                ${pub.link ? `<a href="${pub.link}" target="_blank" class="btn">Leggi pubblicazione</a>` : ''}
-                            </div>
-                        </div>
-                    </article>
-                    `;
-                });
-            }
-            
-        } catch (error) {
-            console.error('❌ Errore caricamento documenti:', error);
-            document.getElementById('documentsContainer').innerHTML = '<div class="no-documents">Errore nel caricamento dei documenti. Riprova più tardi.</div>';
-            document.getElementById('publicationsContainer').innerHTML = '<div class="no-documents">Errore nel caricamento delle pubblicazioni.</div>';
-        }
+      });
     }
 
-    // Funzione elimina documento
-    async function eliminaDocumento(id) {
-        if (!confirm('Sei sicuro di voler eliminare questo documento?')) return;
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/document/${id}`, {
-                method: 'DELETE'
-            });
-            const result = await response.json();
-            if (result.success) {
-                alert('Documento eliminato!');
-                location.reload();
-            } else {
-                alert('Errore: ' + result.message);
-            }
-        } catch (error) {
-            alert('Errore di connessione: ' + error.message);
-        }
+    // ===== GESTIONE TIPI DOCUMENTO =====
+    function initDocumentTypeSelector() {
+      const typeOptions = document.querySelectorAll('.document-type-option');
+      const typeInput = document.getElementById('publicationType');
+      
+      typeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          // Rimuovi selezione precedente
+          typeOptions.forEach(opt => opt.classList.remove('selected'));
+          
+          // Aggiungi selezione corrente
+          option.classList.add('selected');
+          
+          // Imposta valore nel campo nascosto
+          typeInput.value = option.getAttribute('data-type');
+        });
+      });
     }
-</script>
-  <script src="theme.js"></script>
+
+    // ===== GESTIONE MODAL PUBBLICAZIONE =====
+    document.getElementById('addDocumentBtn').addEventListener('click', () => {
+      document.getElementById('publicationModal').style.display = 'flex';
+    });
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('publicationModal').style.display = 'none';
+    });
+
+    document.getElementById('cancelPublication').addEventListener('click', () => {
+      document.getElementById('publicationModal').style.display = 'none';
+    });
+
+    document.getElementById('publicationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await createPublication();
+    });
+
+    // ===== GESTIONE MODAL VISUALIZZATORE =====
+    function initViewerModal() {
+      const viewerModal = document.getElementById('viewerModal');
+      const closeViewer = document.getElementById('closeViewer');
+      const closeViewerBtn = document.getElementById('closeViewerBtn');
+      const downloadFromViewer = document.getElementById('downloadFromViewer');
+      
+      closeViewer.addEventListener('click', () => {
+        viewerModal.style.display = 'none';
+      });
+      
+      closeViewerBtn.addEventListener('click', () => {
+        viewerModal.style.display = 'none';
+      });
+      
+      downloadFromViewer.addEventListener('click', () => {
+        const docId = viewerModal.getAttribute('data-doc-id');
+        const fileName = viewerModal.getAttribute('data-file-name');
+        if (docId) {
+          downloadDocument(docId, fileName);
+        }
+      });
+      
+      // Chiudi modal cliccando fuori
+      viewerModal.addEventListener('click', (e) => {
+        if (e.target === viewerModal) {
+          viewerModal.style.display = 'none';
+        }
+      });
+    }
+
+    async function viewDocument(id, fileName, title, description) {
+      const viewerModal = document.getElementById('viewerModal');
+      const viewerTitle = document.getElementById('viewerTitle');
+      const viewerBody = document.getElementById('viewerBody');
+      
+      // Imposta il titolo
+      viewerTitle.textContent = title || 'Documento';
+      
+      // Mostra messaggio di caricamento
+      viewerBody.innerHTML = `
+        <div class="file-preview">
+          <div class="unsupported-format">
+            <p>Caricamento anteprima...</p>
+          </div>
+        </div>
+      `;
+      
+      // Mostra il modal
+      viewerModal.style.display = 'flex';
+      viewerModal.setAttribute('data-doc-id', id);
+      viewerModal.setAttribute('data-file-name', fileName);
+      
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/download/${id}`);
+        if (!res.ok) throw new Error('Errore nel recupero del file');
+        
+        const blob = await res.blob();
+        const fileType = blob.type;
+        const url = window.URL.createObjectURL(blob);
+        
+        // Mostra anteprima in base al tipo di file
+        if (fileType.startsWith('image/')) {
+          viewerBody.innerHTML = `
+            <div class="file-preview">
+              <img src="${url}" alt="${title || 'Anteprima documento'}" />
+              <p style="margin-top: 1rem; color: var(--muted);">${description || ''}</p>
+            </div>
+          `;
+        } else if (fileType === 'application/pdf') {
+          // Per PDF potremmo usare un iframe, ma per semplicità mostriamo un messaggio
+          viewerBody.innerHTML = `
+            <div class="file-preview">
+              <div class="unsupported-format">
+                <p>Anteprima PDF non disponibile nel browser.</p>
+                <p>Scarica il file per visualizzarlo.</p>
+                <p style="margin-top: 1rem; color: var(--muted);">${description || ''}</p>
+              </div>
+            </div>
+          `;
+        } else {
+          viewerBody.innerHTML = `
+            <div class="file-preview">
+              <div class="unsupported-format">
+                <p>Anteprima non disponibile per questo formato.</p>
+                <p>Scarica il file per visualizzarlo.</p>
+                <p style="margin-top: 1rem; color: var(--muted);">${description || ''}</p>
+              </div>
+            </div>
+          `;
+        }
+        
+        // Pulisci l'URL quando il modal viene chiuso
+        viewerModal.addEventListener('click', function cleanup() {
+          window.URL.revokeObjectURL(url);
+          viewerModal.removeEventListener('click', cleanup);
+        });
+        
+      } catch (error) {
+        viewerBody.innerHTML = `
+          <div class="file-preview">
+            <div class="unsupported-format">
+              <p>Errore nel caricamento dell'anteprima: ${error.message}</p>
+              <p>Scarica il file per visualizzarlo.</p>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // ===== FUNZIONI PRINCIPALI =====
+    async function createPublication() {
+      const title = document.getElementById('publicationTitle').value.trim();
+      const description = document.getElementById('publicationDescription').value.trim();
+      const type = document.getElementById('publicationType').value;
+      const fileInput = document.getElementById('publicationFile');
+      
+      if (!title || !description || !type || !fileInput.files[0]) {
+        mostraPopup('Compila tutti i campi richiesti', 'error');
+        return;
+      }
+      
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('type', type);
+      formData.append('file', fileInput.files[0]);
+      
+      const submitBtn = document.getElementById('submitPublication');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creazione...';
+      
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/create_publication`, {
+          method: 'POST',
+          body: formData,
+          headers: authHeaders()
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          const userRole = localStorage.getItem('utente_ruolo');
+          if (userRole === 'admin') {
+            mostraPopup('Documento pubblicato con successo!', 'success');
+          } else {
+            mostraPopup('Bozza creata con successo! In attesa di revisione.', 'success');
+          }
+          
+          document.getElementById('publicationModal').style.display = 'none';
+          document.getElementById('publicationForm').reset();
+          
+          // Reset selezione tipo documento
+          document.querySelectorAll('.document-type-option').forEach(opt => {
+            opt.classList.remove('selected');
+          });
+          
+          // Ricarica i contenuti
+          setTimeout(() => {
+            loadMyDrafts();
+            if (userRole === 'admin') {
+              loadDraftsForReview();
+              loadAllPublications();
+            }
+            loadDocuments();
+          }, 800);
+        } else {
+          mostraPopup('Errore: ' + (data.message || 'Operazione fallita'), 'error');
+        }
+      } catch (error) {
+        mostraPopup('Errore di connessione: ' + error.message, 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Crea Bozza';
+      }
+    }
+
+    async function loadDocuments() {
+      try {
+        console.log('🔍 Tentativo di connessione a:', `${API_BASE_URL}/api/documents`);
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // Timeout di 10 secondi
+        
+        const res = await fetch(`${API_BASE_URL}/api/documents`, {
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!res.ok) {
+          throw new Error(`Errore HTTP: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        
+        const container = document.getElementById('documentList');
+        if (data.success && data.documents && data.documents.length > 0) {
+          document.getElementById('emptyState').style.display = 'none';
+          container.innerHTML = '';
+          data.documents.forEach(doc => {
+            container.appendChild(createDocumentElement(doc));
+          });
+        } else {
+          document.getElementById('emptyState').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('❌ Errore caricamento documenti:', error);
+        
+        // Mostra un messaggio di errore più specifico
+        const container = document.getElementById('documentList');
+        container.innerHTML = `
+          <div class="empty-state">
+            <p style="color: var(--error);">Errore di connessione al server</p>
+            <p class="text-muted">Impossibile raggiungere il server dei documenti.</p>
+            <p class="text-muted">Assicurati che il server sia in esecuzione su ${API_BASE_URL}</p>
+            <button class="btn" onclick="loadDocuments()" style="margin-top: 1rem;">
+              <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z" clip-rule="evenodd" />
+              </svg>
+              Riprova
+            </button>
+          </div>
+        `;
+      }
+    }
+    async function loadDraftsForReview() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/drafts`, { headers: authHeaders() });
+        const data = await res.json();
+        
+        const container = document.getElementById('draftList');
+        if (data.success && data.drafts && data.drafts.length > 0) {
+          document.getElementById('emptyDrafts').style.display = 'none';
+          container.innerHTML = '';
+          data.drafts.forEach(draft => {
+            container.appendChild(createDraftElement(draft));
+          });
+        } else {
+          document.getElementById('emptyDrafts').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error loading drafts:', error);
+      }
+    }
+
+    async function loadMyDrafts() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/my_drafts`, { headers: authHeaders() });
+        const data = await res.json();
+        
+        const container = document.getElementById('myDraftsList');
+        if (data.success && data.drafts && data.drafts.length > 0) {
+          document.getElementById('emptyMyDrafts').style.display = 'none';
+          container.innerHTML = '';
+          data.drafts.forEach(draft => {
+            // Mostra solo bozze non approvate/pubblicate
+            if (draft.status !== 'published' && draft.status !== 'approved') {
+              container.appendChild(createMyDraftElement(draft));
+            }
+          });
+          
+          // Controlla se dopo il filtraggio ci sono ancora bozze
+          if (container.children.length === 0) {
+            document.getElementById('emptyMyDrafts').style.display = 'block';
+          }
+        } else {
+          document.getElementById('emptyMyDrafts').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error loading my drafts:', error);
+      }
+    }
+
+    async function loadAllPublications() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/all_publications`, { headers: authHeaders() });
+        const data = await res.json();
+        
+        const container = document.getElementById('allPublicationsList');
+        if (data.success && data.publications && data.publications.length > 0) {
+          document.getElementById('emptyAllPublications').style.display = 'none';
+          container.innerHTML = '';
+          data.publications.forEach(pub => {
+            container.appendChild(createPublicationElement(pub));
+          });
+        } else {
+          document.getElementById('emptyAllPublications').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error loading all publications:', error);
+      }
+    }
+
+    // ===== FUNZIONI DI CREAZIONE ELEMENTI =====
+    function createDocumentElement(doc) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      item.setAttribute('data-type', doc.type || 'altro');
+      item.setAttribute('data-status', 'published');
+      
+      const typeBadge = doc.type ? `<span class="type-badge type-${doc.type}">${getTypeText(doc.type)}</span>` : '';
+      
+      item.innerHTML = `
+        <div class="document-info">
+          <div class="document-icon">${getFileIcon(doc.file_type)}</div>
+          <div class="document-details">
+            <h3>${typeBadge} ${doc.title || doc.name}</h3>
+            <p>${doc.description || ''} - ${formatFileSize(doc.size)} - ${new Date(doc.upload_date).toLocaleDateString('it-IT')} - ${doc.uploaded_by}</p>
+          </div>
+        </div>
+        <div class="document-actions">
+          <button class="action-btn view-btn" onclick="viewDocument(${doc.id}, '${doc.original_name || doc.name}', '${escapeHTML(doc.title || doc.name)}', '${escapeHTML(doc.description || '')}')" title="Visualizza">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+              <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button class="action-btn download-btn" onclick="downloadDocument(${doc.id}, '${doc.original_name || doc.name}')" title="Scarica">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          ${localStorage.getItem('utente_ruolo') === 'admin' ? 
+            `<button class="action-btn delete-btn" onclick="deleteDocument(${doc.id})" title="Elimina">
+              <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+              </svg>
+            </button>` : ''}
+        </div>
+      `;
+      return item;
+    }
+
+    function createDraftElement(draft) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      item.setAttribute('data-type', draft.type || 'altro');
+      item.setAttribute('data-status', draft.status);
+      
+      const typeBadge = draft.type ? `<span class="type-badge type-${draft.type}">${getTypeText(draft.type)}</span>` : '';
+      const draftBadge = draft.status !== 'published' ? `<span class="draft-badge">Bozza</span>` : '';
+      
+      item.innerHTML = `
+        <div class="document-info">
+          <div class="document-icon">${getFileIcon(draft.file_type)}</div>
+          <div class="document-details">
+            <h3>
+              ${typeBadge} ${draft.title} ${draftBadge}
+              <span class="status-badge status-${draft.status}">${getStatusText(draft.status)}</span>
+            </h3>
+            <p>${draft.description} - ${draft.author} - ${new Date(draft.created_at).toLocaleDateString('it-IT')}</p>
+          </div>
+        </div>
+        <div class="document-actions">
+          <button class="action-btn download-btn" onclick="viewDraft(${draft.id}, '${draft.original_name || draft.title}')" title="Visualizza">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+              <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button class="action-btn download-btn" onclick="reviewDraft(${draft.id}, 'approved')" title="Approva">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button class="action-btn delete-btn" onclick="reviewDraft(${draft.id}, 'rejected')" title="Rifiuta">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      `;
+      return item;
+    }
+
+    function createMyDraftElement(draft) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      item.setAttribute('data-type', draft.type || 'altro');
+      item.setAttribute('data-status', draft.status);
+      
+      const typeBadge = draft.type ? `<span class="type-badge type-${draft.type}">${getTypeText(draft.type)}</span>` : '';
+      const draftBadge = `<span class="draft-badge">Bozza</span>`;
+      
+      let reviewNotes = '';
+      if (draft.status === 'rejected' && draft.review_notes) {
+        reviewNotes = `<div class="review-notes"><strong>Motivo rifiuto:</strong> ${draft.review_notes}</div>`;
+      }
+      
+      item.innerHTML = `
+        <div class="document-info">
+          <div class="document-icon">${getFileIcon(draft.file_type)}</div>
+          <div class="document-details">
+            <h3>
+              ${typeBadge} ${draft.title} ${draftBadge}
+              <span class="status-badge status-${draft.status}">${getStatusText(draft.status)}</span>
+              <span class="cloud-indicator">
+                <svg class="cloud-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd" />
+                </svg>
+                Salvato nel cloud
+              </span>
+            </h3>
+            <p>${draft.description} - ${new Date(draft.created_at).toLocaleDateString('it-IT')}</p>
+            ${reviewNotes}
+          </div>
+        </div>
+        <div class="document-actions">
+          <button class="action-btn download-btn" onclick="viewDraft(${draft.id}, '${draft.original_name || draft.title}')" title="Visualizza">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+              <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      `;
+      return item;
+    }
+
+    function createPublicationElement(pub) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      item.setAttribute('data-type', pub.type || 'altro');
+      item.setAttribute('data-status', pub.status);
+      
+      // USA SEMPRE LO STESSO ID - NESSUNA DISTINZIONE
+      const id = pub.id;
+      
+      const typeBadge = pub.type ? `<span class="type-badge type-${pub.type}">${getTypeText(pub.type)}</span>` : '';
+      const draftBadge = pub.status !== 'published' ? `<span class="draft-badge">Bozza</span>` : '';
+      
+      let actions = '';
+      if (pub.status === 'pending') {
+        actions = `
+          <button class="action-btn download-btn" onclick="reviewDraft(${id}, 'approved')" title="Approva">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button class="action-btn delete-btn" onclick="reviewDraft(${id}, 'rejected')" title="Rifiuta">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        `;
+      }
+      
+      // Usa sempre deleteDraft per le bozze, deleteDocument per i documenti pubblicati
+      const deleteFunction = pub.status === 'published' ? 'deleteDocument' : 'deleteDraft';
+      const viewFunction = pub.status === 'published' ? 'viewDocument' : 'viewDraft';
+      const viewParams = pub.status === 'published' ? 
+        `${id}, '${pub.original_name || pub.title}', '${escapeHTML(pub.title)}', '${escapeHTML(pub.description || '')}'` :
+        `${id}, '${pub.original_name || pub.title}'`;
+      
+      actions += `<button class="action-btn delete-btn" onclick="${deleteFunction}(${id})" title="Elimina">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+        </svg>
+      </button>`;
+      
+      item.innerHTML = `
+        <div class="document-info">
+          <div class="document-icon">${getFileIcon(pub.file_type)}</div>
+          <div class="document-details">
+            <h3>
+              ${typeBadge} ${pub.title} ${draftBadge}
+              <span class="status-badge status-${pub.status}">${getStatusText(pub.status)}</span>
+            </h3>
+            <p>${pub.description || 'Nessuna descrizione'} - ${pub.author} - ${new Date(pub.created_at).toLocaleDateString('it-IT')}</p>
+          </div>
+        </div>
+        <div class="document-actions">
+          <button class="action-btn view-btn" onclick="${viewFunction}(${viewParams})" title="Visualizza">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+              <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          ${actions}
+        </div>
+      `;
+      return item;
+    }
+
+    // Sanitizza stringhe: elimina prefissi di sistema e fa escaping
+    function stripSystemPrefixes(str) {
+      return (str || "")
+        .replace(/^\s*(publication|document)\s*[-:]*\s*/i, "") // all'inizio
+        .replace(/\b(publication|document)\b/gi, "")            // nel mezzo (fallback)
+        .replace(/^\s*[-–—:]\s*/g, "")                          // residui di separatori
+        .trim();
+    }
+
+    function escapeHTML(str) {
+      return (str || "").replace(/[&<>"']/g, s => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[s]));
+    }
+
+    // ===== FUNZIONI AUSILIARIE =====
+    function getStatusText(status) {
+      const statusMap = {
+        'pending': 'In Revisione',
+        'approved': 'Approvato',
+        'rejected': 'Rifiutato',
+        'published': 'Pubblicato'
+      };
+      return statusMap[status] || status;
+    }
+
+    function getTypeText(type) {
+      const typeMap = {
+        'statuto': 'Statuto',
+        'relazione': 'Relazione',
+        'verbale': 'Verbale',
+        'bilancio': 'Bilancio',
+        'altro': 'Altro'
+      };
+      return typeMap[type] || type;
+    }
+
+    function getFileIcon(fileType) {
+      const icons = {
+        'pdf': '📕', 'doc': '📘', 'docx': '📘', 'xls': '📗', 'xlsx': '📗',
+        'ppt': '📙', 'pptx': '📙', 'txt': '📄', 'zip': '📦', 'rar': '📦',
+        'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️', 'gif': '🖼️'
+      };
+      return icons[fileType?.toLowerCase()] || '📄';
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // ===== FUNZIONI AZIONI =====
+    async function downloadDocument(id, fileName) {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/download/${id}`);
+        if (!res.ok) throw new Error('Errore nel recupero del file');
+        
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        
+        // Usa il nome originale del file se disponibile, altrimenti usa un nome generico
+        if (fileName) {
+          a.download = fileName;
+        } else {
+          // Estrai l'estensione dal tipo MIME o usa un'estensione predefinita
+          const extension = getFileExtensionFromBlob(blob) || 'pdf';
+          a.download = `documento.${extension}`;
+        }
+        
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } catch (error) {
+        mostraPopup('Errore nel scaricare il documento: ' + error.message, 'error');
+      }
+    }
+
+    async function viewDraft(id, fileName) {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/view_draft/${id}`, { headers: authHeaders() });
+        if (!res.ok) throw new Error('Errore nel recupero del file');
+        
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        
+        // Usa il nome originale del file se disponibile, altrimenti usa un nome generico
+        if (fileName) {
+          a.download = fileName;
+        } else {
+          // Estrai l'estensione dal tipo MIME o usa un'estensione predefinita
+          const extension = getFileExtensionFromBlob(blob) || 'pdf';
+          a.download = `bozza.${extension}`;
+        }
+        
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } catch (error) {
+        mostraPopup('Errore nel visualizzare la bozza: ' + error.message, 'error');
+      }
+    }
+
+    // Funzione per estrarre l'estensione dal blob
+    function getFileExtensionFromBlob(blob) {
+      const mimeType = blob.type;
+      const mimeToExt = {
+        'application/pdf': 'pdf',
+        'application/msword': 'doc',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+        'application/vnd.ms-excel': 'xls',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+        'application/vnd.ms-powerpoint': 'ppt',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
+        'text/plain': 'txt',
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/gif': 'gif',
+        'application/zip': 'zip',
+        'application/x-rar-compressed': 'rar'
+      };
+      
+      return mimeToExt[mimeType] || null;
+    }
+
+    async function reviewDraft(id, action) {
+      if (!confirm(`Sei sicuro di voler ${action === 'approved' ? 'approvare' : 'rifiutare'} questa bozza?`)) return;
+      
+      try {
+        const body = { action: action };
+        if (action === 'rejected') {
+          const notes = prompt('Inserisci il motivo del rifiuto:');
+          if (notes) body.review_notes = notes;
+        }
+        
+        const res = await fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          mostraPopup(`Bozza ${action === 'approved' ? 'approvata' : 'rifiutata'} con successo!`, 'success');
+          loadDraftsForReview();
+          loadDocuments();
+          loadAllPublications();
+          setTimeout(() => loadMyDrafts(), 500); // Ricarica le bozze personali dopo un breve delay
+        } else {
+          mostraPopup('Errore: ' + data.message, 'error');
+        }
+      } catch (error) {
+        mostraPopup('Errore di connessione', 'error');
+      }
+    }
+
+    async function deleteDocument(id) {
+      if (!confirm('Sei sicuro di voler eliminare questo documento?')) return;
+      
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/delete/${id}`, {
+          method: 'DELETE',
+          headers: authHeaders()
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          mostraPopup('Documento eliminato con successo!', 'success');
+          loadDocuments();
+          loadAllPublications();
+        } else {
+          mostraPopup('Errore: ' + data.message, 'error');
+        }
+      } catch (error) {
+        mostraPopup('Errore di connessione', 'error');
+      }
+    }
+
+    async function deleteDraft(id) {
+      if (!confirm('Sei sicuro di voler eliminare questa bozza?')) return;
+      
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/delete_draft/${id}`, {
+          method: 'DELETE',
+          headers: authHeaders()
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          mostraPopup('Bozza eliminata con successo!', 'success');
+          loadAllPublications();
+          loadDraftsForReview();
+          setTimeout(() => loadMyDrafts(), 500);
+        } else {
+          mostraPopup('Errore: ' + data.message, 'error');
+        }
+      } catch (error) {
+        mostraPopup('Errore di connessione', 'error');
+      }
+    }
+
+    // ===== SIDEBAR E TEMA =====
+    function initSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const sidebarClose = document.querySelector('.sidebar-close');
+      const toggleSidebar = document.getElementById('toggleSidebar');
+      
+      sidebarToggle.addEventListener('click', () => sidebar.classList.add('open'));
+      toggleSidebar.addEventListener('click', () => sidebar.classList.add('open'));
+      sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
+      
+      document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && 
+            !toggleSidebar.contains(e.target) && sidebar.classList.contains('open')) {
+          sidebar.classList.remove('open');
+        }
+      });
+    }
+
+    function initTheme() {
+      const fab = document.getElementById('theme-fab');
+      const popup = document.getElementById('theme-popup');
+
+      fab.addEventListener('click', () => {
+        popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!fab.contains(e.target) && !popup.contains(e.target)) {
+          popup.style.display = 'none';
+        }
+      });
+
+      document.querySelectorAll('.theme-option').forEach(button => {
+        button.addEventListener('click', () => {
+          const theme = button.dataset.theme;
+          localStorage.setItem('theme-preference', theme);
+          applyTheme(theme);
+          document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          popup.style.display = 'none';
+        });
+      });
+
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        } else if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      }
+
+      const savedTheme = localStorage.getItem('theme-preference');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+        const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+        if (btn) btn.classList.add('active');
+      } else {
+        applyTheme('auto');
+        document.querySelector('.theme-option[data-theme="auto"]').classList.add('active');
+      }
+    }
+  </script>
   <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>

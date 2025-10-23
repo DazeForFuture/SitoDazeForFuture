@@ -10,8 +10,8 @@ app.secret_key = 'your-secret-key-here'  # Usa la stessa secret_key di server.py
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Database paths
-db_path = os.path.abspath(os.path.join(r'C:\Users\achenio\Documents\GitHub\database', 'forum.db'))
-users_db_path = os.path.abspath(os.path.join(r'C:\Users\achenio\Documents\GitHub\database', 'utenti.db'))
+db_path = app.config['DATABASE'] = os.path.join('../../database', 'forum.db')
+users_db_path = app.config['DATABASE'] = os.path.join('../../database', 'utenti.db')
 
 # Database initialization
 def init_db():

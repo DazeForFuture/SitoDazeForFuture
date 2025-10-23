@@ -7,11 +7,14 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Centrale Meteorologica - Daze for Future</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+
   <style>
     :root {
       --bg: #fff;
@@ -21,14 +24,18 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -40,14 +47,18 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.9);
-        --header-text: #f5f5f7;
-        --card-bg: #252526;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
-        --overlay-light: rgba(255, 255, 255, 0.88);
-        --overlay-dark: rgba(29, 29, 31, 0.88);
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -59,14 +70,18 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --card-bg: #252526;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     :root[data-theme="light"] {
@@ -77,32 +92,48 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
       overflow-x: hidden;
-    }
-      /* Sfondo ottimizzato per tutti i temi 
+      line-height: 1.5;
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      position: relative; */
-  
+      position: relative;
+    }
 
     /* Overlay dinamico che si adatta al tema */
     body::before {
@@ -150,16 +181,17 @@
       z-index: 1000;
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      transition: background 0.3s ease, color 0.3s ease;
       background: var(--header-bg);
     }
-
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
       cursor: pointer;
       user-select: none;
       color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     nav {
@@ -190,7 +222,7 @@
     nav > a:hover::after {
       width: 100%;
     }
-    
+
     main {
       padding: 140px 2rem 80px;
       max-width: 1200px;
@@ -226,6 +258,9 @@
       border-radius: 12px;
       text-align: center;
       transition: transform 0.3s;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     .card:hover { transform: translateY(-5px); }
     .card h3 {
@@ -241,6 +276,9 @@
       background: var(--card-bg);
       padding: 2rem;
       border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     footer {
@@ -262,17 +300,290 @@
       text-decoration: underline;
     }
 
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* MIGLIORAMENTI MOBILE COMPLETI */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .sidebar {
+        width: 280px;
+      }
+      
+      main {
+        padding: 120px 1rem 80px;
+      }
+      
+      .card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+      
+      /* FAB più piccolo su mobile */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      #theme-popup {
+        bottom: 80px;
+        right: 20px;
+      }
+    }
+
+    /* Per schermi molto piccoli */
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Mostra hamburger menu solo su mobile */
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      #sidebarToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
+    </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
@@ -299,23 +610,23 @@
 
   <main>
     <section class="hero">
-      <h1>Dati dai nostri sensori</h1>
+      <h1>Dati dalla Centrale Meteorologica</h1>
       <p>Monitoraggio in tempo reale di temperatura e qualità dell'aria</p>
       <p>Attualmente dati di test, non sono prelevati da nessun sensore.</p>
     </section>
 
     <section class="cards">
-      <div class="card">
+      <div class="card fade-in-up">
         <h3>🌡 Temperatura</h3>
         <div class="value" id="tempValue">-- °C</div>
       </div>
-      <div class="card">
+      <div class="card fade-in-up">
         <h3>💨 Qualità dell'Aria (PM2.5)</h3>
         <div class="value" id="airValue">-- µg/m³</div>
       </div>
     </section>
 
-    <section class="chart-container">
+    <section class="chart-container fade-in-up">
       <h2 style="margin-bottom: 1rem;">Andamento nel tempo</h2>
       <canvas id="sensorChart" height="120"></canvas>
     </section>
@@ -331,6 +642,7 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="documenti.html"><span>📄</span> Documenti</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
 
@@ -353,13 +665,24 @@
     </div>
   </aside>
 
+  <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
+
+  <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
+  </div>
+
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
   <script>
     // Grafico sensori
-    document.getElementById('accedi-link').style.display = 'none';
     const ctx = document.getElementById('sensorChart').getContext('2d');
     const sensorChart = new Chart(ctx, {
       type: 'line',
@@ -412,17 +735,24 @@
       sensorChart.update();
     }, 2000);
 
-    // Gestione tema
+    // Theme functionality
     const fab = document.getElementById('theme-fab');
+    const popup = document.getElementById('theme-popup');
 
     fab.addEventListener('click', () => {
       fab.classList.add('animate');
       fab.addEventListener('animationend', () => {
         fab.classList.remove('animate');
       }, { once: true });
+      
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      } else {
+        popup.style.display = 'flex';
+        requestAnimationFrame(() => popup.classList.add('show'));
+      }
     });
-    
-    const popup = document.getElementById('theme-popup');
 
     // Close on outside click
     document.addEventListener('click', (e) => {
@@ -472,6 +802,18 @@
       const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
       if (autoBtn) autoBtn.classList.add('active');
     }
+
+    // Mostra FAB con animazione al caricamento
+    window.addEventListener('DOMContentLoaded', () => {
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
     function getNameFromEmail(email) {
@@ -528,6 +870,37 @@
       localStorage.removeItem('utente_ruolo');
       window.location.href = "login.html";
     }
+
+    // Scroll animations
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = 'none';
+      }
+    });
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards for animation
+    document.querySelectorAll('.card, .chart-container').forEach(card => {
+      observer.observe(card);
+    });
   </script>
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
