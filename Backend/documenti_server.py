@@ -8,9 +8,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 # Configurazione corretta dei percorsi
-app.config['UPLOAD_FOLDER'] = os.path.join('documenti')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'documenti')
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10MB max file size
-app.config['DATABASE'] = os.path.join('../../database/documenti.db')
+app.config['DATABASE'] = os.path.join('../../database', 'documenti.db')
 
 # Abilita CORS per tutte le origini
 CORS(app)
@@ -22,8 +23,9 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'doc', 'docx', 
 def init_db():
     """Inizializza il database con le tabelle necessarie"""
     try:
-        # Crea la cartella per il database se non esiste
+        # Crea le cartelle se non esistono
         os.makedirs(os.path.dirname(app.config['DATABASE']), exist_ok=True)
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         
         db = get_db()
         
@@ -54,7 +56,7 @@ def init_db():
                 size INTEGER NOT NULL,
                 author TEXT NOT NULL,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                status TEXT DEFAULT 'pending', -- pending, approved, rejected, published
+                status TEXT DEFAULT 'pending',
                 reviewed_by TEXT,
                 reviewed_at DATETIME,
                 review_notes TEXT,
@@ -63,26 +65,9 @@ def init_db():
             )
         ''')
         
-        # Crea tabella document_requests
-        db.execute('''
-            CREATE TABLE IF NOT EXISTS document_requests (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                description TEXT,
-                requested_by TEXT NOT NULL,
-                request_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-                status TEXT DEFAULT 'pending'
-            )
-        ''')
-        
         db.commit()
         print("✅ Database initialized successfully!")
         print(f"📁 Database path: {app.config['DATABASE']}")
-        
-        # Verifica che le tabelle siano state create
-        cursor = db.execute("SELECT name FROM sqlite_master WHERE type='table'")
-        tables = cursor.fetchall()
-        print(f"📊 Tabelle create: {[table[0] for table in tables]}")
         
     except Exception as e:
         print(f"❌ Errore nell'inizializzazione del database: {str(e)}")
@@ -121,24 +106,8 @@ def get_current_user():
 def home():
     return jsonify({
         'message': 'Daze for Future API - Sistema Documenti',
-        'version': '2.4',
-        'port': 5001,
-        'features': ['bozze_persistenti', 'cloud_sync', 'admin_dashboard'],
-        'endpoints': {
-            'documents': '/api/documents',
-            'upload': '/api/upload',
-            'download': '/api/download/<id>',
-            'delete': '/api/delete/<id>',
-            'request': '/api/request',
-            'requests': '/api/requests',
-            'create_publication': '/api/create_publication',
-            'drafts': '/api/drafts',
-            'my_drafts': '/api/my_drafts',
-            'review_draft': '/api/review_draft/<id>',
-            'view_draft': '/api/view_draft/<id>',
-            'delete_draft': '/api/delete_draft/<id>',
-            'all_publications': '/api/all_publications'
-        }
+        'version': '2.5',
+        'features': ['bozze_persistenti', 'cloud_sync', 'admin_dashboard', 'user_drafts']
     })
 
 @app.route('/api/documents', methods=['GET'])
@@ -164,7 +133,7 @@ def get_documents():
                 'size': doc['size'],
                 'upload_date': doc['upload_date'],
                 'uploaded_by': doc['uploaded_by'],
-                'status': 'published'  # Fisso per documenti pubblicati
+                'status': 'published'
             })
         
         return jsonify({'success': True, 'documents': result})
@@ -175,7 +144,6 @@ def get_documents():
 def get_all_publications():
     """Restituisce tutte le pubblicazioni (bozze e documenti) per admin"""
     try:
-        # Verifica autenticazione e ruolo admin
         user = get_current_user()
         if user['role'] != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono vedere tutte le pubblicazioni'}), 403
@@ -186,7 +154,8 @@ def get_all_publications():
         cursor = db.execute('''
             SELECT id, name as title, description, file_type, size, 
                    uploaded_by as author, upload_date as created_at, 
-                   'published' as status, NULL as reviewed_by, NULL as reviewed_at
+                   'published' as status, NULL as reviewed_by, NULL as reviewed_at,
+                   name as original_filename
             FROM documents 
             WHERE status = 'published'
             ORDER BY upload_date DESC
@@ -196,7 +165,7 @@ def get_all_publications():
         # Recupera bozze
         cursor = db.execute('''
             SELECT id, title, description, file_type, size, author, 
-                   created_at, status, reviewed_by, reviewed_at
+                   created_at, status, reviewed_by, reviewed_at, original_filename
             FROM publications 
             ORDER BY created_at DESC
         ''')
@@ -217,7 +186,8 @@ def get_all_publications():
                 'status': 'published',
                 'type': 'document',
                 'reviewed_by': doc['reviewed_by'],
-                'reviewed_at': doc['reviewed_at']
+                'reviewed_at': doc['reviewed_at'],
+                'original_filename': doc['original_filename']
             })
         
         # Aggiungi bozze
@@ -233,7 +203,8 @@ def get_all_publications():
                 'status': pub['status'],
                 'type': 'publication',
                 'reviewed_by': pub['reviewed_by'],
-                'reviewed_at': pub['reviewed_at']
+                'reviewed_at': pub['reviewed_at'],
+                'original_filename': pub['original_filename']
             })
         
         # Ordina per data di creazione
@@ -246,9 +217,8 @@ def get_all_publications():
 
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
-    """Carica uno o più documenti (solo admin) - metodo diretto"""
+    """Carica uno o più documenti (solo admin)"""
     try:
-        # Verifica autenticazione e ruolo admin
         user = get_current_user()
         if user['role'] != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono caricare documenti'}), 403
@@ -259,20 +229,17 @@ def upload_file():
         files = request.files.getlist('files')
         uploaded_files = []
         
-        # Crea la cartella uploads se non esiste
-        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-        
         for file in files:
             if file.filename == '':
                 continue
                 
             if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
+                original_filename = secure_filename(file.filename)
+                filename = original_filename
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 
                 # Gestisci file con lo stesso nome
                 counter = 1
-                original_filename = filename
                 while os.path.exists(file_path):
                     name, ext = os.path.splitext(original_filename)
                     filename = f"{name}_{counter}{ext}"
@@ -287,11 +254,11 @@ def upload_file():
                 db = get_db()
                 db.execute(
                     'INSERT INTO documents (name, file_path, file_type, size, uploaded_by, status) VALUES (?, ?, ?, ?, ?, ?)',
-                    (filename, file_path, file_type, file_size, user['email'], 'published')
+                    (original_filename, file_path, file_type, file_size, user['email'], 'published')
                 )
                 db.commit()
                 
-                uploaded_files.append(filename)
+                uploaded_files.append(original_filename)
             else:
                 return jsonify({'success': False, 'message': f'Tipo file non supportato: {file.filename}'}), 400
         
@@ -306,14 +273,12 @@ def upload_file():
 
 @app.route('/api/create_publication', methods=['POST'])
 def create_publication():
-    """Crea una nuova pubblicazione (sia user che admin) - VERSIONE PERSISTENTE"""
+    """Crea una nuova pubblicazione (sia user che admin)"""
     try:
-        # Verifica autenticazione
         user = get_current_user()
         if not user['email']:
             return jsonify({'success': False, 'message': 'Autenticazione richiesta'}), 401
         
-        # Verifica se è un file upload
         if 'file' not in request.files:
             return jsonify({'success': False, 'message': 'Nessun file selezionato'}), 400
         
@@ -328,18 +293,15 @@ def create_publication():
             return jsonify({'success': False, 'message': 'Titolo richiesto'}), 400
         
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            
-            # Crea la cartella uploads se non esiste
-            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+            original_filename = secure_filename(file.filename)
             
             # Se è admin, pubblica direttamente
             if user['role'] == 'admin':
+                filename = original_filename
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 
                 # Gestisci file con lo stesso nome
                 counter = 1
-                original_filename = filename
                 while os.path.exists(file_path):
                     name, ext = os.path.splitext(original_filename)
                     filename = f"{name}_{counter}{ext}"
@@ -354,7 +316,7 @@ def create_publication():
                 db = get_db()
                 db.execute(
                     'INSERT INTO documents (name, file_path, file_type, size, uploaded_by, title, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                    (filename, file_path, file_type, file_size, user['email'], title, description, 'published')
+                    (original_filename, file_path, file_type, file_size, user['email'], title, description, 'published')
                 )
                 db.commit()
                 
@@ -364,22 +326,22 @@ def create_publication():
                 })
             
             else:
-                # Se è user, crea bozza PERSISTENTE nel database
+                # Se è user, crea bozza
                 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-                draft_filename = f"draft_{timestamp}_{filename}"
+                draft_filename = f"draft_{timestamp}_{original_filename}"
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], draft_filename)
                 
                 file.save(file_path)
-                file_type = filename.rsplit('.', 1)[1].lower()
+                file_type = original_filename.rsplit('.', 1)[1].lower()
                 file_size = os.path.getsize(file_path)
                 
-                # Salva come bozza PERSISTENTE nel database
+                # Salva come bozza
                 db = get_db()
                 db.execute(
                     '''INSERT INTO publications 
                     (title, description, file_path, file_type, size, author, status, original_filename, last_modified) 
                     VALUES (?, ?, ?, ?, ?, ?, 'pending', ?, CURRENT_TIMESTAMP)''',
-                    (title, description, file_path, file_type, file_size, user['email'], filename)
+                    (title, description, file_path, file_type, file_size, user['email'], original_filename)
                 )
                 db.commit()
                 
@@ -403,12 +365,8 @@ def create_publication():
 def get_drafts():
     """Restituisce tutte le bozze da revisionare (solo admin)"""
     try:
-        # Verifica autenticazione e ruolo admin
         user = get_current_user()
-        print(f"🔍 Debug get_drafts - User: {user}")  # Debug
-        
         if user['role'] != 'admin':
-            print(f"❌ Accesso negato - Ruolo: {user['role']}")  # Debug
             return jsonify({'success': False, 'message': 'Solo gli admin possono vedere le bozze'}), 403
         
         db = get_db()
@@ -418,8 +376,6 @@ def get_drafts():
             ORDER BY created_at DESC
         ''')
         drafts = cursor.fetchall()
-        
-        print(f"📋 Bozze trovate: {len(drafts)}")  # Debug
         
         result = []
         for draft in drafts:
@@ -439,12 +395,11 @@ def get_drafts():
         return jsonify({'success': True, 'drafts': result})
     
     except Exception as e:
-        print(f"❌ Errore nel recupero bozze: {str(e)}")  # Debug
         return jsonify({'success': False, 'message': f'Errore nel recupero bozze: {str(e)}'}), 500
-    
+
 @app.route('/api/my_drafts', methods=['GET'])
 def get_my_drafts():
-    """Restituisce le bozze PERSISTENTI dell'utente corrente"""
+    """Restituisce le bozze dell'utente corrente"""
     try:
         user = get_current_user()
         if not user['email']:
@@ -486,13 +441,12 @@ def get_my_drafts():
 def review_draft(draft_id):
     """Revisiona una bozza (solo admin)"""
     try:
-        # Verifica autenticazione e ruolo admin
         user = get_current_user()
         if user['role'] != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono revisionare bozze'}), 403
         
         data = request.get_json()
-        action = data.get('action')  # 'approved' o 'rejected'
+        action = data.get('action')
         review_notes = data.get('review_notes', '')
         
         if action not in ['approved', 'rejected']:
@@ -508,25 +462,9 @@ def review_draft(draft_id):
             return jsonify({'success': False, 'message': 'Bozza non trovata'}), 404
         
         if action == 'approved':
-            # Sposta il file dalla cartella bozze a documenti pubblicati
+            # Sposta il file
             original_path = draft['file_path']
-            
-            # Usa il nome file originale se disponibile, altrimenti genera un nome
-            if draft['original_filename']:
-                filename = draft['original_filename']
-            else:
-                # Estrai il nome file dal path e rimuovi il prefisso "draft_"
-                original_name = os.path.basename(original_path)
-                if original_name.startswith('draft_'):
-                    # Rimuove il prefisso draft_TIMESTAMP_
-                    parts = original_name.split('_', 2)
-                    if len(parts) >= 3:
-                        filename = parts[2]  # Prende la parte dopo timestamp
-                    else:
-                        filename = original_name[6:]  # Rimuove solo "draft_"
-                else:
-                    filename = original_name
-            
+            filename = draft['original_filename'] or os.path.basename(original_path)
             new_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             
             # Gestisci file con lo stesso nome
@@ -537,30 +475,29 @@ def review_draft(draft_id):
                 new_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
                 counter += 1
             
-            # Rinomina il file
             os.rename(original_path, new_path)
             
             # Aggiungi ai documenti pubblicati
             db.execute(
                 '''INSERT INTO documents (name, file_path, file_type, size, uploaded_by, title, description, status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
-                (os.path.basename(new_path), new_path, draft['file_type'], 
+                (draft['original_filename'], new_path, draft['file_type'], 
                  draft['size'], draft['author'], draft['title'], draft['description'], 'published')
             )
             
             # Aggiorna lo stato della bozza
             db.execute(
-                '''UPDATE publications SET status = 'published', reviewed_by = ?, reviewed_at = CURRENT_TIMESTAMP, review_notes = ?, last_modified = CURRENT_TIMESTAMP
+                '''UPDATE publications SET status = 'published', reviewed_by = ?, reviewed_at = CURRENT_TIMESTAMP, review_notes = ?
                 WHERE id = ?''',
                 (user['email'], review_notes, draft_id)
             )
             
             message = 'Bozza approvata e pubblicata con successo'
         
-        else:  # rejected
+        else:
             # Aggiorna solo lo stato
             db.execute(
-                '''UPDATE publications SET status = 'rejected', reviewed_by = ?, reviewed_at = CURRENT_TIMESTAMP, review_notes = ?, last_modified = CURRENT_TIMESTAMP
+                '''UPDATE publications SET status = 'rejected', reviewed_by = ?, reviewed_at = CURRENT_TIMESTAMP, review_notes = ?
                 WHERE id = ?''',
                 (user['email'], review_notes, draft_id)
             )
@@ -575,7 +512,7 @@ def review_draft(draft_id):
 
 @app.route('/api/view_draft/<int:draft_id>')
 def view_draft(draft_id):
-    """Visualizza una bozza PERSISTENTE"""
+    """Visualizza una bozza"""
     try:
         user = get_current_user()
         if not user['email']:
@@ -588,14 +525,13 @@ def view_draft(draft_id):
         if draft is None:
             return jsonify({'success': False, 'message': 'Bozza non trovata'}), 404
         
-        # Verifica permessi: solo admin o autore possono visualizzare
+        # Verifica permessi
         if user['role'] != 'admin' and draft['author'] != user['email']:
             return jsonify({'success': False, 'message': 'Non hai i permessi per visualizzare questa bozza'}), 403
         
         if not os.path.exists(draft['file_path']):
             return jsonify({'success': False, 'message': 'File non trovato sul server'}), 404
         
-        # Usa il nome file originale per il download
         download_name = draft['original_filename'] or f"{draft['title']}.{draft['file_type']}"
         
         return send_file(
@@ -619,8 +555,7 @@ def download_document(document_id):
             return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
         
         if not os.path.exists(document['file_path']):
-            return jsonify({'success': False, 'message': 'File non trovato sul server'}), 404
-        
+            return jsonify({'success': False, 'message': 'File non trovato sul server'}), 404        
         return send_file(
             document['file_path'], 
             as_attachment=True, 
@@ -634,28 +569,24 @@ def download_document(document_id):
 def delete_document(document_id):
     """Elimina un documento (solo admin)"""
     try:
-        # Verifica autenticazione e ruolo admin
         user = get_current_user()
         if user['role'] != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono eliminare documenti'}), 403
         
         db = get_db()
         
-        # Recupera informazioni sul file
         cursor = db.execute('SELECT * FROM documents WHERE id = ?', (document_id,))
         document = cursor.fetchone()
         
         if document is None:
-            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404
-        
+            return jsonify({'success': False, 'message': 'Documento non trovato'}), 404        
         # Elimina il file fisico
         try:
             if os.path.exists(document['file_path']):
                 os.remove(document['file_path'])
-        except OSError as e:
-            print(f"Errore nell'eliminazione del file: {e}")
+        except OSError:
+            pass
         
-        # Elimina record dal database
         db.execute('DELETE FROM documents WHERE id = ?', (document_id,))
         db.commit()
         
@@ -674,14 +605,13 @@ def delete_draft(draft_id):
         
         db = get_db()
         
-        # Recupera informazioni sulla bozza
         cursor = db.execute('SELECT * FROM publications WHERE id = ?', (draft_id,))
         draft = cursor.fetchone()
         
         if draft is None:
             return jsonify({'success': False, 'message': 'Bozza non trovata'}), 404
         
-        # Verifica permessi: solo admin o autore possono eliminare
+        # Verifica permessi
         if user['role'] != 'admin' and draft['author'] != user['email']:
             return jsonify({'success': False, 'message': 'Non hai i permessi per eliminare questa bozza'}), 403
         
@@ -689,10 +619,9 @@ def delete_draft(draft_id):
         try:
             if os.path.exists(draft['file_path']):
                 os.remove(draft['file_path'])
-        except OSError as e:
-            print(f"Errore nell'eliminazione del file: {e}")
+        except OSError:
+            pass
         
-        # Elimina record dal database
         db.execute('DELETE FROM publications WHERE id = ?', (draft_id,))
         db.commit()
         
@@ -701,22 +630,13 @@ def delete_draft(draft_id):
     except Exception as e:
         return jsonify({'success': False, 'message': f'Errore nell\'eliminazione: {str(e)}'}), 500
 
-# Gestione errori
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({'success': False, 'message': 'Endpoint non trovato'}), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    return jsonify({'success': False, 'message': 'Errore interno del server'}), 500
-
 # Inizializzazione dell'app
 if __name__ == '__main__':
     with app.app_context():
         init_db()
     
     print("=" * 60)
-    print("🚀 Server Documenti")
+    print("🚀 Server Documenti Avviato")
     print(f"📁 Database: {app.config['DATABASE']}")
     print(f"📁 Cartella documenti: {app.config['UPLOAD_FOLDER']}")
     print("🌐 Su: http://localhost:5001")

@@ -2,15 +2,17 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Chi siamo - Daze for Future</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
 
   <style>
     :root {
@@ -21,13 +23,18 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -39,13 +46,18 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.9);
-        --header-text: #f5f5f7;
-        --card-bg: #252526;
-        --sidebar-bg: rgba(29,29,31,0.95);
-        --sidebar-border: rgba(255,255,255,0.1);
-        --sidebar-shadow: rgba(0,0,0,0.3);
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -57,13 +69,18 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --card-bg: #252526;
-      --sidebar-bg: rgba(29,29,31,0.95);
-      --sidebar-border: rgba(255,255,255,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.3);
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     :root[data-theme="light"] {
@@ -74,30 +91,81 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
     }
 
     :root[data-theme="dark"] header {
-      background: rgba(29, 29, 31, 0.65);
+      background: var(--header-bg);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+      font-size: 15px;
+    }
+
+    /* Overlay dinamico che si adatta al tema */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    /* Tema chiaro - overlay chiaro per contrasto */
+    :root[data-theme="light"] body::before {
+      background: var(--overlay-light);
+    }
+
+    /* Tema scuro - overlay scuro per contrasto */
+    :root[data-theme="dark"] body::before {
+      background: var(--overlay-dark);
+    }
+
+    /* Tema automatico - usa preferenza sistema */
+    :root:not([data-theme]) body::before {
+      background: var(--overlay-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) body::before {
+        background: var(--overlay-dark);
+      }
     }
 
     header {
@@ -114,6 +182,7 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
+      transition: all 0.3s ease;
     }
     .logo {
       font-weight: 800;
@@ -121,6 +190,9 @@
       cursor: pointer;
       user-select: none;
       color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     nav {
@@ -152,70 +224,6 @@
       width: 100%;
     }
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -300px;
-      height: 100%;
-      width: 300px;
-      background: var(--sidebar-bg);
-      border-right: 1px solid var(--sidebar-border);
-      padding: 2rem 1.5rem;
-      box-shadow: 4px 0 20px var(--sidebar-shadow);
-      z-index: 2000;
-      transition: left 0.3s ease;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    .sidebar-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: var(--text);
-    }
-
-    .sidebar h2 {
-      font-size: 1.25rem;
-      margin-bottom: 1.5rem;
-      color: var(--text);
-    }
-
-    .sidebar-menu {
-      list-style: none;
-    }
-
-    .sidebar-menu li {
-      margin-bottom: 0.5rem;
-    }
-
-    .sidebar-menu a {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      text-decoration: none;
-      color: var(--text);
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-
-    .sidebar-menu a:hover {
-      background: var(--hover-bg);
-    }
-
-    .sidebar-menu span {
-      margin-right: 0.75rem;
-      font-size: 1.2rem;
-    }
-
     section {
       padding: 140px 2rem 100px;
       max-width: 1000px;
@@ -225,6 +233,13 @@
     .hero {
       text-align: center;
       padding-top: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
     }
 
     .hero h1 {
@@ -234,36 +249,62 @@
       background: linear-gradient(90deg, #007aff, #00c6ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease;
     }
 
     .hero p {
       font-size: 1.25rem;
       color: var(--muted);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
     }
 
     .btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       margin-top: 2rem;
       background-color: var(--btn-bg);
       color: var(--bg);
       padding: 0.75rem 1.5rem;
-      border-radius: 999px;
+      border-radius: 12px;
       text-decoration: none;
       font-weight: 600;
-      transition: transform 0.3s, background 0.3s;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
       cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: fadeInUp 1s ease 0.4s both;
     }
 
     .btn:hover {
       background-color: var(--btn-hover-bg);
-      transform: scale(1.05);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
     }
 
     .section-title {
       font-size: 2rem;
       font-weight: 800;
       margin-bottom: 1rem;
-      color: var(--accent);
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .text-muted {
@@ -272,28 +313,67 @@
       font-size: 1.1rem;
     }
 
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Stili per la sezione team */
     .team-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
       margin-top: 3rem;
     }
 
     .team-card {
       background: var(--card-bg);
-      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
       padding: 2rem;
       text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
       text-decoration: none;
       color: inherit;
       display: block;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .team-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
     .team-card img {
@@ -303,24 +383,33 @@
       object-fit: cover;
       margin: 0 auto 1rem;
       border: 4px solid var(--accent);
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover img {
+      transform: scale(1.05);
     }
 
     .team-card h3 {
       font-size: 1.25rem;
       margin-bottom: 0.5rem;
+      color: var(--text);
     }
 
     .team-card .role {
       color: var(--accent);
       font-weight: 600;
       margin-bottom: 1rem;
+      font-size: 0.9rem;
     }
 
     .team-card p {
       color: var(--muted);
       font-size: 0.9rem;
+      line-height: 1.5;
     }
 
+    /* Stili per la timeline */
     .timeline {
       position: relative;
       max-width: 800px;
@@ -376,22 +465,191 @@
     .timeline-content {
       padding: 20px;
       background: var(--card-bg);
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-3px);
     }
 
     .timeline-date {
       font-weight: 600;
       color: var(--accent);
       margin-bottom: 0.5rem;
+      font-size: 1rem;
     }
 
-    footer {
-      text-align: center;
-      padding: 2rem;
+    .timeline-content p {
       color: var(--muted);
-      font-size: 0.9rem;
-      background: var(--footer-bg);
+      line-height: 1.5;
     }
+
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    /* Mostra hamburger menu solo su mobile */
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
     nav a[href="login.html"],
     nav a[href="login.html"]:visited {
       color: var(--accent) !important;
@@ -400,18 +658,277 @@
 
     nav a[href="login.html"]:hover {
       text-decoration: underline;
-}
+    }
+
+    /* ========== MIGLIORAMENTI MOBILE COMPLETI ========== */
+    @media (max-width: 768px) {
+      /* Header più compatto */
+      header {
+        padding: 0.6rem 1rem;
+        height: 60px;
+      }
+      
+      .logo {
+        font-size: 1.1rem;
+        gap: 8px;
+      }
+      
+      .logo-img {
+        width: 28px;
+        height: 28px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      /* Hero section più compatta */
+      .hero {
+        padding-top: 120px;
+        min-height: auto;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      /* Sezioni più compatte */
+      section {
+        padding: 100px 1rem 60px;
+      }
+      
+      .card {
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .text-muted {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      
+      /* Team cards su una colonna con layout migliorato */
+      .team-cards {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin-top: 2rem;
+      }
+      
+      .team-card {
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .team-card img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 0.8rem;
+      }
+      
+      .team-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+      }
+      
+      .team-card .role {
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .team-card p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+      }
+      
+      /* Timeline completamente riprogettata per mobile */
+      .timeline::before {
+        left: 20px;
+      }
+      
+      .timeline-item {
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 15px;
+      }
+      
+      .timeline-item:nth-child(even) {
+        left: 0;
+      }
+      
+      .timeline-item::after {
+        width: 16px;
+        height: 16px;
+        top: 12px;
+      }
+      
+      .timeline-item:nth-child(odd)::after,
+      .timeline-item:nth-child(even)::after {
+        left: 12px;
+      }
+      
+      .timeline-content {
+        padding: 15px;
+      }
+      
+      .timeline-date {
+        font-size: 0.9rem;
+      }
+      
+      /* Bottoni più adatti al mobile */
+      .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+      }
+      
+      /* FAB più piccolo e posizionato meglio */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+        bottom: 16px;
+        right: 16px;
+      }
+      
+      #theme-popup {
+        bottom: 76px;
+        right: 16px;
+      }
+      
+      /* Miglioramenti alla leggibilità */
+      body {
+        font-size: 15px;
+        line-height: 1.5;
+      }
+      
+      /* Riduci animazioni su mobile per prestazioni */
+      * {
+        animation-duration: 0.5s !important;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+    }
+
+    /* Per schermi molto piccoli (iPhone SE, etc) */
+    @media (max-width: 375px) {
+      header {
+        padding: 0.5rem 0.8rem;
+      }
+      
+      .logo {
+        font-size: 1rem;
+      }
+      
+      .hero {
+        padding-top: 100px;
+      }
+      
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+      
+      section {
+        padding: 90px 0.8rem 50px;
+      }
+      
+      .card {
+        padding: 1rem;
+        border-radius: 12px;
+      }
+      
+      .team-card {
+        padding: 1rem;
+      }
+      
+      .team-card img {
+        width: 70px;
+        height: 70px;
+      }
+      
+      .timeline-item {
+        padding-left: 45px;
+        padding-right: 10px;
+      }
+      
+      .timeline-content {
+        padding: 12px;
+      }
+    }
+
+    /* Miglioramenti touch per dispositivi mobili */
+    @media (hover: none) and (pointer: coarse) {
+      .btn:hover {
+        transform: none;
+      }
+      
+      .team-card:hover {
+        transform: none;
+      }
+      
+      .timeline-content:hover {
+        transform: none;
+      }
+      
+      /* Migliora l'area toccabile */
+      nav > a, 
+      .btn, 
+      .team-card,
+      .theme-option {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      
+      #theme-fab {
+        min-height: 50px;
+      }
+    }
+
+    /* Prevenire zoom su input per iOS */
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
   </style>
 </head>
 <body>
- <header>
-    <div class="logo" id="toggleSidebar">Daze for Future</div>
+  <header>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img" loading="lazy">
+      Daze for Future
+    </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
       
@@ -437,118 +954,146 @@
 
   <main>
     <section class="hero">
-      <h1>Chi siamo</h1>
-      <p>Conosci il team di studenti appassionati che guidano Daze for Future</p>
-    </section>
-
-    <section>
-      <h2 class="section-title">Il nostro team</h2>
-      <p class="text-muted">Siamo un gruppo di studenti del Liceo D'Azeglio uniti dalla passione per la sostenibilità ambientale e l'innovazione tecnologica. Crediamo nel potere dell'azione collettiva e nel ruolo fondamentale dei giovani nel plasmare un futuro migliore.</p>
-      
-      <div class="team-cards">
-        <a href="mailto:davide.albanese-s@liceomassimodazeglio.it" class="team-card">
-          <img src="https://lh3.googleusercontent.com/a/ACg8ocLaiVQf4B_Y0NrfBMZ9KD5XwMifkyHFj40ABLxBecTGXrhsvQ=s48-p-mo" alt="Davide Albanese">
-          <h3>Davide Albanese</h3>
-          <div class="role">Membro del consiglio direttivo</div>
-          <p>Studente di II Scientifico, appassionato di informatica, networking, ed ecologia. Ideatore e coordinatore delle attività dell'associazione.</p>
-        </a>
-        
-        <a href="mailto:acheniogiulio.sogno-s@liceomassimodazeglio.it" class="team-card">
-          <img src="https://lh3.googleusercontent.com/a-/ALV-UjUNQmX6RzFYyt1rDXbit6hlXo7X6pbIXOxB1Rc5lCHo9WNHr5w=s48-p" alt="Achenio Sogno">
-          <h3>Achenio Sogno</h3>
-          <div class="role">Membro del consiglio direttivo</div>
-          <p>Studente di II Scientifico, appassionato di fisica, informatica ed ecologia. Ideatore e coordinatore delle attività dell'associazione.</p>
-        </a>
-        
-        <a href="mailto:micheleantonio.portulano-s@liceomassimodazeglio.it" class="team-card">
-          <img src="https://lh3.googleusercontent.com/a-/ALV-UjVKtrEaxzVNd3eVqOeluCVf7BoTp1rv_Zly1dKMSCq2hz4o8o8=s48-p" alt="Michele Portulano">
-          <h3>Michele Antonio Portulano</h3>
-          <div class="role">Membro del consiglio direttivo</div>
-          <p>Studente di V anno ampliamento Archimede, appassionato di fisica, programmazione e sostenibilità ambientale; tra gli altri hobbies storia, letteratura e musica.</p>
-        </a>
-        
-        <a href="mailto:bianca.minozzi-s@liceomassimodazeglio.it" class="team-card">
-          <img src="https://lh3.googleusercontent.com/a-/ALV-UjVg6efaWATYyd2BeUOhiwWE2PpemD9ZVQFVD_f63lSLVlhWKwA=s48-p" alt="Bianca Minozzi">
-          <h3>Bianca Minozzi</h3>
-          <div class="role">Gestore delle attività/eventi</div>
-          <p>Studentessa di II Classico. Appassionata di ecologia e manifestazioni ambientali</p>
-        </a>
-      </div>
-    </section>
-
-    
-    <section>
-      <h2 class="section-title">I professori al nostro fianco</h2>
-      <p class="text-muted">Insieme a noi studenti ci sono molti professori che ci aiutano a gestire l'associazione.</p>
-      
-      <div class="team-cards">
-        <a href="mailto:christian.toninello@liceomassimodazeglio.it" class="team-card">
-          <img src="https://lh3.googleusercontent.com/cm/AGPWSu_ZYlK52fn2vOsFTIzzbnQxmhlZ0cZSx66-RtPjhk4GTdKdavDe_U25d3DbaWDNHwmsyA=s48-p" alt="prof. Toninello">
-          <h3>Christian Toninello</h3>
-          <p>Il professor Toninello insegna IRC.</p>
-        </a>
-        <a href="mailto:emanuele.biolcati@liceodazeglio.edu.it" class="team-card">
-          <img src="https://lh3.googleusercontent.com/a-/ALV-UjXpowWQaeCRemclkPyCtFKGFyB5RBrOGl5D0_w3SX5zHKmw3PM=s48-p" alt="prof. Esposito">
-          <h3>Emanuele Biolcati</h3>
-          <p>Il professor Biolcati insegna matematica e fisica.</p>
-
-        <a href="mailto:pasquale.esposito@liceodazeglio.edu.it" class="team-card">
-          <img src="https://lh3.googleusercontent.com/a-/ALV-UjXCODvMDaZ-qihyc6TjP5BPD0KXL_5Gmy_XFiQIIRuFnsUgTqYY=s48-p" alt="prof. Esposito">
-          <h3>Pasquale Esposito</h3>
-          <p>Il professor Esposito insegna matematica e fisica.</p>
-        </a>
+      <div class="hero-content">
+        <h1>Chi siamo</h1>
+        <p>Conosci il team di studenti appassionati che guidano Daze for Future</p>
       </div>
     </section>
 
     <section>
-      <h2 class="section-title">La nostra storia</h2>
-      <p class="text-muted">Daze for Future è nata dall'iniziativa di un gruppo di studenti che volevano fare la differenza nella loro scuola e comunità. Ecco i momenti più importanti del nostro percorso:</p>
-      
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-date">Settembre 2025</div>
-            <p>Fondazione dell'associazione da parte di 4 studenti del Liceo D'Azeglio</p>
-          </div>
-        </div>
+      <div class="card fade-in-up">
+        <h2 class="section-title">Il nostro team</h2>
+        <p class="text-muted">Siamo un gruppo di studenti del Liceo D'Azeglio uniti dalla passione per la sostenibilità ambientale e l'innovazione tecnologica. Crediamo nel potere dell'azione collettiva e nel ruolo fondamentale dei giovani nel plasmare un futuro migliore.</p>
         
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-date">Creazione del server con un Raspberry Pi 400</div>
-            <p>Il sito che state vedendo è attualmente hostato su un Raspberry Pi 400 presente nel laboratorio di Fisica.</p>
-          </div>
+        <div class="team-cards">
+          <a href="mailto:davide.albanese-s@liceomassimodazeglio.it" class="team-card fade-in-up">
+            <img src="https://lh3.googleusercontent.com/a/ACg8ocLaiVQf4B_Y0NrfBMZ9KD5XwMifkyHFj40ABLxBecTGXrhsvQ=s48-p-mo" alt="Davide Albanese" loading="lazy">
+            <h3>Davide Albanese</h3>
+            <div class="role">Membro del consiglio direttivo</div>
+            <p>Studente di II Scientifico, appassionato di informatica, networking, ed ecologia. Ideatore e coordinatore delle attività dell'associazione.</p>
+          </a>
+          
+          <a href="mailto:acheniogiulio.sogno-s@liceomassimodazeglio.it" class="team-card fade-in-up">
+            <img src="https://lh3.googleusercontent.com/a-/ALV-UjUNQmX6RzFYyt1rDXbit6hlXo7X6pbIXOxB1Rc5lCHo9WNHr5w=s48-p" alt="Achenio Sogno" loading="lazy">
+            <h3>Achenio Sogno</h3>
+            <div class="role">Membro del consiglio direttivo</div>
+            <p>Studente di II Scientifico, appassionato di fisica, informatica ed ecologia. Ideatore e coordinatore delle actividades dell'associazione.</p>
+          </a>
+          
+          <a href="mailto:micheleantonio.portulano-s@liceomassimodazeglio.it" class="team-card fade-in-up">
+            <img src="https://lh3.googleusercontent.com/a-/ALV-UjVKtrEaxzVNd3eVqOeluCVf7BoTp1rv_Zly1dKMSCq2hz4o8o8=s48-p" alt="Michele Portulano" loading="lazy">
+            <h3>Michele Antonio Portulano</h3>
+            <div class="role">Membro del consiglio direttivo</div>
+            <p>Studente di V anno ampliamento Archimede, appassionato di fisica, programmazione e sostenibilità ambientale; tra gli altri hobbies storia, letteratura e musica.</p>
+          </a>
+          
+          <a href="mailto:bianca.minozzi-s@liceomassimodazeglio.it" class="team-card fade-in-up">
+            <img src="https://lh3.googleusercontent.com/a-/ALV-UjVg6efaWATYyd2BeUOhiwWE2PpemD9ZVQFVD_f63lSLVlhWKwA=s48-p" alt="Bianca Minozzi" loading="lazy">
+            <h3>Bianca Minozzi</h3>
+            <div class="role">Gestore delle attività/eventi</div>
+            <p>Studentessa di II Classico. Appassionata di ecologia e manifestazioni sull'ambiente</p>
+          </a>
         </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card fade-in-up">
+        <h2 class="section-title">I professori al nostro fianco</h2>
+        <p class="text-muted">Insieme a noi studenti ci sono molti professori che ci aiutano a gestire l'associazione.</p>
         
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-date">Ottobre 2025</div>
-            <p>Inizio lavori sulla Centrale Meteorologica al D'Azeglio</p>
-          </div>
+        <div class="team-cards">
+          <a href="mailto:christian.toninello@liceomassimodazeglio.it" class="team-card fade-in-up">
+            <img src="https://lh3.googleusercontent.com/cm/AGPWSu_ZYlK52fn2vOsFTIzzbnQxmhlZ0cZSx66-RtPjhk4GTdKdavDe_U25d3DbaWDNHwmsyA=s48-p" alt="prof. Toninello" loading="lazy">
+            <h3>Christian Toninello</h3>
+            <p>Il professor Toninello insegna IRC.</p>
+          </a>
+          
+          <a href="mailto:emanuele.biolcati@liceodazeglio.edu.it" class="team-card fade-in-up">
+            <img src="https://lh3.googleusercontent.com/a-/ALV-UjXpowWQaeCRemclkPyCtFKGFyB5RBrOGl5D0_w3SX5zHKmw3PM=s48-p" alt="prof. Biolcati" loading="lazy">
+            <h3>Emanuele Biolcati</h3>
+            <p>Il professor Biolcati insegna matematica e fisica.</p>
+          </a>
+
+          <a href="mailto:pasquale.esposito@liceodazeglio.edu.it" class="team-card fade-in-up">
+            <img src="https://lh3.googleusercontent.com/a-/ALV-UjXCODvMDaZ-qihyc6TjP5BPD0KXL_5Gmy_XFiQIIRuFnsUgTqYY=s48-p" alt="prof. Esposito" loading="lazy">
+            <h3>Pasquale Esposito</h3>
+            <p>Il professor Esposito insegna matematica e fisica.</p>
+          </a>
         </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card fade-in-up">
+        <h2 class="section-title">La nostra storia</h2>
+        <p class="text-muted">Daze for Future è nata dall'iniziativa di un gruppo di studenti che volevano fare la differenza nella loro scuola e comunità. Ecco i momenti più importanti del nostro percorso:</p>
         
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-date">Prossimamente...</div>
-            <p>Prossimamente...</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-date">Settembre 2025</div>
+              <p>Fondazione dell'associazione da parte di 4 studenti del Liceo D'Azeglio con l'obiettivo di promuovere la sostenibilità ambientale</p>
+            </div>
           </div>
-        </div>
-        
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <div class="timeline-date">Prossimamente...</div>
-            <p>Prossimamente...</p>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-date">Crezione del server con un Raspberry Pi 400</div>
+              <p>Il sito che state vedendo è attualmente hostato su un Raspberry Pi 400 presente nel laboratorio di Fisica.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-date">Novembre 2025</div>
+              <p>Inizio lavori sulla Centrale Meteorologica</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-date">Prossimamente...</div>
+              <p>Prossimamente...</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-date">Prossimamente...</div>
+              <p>Prossimamente...</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-date">Prossimamente...</div>
+              <p>Prossimamente...</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="timeline-date">Prossimamente...</div>
+              <p>Prossimamente...</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section style="text-align: center;">
-      <h2 class="section-title">Vuoi unirti a noi?</h2>
-      <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono far parte della nostra associazione e contribuire ai nostri progetti.</p>
-      <a href="contatti.html" class="btn">Contattaci</a>
+    <section>
+      <div class="card fade-in-up" style="text-align: center;">
+        <h2 class="section-title">Vuoi unirti a noi?</h2>
+        <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono far parte della nostra associazione e contribuire ai nostri progetti.</p>
+        <a href="contatti.html" class="btn">
+          <i class="fas fa-envelope"></i>
+          Contattaci
+        </a>
+      </div>
     </section>
   </main>
-
+  
   <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
@@ -559,17 +1104,213 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="login.html"><span>🔐</span> Accedi</a></li>
+      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
+
+    <!-- User info per mobile nella sidebar -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+      <div class="mobile-user-header">
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+      </div>
+      <div class="mobile-user-display">
+        <span class="mobile-user-name" id="mobileUserName"></span>
+        <span class="mobile-user-badge" id="mobileUserBadge"></span>
+      </div>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
   </aside>
+
+  <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
+
+  <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
+  </div>
 
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
-<script src="theme.js"></script>
-<script src="css/sidebar/sidebar.js"></script>
-<script src="css/userbar/userbar.js"></script>
+
 <script>
+    // Theme functionality
+    const fab = document.getElementById('theme-fab');
+    const popup = document.getElementById('theme-popup');
+
+    fab.addEventListener('click', () => {
+      fab.classList.add('animate');
+      fab.addEventListener('animationend', () => {
+        fab.classList.remove('animate');
+      }, { once: true });
+      
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      } else {
+        popup.style.display = 'flex';
+        requestAnimationFrame(() => popup.classList.add('show'));
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!fab.contains(e.target) && !popup.contains(e.target)) {
+        if (popup.classList.contains('show')) {
+          popup.classList.remove('show');
+          setTimeout(() => popup.style.display = 'none', 250);
+        }
+      }
+    });
+
+    // Apply theme and highlight selection
+    document.querySelectorAll('.theme-option').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+
+        // Highlight active button
+        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
+
+    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+      if (btn) btn.classList.add('active');
+    } else {
+      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
+      applyTheme('auto');
+      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+      if (autoBtn) autoBtn.classList.add('active');
+    }
+
+    // Mostra FAB con animazione al caricamento
+    window.addEventListener('DOMContentLoaded', () => {
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+
+    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    function getNameFromEmail(email) {
+      return email.split('@')[0];
+    }
+
+    // Funzione per generare l'iniziale dall'email
+    function getInitialFromEmail(email) {
+      return email.charAt(0).toUpperCase();
+    }
+
+    // Funzione per ottenere il testo del badge in base al ruolo
+    function getBadgeText(role) {
+      return role === 'admin' ? 'Admin' : 'User';
+    }
+
+    // Funzione per ottenere la classe CSS del badge in base al ruolo
+    function getBadgeClass(role) {
+      return role === 'admin' ? 'badge-admin' : 'badge-user';
+    }
+
+    // Mostra la barra utente se loggato
+    document.addEventListener('DOMContentLoaded', function() {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      
+      if(utente) {
+        // Nascondi link login
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('sidebarLoginLink').style.display = 'none';
+        
+        // Mostra userbar al posto di "Accedi"
+        const userbar = document.getElementById('userbar');
+        userbar.style.display = 'flex';
+        
+        // Imposta nome utente e badge
+        document.getElementById('userName').innerText = getNameFromEmail(utente);
+        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra user info mobile nella sidebar
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        mobileUserInfo.style.display = 'block';
+        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      window.location.href = "login.html";
+    }
+
+    // Scroll animations
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = 'none';
+      }
+    });
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards for animation
+    document.querySelectorAll('.card, .team-card').forEach(card => {
+      observer.observe(card);
+    });
 </script>
+  <script src="theme.js"></script>
+  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>

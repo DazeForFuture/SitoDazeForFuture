@@ -7,10 +7,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Home - Daze for Future</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+
   <style>
     :root {
       --bg: #fff;
@@ -20,16 +23,18 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
+      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
+      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
+      --overlay-light: rgba(255, 255, 255, 0.6); /* RIDOTTA OPACITÀ PER VEDERE MEGLIO LO SFONDO */
+      --overlay-dark: rgba(29, 29, 31, 0.8); /* AUMENTATA OPACITÀ */
+      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
     }
 
     @media (prefers-color-scheme: dark) {
@@ -41,16 +46,18 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.9);
-        --header-text: #f5f5f7;
-        --sidebar-bg: rgba(29,29,31,0.95);
-        --sidebar-border: rgba(255,255,255,0.1);
-        --sidebar-shadow: rgba(0,0,0,0.3);
+        --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+        --header-text: #ffffff;
+        --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
+        --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+        --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
-        --overlay-light: rgba(255, 255, 255, 0.88);
-        --overlay-dark: rgba(29, 29, 31, 0.88);
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
       }
     }
 
@@ -62,16 +69,18 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --sidebar-bg: rgba(29,29,31,0.95);
-      --sidebar-border: rgba(255,255,255,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.3);
+      --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #ffffff;
+      --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
     }
 
     :root[data-theme="light"] {
@@ -82,29 +91,38 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
+      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
+      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
+      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
+      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.88);
-      --overlay-dark: rgba(29, 29, 31, 0.88);
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
     }
 
     :root[data-theme="dark"] header {
-      background: rgba(29, 29, 31, 0.65);
+      background: var(--header-bg);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
@@ -163,7 +181,6 @@
       z-index: 1000;
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      transition: background 0.3s ease, color 0.3s ease;
       background: var(--header-bg);
     }
     .logo {
@@ -172,6 +189,9 @@
       cursor: pointer;
       user-select: none;
       color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     nav {
@@ -202,6 +222,7 @@
     nav > a:hover::after {
       width: 100%;
     }
+
     section {
       padding: 140px 2rem 100px;
       max-width: 1000px;
@@ -211,6 +232,13 @@
     .hero {
       text-align: center;
       padding-top: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
     }
 
     .hero h1 {
@@ -221,29 +249,51 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: fadeInUp 1s ease;
     }
 
     .hero p {
       font-size: 1.25rem;
       color: var(--muted);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
     }
 
     .btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       margin-top: 2rem;
       background-color: var(--btn-bg);
       color: var(--bg);
       padding: 0.75rem 1.5rem;
-      border-radius: 999px;
+      border-radius: 12px;
       text-decoration: none;
       font-weight: 600;
-      transition: transform 0.3s, background 0.3s;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
       cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: fadeInUp 1s ease 0.4s both;
     }
 
     .btn:hover {
       background-color: var(--btn-hover-bg);
-      transform: scale(1.05);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
     }
 
     .section-title {
@@ -272,29 +322,156 @@
       z-index: 1;
     }
 
+    /* MIGLIORAMENTI MOBILE COMPLETI */
     @media (max-width: 768px) {
-      nav a {
-        margin-left: 1rem;
+      header {
+        padding: 0.8rem 1rem;
       }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
       .hero h1 {
         font-size: 2.2rem;
       }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
       .section-title {
         font-size: 1.8rem;
       }
+      
       .sidebar {
         width: 280px;
       }
+      
+      section {
+        padding: 120px 1rem 80px;
+      }
+      
+      .hero {
+        padding-top: 160px; /* RIDOTTO PER MOBILE */
+      }
+      
+      .card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .card-image {
+        height: 160px;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      /* Miglioramenti specifici per eventi su mobile */
+      .event-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .event-content {
+        padding: 1rem;
+      }
+      
+      .event-title {
+        font-size: 1.3rem;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+      
+      /* FAB più piccolo su mobile */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      #theme-popup {
+        bottom: 80px;
+        right: 20px;
+      }
     }
+
+    /* Per schermi molto piccoli */
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Mostra hamburger menu solo su mobile */
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      #sidebarToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
     nav a[href="login.html"],
     nav a[href="login.html"]:visited {
-      color: #007aff !important;
+      color: var(--accent) !important;
       font-weight: 700;
     }
 
     nav a[href="login.html"]:hover {
       text-decoration: underline;
     }
+
     /* Floating Action Button */
     #theme-fab {
       position: fixed;
@@ -403,35 +580,316 @@
       animation: fabClick 0.4s ease forwards;
     }
 
-    header {
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-
     section .btn {
-      display: inline-block;
+      display: inline-flex;
       margin-top: 1.5rem;
       text-align: center;
     }
 
-    @media (max-width: 768px) {
-      section {
-        text-align: center;
-      }
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-      nav {
-        display: none;
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Stili per sezione eventi con backend */
+    .events-container {
+      display: grid;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .event-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .event-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .event-content {
+      padding: 1.5rem;
+    }
+    
+    .event-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    
+    .event-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+    
+    .event-description {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    .no-events {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+        /* Stili per il dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--sidebar-border);
+      margin: 0.25rem 0;
+    }
+
+    /* Stili per la sidebar */
+    .sidebar-dropdown {
+      position: relative;
+    }
+
+    .sidebar-dropdown-toggle {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: inherit;
+      font-size: inherit;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: var(--hover-bg);
+      border-radius: 8px;
+      margin: 0.25rem 0.5rem;
+    }
+
+    .sidebar-dropdown.active .sidebar-dropdown-menu {
+      max-height: 200px;
+    }
+
+    .sidebar-dropdown-item {
+      display: block;
+      padding: 0.6rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .sidebar-dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    /* Media query per mobile */
+    @media (max-width: 768px) {
+      .dropdown {
+        display: none;
+      }
+      
+      nav > a, .dropdown-toggle {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+    }
+
   </style>
 </head>
 <body>
   <header>
-    <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
+    </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>
+      
+      <!-- Menu a tendina Progetti -->
+      <div class="dropdown">
+        <button class="dropdown-toggle">
+          Progetti
+        </button>
+        <div class="dropdown-menu">
+          <a href="centrale_meteo.html" class="dropdown-item">
+            <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
+            Centrale Meteorologica
+          </a>
+   <!--     <div class="dropdown-divider"></div>
+          <a href="altroprogetto.html" class="dropdown-item">
+            <i class="fas fa-lock" style="margin-right: 8px;"></i>
+            ///
+          </a> -->
+        </div>
+      </div>
+      
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
@@ -458,27 +916,63 @@
 
   <main>
     <section id="home" class="hero">
-      <h1>Benvenuto su Daze for Future</h1>
-      <p>Promuoviamo la sostenibilità, l'open source e la consapevolezza ambientale nella nostra scuola.</p>
-      <a href="https://liceodazeglio.edu.it" class="btn">Liceo D'Azeglio</a>
+      <div class="hero-content">
+        <h1>Benvenuto su Daze for Future</h1>
+        <p>Promuoviamo la sostenibilità, l'open source e la consapevolezza ambientale nella nostra scuola.</p>
+        <a href="https://liceodazeglio.edu.it" class="btn btn-accent">
+          <i class="fas fa-school"></i>
+          Liceo D'Azeglio
+        </a>
+      </div>
     </section>
     
     <section id="registrazione">
-      <h2 class="section-title">Registrati</h2>
-      <p class="text-muted">Registrati all'associazione per aiutarci con i nostri progetti. Se sei già registrato, <a href="login.html">accedi</a></p>
-      <a href="registrati.html" class="btn">Registrati</a>
+      <div class="card fade-in-up">
+        <img src="https://puthiyatheru.in/uploads/2025/05/how-long-does-it-take-to-register-a-business-in-the-usa.webp" alt="Registrazione" class="card-image">
+        <h2 class="section-title">Registrati</h2>
+        <p class="text-muted">Unisciti a noi per contribuire a un futuro più sostenibile. Se sei già registrato, <a href="login.html">accedi</a></p>
+        <a href="registrati.html" class="btn">
+          <i class="fas fa-user-plus"></i>
+          Registrati
+        </a>
+      </div>
     </section>
 
     <section id="missione">
-      <h2 class="section-title">La nostra missione</h2>
-      <p class="text-muted">Daze for Future è un'associazione no profit scolastica que si impegna a sensibilizzare gli studenti sul cambiamento climatico, promuovere software open source e sviluppare iniziative per un futuro sostenibile.</p>
-      <a href="missione.html" class="btn">Approfondisci la nostra missione</a>
+      <div class="card fade-in-up">
+        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Missione" class="card-image">
+        <h2 class="section-title">La nostra missione</h2>
+        <p class="text-muted">Daze for Future è un'associazione no profit scolastica che si impegna a sensibilizzare gli studenti sul cambiamento climatico, promuovere software open source e sviluppare iniziative per un futuro sostenibile.</p>
+        <a href="missione.html" class="btn">
+          <i class="fas fa-bullseye"></i>
+          Scopri di più
+        </a>
+      </div>
     </section>
 
     <section id="chi-siamo">
-      <h2 class="section-title">Chi siamo</h2>
-      <p class="text-muted">Siamo un gruppo di studenti appassionati, supportati da docenti, che lavorano insieme per realizzare progetti educativi e sociali.</p>
-      <a href="chi_siamo.html" class="btn">Più informazioni su di noi</a>
+      <div class="card fade-in-up">
+        <img src="https://www.quotidianopiemontese.it/wp-content/uploads/2022/08/liceo-massimo-dazeglio.jpg" alt="Chi siamo" class="card-image">
+        <h2 class="section-title">Chi siamo</h2>
+        <p class="text-muted">Siamo un gruppo di studenti appassionati, supportati da docenti, che lavorano insieme per realizzare progetti educativi e sociali.</p>
+        <a href="chi_siamo.html" class="btn">
+          <i class="fas fa-users"></i>
+          Conosci il team
+        </a>
+      </div>
+    </section>
+
+    <section id="eventi-preview">
+      <h2 class="section-title">Eventi in programma</h2>
+      <div class="events-container" id="eventsContainer">
+        <!-- Gli eventi verranno caricati dinamicamente qui -->
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="prossimi_eventi.html" class="btn">
+          <i class="fas fa-calendar-alt"></i>
+          Vedi tutti gli eventi
+        </a>
+      </div>
     </section>
   </main>
   
@@ -492,7 +986,9 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="documenti.html"><span>📨</span> Documenti</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+
     </ul>
 
     <!-- User info per mobile nella sidebar -->
@@ -531,19 +1027,16 @@
   </footer>
 
 <script>
+    // Theme functionality
     const fab = document.getElementById('theme-fab');
+    const popup = document.getElementById('theme-popup');
 
     fab.addEventListener('click', () => {
       fab.classList.add('animate');
       fab.addEventListener('animationend', () => {
         fab.classList.remove('animate');
       }, { once: true });
-    });
-    
-    const popup = document.getElementById('theme-popup');
-
-    // Toggle popup with animation
-    fab.addEventListener('click', () => {
+      
       if (popup.classList.contains('show')) {
         popup.classList.remove('show');
         setTimeout(() => popup.style.display = 'none', 250);
@@ -606,6 +1099,15 @@
     window.addEventListener('DOMContentLoaded', () => {
       const fab = document.getElementById('theme-fab');
       fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+      
+      // Carica eventi dal backend
+      caricaEventiHomepage();
     });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
@@ -662,6 +1164,92 @@
       localStorage.removeItem('utente');
       localStorage.removeItem('utente_ruolo');
       window.location.href = "login.html";
+    }
+
+    // Scroll animations
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = 'none';
+      }
+    });
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards for animation
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
+    
+    // NUOVA FUNZIONE: Carica eventi per la homepage
+    async function caricaEventiHomepage() {
+      try {
+        console.log('🔍 Caricamento eventi per homepage...');
+        const response = await fetch('http://192.168.0.92:5002/api/post');
+        const posts = await response.json();
+        
+        console.log('📦 Eventi ricevuti:', posts);
+        
+        const container = document.getElementById('eventsContainer');
+        
+        // Mostra solo i primi 2 eventi per la preview
+        const eventiPreview = posts.slice(0, 2);
+        
+        if (eventiPreview.length === 0) {
+          container.innerHTML = '<div class="no-events">Nessun evento programmato al momento. Torna presto per scoprire le nuove iniziative!</div>';
+          return;
+        }
+        
+        container.innerHTML = '';
+        
+        eventiPreview.forEach((post) => {
+          // Gestione dell'immagine
+          let imageHtml = '';
+          if (post.immagine && post.immagine.trim() !== '' && post.immagine !== 'null') {
+            imageHtml = `<img src="${post.immagine}" alt="${post.titolo || 'Evento'}" class="event-image" onerror="this.style.display='none';">`;
+          }
+
+          // Formatta la data
+          const dataEvento = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
+          const orarioEvento = post.orario || 'Orario da definire';
+
+          container.innerHTML += `
+            <article class="event-card fade-in-up">
+              ${imageHtml}
+              <div class="event-content">
+                <h3 class="event-title">${post.titolo || 'Titolo non disponibile'}</h3>
+                <div class="event-meta">
+                  <span>📅 ${dataEvento}</span>
+                  <span>🕒 ${orarioEvento}</span>
+                  <span>📍 ${post.luogo || 'Luogo da definire'}</span>
+                </div>
+                <p class="event-description">${post.contenuto || 'Descrizione non disponibile'}</p>
+                ${post.link ? `<a href="${post.link}" target="_blank" class="btn">Maggiori informazioni</a>` : ''}
+              </div>
+            </article>
+          `;
+        });
+        
+      } catch (error) {
+        console.error('❌ Errore caricamento eventi homepage:', error);
+        document.getElementById('eventsContainer').innerHTML = '<div class="no-events">Errore nel caricamento degli eventi. Riprova più tardi.</div>';
+      }
     }
 </script>
   <script src="theme.js"></script>

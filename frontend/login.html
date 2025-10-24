@@ -7,10 +7,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Login - Daze for Future</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/userbar/userbar.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
 
   <style>
     /* --- VARIABILI COERENTI ALLA HOME --- */
@@ -22,14 +21,22 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
+      --card-bg: rgba(255, 255, 255, 0.9);
       --accent: #007aff;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
-      --btn-spacing: 1rem; /* Nuova variabile per spaziatura bottoni */
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
+      --btn-spacing: 1rem;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -41,13 +48,21 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.9);
-        --header-text: #f5f5f7;
-        --card-bg: #252526;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --card-bg: rgba(29, 29, 31, 0.9);
         --accent: #0a84ff;
-        --sidebar-bg: rgba(29,29,31,0.95);
-        --sidebar-border: rgba(255,255,255,0.1);
-        --sidebar-shadow: rgba(0,0,0,0.3);
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --success: #30d158;
+        --error: #ff453a;
+        --warning: #ff9f0a;
       }
     }
 
@@ -59,13 +74,21 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --card-bg: #252526;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --card-bg: rgba(29, 29, 31, 0.9);
       --accent: #0a84ff;
-      --sidebar-bg: rgba(29,29,31,0.95);
-      --sidebar-border: rgba(255,255,255,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.3);
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --success: #30d158;
+      --error: #ff453a;
+      --warning: #ff9f0a;
     }
 
     :root[data-theme="light"] {
@@ -76,23 +99,83 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
+      --card-bg: rgba(255, 255, 255, 0.9);
       --accent: #007aff;
-      --sidebar-bg: rgba(255,255,255,0.95);
-      --sidebar-border: rgba(0,0,0,0.1);
-      --sidebar-shadow: rgba(0,0,0,0.1);
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
+    }
+
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
       position: relative;
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* Overlay dinamico che si adatta al tema */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    /* Tema chiaro - overlay chiaro per contrasto */
+    :root[data-theme="light"] body::before {
+      background: var(--overlay-light);
+    }
+
+    /* Tema scuro - overlay scuro per contrasto */
+    :root[data-theme="dark"] body::before {
+      background: var(--overlay-dark);
+    }
+
+    /* Tema automatico - usa preferenza sistema */
+    :root:not([data-theme]) body::before {
+      background: var(--overlay-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) body::before {
+        background: var(--overlay-dark);
+      }
     }
 
     header {
@@ -117,6 +200,24 @@
       cursor: pointer;
       user-select: none;
       color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     nav {
@@ -148,6 +249,86 @@
       width: 100%;
     }
 
+    /* Stile per il link Accedi evidenziato */
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
+
+    /* Userbar styles */
+    .user-info {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin-left: 2rem;
+      padding: 0.5rem;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .user-display {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .user-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .badge-admin {
+      background: var(--admin-badge);
+      color: white;
+    }
+
+    .badge-user {
+      background: var(--user-badge);
+      color: white;
+    }
+
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn:hover {
+      background: var(--hover-bg);
+    }
+
     main {
       padding: 160px 2rem 100px;
       max-width: 500px;
@@ -162,6 +343,7 @@
       background: linear-gradient(90deg, #007aff, #00c6ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .text-muted {
@@ -175,7 +357,14 @@
       background: var(--card-bg);
       padding: 2rem;
       border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    form:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
     label {
@@ -198,17 +387,18 @@
       width: 200px;
     }
 
-  input, select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--muted);
-    font-family: inherit;
-    font-size: 1rem;
-    background: var(--bg);
-    color: var(--text);
-    margin-bottom: 1.5rem; /* <--- aggiunto spazio sotto */
-  }
+    input, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--muted);
+      font-family: inherit;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
 
     input:focus, select:focus {
       outline: none;
@@ -223,17 +413,32 @@
       color: var(--bg);
       padding: 0.75rem;
       border: none;
-      border-radius: 999px;
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
-      margin-bottom: var(--btn-spacing); /* Aggiunta spaziatura inferiore */
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      margin-bottom: var(--btn-spacing);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     button:hover {
       background: var(--btn-hover-bg);
-      transform: scale(1.03);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
     }
 
     .links {
@@ -246,6 +451,11 @@
       text-decoration: none;
       font-weight: 600;
       margin: 0 0.5rem;
+      transition: color 0.3s;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
     }
 
     footer {
@@ -255,7 +465,10 @@
       font-size: 0.9rem;
       background: var(--footer-bg);
       margin-top: 3rem;
+      position: relative;
+      z-index: 1;
     }
+
     /* Popup di notifica */
     .popup {
       position: fixed;
@@ -272,6 +485,7 @@
       z-index: 2000;
       font-weight: 600;
       max-width: 300px;
+      border-left: 6px solid transparent;
     }
 
     .popup.show {
@@ -280,46 +494,501 @@
     }
 
     .popup.success {
-      border-left: 6px solid #34c759; /* verde successo */
+      border-left-color: var(--success);
     }
 
     .popup.error {
-      border-left: 6px solid #ff3b30; /* rosso errore */
+      border-left-color: var(--error);
     }
 
-    /* Stile per il link Accedi evidenziato */
-    #loginLink {
-      color: var(--accent) !important;
+    /* Popup per utente già loggato */
+    .already-logged-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 4000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .already-logged-popup.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .already-logged-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .already-logged-title {
+      font-size: 1.5rem;
       font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
     }
 
-    #loginLink:hover {
-      text-decoration: underline;
+    .already-logged-message {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .already-logged-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .already-logged-buttons button {
+      flex: 1;
+      max-width: 150px;
+      margin-bottom: 0;
+    }
+
+    .already-logged-buttons .secondary-btn {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--muted);
+    }
+
+    .already-logged-buttons .secondary-btn:hover {
+      background: var(--hover-bg);
+    }
+    
+    .already-logged-buttons .logout-btn-popup {
+      background: var(--error) !important;
+      color: white !important;
+    }
+    
+    .already-logged-buttons .logout-btn-popup:hover {
+      background: #d70015 !important;
+    }
+
+    /* Sidebar styles - IDENTICA A REGISTRATI */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100%;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 2px 0 10px var(--sidebar-shadow);
+      border-right: 1px solid var(--sidebar-border);
+      transition: left 0.3s ease;
+      z-index: 1200;
+      padding: 2rem 1rem;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.3s ease;
+      width: auto;
+      padding: 0.5rem;
+    }
+
+    .sidebar-close:hover {
+      color: var(--text);
+      background: transparent;
+      transform: scale(1.1);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--text);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 1.05rem;
+    }
+
+    .sidebar-menu a span {
+      font-size: 1.3rem;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background-color: rgba(0, 122, 255, 0.2);
+      color: var(--accent);
+    }
+
+    /* Mobile user info nella sidebar */
+    .mobile-user-info {
+      display: none;
+      background: var(--hover-bg);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .mobile-user-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .mobile-user-display {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .mobile-user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .mobile-user-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* Overlay per quando la sidebar è aperta */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Pulsante hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      width: auto;
+      padding: 0.5rem;
+    }
+
+    .hamburger:hover {
+      background: transparent;
+      transform: scale(1.1);
+    }
+
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .email-container {
+        flex-direction: column;
+      }
+      
+      .domain-select {
+        width: 100%;
+      }
+      
+      main {
+        padding: 120px 1rem 80px;
+      }
+      
+      form {
+        padding: 1.5rem;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      /* FAB più piccolo su mobile */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      #theme-popup {
+        bottom: 80px;
+        right: 20px;
+      }
+      
+      /* Userbar nascosta su mobile */
+      .user-info {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      form {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo" id="toggleSidebar">Daze for Future</div>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
+    </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Prossimi Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <div class="user-display">
+          <span class="user-name" id="userName"></span>
+          <span class="user-badge" id="userBadge"></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
-
   <main>
-    <h1 class="section-title">Accedi</h1>
-    <p class="text-muted">Inserisci le tue credenziali per entrare nell'area riservata.</p>
+    <h1 class="section-title fade-in-up">Accedi</h1>
+    <p class="text-muted fade-in-up">Inserisci le tue credenziali per entrare nell'area riservata.</p>
 
-    <form onsubmit="event.preventDefault(); loginUtente();">
+    <form onsubmit="event.preventDefault(); loginUtente();" class="fade-in-up">
       <label for="email">Email</label>
       <div class="email-container">
         <div class="email-input">
@@ -337,7 +1006,7 @@
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required />
 
-      <button type="submit">Entra</button>
+      <button type="submit" class="btn-accent">Entra</button>
 
       <div class="links">
         <p><a href="registrati.html">Non hai un account? Registrati</a></p>
@@ -346,7 +1015,7 @@
     </form>
   </main>
   
-  <!-- Sidebar -->
+  <!-- Sidebar - IDENTICA A REGISTRATI -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
     <h2>Menu</h2>
@@ -356,14 +1025,233 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="login.html"><span>🔐</span> Accedi</a></li>
+      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
+
+    <!-- User info per mobile nella sidebar -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+      <div class="mobile-user-header">
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+      </div>
+      <div class="mobile-user-display">
+        <span class="mobile-user-name" id="mobileUserName"></span>
+        <span class="mobile-user-badge" id="mobileUserBadge"></span>
+      </div>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
   </aside>
+
+  <!-- Overlay per sidebar -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Popup per utente già loggato -->
+  <div id="alreadyLoggedPopup" class="already-logged-popup">
+    <div class="already-logged-content">
+      <h2 class="already-logged-title">Sei già loggato</h2>
+      <p class="already-logged-message">Hai già effettuato l'accesso con l'account <strong id="currentUserEmail"></strong>. Per accedere con un altro account, devi prima effettuare il logout.</p>
+      <div class="already-logged-buttons">
+        <button class="secondary-btn" onclick="closeAlreadyLoggedPopup()">Torna indietro</button>
+        <button class="logout-btn-popup" onclick="logoutFromPopup()">Effettua il logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
+
+  <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
+  </div>
 
   <footer>
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
+
   <script>
+    // Theme functionality
+    const fab = document.getElementById('theme-fab');
+    const popup = document.getElementById('theme-popup');
+
+    fab.addEventListener('click', () => {
+      fab.classList.add('animate');
+      fab.addEventListener('animationend', () => {
+        fab.classList.remove('animate');
+      }, { once: true });
+      
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      } else {
+        popup.style.display = 'flex';
+        requestAnimationFrame(() => popup.classList.add('show'));
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!fab.contains(e.target) && !popup.contains(e.target)) {
+        if (popup.classList.contains('show')) {
+          popup.classList.remove('show');
+          setTimeout(() => popup.style.display = 'none', 250);
+        }
+      }
+    });
+
+    // Apply theme and highlight selection
+    document.querySelectorAll('.theme-option').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+
+        // Highlight active button
+        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
+
+    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+      if (btn) btn.classList.add('active');
+    } else {
+      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
+      applyTheme('auto');
+      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+      if (autoBtn) autoBtn.classList.add('active');
+    }
+
+    // Mostra FAB con animazione al caricamento
+    window.addEventListener('DOMContentLoaded', () => {
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+
+    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    function getNameFromEmail(email) {
+      return email.split('@')[0];
+    }
+
+    // Funzione per generare l'iniziale dall'email
+    function getInitialFromEmail(email) {
+      return email.charAt(0).toUpperCase();
+    }
+
+    // Funzione per ottenere il testo del badge in base al ruolo
+    function getBadgeText(role) {
+      return role === 'admin' ? 'Admin' : 'User';
+    }
+
+    // Funzione per ottenere la classe CSS del badge in base al ruolo
+    function getBadgeClass(role) {
+      return role === 'admin' ? 'badge-admin' : 'badge-user';
+    }
+
+    // Mostra la barra utente se loggato
+    function updateUserInterface() {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
+      
+      if(utente) {
+        // Nascondi link login
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('sidebarLoginLink').style.display = 'none';
+        
+        // Mostra userbar al posto di "Accedi"
+        const userbar = document.getElementById('userbar');
+        userbar.style.display = 'flex';
+        
+        // Imposta nome utente e badge
+        document.getElementById('userName').innerText = getNameFromEmail(utente);
+        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra user info mobile nella sidebar
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        mobileUserInfo.style.display = 'block';
+        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra popup se l'utente è già loggato e sta visitando la pagina di login
+        if (window.location.pathname.includes('login.html')) {
+          setTimeout(() => {
+            document.getElementById('currentUserEmail').innerText = utente;
+            document.getElementById('alreadyLoggedPopup').classList.add('show');
+          }, 500);
+        }
+      } else {
+        // Se non loggato, assicurati che i link di login siano visibili
+        document.getElementById('loginLink').style.display = 'block';
+        document.getElementById('sidebarLoginLink').style.display = 'block';
+        document.getElementById('userbar').style.display = 'none';
+        document.getElementById('mobileUserInfo').style.display = 'none';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      window.location.href = "login.html";
+    }
+
+    function logoutFromPopup() {
+      // Rimuove i dati di login
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      
+      // Chiude il popup
+      closeAlreadyLoggedPopup();
+      
+      // Aggiorna l'interfaccia per rimuovere la userbar
+      updateUserInterface();
+      
+      // Ricarica la pagina per mostrare il form di login
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
+    }
+
+    function closeAlreadyLoggedPopup() {
+      document.getElementById('alreadyLoggedPopup').classList.remove('show');
+      // Reindirizza alla home se l'utente sceglie di non fare logout
+      window.location.href = "index.html";
+    }
+
     // Funzione per costruire l'email completa
     function buildEmail() {
       const prefix = document.getElementById('emailPrefix').value.trim();
@@ -420,7 +1308,7 @@
         if(result.success) {
           mostraPopup("Accesso effettuato con successo!", "success");
           localStorage.setItem('utente', dati.email);
-          localStorage.setItem('utente_ruolo', result.ruolo); 
+          localStorage.setItem('utente_ruolo', result.ruolo || 'user'); 
           
           setTimeout(() => {
             window.location.href = "index.html";
@@ -429,11 +1317,38 @@
           mostraPopup(result.message || "Accesso fallito", "error");
         }
       } catch (error) {
+        console.error('Errore login:', error);
         mostraPopup("Errore di connessione al server", "error");
       }
     }
+
+    // Gestione sidebar - IDENTICA A REGISTRATI
+    document.addEventListener('DOMContentLoaded', function() {
+      updateUserInterface();
+      
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const sidebar = document.querySelector('.sidebar');
+      const sidebarClose = document.querySelector('.sidebar-close');
+      const overlay = document.getElementById('overlay');
+      
+      if (sidebarToggle && sidebar && sidebarClose && overlay) {
+        sidebarToggle.addEventListener('click', function() {
+          sidebar.classList.add('active');
+          overlay.classList.add('active');
+        });
+        
+        sidebarClose.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
+        });
+        
+        overlay.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
+        });
+      }
+    });
   </script>
-  <script src="theme.js"></script>
   <div id="popup" class="popup"></div>
 </body>
 </html>
