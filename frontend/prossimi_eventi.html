@@ -2,15 +2,17 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Prossimi Eventi - Daze for Future</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
 
   <style>
     :root {
@@ -21,10 +23,20 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --error: #ff3b30;
+      --success: #34c759;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -36,9 +48,20 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.9);
-        --header-text: #f5f5f7;
-        --card-bg: #252526;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
+        --accent: #0a84ff;
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --error: #ff453a;
+        --success: #30d158;
       }
     }
 
@@ -50,9 +73,20 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.9);
-      --header-text: #f5f5f7;
-      --card-bg: #252526;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
+      --accent: #0a84ff;
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --error: #ff453a;
+      --success: #30d158;
     }
 
     :root[data-theme="light"] {
@@ -63,22 +97,78 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.9);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --card-bg: #f5f5f7;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
+      --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --error: #ff3b30;
+      --success: #34c759;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    :root[data-theme="light"] body::before {
+      background: var(--overlay-light);
+    }
+
+    :root[data-theme="dark"] body::before {
+      background: var(--overlay-dark);
+    }
+
+    :root:not([data-theme]) body::before {
+      background: var(--overlay-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) body::before {
+        background: var(--overlay-dark);
+      }
     }
 
     header {
@@ -102,6 +192,9 @@
       cursor: pointer;
       user-select: none;
       color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     nav {
@@ -133,165 +226,93 @@
       width: 100%;
     }
 
-    main {
-      padding: 120px 2rem 80px;
+    section {
+      padding: 140px 2rem 100px;
       max-width: 1000px;
-      margin: 0 auto;
+      margin: auto;
     }
 
     .hero {
       text-align: center;
-      margin-bottom: 3rem;
+      padding-top: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
     }
 
     .hero h1 {
-      font-size: 2.8rem;
+      font-size: 3.2rem;
       font-weight: 800;
       margin-bottom: 1rem;
       background: linear-gradient(90deg, #007aff, #00c6ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease;
     }
 
     .hero p {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: var(--muted);
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .events-container {
-      display: grid;
-      gap: 2rem;
-    }
-
-    .event {
-      background: var(--card-bg);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .event:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-    }
-
-    .event-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .event-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .event-header h2 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      color: var(--text);
-    }
-
-    .event-meta {
-      display: flex;
-      gap: 1.5rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .event-meta span {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .event-body {
-      padding: 1.5rem;
-    }
-
-    .event-body p {
-      margin-bottom: 1.5rem;
-      color: var(--muted);
-    }
-
-    .event-footer {
-      padding: 0 1.5rem 1.5rem;
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
     }
 
     .btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2rem;
       background-color: var(--btn-bg);
       color: var(--bg);
       padding: 0.75rem 1.5rem;
-      border-radius: 999px;
+      border-radius: 12px;
       text-decoration: none;
       font-weight: 600;
-      transition: transform 0.3s, background 0.3s;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
       cursor: pointer;
       border: none;
-      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: fadeInUp 1s ease 0.4s both;
     }
 
     .btn:hover {
       background-color: var(--btn-hover-bg);
-      transform: scale(1.05);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     }
 
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 2px solid var(--text);
+    .btn:active {
+      transform: translateY(0);
     }
 
-    .btn-outline:hover {
-      background: var(--hover-bg);
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
     }
 
-    .calendar-section {
-      margin-top: 4rem;
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 2rem;
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
     }
 
-    .calendar-section h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .calendar-day {
-      background: var(--bg);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-    }
-
-    .calendar-day h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: var(--accent);
-    }
-
-    .calendar-day p {
+    .text-muted {
       color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .no-events {
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.1rem;
     }
 
     footer {
@@ -300,23 +321,152 @@
       color: var(--muted);
       font-size: 0.9rem;
       background: var(--footer-bg);
-      margin-top: 4rem;
+      position: relative;
+      z-index: 1;
     }
 
+    /* MIGLIORAMENTI MOBILE COMPLETI */
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.2rem;
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
       }
       
       nav > a {
         margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .sidebar {
+        width: 280px;
+      }
+      
+      section {
+        padding: 120px 1rem 80px;
+      }
+      
+      .hero {
+        padding-top: 160px;
+      }
+      
+      .card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .card-image {
+        height: 160px;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
       }
       
       .event-meta {
         flex-direction: column;
         gap: 0.5rem;
       }
+      
+      .event-content {
+        padding: 1rem;
+      }
+      
+      .event-title {
+        font-size: 1.3rem;
+      }
+      
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+      
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      #theme-popup {
+        bottom: 80px;
+        right: 20px;
+      }
+      
+      #addPostBtn {
+        margin-left: 1rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+      }
     }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      #sidebarToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
     nav a[href="login.html"],
     nav a[href="login.html"]:visited {
       color: var(--accent) !important;
@@ -327,10 +477,11 @@
       text-decoration: underline;
     }
 
+    /* Stili per il pulsante aggiungi evento - SPOSTATO A DESTRA ACCANTO ALLA USERBAR */
     #addPostBtn {
       display: none;
-      margin-left: 2rem;
-      font-size: 2rem;
+      margin-left: 1rem;
+      font-size: 1.5rem;
       background: var(--accent);
       color: #fff;
       border: none;
@@ -339,13 +490,296 @@
       height: 48px;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     #addPostBtn:hover {
       transform: scale(1.1);
       background: #0056cc;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     }
 
+    #addPostBtn:active {
+      transform: scale(0.95);
+    }
+
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    section .btn {
+      display: inline-flex;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Stili per sezione eventi con backend */
+    .events-container {
+      display: grid;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .event-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .event-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .event-content {
+      padding: 1.5rem;
+    }
+    
+    .event-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    
+    .event-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+    
+    .event-description {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    .no-events {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    
+    /* Stili per il calendario */
+    .calendar-section {
+      margin-top: 4rem;
+    }
+    
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .calendar-day {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .calendar-day:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .calendar-day h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+    
     /* Stili migliorati per il popup */
     #postFormContainer {
       display: none;
@@ -362,7 +796,7 @@
     }
 
     #postForm {
-      background: var(--bg);
+      background: var(--card-bg);
       padding: 2.5rem;
       border-radius: 20px;
       max-width: 600px;
@@ -407,7 +841,7 @@
     input, textarea, select {
       width: 100%;
       padding: 0.75rem 1rem;
-      border: 2px solid var(--card-bg);
+      border: 2px solid rgba(255,255,255,0.1);
       border-radius: 12px;
       background: var(--bg);
       color: var(--text);
@@ -433,7 +867,7 @@
       justify-content: flex-end;
       margin-top: 2rem;
       padding-top: 1.5rem;
-      border-top: 1px solid var(--card-bg);
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
 
     .close-btn {
@@ -458,7 +892,7 @@
     .form-section {
       margin-bottom: 2rem;
       padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--card-bg);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     .form-section-title {
@@ -479,20 +913,130 @@
       border-radius: 10px;
       font-weight: 400;
     }
+
+    /* Stili per il dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--sidebar-border);
+      margin: 0.25rem 0;
+    }
+
   </style>
 </head>
 <body>
-<header>
-    <div class="logo" id="toggleSidebar">Daze for Future</div>
+  <header>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
+    </div>
+    
     <div style="flex:1"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
+      
+      <!-- Menu a tendina Progetti -->
+      <div class="dropdown">
+        <button class="dropdown-toggle">
+          Progetti
+        </button>
+        <div class="dropdown-menu">
+          <a href="centrale_meteo.html" class="dropdown-item">
+            <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
+            Centrale Meteorologica
+          </a>
+        </div>
+      </div>
+      
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
       
+      <!-- PULSANTE AGGIUNGI EVENTO PER ADMIN - SPOSTATO A DESTRA ACCANTO ALLA USERBAR -->
+      <button id="addPostBtn" title="Crea nuovo evento" style="display: none;">
+        <i class="fas fa-plus"></i>
+      </button>
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
         <div class="user-display">
@@ -506,36 +1050,39 @@
           </svg>
         </button>
       </div>
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
-    
-    <button id="addPostBtn" style="display:none; margin-left:2rem; font-size:2rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
-    
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
-</header>
+  </header>
 
   <main>
     <section class="hero">
-      <h1>Prossimi Eventi</h1>
-      <p>Scopri le iniziative che stiamo organizzando per promuovere la sostenibilità ambientale e l'innovazione tecnologica</p>
+      <div class="hero-content">
+        <h1>Prossimi Eventi</h1>
+        <p>Scopri le iniziative che stiamo organizzando per promuovere la sostenibilità ambientale e l'innovazione tecnologica</p>
+      </div>
     </section>
 
-    <section class="events-container">
-
+    <section>
+      <div class="card fade-in-up">
+        <h2 class="section-title">Eventi in programma</h2>
+        <div class="events-container" id="eventsContainer">
+          <!-- Gli eventi verranno caricati dinamicamente qui -->
+        </div>
+      </div>
     </section>
     
-    <section class="calendar-section">
-      <h2>Calendario Eventi</h2>
-      <div class="calendar-grid">
-        <div class="calendar-day">
-          <h3></h3>
-          <p></p>
-          <p style="margin-top: 0.5rem; color: var(--accent); font-weight: 600;"></p>
+    <section>
+      <div class="card fade-in-up">
+        <h2 class="section-title">Calendario Eventi</h2>
+        <div class="calendar-grid" id="calendarGrid">
+          <!-- Il calendario verrà popolato dinamicamente -->
         </div>
       </div>
     </section>
   </main>
-
+  
   <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
@@ -546,16 +1093,43 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="login.html"><span>🔐</span> Accedi</a></li>
+      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
+
+    <!-- User info per mobile nella sidebar -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+      <div class="mobile-user-header">
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+      </div>
+      <div class="mobile-user-display">
+        <span class="mobile-user-name" id="mobileUserName"></span>
+        <span class="mobile-user-badge" id="mobileUserBadge"></span>
+      </div>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
   </aside>
 
+  <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
+
+  <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
+  </div>
+
   <footer>
-    <p>&copy; 2025 Daze for Future. Tutti i diritti riservati.</p>
+    &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
-  <script src="css/sidebar/sidebar.js"></script>
-  <script src="css/userbar/userbar.js"></script>
-  <script src="theme.js"></script>
 
   <!-- Popup migliorato per aggiungere eventi -->
   <div id="postFormContainer" style="display:none;">
@@ -636,52 +1210,192 @@
   </div>
 
 <script>
-// Versione semplificata per backend esistente
-document.addEventListener('DOMContentLoaded', function() {
-    const ruolo = localStorage.getItem('utente_ruolo');
-    const addPostBtn = document.getElementById('addPostBtn');
-    
-    if (ruolo === 'admin' && addPostBtn) {
-        addPostBtn.style.display = 'block';
-        
-        addPostBtn.addEventListener('click', () => {
-            document.getElementById('postFormContainer').style.display = 'flex';
-        });
-    }
-    
-    // Setup form
-    document.getElementById('closePostForm').addEventListener('click', () => {
-        document.getElementById('postFormContainer').style.display = 'none';
-    });
-    
-    document.getElementById('postForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = {
-            titolo: document.getElementById('postTitolo').value,
-            contenuto: document.getElementById('postContenuto').value,
-            data: document.getElementById('postData').value,
-            orario: document.getElementById('postOra').value,
-            durata: document.getElementById('postDurata').value,
-            luogo: document.getElementById('postLuogo').value,
-            indirizzo: document.getElementById('postIndirizzo').value,
-            immagine: document.getElementById('postImmagine').value
-        };
-        const editId = document.getElementById('postForm').getAttribute('data-edit-id');
-        let url = 'http://192.168.0.44:5002/api/post';
-        let method = 'POST';
-        if (editId) {
-            url = `http://192.168.0.44:5002/api/post/${editId}`;
-            method = 'PUT';
-        }
+    // ===== CONFIGURAZIONE AUTO-RILEVAMENTO BACKEND =====
+    (async function() {
+      // Hostname corrente
+      const currentHost = window.location.hostname;
+      
+      // Lista di endpoint da testare per gli eventi
+      const endpointsToTest = [
+        `http://${currentHost}:5002`,
+        'http://localhost:5002', 
+        'http://192.168.0.92:5002',
+        'http://192.168.0.137:5002'
+      ];
+      
+      // Funzione per testare la connettività
+      async function testEndpoint(url) {
         try {
-            const response = await fetch(url, {
-                method,
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(formData)
+          const response = await fetch(`${url}/api/post`, {
+            method: 'GET',
+            signal: AbortSignal.timeout(3000) // Timeout di 3 secondi
+          });
+          return response.ok ? url : null;
+        } catch (error) {
+          return null;
+        }
+      }
+      
+      // Prova ogni endpoint
+      for (const endpoint of endpointsToTest) {
+        const workingEndpoint = await testEndpoint(endpoint);
+        if (workingEndpoint) {
+          window.API_BASE_URL = workingEndpoint;
+          console.log('✅ Server Eventi trovato:', window.API_BASE_URL);
+          break;
+        }
+      }
+      
+      // Fallback se nessun endpoint funziona
+      if (!window.API_BASE_URL) {
+        window.API_BASE_URL = endpointsToTest[0];
+        console.warn('⚠️ Usando endpoint di default:', window.API_BASE_URL);
+      }
+      
+      // Ora che abbiamo l'URL, possiamo caricare gli eventi
+      caricaEventi();
+    })();
+
+    // ===== FUNZIONI PRINCIPALI EVENTI =====
+    async function caricaEventi() {
+        try {
+            console.log('🔍 Inizio caricamento eventi da:', `${API_BASE_URL}/api/post`);
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            
+            const response = await fetch(`${API_BASE_URL}/api/post`, {
+              method: 'GET',
+              credentials: 'include',
+              signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`Errore HTTP: ${response.status}`);
+            }
+            
+            const posts = await response.json();
+            
+            console.log('📦 Dati ricevuti dal backend:', posts);
+            
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = '';
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<div class="no-events">Nessun evento programmato al momento. Torna presto per scoprire le nuove iniziative!</div>';
+                return;
+            }
+            
+            posts.forEach((post) => {
+                // Gestione dell'immagine
+                let imageHtml = '';
+                if (post.immagine && post.immagine.trim() !== '' && post.immagine !== 'null') {
+                    imageHtml = `<img src="${post.immagine}" alt="${post.titolo || 'Evento'}" class="event-image" onerror="this.style.display='none';">`;
+                }
+
+                // Formatta la data
+                const dataEvento = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
+                const orarioEvento = post.orario || 'Orario da definire';
+
+                // Pulsanti admin
+                let adminBtns = '';
+                if (localStorage.getItem('utente_ruolo') === 'admin') {
+                    adminBtns = `
+                    <button class="btn" style="margin-right:8px; background: var(--accent);" onclick="eliminaPost(${post.id})">
+                        <i class="fas fa-trash"></i>
+                        Elimina
+                    </button>
+                    `;
+                }
+
+                container.innerHTML += `
+                <article class="event-card fade-in-up">
+                    ${imageHtml}
+                    <div class="event-content">
+                        <h3 class="event-title">${post.titolo || 'Titolo non disponibile'}</h3>
+                        <div class="event-meta">
+                            <span>📅 ${dataEvento}</span>
+                            <span>🕒 ${orarioEvento}</span>
+                            <span>📍 ${post.luogo || 'Luogo da definire'}</span>
+                        </div>
+                        <p class="event-description">${post.contenuto || 'Descrizione non disponibile'}</p>
+                        <div class="event-footer">
+                            ${post.link ? `<a href="${post.link}" target="_blank" class="btn">Maggiori informazioni</a>` : ''}
+                            ${adminBtns}
+                        </div>
+                    </div>
+                </article>
+                `;
+            });
+            
+            // Aggiorna anche il calendario
+            aggiornaCalendario(posts);
+            
+        } catch (error) {
+            console.error('❌ Errore caricamento eventi:', error);
+            document.getElementById('eventsContainer').innerHTML = `
+                <div class="no-events">
+                    <p style="color: var(--error);">Errore di connessione al server</p>
+                    <p class="text-muted">Impossibile raggiungere il server degli eventi.</p>
+                    <p class="text-muted">Assicurati che il server sia in esecuzione su ${window.API_BASE_URL}</p>
+                    <button class="btn" onclick="caricaEventi()" style="margin-top: 1rem;">
+                        <i class="fas fa-redo"></i>
+                        Riprova
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    function aggiornaCalendario(posts) {
+        const calendarGrid = document.getElementById('calendarGrid');
+        calendarGrid.innerHTML = '';
+
+        // Raggruppa eventi per data
+        const eventsByDate = {};
+        posts.forEach(post => {
+            if (!eventsByDate[post.data]) {
+                eventsByDate[post.data] = [];
+            }
+            eventsByDate[post.data].push(post);
+        });
+
+        // Crea elementi calendario per ogni data con eventi
+        Object.keys(eventsByDate).sort().forEach(data => {
+            const events = eventsByDate[data];
+            const dateObj = new Date(data);
+            const giorno = dateObj.getDate();
+            const mese = dateObj.toLocaleDateString('it-IT', { month: 'short' });
+            let eventiHtml = '';
+            events.forEach(ev => {
+                eventiHtml += `<div style="margin-bottom: 0.5rem; color: var(--text); font-size: 1rem;">${ev.titolo || 'Evento'}<br><span style='color:var(--muted);font-size:0.9em;'>${ev.orario || ''} - ${ev.luogo || ''}</span></div>`;
+            });
+            calendarGrid.innerHTML += `
+            <div class="calendar-day">
+                <h3>${giorno} ${mese}</h3>
+                ${eventiHtml}
+            </div>
+            `;
+        });
+
+        if (Object.keys(eventsByDate).length === 0) {
+            calendarGrid.innerHTML = '<div class="no-events">Nessun evento in calendario</div>';
+        }
+    }
+
+    // Funzione elimina post
+    async function eliminaPost(id) {
+        if (!confirm('Sei sicuro di voler eliminare questo evento?')) return;
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/post/${id}`, {
+              method: 'DELETE',
+              credentials: 'include'
             });
             const result = await response.json();
             if (result.success) {
-                alert(editId ? 'Evento modificato!' : 'Evento creato!');
+                alert('Evento eliminato!');
                 location.reload();
             } else {
                 alert('Errore: ' + result.message);
@@ -689,132 +1403,239 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             alert('Errore di connessione: ' + error.message);
         }
-        document.getElementById('postForm').removeAttribute('data-edit-id');
-    });
-    
-    caricaEventi();
-});
+    }
 
-async function caricaEventi() {
-    try {
-        console.log('🔍 Inizio caricamento eventi...');
-        const response = await fetch('http://192.168.0.44:5002/api/post');
-        const posts = await response.json();
+    // ===== GESTIONE FORM EVENTO =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const ruolo = localStorage.getItem('utente_ruolo');
+        const addPostBtn = document.getElementById('addPostBtn');
         
-        console.log('📦 Dati ricevuti dal backend:', posts);
-        
-        const container = document.querySelector('.events-container');
-        container.innerHTML = '';
-        
-        if (posts.length === 0) {
-            container.innerHTML = '<div class="no-events">Nessun evento programmato al momento. Torna presto per scoprire le nuove iniziative!</div>';
-            return;
+        if (ruolo === 'admin' && addPostBtn) {
+            addPostBtn.style.display = 'flex';
+            
+            addPostBtn.addEventListener('click', () => {
+                document.getElementById('postFormContainer').style.display = 'flex';
+            });
         }
         
-    posts.forEach((post) => {
-      // Gestione dell'immagine
-      let imageHtml = '';
-      if (post.immagine && post.immagine.trim() !== '' && post.immagine !== 'null') {
-        imageHtml = `<img src="${post.immagine}" alt="${post.titolo || 'Evento'}" class="event-image" onerror="this.style.display='none';">`;
-      }
-
-      // Formatta la data
-      const dataEvento = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
-      const orarioEvento = post.orario || 'Orario da definire';
-
-      // Pulsanti admin
-      let adminBtns = '';
-      if (localStorage.getItem('utente_ruolo') === 'admin') {
-        adminBtns = `
-          <button class="btn btn-outline" style="margin-right:8px;" onclick="eliminaPost(${post.id})">Elimina</button>
-        `;
-      }
-
-      container.innerHTML += `
-        <article class="event" style="position: relative;">
-          ${imageHtml}
-          <div class="event-header">
-            <h2>${post.titolo || 'Titolo non disponibile'}</h2>
-            <div class="event-meta">
-              <span>📅 ${dataEvento}</span>
-              <span>🕒 ${orarioEvento}</span>
-              <span>📍 ${post.luogo || 'Luogo da definire'}</span>
-            </div>
-          </div>
-          <div class="event-body">
-            <p>${post.contenuto || 'Descrizione non disponibile'}</p>
-          </div>
-          <div class="event-footer">
-            ${post.link ? `<a href="${post.link}" target="_blank" class="btn">Maggiori informazioni</a>` : ''}
-            ${adminBtns}
-          </div>
-        </article>
-      `;
-    });
+        // Setup form
+        document.getElementById('closePostForm').addEventListener('click', () => {
+            document.getElementById('postFormContainer').style.display = 'none';
+        });
         
-        // Aggiorna anche il calendario
-        aggiornaCalendario(posts);
+        document.getElementById('postForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = {
+                titolo: document.getElementById('postTitolo').value,
+                contenuto: document.getElementById('postContenuto').value,
+                data: document.getElementById('postData').value,
+                orario: document.getElementById('postOra').value,
+                durata: document.getElementById('postDurata').value,
+                luogo: document.getElementById('postLuogo').value,
+                indirizzo: document.getElementById('postIndirizzo').value,
+                immagine: document.getElementById('postImmagine').value
+            };
+            const editId = document.getElementById('postForm').getAttribute('data-edit-id');
+            let url = `${window.API_BASE_URL}/api/post`;
+            let method = 'POST';
+            if (editId) {
+                url = `${window.API_BASE_URL}/api/post/${editId}`;
+                method = 'PUT';
+            }
+            try {
+                const response = await fetch(url, {
+                    method,
+                    credentials: 'include',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(formData)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert(editId ? 'Evento modificato!' : 'Evento creato!');
+                    location.reload();
+                } else {
+                    alert('Errore: ' + result.message);
+                }
+            } catch (error) {
+                alert('Errore di connessione: ' + error.message);
+            }
+            document.getElementById('postForm').removeAttribute('data-edit-id');
+        });
+    });
+
+    // ===== GESTIONE UTENTE E TEMA =====
+    // Funzione per estrarre il nome dall'email
+    function getNameFromEmail(email) {
+      return email.split('@')[0];
+    }
+
+    // Funzione per generare l'iniziale dall'email
+    function getInitialFromEmail(email) {
+      return email.charAt(0).toUpperCase();
+    }
+
+    // Funzione per ottenere il testo del badge in base al ruolo
+    function getBadgeText(role) {
+      return role === 'admin' ? 'Admin' : 'User';
+    }
+
+    // Funzione per ottenere la classe CSS del badge in base al ruolo
+    function getBadgeClass(role) {
+      return role === 'admin' ? 'badge-admin' : 'badge-user';
+    }
+
+    // Mostra la barra utente se loggato
+    document.addEventListener('DOMContentLoaded', function() {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
+      
+      if(utente) {
+        // Nascondi link login
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('sidebarLoginLink').style.display = 'none';
         
-    } catch (error) {
-        console.error('❌ Errore caricamento eventi:', error);
-        document.querySelector('.events-container').innerHTML = '<div class="no-events">Errore nel caricamento degli eventi. Riprova più tardi.</div>';
-    }
-}
-
-function aggiornaCalendario(posts) {
-  const calendarGrid = document.querySelector('.calendar-grid');
-  calendarGrid.innerHTML = '';
-
-  // Raggruppa eventi per data
-  const eventsByDate = {};
-  posts.forEach(post => {
-    if (!eventsByDate[post.data]) {
-      eventsByDate[post.data] = [];
-    }
-    eventsByDate[post.data].push(post);
-  });
-
-  // Crea elementi calendario per ogni data con eventi
-  Object.keys(eventsByDate).sort().forEach(data => {
-    const events = eventsByDate[data];
-    const dateObj = new Date(data);
-    const giorno = dateObj.getDate();
-    const mese = dateObj.toLocaleDateString('it-IT', { month: 'short' });
-    let eventiHtml = '';
-    events.forEach(ev => {
-      eventiHtml += `<div style="margin-bottom: 0.5rem; color: var(--text); font-size: 1rem;">${ev.titolo || 'Evento'}<br><span style='color:var(--muted);font-size:0.9em;'>${ev.orario || ''} - ${ev.luogo || ''}</span></div>`;
+        // Mostra userbar al posto di "Accedi"
+        const userbar = document.getElementById('userbar');
+        userbar.style.display = 'flex';
+        
+        // Imposta nome utente e badge
+        document.getElementById('userName').innerText = getNameFromEmail(utente);
+        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra user info mobile nella sidebar
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        mobileUserInfo.style.display = 'block';
+        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra pulsante aggiungi evento per admin
+        if (ruolo === 'admin') {
+          document.getElementById('addPostBtn').style.display = 'flex';
+        }
+      }
     });
-    calendarGrid.innerHTML += `
-      <div class="calendar-day">
-        <h3>${giorno} ${mese}</h3>
-        ${eventiHtml}
-      </div>
-    `;
-  });
 
-  if (Object.keys(eventsByDate).length === 0) {
-    calendarGrid.innerHTML = '<div class="no-events">Nessun evento in calendario</div>';
-  }
-}
+    function logout() {
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      window.location.href = "login.html";
+    }
 
-// Funzione elimina post
-async function eliminaPost(id) {
-  if (!confirm('Sei sicuro di voler eliminare questo evento?')) return;
-  try {
-    const response = await fetch(`http://192.168.0.44:5002/api/post/${id}`, {
-      method: 'DELETE'
+    // Scroll animations
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.background = 'var(--header-bg)';
+        header.style.boxShadow = 'none';
+      }
     });
-    const result = await response.json();
-    if (result.success) {
-      alert('Evento eliminato!');
-      location.reload();
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards for animation
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
+
+    // Theme functionality
+    const fab = document.getElementById('theme-fab');
+    const popup = document.getElementById('theme-popup');
+
+    fab.addEventListener('click', () => {
+      fab.classList.add('animate');
+      fab.addEventListener('animationend', () => {
+        fab.classList.remove('animate');
+      }, { once: true });
+      
+      if (popup.classList.contains('show')) {
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      } else {
+        popup.style.display = 'flex';
+        requestAnimationFrame(() => popup.classList.add('show'));
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!fab.contains(e.target) && !popup.contains(e.target)) {
+        if (popup.classList.contains('show')) {
+          popup.classList.remove('show');
+          setTimeout(() => popup.style.display = 'none', 250);
+        }
+      }
+    });
+
+    // Apply theme and highlight selection
+    document.querySelectorAll('.theme-option').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.dataset.theme;
+        localStorage.setItem('theme-preference', theme);
+        applyTheme(theme);
+
+        // Highlight active button
+        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        popup.classList.remove('show');
+        setTimeout(() => popup.style.display = 'none', 250);
+      });
+    });
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
+
+    // On load
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+      if (btn) btn.classList.add('active');
     } else {
-      alert('Errore: ' + result.message);
+      applyTheme('auto');
+      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+      if (autoBtn) autoBtn.classList.add('active');
     }
-  } catch (error) {
-    alert('Errore di connessione: ' + error.message);
-  }
-}
+
+    // Mostra FAB con animazione al caricamento
+    window.addEventListener('DOMContentLoaded', () => {
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
 </script>
+  <script src="theme.js"></script>
+  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>
