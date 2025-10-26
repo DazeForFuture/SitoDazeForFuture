@@ -1030,12 +1030,7 @@
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
-      
-      <!-- PULSANTE AGGIUNGI EVENTO PER ADMIN - SPOSTATO A DESTRA ACCANTO ALLA USERBAR -->
-      <button id="addPostBtn" title="Crea nuovo evento" style="display: none;">
-        <i class="fas fa-plus"></i>
-      </button>
-      
+          
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
@@ -1052,6 +1047,10 @@
       </div>
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
+    </nav>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+          <!-- Pulsante aggiungi evento per admin -->
+      <button id="addPostBtn" style="display:none; margin-left:2rem; font-size:1.5rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
@@ -1219,7 +1218,7 @@
       const endpointsToTest = [
         `http://${currentHost}:5002`,
         'http://localhost:5002', 
-        'http://192.168.0.92:5002',
+        'http://192.168.0.44:5002',
         'http://192.168.0.137:5002'
       ];
       
@@ -1257,26 +1256,26 @@
     })();
 
     // ===== FUNZIONI PRINCIPALI EVENTI =====
-    async function caricaEventi() {
-        try {
-            console.log('🔍 Inizio caricamento eventi da:', `${API_BASE_URL}/api/post`);
-            
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
-            
-            const response = await fetch(`${API_BASE_URL}/api/post`, {
+      async function caricaEventi() {
+      try {
+          console.log('🔍 Tentativo di connessione a:', `${API_BASE_URL}/api/post`);
+          
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000);
+          
+          // RIMUOVI credentials: 'include'
+          const response = await fetch(`${API_BASE_URL}/api/post`, {
               method: 'GET',
-              credentials: 'include',
               signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
-            
-            if (!response.ok) {
-                throw new Error(`Errore HTTP: ${response.status}`);
-            }
-            
-            const posts = await response.json();
+          });
+          
+          clearTimeout(timeoutId);
+          
+          if (!response.ok) {
+              throw new Error(`Errore HTTP: ${response.status}`);
+          }
+          
+          const posts = await response.json();
             
             console.log('📦 Dati ricevuti dal backend:', posts);
             

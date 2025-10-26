@@ -1027,6 +1027,48 @@
   </footer>
 
 <script>
+    // ===== CONFIGURAZIONE BACKEND DINAMICA =====
+    (async function() {
+      // Hostname corrente
+      const currentHost = window.location.hostname;
+      
+      // Lista di endpoint da testare per gli eventi (:5002)
+      const eventEndpoints = [
+        `http://${currentHost}:5002`,
+        'http://localhost:5002', 
+        'http://192.168.0.92:5002'
+      ];
+      
+      // Funzione per testare la connettività
+      async function testEventEndpoint(url) {
+        try {
+          const response = await fetch(`${url}/api/post`, {
+            method: 'GET',
+            signal: AbortSignal.timeout(3000) // Timeout di 3 secondi
+          });
+          return response.ok ? url : null;
+        } catch (error) {
+          return null;
+        }
+      }
+      
+      // Prova ogni endpoint per gli eventi
+      for (const endpoint of eventEndpoints) {
+        const workingEndpoint = await testEventEndpoint(endpoint);
+        if (workingEndpoint) {
+          window.EVENTS_API_BASE_URL = workingEndpoint;
+          console.log('✅ Server Eventi trovato:', window.EVENTS_API_BASE_URL);
+          break;
+        }
+      }
+      
+      // Fallback se nessun endpoint funziona
+      if (!window.EVENTS_API_BASE_URL) {
+        window.EVENTS_API_BASE_URL = eventEndpoints[0];
+        console.warn('⚠️ Usando endpoint di default per eventi:', window.EVENTS_API_BASE_URL);
+      }
+    })();
+
     // Theme functionality
     const fab = document.getElementById('theme-fab');
     const popup = document.getElementById('theme-popup');
@@ -1197,11 +1239,21 @@
       observer.observe(card);
     });
     
-    // NUOVA FUNZIONE: Carica eventi per la homepage
+    // ===== FUNZIONE CARICA EVENTI HOMEPAGE CON RICERCA AUTOMATICA =====
     async function caricaEventiHomepage() {
       try {
         console.log('🔍 Caricamento eventi per homepage...');
-        const response = await fetch('http://192.168.0.92:5002/api/post');
+        
+        // Usa l'endpoint degli eventi specifico
+        const eventsEndpoint = window.EVENTS_API_BASE_URL || 'http://192.168.0.92:5002';
+        console.log('📡 Tentativo connessione a:', `${eventsEndpoint}/api/post`);
+        
+        const response = await fetch(`${eventsEndpoint}/api/post`);
+        
+        if (!response.ok) {
+          throw new Error(`Errore HTTP: ${response.status}`);
+        }
+        
         const posts = await response.json();
         
         console.log('📦 Eventi ricevuti:', posts);
@@ -1248,7 +1300,20 @@
         
       } catch (error) {
         console.error('❌ Errore caricamento eventi homepage:', error);
-        document.getElementById('eventsContainer').innerHTML = '<div class="no-events">Errore nel caricamento degli eventi. Riprova più tardi.</div>';
+        
+        // Mostra un messaggio di errore più specifico
+        const eventsEndpoint = window.EVENTS_API_BASE_URL || 'http://192.168.0.92:5002';
+        document.getElementById('eventsContainer').innerHTML = `
+          <div class="no-events">
+            <p style="color: var(--error);">Errore nel caricamento degli eventi</p>
+            <p class="text-muted">Impossibile raggiungere il server degli eventi.</p>
+            <p class="text-muted">Assicurati che il server sia in esecuzione su ${eventsEndpoint}</p>
+            <button class="btn" onclick="caricaEventiHomepage()" style="margin-top: 1rem;">
+              <i class="fas fa-redo"></i>
+              Riprova
+            </button>
+          </div>
+        `;
       }
     }
 </script>
