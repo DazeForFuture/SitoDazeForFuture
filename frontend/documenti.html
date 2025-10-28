@@ -2257,39 +2257,41 @@
     function createDocumentElement(doc) {
       const item = document.createElement('div');
       item.className = 'document-item';
-      item.setAttribute('data-type', doc.type || 'altro');
-      item.setAttribute('data-status', 'published');
       
-      const typeBadge = doc.type ? `<span class="type-badge type-${doc.type}">${getTypeText(doc.type)}</span>` : '';
+      const isAdmin = localStorage.getItem('utente_ruolo') === 'admin';
+      const publishStatus = doc.is_published ? 
+          '<span class="status-badge status-published">Pubblicato</span>' : 
+          '<span class="status-badge status-pending">In Revisione</span>';
+      
+      const publishButton = isAdmin ? `
+          <button class="action-btn ${doc.is_published ? 'unpublish-btn' : 'publish-btn'}" 
+                  onclick="togglePublishStatus(${doc.id}, ${doc.is_published})" 
+                  title="${doc.is_published ? 'Metti in revisione' : 'Pubblica'}">
+              <i class="fas fa-${doc.is_published ? 'eye-slash' : 'eye'}"></i>
+          </button>
+      ` : '';
       
       item.innerHTML = `
-        <div class="document-info">
-          <div class="document-icon">${getFileIcon(doc.file_type)}</div>
-          <div class="document-details">
-            <h3>${typeBadge} ${doc.title || doc.name}</h3>
-            <p>${doc.description || ''} - ${formatFileSize(doc.size)} - ${new Date(doc.upload_date).toLocaleDateString('it-IT')} - ${doc.uploaded_by}</p>
+          <div class="document-info">
+              <div class="document-icon">${getFileIcon(doc.file_type)}</div>
+              <div class="document-details">
+                  <h3>${doc.title} ${publishStatus}</h3>
+                  <p>${doc.description || ''} - ${doc.author} - ${new Date(doc.publication_date).toLocaleDateString('it-IT')}</p>
+              </div>
           </div>
-        </div>
-        <div class="document-actions">
-          <button class="action-btn view-btn" onclick="viewDocument(${doc.id}, '${doc.original_name || doc.name}', '${escapeHTML(doc.title || doc.name)}', '${escapeHTML(doc.description || '')}')" title="Visualizza">
-            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-              <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-            </svg>
-          </button>
-          <button class="action-btn download-btn" onclick="downloadDocument(${doc.id}, '${doc.original_name || doc.name}')" title="Scarica">
-            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
-            </svg>
-          </button>
-          ${localStorage.getItem('utente_ruolo') === 'admin' ? 
-            `<button class="action-btn delete-btn" onclick="deleteDocument(${doc.id})" title="Elimina">
-              <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
-              </svg>
-            </button>` : ''}
-        </div>
+          <div class="document-actions">
+              <button class="action-btn view-btn" onclick="viewDocument(${doc.id})" title="Visualizza">
+                  <i class="fas fa-eye"></i>
+              </button>
+              ${publishButton}
+              ${isAdmin ? `
+                  <button class="action-btn delete-btn" onclick="deleteDocument(${doc.id})" title="Elimina">
+                      <i class="fas fa-trash"></i>
+                  </button>
+              ` : ''}
+          </div>
       `;
+      
       return item;
     }
 
@@ -2742,6 +2744,36 @@
 
       // Mostra FAB con animazione al caricamento
       fab.classList.add('show');
+    }
+
+    async function togglePublishStatus(articleId, currentStatus) {
+      if (!confirm(`Sei sicuro di voler ${currentStatus ? 'mettere in revisione' : 'pubblicare'} questo articolo?`)) {
+          return;
+      }
+      
+      try {
+          const res = await fetch(`${API_BASE_URL}/api/articles/${articleId}/publish`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  ...authHeaders()
+              },
+              body: JSON.stringify({
+                  is_published: !currentStatus
+              })
+          });
+          
+          const data = await res.json();
+          if (data.success) {
+              mostraPopup(data.message, 'success');
+              // Ricarica la lista degli articoli
+              loadDocuments();
+          } else {
+              mostraPopup('Errore: ' + data.message, 'error');
+          }
+      } catch (error) {
+          mostraPopup('Errore di connessione', 'error');
+      }
     }
   </script>
   <script src="css/sidebar/sidebar.js"></script>
