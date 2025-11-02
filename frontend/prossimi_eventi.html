@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
-
   <style>
     :root {
       --bg: #fff;
@@ -37,6 +36,7 @@
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --error: #ff3b30;
       --success: #34c759;
+      --warning: #ff9500;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -62,6 +62,7 @@
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         --error: #ff453a;
         --success: #30d158;
+        --warning: #ff9f0a;
       }
     }
 
@@ -87,6 +88,7 @@
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       --error: #ff453a;
       --success: #30d158;
+      --warning: #ff9f0a;
     }
 
     :root[data-theme="light"] {
@@ -111,6 +113,7 @@
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --error: #ff3b30;
       --success: #34c759;
+      --warning: #ff9500;
     }
 
     :root[data-theme="dark"] header {
@@ -998,17 +1001,317 @@
       background: var(--sidebar-border);
       margin: 0.25rem 0;
     }
+    
+    /* CORREZIONE HEADER - COME NELLA PAGINA DOCUMENTI */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: var(--header-bg);
+    }
+    
+    /* Aggiungi questo div per spingere la navigazione verso destra */
+    .header-spacer {
+      flex: 1;
+    }
+    
+    /* AGGIUNTA: Stili per i popup di notifica */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
+      font-weight: 600;
+      max-width: 300px;
+      border-left: 6px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left-color: var(--success);
+    }
+
+    .popup.error {
+      border-left-color: var(--error);
+    }
+
+    .popup.warning {
+      border-left-color: var(--warning);
+    }
+
+    .popup-icon {
+      font-size: 1.2rem;
+    }
+
+    /* AGGIUNTA: Stili per il popup di conferma eliminazione */
+    .confirm-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 4000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .confirm-popup.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .confirm-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .confirm-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .confirm-message {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .confirm-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .confirm-buttons button {
+      flex: 1;
+      max-width: 150px;
+      margin-bottom: 0;
+    }
+
+    .confirm-buttons .secondary-btn {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--muted);
+    }
+
+    .confirm-buttons .secondary-btn:hover {
+      background: var(--hover-bg);
+    }
+    
+    .confirm-buttons .delete-btn {
+      background: var(--error) !important;
+      color: white !important;
+    }
+    
+    .confirm-buttons .delete-btn:hover {
+      background: #d70015 !important;
+    }
+
+    /* AGGIUNTA: Stili per il loading indicator */
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 122, 255, 0.2);
+      border-left: 4px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* AGGIUNTA: Stili per il pulsante modifica evento */
+    .btn-edit {
+      background: var(--warning) !important;
+      color: white !important;
+      margin-right: 8px;
+    }
+
+    .btn-edit:hover {
+      background: #e68a00 !important;
+    }
+
+    /* AGGIUNTA: Miglioramenti per eventi senza immagine */
+    .event-card.no-image .event-content {
+      padding-top: 2rem;
+    }
+
+    /* AGGIUNTA: Miglioramenti responsive per i pulsanti admin */
+    @media (max-width: 480px) {
+      .event-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .event-footer .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* AGGIUNTA: Header controls per mobile */
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+
+    /* AGGIUNTA: Stili per eventi passati */
+    .past-event {
+      opacity: 0.7;
+      filter: grayscale(0.3);
+    }
+
+    .past-event .event-title {
+      color: var(--muted);
+    }
+
+    .past-event-badge {
+      background: var(--muted);
+      color: var(--bg);
+      padding: 0.3rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    /* AGGIUNTA: Pulsante mobile per creare evento */
+    .mobile-add-event-btn {
+      display: none;
+      width: 100%;
+      margin: 1rem 0 2rem;
+      padding: 1rem;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+    }
+
+    .mobile-add-event-btn:hover {
+      background: #0056cc;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-add-event-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+    }
+
+    /* AGGIUNTA: Stili per la sidebar dropdown */
+    .sidebar-dropdown {
+      position: relative;
+    }
+
+    .sidebar-dropdown-toggle {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: inherit;
+      font-size: inherit;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: var(--hover-bg);
+      border-radius: 8px;
+      margin: 0.25rem 0.5rem;
+    }
+
+    .sidebar-dropdown.active .sidebar-dropdown-menu {
+      max-height: 200px;
+    }
+
+    .sidebar-dropdown-item {
+      display: block;
+      padding: 0.6rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .sidebar-dropdown-item:hover {
+      background: var(--hover-bg);
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="logo" id="toggleSidebar">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
-      Daze for Future
+      <span>Daze for Future</span>
     </div>
     
-    <div style="flex:1"></div>
+    <!-- Aggiungi questo div per spingere la navigazione verso destra -->
+    <div class="header-spacer"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
@@ -1030,6 +1333,7 @@
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
+      <a href="forum.html">Forum</a>
           
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
@@ -1047,14 +1351,17 @@
       </div>
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
+      
+      <!-- Pulsante aggiungi evento per admin - SPOSTATO QUI -->
+      <button id="addPostBtn" style="display:none; font-size:1.5rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
     </nav>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
-          <!-- Pulsante aggiungi evento per admin -->
-      <button id="addPostBtn" style="display:none; margin-left:2rem; font-size:1.5rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
-    </nav>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    
+    <!-- CONTROLLI HEADER PER MOBILE -->
+    <div class="header-controls">
+      <!-- SINGOLO hamburger menu -->
+      <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    </div>
   </header>
-
   <main>
     <section class="hero">
       <div class="hero-content">
@@ -1066,8 +1373,19 @@
     <section>
       <div class="card fade-in-up">
         <h2 class="section-title">Eventi in programma</h2>
+        
+        <!-- Pulsante mobile per creare evento -->
+        <button id="mobileAddEventBtn" class="mobile-add-event-btn">
+          <i class="fas fa-plus"></i>
+          Crea Nuovo Evento
+        </button>
+        
         <div class="events-container" id="eventsContainer">
-          <!-- Gli eventi verranno caricati dinamicamente qui -->
+          <!-- Loading indicator temporaneo -->
+          <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p class="text-muted">Caricamento eventi in corso...</p>
+          </div>
         </div>
       </div>
     </section>
@@ -1092,6 +1410,8 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+      <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
 
@@ -1114,6 +1434,9 @@
     </div>
   </aside>
 
+  <!-- Overlay per sidebar -->
+  <div class="overlay" id="overlay"></div>
+
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
     🎨
@@ -1130,11 +1453,26 @@
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
+  <!-- AGGIUNTA: Popup di notifica -->
+  <div id="notificationPopup" class="popup"></div>
+
+  <!-- AGGIUNTA: Popup di conferma eliminazione -->
+  <div id="confirmDeletePopup" class="confirm-popup">
+    <div class="confirm-content">
+      <h2 class="confirm-title">Conferma eliminazione</h2>
+      <p class="confirm-message">Sei sicuro di voler eliminare questo evento? Questa azione non può essere annullata.</p>
+      <div class="confirm-buttons">
+        <button class="secondary-btn" id="cancelDeleteBtn">Annulla</button>
+        <button class="delete-btn" id="confirmDeleteBtn">Elimina</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Popup migliorato per aggiungere eventi -->
   <div id="postFormContainer" style="display:none;">
     <form id="postForm">
       <button type="button" class="close-btn" id="closePostForm">&times;</button>
-      <h2>Crea Nuovo Evento</h2>
+      <h2 id="postFormTitle">Crea Nuovo Evento</h2>
       
       <div class="form-section">
         <div class="form-section-title">📝 Informazioni Base</div>
@@ -1202,8 +1540,8 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn btn-outline" id="closePostForm">Annulla</button>
-        <button type="submit" class="btn">Crea Evento</button>
+        <button type="button" class="btn btn-outline" id="cancelPostForm">Annulla</button>
+        <button type="submit" class="btn" id="submitPostForm">Crea Evento</button>
       </div>
     </form>
   </div>
@@ -1256,14 +1594,13 @@
     })();
 
     // ===== FUNZIONI PRINCIPALI EVENTI =====
-      async function caricaEventi() {
+    async function caricaEventi() {
       try {
           console.log('🔍 Tentativo di connessione a:', `${API_BASE_URL}/api/post`);
           
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 10000);
           
-          // RIMUOVI credentials: 'include'
           const response = await fetch(`${API_BASE_URL}/api/post`, {
               method: 'GET',
               signal: controller.signal
@@ -1287,22 +1624,37 @@
                 return;
             }
             
+            // Ordina gli eventi per data (dal più recente al più lontano)
+            posts.sort((a, b) => new Date(a.data) - new Date(b.data));
+            
             posts.forEach((post) => {
+                // Controlla se l'evento è passato
+                const oggi = new Date();
+                const dataEvento = new Date(post.data);
+                const isPastEvent = dataEvento < oggi;
+                
                 // Gestione dell'immagine
                 let imageHtml = '';
+                let imageClass = '';
                 if (post.immagine && post.immagine.trim() !== '' && post.immagine !== 'null') {
                     imageHtml = `<img src="${post.immagine}" alt="${post.titolo || 'Evento'}" class="event-image" onerror="this.style.display='none';">`;
+                } else {
+                    imageClass = 'no-image';
                 }
 
                 // Formatta la data
-                const dataEvento = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
+                const dataFormattata = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
                 const orarioEvento = post.orario || 'Orario da definire';
 
                 // Pulsanti admin
                 let adminBtns = '';
                 if (localStorage.getItem('utente_ruolo') === 'admin') {
                     adminBtns = `
-                    <button class="btn" style="margin-right:8px; background: var(--accent);" onclick="eliminaPost(${post.id})">
+                    <button class="btn btn-edit" onclick="modificaPost(${post.id})">
+                        <i class="fas fa-edit"></i>
+                        Modifica
+                    </button>
+                    <button class="btn" style="background: var(--error);" onclick="confermaEliminaPost(${post.id})">
                         <i class="fas fa-trash"></i>
                         Elimina
                     </button>
@@ -1310,12 +1662,12 @@
                 }
 
                 container.innerHTML += `
-                <article class="event-card fade-in-up">
+                <article class="event-card fade-in-up ${imageClass} ${isPastEvent ? 'past-event' : ''}">
                     ${imageHtml}
                     <div class="event-content">
-                        <h3 class="event-title">${post.titolo || 'Titolo non disponibile'}</h3>
+                        <h3 class="event-title">${post.titolo || 'Titolo non disponibile'} ${isPastEvent ? '<span class="past-event-badge">Passato</span>' : ''}</h3>
                         <div class="event-meta">
-                            <span>📅 ${dataEvento}</span>
+                            <span>📅 ${dataFormattata}</span>
                             <span>🕒 ${orarioEvento}</span>
                             <span>📍 ${post.luogo || 'Luogo da definire'}</span>
                         </div>
@@ -1345,6 +1697,7 @@
                     </button>
                 </div>
             `;
+            mostraPopup("Errore nel caricamento degli eventi", "error");
         }
     }
 
@@ -1352,9 +1705,13 @@
         const calendarGrid = document.getElementById('calendarGrid');
         calendarGrid.innerHTML = '';
 
+        // Filtra solo eventi futuri per il calendario
+        const oggi = new Date();
+        const eventiFuturi = posts.filter(post => new Date(post.data) >= oggi);
+
         // Raggruppa eventi per data
         const eventsByDate = {};
-        posts.forEach(post => {
+        eventiFuturi.forEach(post => {
             if (!eventsByDate[post.data]) {
                 eventsByDate[post.data] = [];
             }
@@ -1380,13 +1737,56 @@
         });
 
         if (Object.keys(eventsByDate).length === 0) {
-            calendarGrid.innerHTML = '<div class="no-events">Nessun evento in calendario</div>';
+            calendarGrid.innerHTML = '<div class="no-events">Nessun evento futuro in calendario</div>';
         }
+    }
+
+    // ===== AGGIUNTA: Funzione per mostrare popup =====
+    function mostraPopup(messaggio, tipo) {
+      const popup = document.getElementById('notificationPopup');
+      
+      // Imposta l'icona in base al tipo
+      let icon = '';
+      switch(tipo) {
+        case 'success':
+          icon = '<i class="fas fa-check-circle popup-icon"></i>';
+          break;
+        case 'error':
+          icon = '<i class="fas fa-exclamation-circle popup-icon"></i>';
+          break;
+        case 'warning':
+          icon = '<i class="fas fa-exclamation-triangle popup-icon"></i>';
+          break;
+        default:
+          icon = '<i class="fas fa-info-circle popup-icon"></i>';
+      }
+      
+      popup.innerHTML = icon + messaggio;
+      popup.className = "popup " + tipo;
+      popup.classList.add("show");
+
+      // Nasconde il popup dopo 3 secondi
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 3000);
+    }
+
+    // ===== AGGIUNTA: Funzione per conferma eliminazione =====
+    let postDaEliminare = null;
+
+    function confermaEliminaPost(id) {
+        postDaEliminare = id;
+        document.getElementById('confirmDeletePopup').classList.add('show');
+    }
+
+    // ===== AGGIUNTA: Funzione per modifica post =====
+    function modificaPost(id) {
+        // Per ora mostriamo un messaggio
+        mostraPopup("Funzionalità di modifica in sviluppo", "warning");
     }
 
     // Funzione elimina post
     async function eliminaPost(id) {
-        if (!confirm('Sei sicuro di voler eliminare questo evento?')) return;
         try {
             const response = await fetch(`${API_BASE_URL}/api/post/${id}`, {
               method: 'DELETE',
@@ -1394,13 +1794,16 @@
             });
             const result = await response.json();
             if (result.success) {
-                alert('Evento eliminato!');
-                location.reload();
+                mostraPopup("Evento eliminato con successo!", "success");
+                // Ricarica gli eventi dopo un breve ritardo
+                setTimeout(() => {
+                    caricaEventi();
+                }, 1000);
             } else {
-                alert('Errore: ' + result.message);
+                mostraPopup("Errore nell'eliminazione: " + result.message, "error");
             }
         } catch (error) {
-            alert('Errore di connessione: ' + error.message);
+            mostraPopup("Errore di connessione: " + error.message, "error");
         }
     }
 
@@ -1408,18 +1811,63 @@
     document.addEventListener('DOMContentLoaded', function() {
         const ruolo = localStorage.getItem('utente_ruolo');
         const addPostBtn = document.getElementById('addPostBtn');
+        const mobileAddEventBtn = document.getElementById('mobileAddEventBtn');
         
-        if (ruolo === 'admin' && addPostBtn) {
-            addPostBtn.style.display = 'flex';
+        if (ruolo === 'admin') {
+            if (addPostBtn) {
+                addPostBtn.style.display = 'flex';
+                
+                addPostBtn.addEventListener('click', () => {
+                    mostraFormEvento();
+                });
+            }
             
-            addPostBtn.addEventListener('click', () => {
-                document.getElementById('postFormContainer').style.display = 'flex';
-            });
+            if (mobileAddEventBtn) {
+                mobileAddEventBtn.addEventListener('click', () => {
+                    mostraFormEvento();
+                });
+            }
+        } else {
+            // Nascondi il pulsante mobile per gli utenti non admin
+            if (mobileAddEventBtn) {
+                mobileAddEventBtn.style.display = 'none';
+            }
+        }
+        
+        // Funzione per mostrare il form evento
+        function mostraFormEvento() {
+            document.getElementById('postFormTitle').textContent = 'Crea Nuovo Evento';
+            document.getElementById('submitPostForm').textContent = 'Crea Evento';
+            document.getElementById('postForm').removeAttribute('data-edit-id');
+            document.getElementById('postFormContainer').style.display = 'flex';
+            // Resetta il form
+            document.getElementById('postForm').reset();
+            // Imposta la data minima a oggi
+            const oggi = new Date().toISOString().split('T')[0];
+            document.getElementById('postData').min = oggi;
         }
         
         // Setup form
         document.getElementById('closePostForm').addEventListener('click', () => {
             document.getElementById('postFormContainer').style.display = 'none';
+        });
+        
+        document.getElementById('cancelPostForm').addEventListener('click', () => {
+            document.getElementById('postFormContainer').style.display = 'none';
+        });
+        
+        // Setup conferma eliminazione
+        document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+            document.getElementById('confirmDeletePopup').classList.remove('show');
+            postDaEliminare = null;
+        });
+        
+        document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+            if (postDaEliminare) {
+                document.getElementById('confirmDeletePopup').classList.remove('show');
+                eliminaPost(postDaEliminare);
+                postDaEliminare = null;
+            }
         });
         
         document.getElementById('postForm').addEventListener('submit', async (e) => {
@@ -1432,8 +1880,10 @@
                 durata: document.getElementById('postDurata').value,
                 luogo: document.getElementById('postLuogo').value,
                 indirizzo: document.getElementById('postIndirizzo').value,
-                immagine: document.getElementById('postImmagine').value
+                immagine: document.getElementById('postImmagine').value,
+                link: document.getElementById('postLink').value
             };
+            
             const editId = document.getElementById('postForm').getAttribute('data-edit-id');
             let url = `${window.API_BASE_URL}/api/post`;
             let method = 'POST';
@@ -1441,6 +1891,7 @@
                 url = `${window.API_BASE_URL}/api/post/${editId}`;
                 method = 'PUT';
             }
+            
             try {
                 const response = await fetch(url, {
                     method,
@@ -1450,13 +1901,21 @@
                 });
                 const result = await response.json();
                 if (result.success) {
-                    alert(editId ? 'Evento modificato!' : 'Evento creato!');
-                    location.reload();
+                    if (editId) {
+                        mostraPopup("Evento modificato con successo!", "success");
+                    } else {
+                        mostraPopup("Evento creato con successo!", "success");
+                    }
+                    document.getElementById('postFormContainer').style.display = 'none';
+                    // Ricarica gli eventi dopo un breve ritardo
+                    setTimeout(() => {
+                        caricaEventi();
+                    }, 1000);
                 } else {
-                    alert('Errore: ' + result.message);
+                    mostraPopup("Errore: " + result.message, "error");
                 }
             } catch (error) {
-                alert('Errore di connessione: ' + error.message);
+                mostraPopup("Errore di connessione: " + error.message, "error");
             }
             document.getElementById('postForm').removeAttribute('data-edit-id');
         });
@@ -1634,7 +2093,6 @@
       });
     });
 </script>
-  <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script>
+<script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>

@@ -9,6 +9,8 @@
   <title>Login - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
 
   <style>
@@ -260,73 +262,21 @@
       text-decoration: underline;
     }
 
-    /* Userbar styles */
-    .user-info {
+  /* Pulsante hamburger */
+    .hamburger {
       display: none;
-      align-items: center;
-      gap: 12px;
-      margin-left: 2rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      width: auto;
       padding: 0.5rem;
     }
 
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .user-display {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .user-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .user-badge {
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      border-radius: 12px;
-      font-weight: 600;
-      margin-top: 2px;
-    }
-
-    .badge-admin {
-      background: var(--admin-badge);
-      color: white;
-    }
-
-    .badge-user {
-      background: var(--user-badge);
-      color: white;
-    }
-
-    .logout-btn {
-      background: none;
-      border: none;
-      color: var(--text);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 8px;
-      transition: background 0.3s;
-      font-size: 0.9rem;
-    }
-
-    .logout-btn:hover {
-      background: var(--hover-bg);
+    .hamburger:hover {
+      background: transparent;
+      transform: scale(1.1);
     }
 
     main {
@@ -576,161 +526,7 @@
     .already-logged-buttons .logout-btn-popup:hover {
       background: #d70015 !important;
     }
-
-    /* Sidebar styles - IDENTICA A REGISTRATI */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -280px;
-      width: 280px;
-      height: 100%;
-      background: var(--sidebar-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 2px 0 10px var(--sidebar-shadow);
-      border-right: 1px solid var(--sidebar-border);
-      transition: left 0.3s ease;
-      z-index: 1200;
-      padding: 2rem 1rem;
-      overflow-y: auto;
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    .sidebar h2 {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      font-weight: 800;
-      color: var(--text);
-      text-align: center;
-    }
-
-    .sidebar-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: color 0.3s ease;
-      width: auto;
-      padding: 0.5rem;
-    }
-
-    .sidebar-close:hover {
-      color: var(--text);
-      background: transparent;
-      transform: scale(1.1);
-    }
-
-    .sidebar-menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar-menu li {
-      margin-bottom: 1rem;
-    }
-
-    .sidebar-menu a {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.75rem 1rem;
-      text-decoration: none;
-      font-weight: 600;
-      color: var(--text);
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      font-size: 1.05rem;
-    }
-
-    .sidebar-menu a span {
-      font-size: 1.3rem;
-    }
-
-    .sidebar-menu a:hover,
-    .sidebar-menu a.active {
-      background-color: rgba(0, 122, 255, 0.2);
-      color: var(--accent);
-    }
-
-    /* Mobile user info nella sidebar */
-    .mobile-user-info {
-      display: none;
-      background: var(--hover-bg);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .mobile-user-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-
-    .mobile-user-display {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-
-    .mobile-user-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .mobile-user-badge {
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      border-radius: 12px;
-      font-weight: 600;
-      margin-top: 2px;
-    }
-
-    /* Overlay per quando la sidebar è aperta */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1100;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* Pulsante hamburger */
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      width: auto;
-      padding: 0.5rem;
-    }
-
-    .hamburger:hover {
-      background: transparent;
-      transform: scale(1.1);
-    }
-
+    
     /* Floating Action Button */
     #theme-fab {
       position: fixed;
@@ -931,22 +727,9 @@
         bottom: 80px;
         right: 20px;
       }
-      
-      /* Userbar nascosta su mobile */
-      .user-info {
-        display: none !important;
-      }
     }
 
-    @media (max-width: 480px) {
-      .section-title {
-        font-size: 1.8rem;
-      }
-      
-      form {
-        padding: 1rem;
-      }
-    }
+
   </style>
 </head>
 <body>
@@ -960,10 +743,12 @@
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Eventi</a>
+      <a href="prossimi_eventi.html">Eventi</a>      
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      
+      <a href="documenti.html">Documenti</a>
+      <a href="forum.html">Forum</a>
+
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
@@ -978,8 +763,6 @@
           </svg>
         </button>
       </div>
-      <!-- Link "Accedi" che viene nascosto quando loggato -->
-      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
@@ -1015,7 +798,7 @@
     </form>
   </main>
   
-  <!-- Sidebar - IDENTICA A REGISTRATI -->
+    <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
     <h2>Menu</h2>
@@ -1025,6 +808,8 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+      <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
     </ul>
 
@@ -1199,13 +984,6 @@
         document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
         
-        // Mostra user info mobile nella sidebar
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
         
         // Mostra popup se l'utente è già loggato e sta visitando la pagina di login
         if (window.location.pathname.includes('login.html')) {
@@ -1321,34 +1099,9 @@
         mostraPopup("Errore di connessione al server", "error");
       }
     }
-
-    // Gestione sidebar - IDENTICA A REGISTRATI
-    document.addEventListener('DOMContentLoaded', function() {
-      updateUserInterface();
-      
-      const sidebarToggle = document.getElementById('sidebarToggle');
-      const sidebar = document.querySelector('.sidebar');
-      const sidebarClose = document.querySelector('.sidebar-close');
-      const overlay = document.getElementById('overlay');
-      
-      if (sidebarToggle && sidebar && sidebarClose && overlay) {
-        sidebarToggle.addEventListener('click', function() {
-          sidebar.classList.add('active');
-          overlay.classList.add('active');
-        });
-        
-        sidebarClose.addEventListener('click', function() {
-          sidebar.classList.remove('active');
-          overlay.classList.remove('active');
-        });
-        
-        overlay.addEventListener('click', function() {
-          sidebar.classList.remove('active');
-          overlay.classList.remove('active');
-        });
-      }
-    });
   </script>
+  <script src="theme.js"></script>
+  <script src="css/sidebar/sidebar.js"></script>
   <div id="popup" class="popup"></div>
 </body>
 </html>

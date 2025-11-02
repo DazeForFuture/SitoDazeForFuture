@@ -1,16 +1,21 @@
-/* Sidebar */
+/* Stili migliorati per la sidebar */
 .sidebar {
   position: fixed;
   top: 0;
   left: -280px;
   width: 280px;
   height: 100%;
-  background: var(--bg); /* usa il colore di sfondo del tema */
-  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  background: var(--sidebar-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-right: 1px solid var(--sidebar-border);
+  box-shadow: var(--sidebar-shadow);
   transition: left 0.3s ease;
   z-index: 1200;
   padding: 2rem 1rem;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Quando la sidebar è attiva */
@@ -24,6 +29,8 @@
   font-weight: 800;
   color: var(--text);
   text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--sidebar-border);
 }
 
 .sidebar-close {
@@ -35,21 +42,29 @@
   font-size: 2rem;
   color: var(--muted);
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-close:hover {
   color: var(--text);
+  background: var(--hover-bg);
 }
 
 .sidebar-menu {
   list-style: none;
   padding: 0;
   margin: 0;
+  flex: 1;
 }
 
 .sidebar-menu li {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .sidebar-menu a {
@@ -60,29 +75,169 @@
   text-decoration: none;
   font-weight: 600;
   color: var(--text);
-  border-radius: 8px;
+  border-radius: 12px;
   transition: all 0.3s ease;
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
 .sidebar-menu a span {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
 }
 
-.sidebar-menu li a {
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 600;
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background: var(--hover-bg);
+  transform: translateX(5px);
+}
+
+.sidebar-menu a.active {
+  background: rgba(0, 122, 255, 0.15);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+}
+
+/* Stili migliorati per la sezione utente mobile */
+.mobile-user-info {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border: 1px solid var(--sidebar-border);
+  box-shadow: var(--card-shadow);
+}
+
+.mobile-user-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  transition: background 0.2s, color 0.2s;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--sidebar-border);
 }
 
-.sidebar-menu li a:hover,
-.sidebar-menu li a.active {
-  background-color: rgba(0, 122, 255, 0.2); /* blu leggero */
-  color: #007aff; /* testo blu */
+.mobile-user-header span {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mobile-user-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.mobile-user-name {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.mobile-user-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mobile-user-badge.badge-admin {
+  background: var(--admin-badge);
+  color: white;
+}
+
+.mobile-user-badge.badge-user {
+  background: var(--user-badge);
+  color: white;
+}
+
+/* Avatar migliorato */
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #00c6ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Bottone logout migliorato */
+.mobile-user-info .logout-btn {
+  width: 100%;
+  background: var(--hover-bg);
+  border: 1px solid var(--sidebar-border);
+  color: var(--text);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.mobile-user-info .logout-btn:hover {
+  background: rgba(255, 59, 48, 0.1);
+  color: #ff3b30;
+  border-color: rgba(255, 59, 48, 0.3);
+  transform: translateY(-2px);
+}
+
+.mobile-user-info .logout-btn:active {
+  transform: translateY(0);
+}
+
+/* Animazione di entrata per la sezione utente */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-user-info {
+  animation: slideInUp 0.5s ease 0.2s both;
+}
+
+/* Media query per mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 280px;
+    padding: 1.5rem 1rem;
+  }
+  
+  .sidebar-menu a {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .mobile-user-info {
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .mobile-user-name {
+    font-size: 1rem;
+  }
 }

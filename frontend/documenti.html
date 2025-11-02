@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
   <style>
     /* CSS esistente mantenuto */
     :root {
@@ -1378,6 +1379,85 @@
       background: var(--sidebar-border);
       margin: 0.25rem 0;
     }
+    
+    /* Bottone mobile per creare documento */
+    .mobile-create-section {
+      display: none;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .mobile-create-btn-large {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      width: 100%;
+      justify-content: center;
+    }
+
+    .mobile-create-btn-large:hover {
+      background: var(--btn-hover-bg);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .mobile-create-btn-large:active {
+      transform: translateY(-1px);
+    }
+
+    .mobile-create-icon {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .mobile-create-text {
+      flex: 1;
+      text-align: center;
+    }
+
+    /* Media query per mostrare il bottone solo su mobile */
+    @media (max-width: 768px) {
+      .mobile-create-section {
+        display: block;
+      }
+      
+      #addDocumentBtn {
+        display: none !important; /* Nascondi completamente su mobile */
+      }
+    }
+
+    /* Miglioramenti per schermi piccoli */
+    @media (max-width: 480px) {
+      .mobile-create-btn-large {
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+      }
+      
+      .mobile-create-icon {
+        font-size: 1.3rem;
+      }
+      
+    }
+    /* Stile per il link Accedi - colore blu */
+nav a[href="login.html"],
+nav a[href="login.html"]:visited {
+  color: var(--accent) !important;
+  font-weight: 700;
+}
+
+nav a[href="login.html"]:hover {
+  text-decoration: underline;
+}
   </style>
 </head>
 <body>
@@ -1403,11 +1483,6 @@
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
           </a>
-   <!--     <div class="dropdown-divider"></div>
-          <a href="altroprogetto.html" class="dropdown-item">
-            <i class="fas fa-lock" style="margin-right: 8px;"></i>
-            ///
-          </a> -->
         </div>
       </div>
       
@@ -1446,6 +1521,14 @@
     </section>
 
     <section>
+      <!-- Sezione mobile per creare documento -->
+      <div class="mobile-create-section fade-in-up">
+        <button class="mobile-create-btn-large" id="mobileCreateBtnLarge">
+          <span class="mobile-create-icon">+</span>
+          <span class="mobile-create-text">Crea Nuovo Documento</span>
+        </button>
+      </div>
+
       <!-- Filtri per documenti - VERSIONE MIGLIORATA -->
       <div class="card fade-in-up">
         <h2 class="section-title">Filtra Documenti</h2>
@@ -1523,25 +1606,10 @@
         <div class="document-list" id="myDraftsList">
           <div class="empty-state" id="emptyMyDrafts">
             <p>Non hai ancora creato bozze.</p>
-            <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante + in alto.</p>
+            <p class="text-muted">Crea la tua prima pubblicazione usando il pulsante in alto.</p>
           </div>
         </div>
       </div>
-
-      <!-- Sezione Admin: Tutte le pubblicazioni 
-      <div class="card admin-only fade-in-up" id="allPublicationsSection">
-        <h2 class="section-title">Tutte le pubblicazioni <span class="admin-indicator">
-          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
-          </svg>
-          Solo Admin
-        </span></h2>
-        <div class="document-list" id="allPublicationsList">
-          <div class="empty-state" id="emptyAllPublications">
-            <p>Nessuna pubblicazione trovata.</p>
-          </div>
-        </div>
-      </div> -->
     </section>  
   </main>
 
@@ -1666,7 +1734,7 @@
     </form>
   </div>
 
-   <!-- Sidebar -->
+  <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
     <h2>Menu</h2>
@@ -1676,11 +1744,10 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📨</span> Documenti</a></li>
+      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+      <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-
     </ul>
-
     <!-- User info per mobile nella sidebar -->
     <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
       <div class="mobile-user-header">
@@ -1836,12 +1903,24 @@
       initDocumentTypeSelector();
       initViewerModal();
       initPublicationModal();
+      initMobileCreateButton();
     });
 
     function logout() {
       localStorage.removeItem('utente');
       localStorage.removeItem('utente_ruolo');
       window.location.href = "login.html";
+    }
+
+    // ===== GESTIONE BOTTONE MOBILE =====
+    function initMobileCreateButton() {
+      const mobileCreateBtnLarge = document.getElementById('mobileCreateBtnLarge');
+      
+      if (mobileCreateBtnLarge) {
+        mobileCreateBtnLarge.addEventListener('click', function() {
+          document.getElementById('publicationModal').style.display = 'flex';
+        });
+      }
     }
 
     // ===== GESTIONE FILTRI =====
@@ -2185,6 +2264,7 @@
         `;
       }
     }
+
     async function loadDraftsForReview() {
       try {
         const res = await fetch(`${API_BASE_URL}/api/drafts`, { headers: authHeaders() });

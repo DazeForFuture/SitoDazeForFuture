@@ -858,6 +858,48 @@
       }
     }
 
+        /* Stili per la sezione forum preview */
+    .feature-card {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--sidebar-border);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .feature-card {
+        padding: 1rem;
+      }
+      
+      .feature-icon {
+        font-size: 2rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -893,23 +935,27 @@
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
+      <a href="forum.html">Forum</a>
+
+
       
-      <!-- Userbar che sostituisce "Accedi" quando loggato -->
-      <div id="userbar" class="user-info" style="display:none;">
-        <div class="user-avatar" id="userAvatar"></div>
-        <div class="user-display">
-          <span class="user-name" id="userName"></span>
-          <span class="user-badge" id="userBadge"></span>
-        </div>
-        <button class="logout-btn" onclick="logout()">
-          <span>Logout</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+    <!-- Userbar che sostituisce "Accedi" quando loggato -->
+    <div id="userbar" class="user-info" style="display:none;">
+      <div class="user-avatar" id="userAvatar"></div>
+      <div class="user-display">
+        <span class="user-name" id="userName"></span>
+        <span class="user-badge" id="userBadge"></span>
       </div>
-      <!-- Link "Accedi" che viene nascosto quando loggato -->
-      <a href="login.html" id="loginLink">Accedi</a>
+      <button class="logout-btn" onclick="logout()">
+        <span>Logout</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Link "Accedi" che viene nascosto quando loggato -->
+    <a href="login.html" id="loginLink">Accedi</a>    
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
@@ -917,7 +963,7 @@
   <main>
     <section id="home" class="hero">
       <div class="hero-content">
-        <h1>Benvenuto su Daze for Future</h1>
+        <h1>Benvenutə su Daze for Future</h1>
         <p>Promuoviamo la sostenibilità, l'open source e la consapevolezza ambientale nella nostra scuola.</p>
         <a href="https://liceodazeglio.edu.it" class="btn btn-accent">
           <i class="fas fa-school"></i>
@@ -962,6 +1008,21 @@
       </div>
     </section>
 
+    <!-- Sezione della preview del Forum - SPOSTATA PIÙ IN ALTO -->
+    <section id="forum-preview">
+      <div class="card fade-in-up">
+        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80" alt="Forum Community" class="card-image">
+        <h2 class="section-title">Unisciti alla Community</h2>
+        <p class="text-muted">Il nostro forum è il luogo perfetto per discutere, condividere idee e collaborare con altri studenti appassionati di sostenibilità. Partecipa alle discussioni, fai domande e contribuisci a creare un futuro migliore insieme a noi.</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;" id="forumButtons">
+          <!-- I pulsanti verranno gestiti dinamicamente in base allo stato di login -->
+        </div>
+        <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;" id="forumFeatures">
+          <!-- Le feature cards verranno mostrate solo per utenti non loggati -->
+        </div>
+      </div>
+    </section>
+
     <section id="eventi-preview">
       <h2 class="section-title">Eventi in programma</h2>
       <div class="events-container" id="eventsContainer">
@@ -975,7 +1036,7 @@
       </div>
     </section>
   </main>
-  
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
@@ -986,9 +1047,9 @@
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📨</span> Documenti</a></li>
+      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+      <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-
     </ul>
 
     <!-- User info per mobile nella sidebar -->
@@ -1150,6 +1211,9 @@
       
       // Carica eventi dal backend
       caricaEventiHomepage();
+      
+      // Aggiorna la sezione forum in base allo stato di login
+      aggiornaSezioneForum();
     });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
@@ -1171,6 +1235,36 @@
     function getBadgeClass(role) {
       return role === 'admin' ? 'badge-admin' : 'badge-user';
     }
+
+    // Funzione per aggiornare la sezione forum in base allo stato di login
+    function aggiornaSezioneForum() {
+      const utente = localStorage.getItem('utente');
+      const forumButtons = document.getElementById('forumButtons');
+      const forumFeatures = document.getElementById('forumFeatures');
+      
+      if (utente) {
+        // Utente loggato - mostra solo "Vai al Forum"
+        forumButtons.innerHTML = `
+          <a href="forum.html" class="btn btn-accent">
+            <i class="fas fa-comments"></i>
+            Vai al Forum
+          </a>
+        `;
+        // Nascondi le feature cards
+        forumFeatures.style.display = 'none';
+      } else {
+        // Utente non loggato - mostra entrambi i pulsanti e le feature cards
+        forumButtons.innerHTML = `
+          <a href="forum.html" class="btn btn-accent">
+            <i class="fas fa-comments"></i>
+            Vai al Forum
+          </a>
+          <a href="registrati.html" class="btn">
+            <i class="fas fa-user-plus"></i>
+            Registrati per Partecipare
+          </a>
+        `;
+  }}
 
     // Mostra la barra utente se loggato
     document.addEventListener('DOMContentLoaded', function() {
@@ -1200,6 +1294,9 @@
         document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
       }
+      
+      // Aggiorna la sezione forum dopo aver controllato lo stato di login
+      aggiornaSezioneForum();
     });
 
     function logout() {
@@ -1302,7 +1399,7 @@
         console.error('❌ Errore caricamento eventi homepage:', error);
         
         // Mostra un messaggio di errore più specifico
-        const eventsEndpoint = window.EVENTS_API_BASE_URL || 'http://192.168.0.92:5002';
+        const eventsEndpoint = window.EVENTS_API_BASE_URL || 'http://192.168.0.92:5002'; // Da capire quando si avrà l'IP Statico
         document.getElementById('eventsContainer').innerHTML = `
           <div class="no-events">
             <p style="color: var(--error);">Errore nel caricamento degli eventi</p>

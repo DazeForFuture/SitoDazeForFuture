@@ -1,1303 +1,1714 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum - Daze For Future</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/sidebar/hamburger.css">
-    <link rel="stylesheet" href="css/sidebar/sidebar.css">
-    <link rel="stylesheet" href="css/userbar/userbar.css">
-    <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Stile migliorato per la pagina forum */
-        :root {
-            --bg: #fff;
-            --text: #1d1d1f;
-            --muted: #6e6e73;
-            --footer-bg: #f9f9f9;
-            --hover-bg: rgba(0,0,0,0.05);
-            --btn-bg: var(--text);
-            --btn-hover-bg: #333;
-            --header-bg: rgba(255,255,255,0.95);
-            --header-text: #1d1d1f;
-            --sidebar-bg: rgba(255,255,255,0.98);
-            --sidebar-border: rgba(0,0,0,0.15);
-            --sidebar-shadow: rgba(0,0,0,0.15);
-            --accent: #007aff;
-            --admin-badge: #ff3b30;
-            --user-badge: #34c759;
-            --overlay-light: rgba(255, 255, 255, 0.6);
-            --overlay-dark: rgba(29, 29, 31, 0.8);
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme]) {
-                --bg: #1d1d1f;
-                --text: #f5f5f7;
-                --muted: #a1a1a6;
-                --footer-bg: #111;
-                --hover-bg: rgba(255,255,255,0.05);
-                --btn-bg: var(--text);
-                --btn-hover-bg: #ddd;
-                --header-bg: rgba(29,29,31,0.95);
-                --header-text: #ffffff;
-                --sidebar-bg: rgba(29,29,31,0.98);
-                --sidebar-border: rgba(255,255,255,0.15);
-                --sidebar-shadow: rgba(0,0,0,0.4);
-                --accent: #0a84ff;
-                --admin-badge: #ff453a;
-                --user-badge: #30d158;
-                --overlay-light: rgba(255, 255, 255, 0.6);
-                --overlay-dark: rgba(29, 29, 31, 0.8);
-                --card-bg: rgba(29, 29, 31, 0.9);
-                --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            }
-        }
-
-        :root[data-theme="dark"] {
-            --bg: #1d1d1f;
-            --text: #f5f5f7;
-            --muted: #a1a1a6;
-            --footer-bg: #111;
-            --hover-bg: rgba(255,255,255,0.05);
-            --btn-bg: var(--text);
-            --btn-hover-bg: #ddd;
-            --header-bg: rgba(29,29,31,0.95);
-            --header-text: #ffffff;
-            --sidebar-bg: rgba(29,29,31,0.98);
-            --sidebar-border: rgba(255,255,255,0.15);
-            --sidebar-shadow: rgba(0,0,0,0.4);
-            --accent: #0a84ff;
-            --admin-badge: #ff453a;
-            --user-badge: #30d158;
-            --overlay-light: rgba(255, 255, 255, 0.6);
-            --overlay-dark: rgba(29, 29, 31, 0.8);
-            --card-bg: rgba(29, 29, 31, 0.9);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        :root[data-theme="light"] {
-            --bg: #fff;
-            --text: #1d1d1f;
-            --muted: #6e6e73;
-            --footer-bg: #f9f9f9;
-            --hover-bg: rgba(0,0,0,0.05);
-            --btn-bg: var(--text);
-            --btn-hover-bg: #333;
-            --header-bg: rgba(255,255,255,0.95);
-            --header-text: #1d1d1f;
-            --sidebar-bg: rgba(255,255,255,0.98);
-            --sidebar-border: rgba(0,0,0,0.15);
-            --sidebar-shadow: rgba(0,0,0,0.15);
-            --accent: #007aff;
-            --admin-badge: #ff3b30;
-            --user-badge: #34c759;
-            --overlay-light: rgba(255, 255, 255, 0.6);
-            --overlay-dark: rgba(29, 29, 31, 0.8);
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            line-height: 1.5;
-            background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            transition: background 0.3s ease;
-        }
-
-        :root[data-theme="light"] body::before {
-            background: var(--overlay-light);
-        }
-
-        :root[data-theme="dark"] body::before {
-            background: var(--overlay-dark);
-        }
-
-        :root:not([data-theme]) body::before {
-            background: var(--overlay-light);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme]) body::before {
-                background: var(--overlay-dark);
-            }
-        }
-
-        /* HEADER IDENTICO ALLA PAGINA CONTATTI */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            z-index: 1000;
-            color: var(--header-text, var(--text));
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            background: var(--header-bg);
-        }
-        
-        .logo {
-            font-weight: 800;
-            font-size: 1.4rem;
-            cursor: pointer;
-            user-select: none;
-            color: var(--header-text, var(--text));
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-        }
-
-        nav > a {
-            margin-left: 2rem;
-            text-decoration: none;
-            color: var(--header-text, var(--text));
-            font-weight: 600;
-            position: relative;
-            padding: 0.5rem;
-        }
-
-        nav > a::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: -4px;
-            width: 0;
-            height: 2px;
-            background: var(--text);
-            transition: width 0.3s;
-        }
-
-        nav > a:hover::after {
-            width: 100%;
-        }
-
-        /* Mostra hamburger menu solo su mobile */
-        #sidebarToggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--header-text);
-            padding: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            #sidebarToggle {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            #mainNav {
-                display: none;
-            }
-        }
-
-        nav a[href="login.html"],
-        nav a[href="login.html"]:visited {
-            color: var(--accent) !important;
-            font-weight: 700;
-        }
-
-        nav a[href="login.html"]:hover {
-            text-decoration: underline;
-        }
-
-        /* Logo image */
-        .logo-img {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .logo:hover .logo-img {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding-top: 200px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, #007aff, #00c6ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 1s ease;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--muted);
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease 0.2s both;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: var(--btn-bg);
-            color: var(--bg);
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:hover {
-            background-color: var(--btn-hover-bg);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-accent {
-            background: linear-gradient(90deg, #007aff, #00c6ff);
-            color: white;
-        }
-
-        .btn-accent:hover {
-            background: linear-gradient(90deg, #0062cc, #0099cc);
-        }
-
-        /* Forum Container */
-        .forum-container {
-            padding-top: 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: calc(100vh - 200px);
-        }
-
-        /* Views Management */
-        .view {
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, #007aff, #00c6ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Categories Grid */
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            padding: 1rem;
-        }
-
-        .category-card {
-            background: var(--card-bg);
-            border: 1px solid var(--sidebar-border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: var(--card-shadow);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent), #00c6ff);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .category-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .category-card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-
-        .category-card p {
-            color: var(--muted);
-            margin-bottom: 0.5rem;
-            line-height: 1.5;
-        }
-
-        .category-card .thread-count {
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        /* Threads List */
-        .threads-list {
-            background: var(--card-bg);
-            border: 1px solid var(--sidebar-border);
-            border-radius: 12px;
-            margin: 1rem;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-        }
-
-        .thread-item {
-            padding: 1.25rem;
-            border-bottom: 1px solid var(--sidebar-border);
-            transition: background-color 0.2s ease;
-            cursor: pointer;
-        }
-
-        .thread-item:last-child {
-            border-bottom: none;
-        }
-
-        .thread-item:hover {
-            background-color: var(--hover-bg);
-        }
-
-        .thread-item h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-
-        .thread-meta {
-            display: flex;
-            gap: 1rem;
-            color: var(--muted);
-            font-size: 0.875rem;
-            flex-wrap: wrap;
-        }
-
-        .thread-meta span {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        /* Thread Detail View */
-        .thread-content {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--card-shadow);
-        }
-
-        .thread-header, .threads-header, .create-thread-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .thread-header h2, .threads-header h2, .create-thread-header h2 {
-            flex: 1;
-            margin: 0;
-        }
-
-        .posts-list {
-            margin-bottom: 2rem;
-        }
-
-        .post-item {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--accent);
-        }
-
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .post-author {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .post-date {
-            color: var(--muted);
-            font-size: 0.875rem;
-        }
-
-        .post-content {
-            line-height: 1.6;
-            color: var(--text);
-        }
-
-        /* Forms */
-        .post-form, .create-thread-form {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: var(--card-shadow);
-        }
-
-        .post-form h3, .create-thread-form h2 {
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        textarea, input[type="text"], select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--sidebar-border);
-            border-radius: 8px;
-            background: var(--bg);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        textarea:focus, input[type="text"]:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--accent);
-            color: white;
-        }
-
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-        }
-
-        /* Empty States */
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--muted);
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        /* Loading States */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* User Roles Badges */
-        .user-badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge-admin {
-            background-color: var(--admin-badge);
-            color: white;
-        }
-
-        .badge-user {
-            background-color: var(--user-badge);
-            color: white;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .forum-container {
-                padding-top: 70px;
-            }
-            
-            .categories-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-                padding: 0.5rem;
-            }
-            
-            .threads-list {
-                margin: 0.5rem;
-            }
-            
-            .thread-header, .threads-header, .create-thread-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .thread-header .btn, .threads-header .btn, .create-thread-header .btn {
-                align-self: stretch;
-                text-align: center;
-            }
-            
-            .thread-meta {
-                flex-direction: column;
-                gap: 0.25rem;
-            }
-            
-            .category-card, .thread-content, .post-item, .post-form, .create-thread-form {
-                padding: 1rem;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            header {
-                padding: 0.8rem 1rem;
-            }
-            
-            .logo {
-                font-size: 1.2rem;
-            }
-            
-            nav > a {
-                margin-left: 1rem;
-                font-size: 0.9rem;
-                padding: 0.4rem;
-            }
-
-            .hero {
-                padding-top: 160px;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .forum-container {
-                padding-top: 60px;
-            }
-            
-            .category-card h3 {
-                font-size: 1.1rem;
-            }
-            
-            .thread-item h3 {
-                font-size: 1rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-        }
-
-        /* Accessibility Improvements */
-        .btn:focus, textarea:focus, input[type="text"]:focus, select:focus {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--muted);
-            font-size: 0.9rem;
-            background: var(--footer-bg);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Userbar styles */
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            background: var(--hover-bg);
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .user-display {
-            display: flex;
-            flex-direction: column;
-            gap: 0.1rem;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .logout-btn {
-            background: none;
-            border: none;
-            color: var(--muted);
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            transition: color 0.2s ease, background 0.2s ease;
-        }
-
-        .logout-btn:hover {
-            color: var(--text);
-            background: var(--hover-bg);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Daze for Future">
+  <title>Forum - Daze for Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
+  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+
+  <style>
+    :root {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
+      --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --danger: #ff3b30;
+      --warning: #ff9500;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --bg: #1d1d1f;
+        --text: #f5f5f7;
+        --muted: #a1a1a6;
+        --footer-bg: #111;
+        --hover-bg: rgba(255,255,255,0.05);
+        --btn-bg: var(--text);
+        --btn-hover-bg: #ddd;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
+        --accent: #0a84ff;
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --success: #30d158;
+        --danger: #ff453a;
+        --warning: #ff9f0a;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #1d1d1f;
+      --text: #f5f5f7;
+      --muted: #a1a1a6;
+      --footer-bg: #111;
+      --hover-bg: rgba(255,255,255,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #ddd;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
+      --accent: #0a84ff;
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --success: #30d158;
+      --danger: #ff453a;
+      --warning: #ff9f0a;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
+      --accent: #007aff;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --danger: #ff3b30;
+      --warning: #ff9500;
+    }
+
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    /* Overlay dinamico che si adatta al tema */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    /* Tema chiaro - overlay chiaro per contrasto */
+    :root[data-theme="light"] body::before {
+      background: var(--overlay-light);
+    }
+
+    /* Tema scuro - overlay scuro per contrasto */
+    :root[data-theme="dark"] body::before {
+      background: var(--overlay-dark);
+    }
+
+    /* Tema automatico - usa preferenza sistema */
+    :root:not([data-theme]) body::before {
+      background: var(--overlay-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) body::before {
+        background: var(--overlay-dark);
+      }
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: var(--header-bg);
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
+
+    nav > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
+    }
+
+    nav > a:hover::after {
+      width: 100%;
+    }
+
+    section {
+      padding: 140px 2rem 100px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding-top: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--btn-bg);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+
+    .text-muted {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Forum Styles */
+    .forum-hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .create-thread-container {
+      text-align: center;
+      margin: 3rem 0;
+      padding: 2rem;
+    }
+
+    .new-thread-btn {
+      margin: 0 auto;
+      display: inline-flex;
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+    }
+
+    .categories-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .category-btn {
+      background: var(--card-bg);
+      border: 2px solid transparent;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .category-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .category-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .threads-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .thread-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: slideInUp 0.5s ease;
+    }
+
+    .thread-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .thread-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .thread-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .thread-meta {
+      display: flex;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .thread-stats {
+      display: flex;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 1rem;
+      align-items: center;
+    }
+
+    .thread-category {
+      background: var(--accent);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .thread-content {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 90%;
+      max-width: 700px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--card-shadow);
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+
+    .close-modal:hover {
+      color: var(--danger);
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid var(--sidebar-border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1.1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .form-textarea {
+      min-height: 150px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+    }
+
+    /* Thread Detail Styles */
+    .thread-detail {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      animation: slideInUp 0.5s ease;
+    }
+
+    .thread-detail h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .post {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--sidebar-border);
+      transition: all 0.3s ease;
+      animation: slideInUp 0.5s ease;
+    }
+
+    .post:hover {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .post-author {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    .post-date {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .post-content {
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .vote-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .vote-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1.3rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .vote-btn:hover {
+      background: var(--hover-bg);
+      transform: scale(1.1);
+    }
+
+    .vote-btn.upvote:hover {
+      color: var(--success);
+    }
+
+    .vote-btn.downvote:hover {
+      color: var(--danger);
+    }
+
+    .vote-btn.active.upvote {
+      color: var(--success);
+      background: rgba(52, 199, 89, 0.1);
+    }
+
+    .vote-btn.active.downvote {
+      color: var(--danger);
+      background: rgba(255, 59, 48, 0.1);
+    }
+
+    .vote-count {
+      font-weight: 600;
+      min-width: 2.5rem;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .reply-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s;
+      padding: 0.5rem;
+    }
+
+    .reply-btn:hover {
+      color: var(--text);
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s;
+      padding: 0.5rem;
+    }
+
+    .delete-btn:hover {
+      color: var(--text);
+    }
+
+    .reply-form {
+      margin-top: 1.5rem;
+      padding-left: 2rem;
+      border-left: 3px solid var(--accent);
+      animation: slideInRight 0.3s ease;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .replies {
+      margin-left: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .back-btn {
+      margin-bottom: 2rem;
+      animation: fadeIn 0.5s ease;
+      font-size: 1.1rem;
+      padding: 1rem 1.5rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .categories-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .category-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .thread-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .reply-form {
+        padding-left: 1rem;
+      }
+      
+      .replies {
+        margin-left: 1rem;
+      }
+      
+      .post-actions {
+        flex-wrap: wrap;
+      }
+      
+      .modal-content {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Stili per il dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--sidebar-border);
+      margin: 0.25rem 0;
+    }
+
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Media query per mobile */
+    @media (max-width: 768px) {
+      .dropdown {
+        display: none;
+      }
+      
+      nav > a, .dropdown-toggle {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+    }
+
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      #sidebarToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+  </style>
 </head>
 <body>
-    <div id="app">
-        <!-- HEADER IDENTICO ALLA PAGINA CONTATTI -->
-        <header>
-            <div class="logo" id="toggleSidebar">
-                <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
-                <span>Daze for Future</span>
-            </div>
-            <div style="flex:1"></div>
-            
-            <nav id="mainNav">
-                <a href="index.html">Home</a>
-                <a href="missione.html">Missione</a>
-                <a href="prossimi_eventi.html">Eventi</a>
-                <a href="chi_siamo.html">Chi siamo</a>
-                <a href="documenti.html">Documenti</a>
-                
-                <!-- Userbar che sostituisce "Accedi" quando loggato -->
-                <div id="userbar" class="user-info" style="display:none;">
-                    <div class="user-avatar" id="userAvatar"></div>
-                    <div class="user-display">
-                        <span class="user-name" id="userName"></span>
-                        <span class="user-badge" id="userBadge"></span>
-                    </div>
-                    <button class="logout-btn" onclick="logout()">
-                        <span>Logout</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                </div>
-                <!-- Link "Accedi" che viene nascosto quando loggato -->
-                <a href="login.html" id="loginLink">Accedi</a>
-            </nav>
-            <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
-        </header>
-
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Benvenuto su Daze for Future</h1>
-                <p>Promuoviamo la sostenibilità, l'open source e la consapevolezza ambientale nella nostra scuola.</p>
-                <a href="#forum" class="btn btn-accent">
-                    <i class="fas fa-comments"></i>
-                    Accedi al Forum
-                </a>
-            </div>
-        </section>
-
-        <!-- Main Content -->
-        <div class="forum-container" id="forum">
-            <!-- Categories View -->
-            <div id="categories-view" class="view">
-                <h2 class="section-title">Forum - Categorie</h2>
-                <div id="categories-list" class="categories-grid">
-                    <!-- Le categorie verranno caricate dinamicamente qui -->
-                </div>
-            </div>
-
-            <!-- Threads View -->
-            <div id="threads-view" class="view" style="display: none;">
-                <div class="threads-header">
-                    <button onclick="showCategories()" class="btn btn-outline">← Torna alle Categorie</button>
-                    <h2 id="threads-title" class="section-title"></h2>
-                    <button onclick="showCreateThread()" class="btn" id="create-thread-btn" style="display: none;">
-                        <i class="fas fa-plus"></i>
-                        Nuova Discussione
-                    </button>
-                </div>
-                <div id="threads-list" class="threads-list">
-                    <!-- Le discussioni verranno caricate dinamicamente qui -->
-                </div>
-            </div>
-
-            <!-- Thread Detail View -->
-            <div id="thread-view" class="view" style="display: none;">
-                <div class="thread-header">
-                    <button onclick="showThreads()" class="btn btn-outline">← Torna alle Discussioni</button>
-                    <h2 id="thread-title" class="section-title"></h2>
-                </div>
-                <div id="thread-content" class="thread-content">
-                    <!-- Il contenuto del thread verrà caricato dinamicamente qui -->
-                </div>
-                <div id="posts-list" class="posts-list">
-                    <!-- I post verranno caricati dinamicamente qui -->
-                </div>
-                <div id="post-form" class="post-form" style="display: none;">
-                    <h3>Rispondi</h3>
-                    <textarea id="post-content" placeholder="Scrivi la tua risposta..." rows="4"></textarea>
-                    <button onclick="createPost()" class="btn">
-                        <i class="fas fa-paper-plane"></i>
-                        Invia Risposta
-                    </button>
-                </div>
-            </div>
-
-            <!-- Create Thread View -->
-            <div id="create-thread-view" class="view" style="display: none;">
-                <div class="create-thread-header">
-                    <button onclick="showThreads()" class="btn btn-outline">← Annulla</button>
-                    <h2 class="section-title">Nuova Discussione</h2>
-                </div>
-                <form id="create-thread-form" class="create-thread-form">
-                    <input type="text" id="thread-title-input" placeholder="Titolo della discussione" required>
-                    <select id="thread-category" required>
-                        <option value="">Seleziona una categoria</option>
-                    </select>
-                    <textarea id="thread-content-input" placeholder="Contenuto della discussione..." rows="8" required></textarea>
-                    <button type="submit" class="btn">
-                        <i class="fas fa-plus"></i>
-                        Crea Discussione
-                    </button>
-                </form>
-            </div>
-        </div>
-
+  <header>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
     </div>
+    <div style="flex:1"></div>
+    
+    <nav id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="missione.html">Missione</a>
+      <a href="prossimi_eventi.html">Eventi</a>
+      
+      <!-- Menu a tendina Progetti -->
+      <div class="dropdown">
+        <button class="dropdown-toggle">
+          Progetti
+        </button>
+        <div class="dropdown-menu">
+          <a href="centrale_meteo.html" class="dropdown-item">
+            <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
+            Centrale Meteorologica
+          </a>
+        </div>
+      </div>
+      
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+      <a href="documenti.html">Documenti</a>
+      
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <div class="user-display">
+          <span class="user-name" id="userName"></span>
+          <span class="user-badge" id="userBadge"></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>
+    </nav>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+  </header>
 
-    <!-- Footer -->
-    <footer>
-        &copy; 2025 Daze for Future. Tutti i diritti riservati.
-    </footer>
+  <main>
+    <section id="forum">
+      <div class="forum-hero">
+        <h1 class="section-title">Forum</h1>
+        <p class="text-muted">Discuti, condividi idee e collabora con la community</p>
+      </div>
+      
+      <!-- Pulsante per nuovo thread al centro -->
+      <div class="create-thread-container">
+        <button id="newThreadBtn" class="btn btn-accent new-thread-btn" style="display: none;">
+          <i class="fas fa-plus"></i>
+          Crea Nuova Discussione
+        </button>
+        <p id="loginPrompt" class="text-muted" style="margin-top: 1.5rem; font-size: 1.2rem;">
+          <a href="login.html" style="color: var(--accent); font-weight: 600;">Accedi</a> per creare una nuova discussione
+        </p>
+      </div>
+      
+      <!-- Filtri categorie -->
+      <div class="categories-container">
+        <button class="category-btn active" data-category="all">
+          Tutte le discussioni
+        </button>
+        <button class="category-btn" data-category="1">
+          Generale
+        </button>
+        <button class="category-btn" data-category="2">
+          Scuola
+        </button>
+        <button class="category-btn" data-category="3">
+          Green
+        </button>
+      </div>
+      
+      <!-- Vista lista thread -->
+      <div id="threadsView" class="threads-container">
+        <!-- I thread verranno caricati dinamicamente -->
+      </div>
+      
+      <!-- Vista dettaglio thread -->
+      <div id="threadDetailView" style="display: none;">
+        <button id="backToThreads" class="btn back-btn">
+          <i class="fas fa-arrow-left"></i>
+          Torna alle discussioni
+        </button>
+        <div id="threadDetailContent">
+          <!-- Il contenuto del thread verrà caricato dinamicamente -->
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Modale per nuovo thread -->
+  <div id="newThreadModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Crea Nuova Discussione</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <form id="newThreadForm">
+        <div class="form-group">
+          <label class="form-label" for="threadTitle">Titolo</label>
+          <input type="text" id="threadTitle" class="form-input" placeholder="Inserisci un titolo per la discussione..." required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="threadCategory">Categoria</label>
+          <select id="threadCategory" class="form-select" required>
+            <!-- Le categorie verranno caricate dinamicamente -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="threadContent">Contenuto</label>
+          <textarea id="threadContent" class="form-textarea" placeholder="Scrivi il contenuto della tua discussione..." required></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn close-modal">Annulla</button>
+          <button type="submit" class="btn btn-accent">Crea Discussione</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Modale per nuova risposta -->
+  <div id="newReplyModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Rispondi</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <form id="newReplyForm">
+        <input type="hidden" id="replyThreadId">
+        <input type="hidden" id="replyParentId">
+        <div class="form-group">
+          <label class="form-label" for="replyContent">La tua risposta</label>
+          <textarea id="replyContent" class="form-textarea" placeholder="Scrivi la tua risposta..." required></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn close-modal">Annulla</button>
+          <button type="submit" class="btn btn-accent">Invia Risposta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Modale per eliminazione (admin) -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Conferma Eliminazione</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <form id="deleteForm">
+        <input type="hidden" id="deleteItemId">
+        <input type="hidden" id="deleteItemType">
+        <div class="form-group">
+          <label class="form-label" for="deleteReason">Motivazione</label>
+          <textarea id="deleteReason" class="form-textarea" placeholder="Inserisci la motivazione per l'eliminazione..." required></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn close-modal">Annulla</button>
+          <button type="submit" class="btn btn-danger">Elimina</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-    <!-- Scripts -->
-    <script src="css/sidebar/sidebar.js"></script>
-    <script src="css/userbar/userbar.js"></script>
-    <script src="theme.js"></script>
-    <script>
-        // Forum functionality
-        let currentUser = null;
-        let currentThreadId = null;
-        let currentCategoryId = null;
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
+    <h2>Menu</h2>
+    <ul class="sidebar-menu">
+      <li><a href="index.html"><span>🏠</span> Home</a></li>
+      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
+      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+      <li><a href="forum.html"><span>💬</span> Forum</a></li>
+      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+    </ul>
+    
+    <!-- User info per mobile nella sidebar -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+      <div class="mobile-user-header">
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+      </div>
+      <div class="mobile-user-display">
+        <span class="mobile-user-name" id="mobileUserName"></span>
+        <span class="mobile-user-badge" id="mobileUserBadge"></span>
+      </div>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
 
-        const FORUM_API = 'http://localhost:5003';
-            
-        // Check authentication status on page load
-        window.addEventListener('load', async () => {
-            try {
-                // Get email from localStorage (set by main login system)
-                const userEmail = localStorage.getItem('userEmail');
-                if (userEmail) {
-                    const response = await fetch(`${FORUM_API}/api/check-auth?email=${encodeURIComponent(userEmail)}`);
-                    const data = await response.json();
-                    if (data.authenticated) {
-                        currentUser = data.user;
-                        updateUI();
-                    }
-                }
-                
-                // Load categories after authentication
-                await loadCategories();
-                // Load categories in thread creation form
-                await loadCategorySelect();
-                
-                // Update user interface based on login status
-                updateUserInterface();
-                
-            } catch (error) {
-                console.error('Error checking auth status:', error);
-                // Show error but continue loading
-                await loadCategories();
-                await loadCategorySelect();
-                updateUserInterface();
-            }
+  <footer>
+    &copy; 2025 Daze for Future. Tutti i diritti riservati.
+  </footer>
+
+<script>
+    // Configurazione backend
+    const FORUM_API_BASE_URL = 'http://localhost:5003';
+    
+    // Stato applicazione
+    let currentUser = null;
+    let currentCategory = 'all';
+    let currentThread = null;
+    let userVotes = {};
+    
+    // Inizializzazione
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAuthentication();
+      loadCategories();
+      loadThreads();
+      setupEventListeners();
+    });
+    
+    // Controlla autenticazione
+    async function checkAuthentication() {
+      const userEmail = localStorage.getItem('utente');
+      if (!userEmail) {
+        updateUIForGuest();
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${FORUM_API_BASE_URL}/api/check-auth?email=${encodeURIComponent(userEmail)}`);
+        const data = await response.json();
+        
+        if (data.authenticated) {
+          currentUser = data.user;
+          updateUIForUser();
+        } else {
+          updateUIForGuest();
+        }
+      } catch (error) {
+        console.error('Errore nel controllo autenticazione:', error);
+        updateUIForGuest();
+      }
+    }
+    
+    // Aggiorna UI per utente guest
+    function updateUIForGuest() {
+      document.getElementById('newThreadBtn').style.display = 'none';
+      document.getElementById('loginPrompt').style.display = 'block';
+      document.getElementById('loginLink').style.display = 'block';
+      document.getElementById('sidebarLoginLink').style.display = 'block';
+      document.getElementById('userbar').style.display = 'none';
+      document.getElementById('mobileUserInfo').style.display = 'none';
+    }
+    
+    // Aggiorna UI per utente loggato
+    function updateUIForUser() {
+      document.getElementById('newThreadBtn').style.display = 'inline-flex';
+      document.getElementById('loginPrompt').style.display = 'none';
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('sidebarLoginLink').style.display = 'none';
+      
+      const userbar = document.getElementById('userbar');
+      userbar.style.display = 'flex';
+      document.getElementById('userName').innerText = currentUser.username;
+      document.getElementById('userBadge').innerText = currentUser.role === 'admin' ? 'Admin' : 'User';
+      document.getElementById('userBadge').className = `user-badge ${currentUser.role === 'admin' ? 'badge-admin' : 'badge-user'}`;
+      document.getElementById('userAvatar').innerText = currentUser.username.charAt(0).toUpperCase();
+      
+      const mobileUserInfo = document.getElementById('mobileUserInfo');
+      mobileUserInfo.style.display = 'block';
+      document.getElementById('mobileUserName').innerText = currentUser.username;
+      document.getElementById('mobileUserBadge').innerText = currentUser.role === 'admin' ? 'Admin' : 'User';
+      document.getElementById('mobileUserBadge').className = `mobile-user-badge ${currentUser.role === 'admin' ? 'badge-admin' : 'badge-user'}`;
+      document.getElementById('mobileUserAvatar').innerText = currentUser.username.charAt(0).toUpperCase();
+    }
+    
+    // Carica categorie
+    async function loadCategories() {
+      try {
+        const response = await fetch(`${FORUM_API_BASE_URL}/api/categories`);
+        const categories = await response.json();
+        
+        // Aggiorna select nel modale
+        const categorySelect = document.getElementById('threadCategory');
+        categorySelect.innerHTML = '';
+        categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id;
+          option.textContent = category.name;
+          categorySelect.appendChild(option);
         });
-
-        async function loadCategorySelect() {
-            try {
-                const response = await fetch(`${FORUM_API}/api/categories`);
-                const categories = await response.json();
-                const categorySelect = document.getElementById('thread-category');
-                categorySelect.innerHTML = '<option value="">Seleziona una categoria</option>' +
-                    categories.map(category => `
-                        <option value="${category.id}">${category.name}</option>
-                    `).join('');
-            } catch (error) {
-                console.error('Error loading categories for select:', error);
-            }
+        
+      } catch (error) {
+        console.error('Errore nel caricamento categorie:', error);
+      }
+    }
+    
+    // Carica thread
+    async function loadThreads() {
+      try {
+        const url = currentCategory !== 'all' 
+          ? `${FORUM_API_BASE_URL}/api/threads?category_id=${currentCategory}`
+          : `${FORUM_API_BASE_URL}/api/threads`;
+          
+        const response = await fetch(url);
+        const threads = await response.json();
+        
+        const threadsView = document.getElementById('threadsView');
+        
+        if (threads.length === 0) {
+          threadsView.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-comments"></i>
+              <h3>Nessuna discussione trovata</h3>
+              <p class="text-muted">Sii il primo a creare una discussione in questa categoria!</p>
+            </div>
+          `;
+          return;
         }
-
-        async function loadCategories() {
-            try {
-                const response = await fetch(`${FORUM_API}/api/categories`);
-                const categories = await response.json();
-                const categoriesList = document.getElementById('categories-list');
-                
-                if (categories.length === 0) {
-                    categoriesList.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">📝</div>
-                            <h3>Nessuna categoria disponibile</h3>
-                            <p>Le categorie del forum verranno create presto.</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                categoriesList.innerHTML = categories.map(category => `
-                    <div class="category-card" onclick="showThreadsForCategory(${category.id}, '${category.name.replace(/'/g, "\\'")}')">
-                        <h3>${category.name}</h3>
-                        <p>${category.description}</p>
-                        <p class="thread-count">Discussioni: ${category.thread_count}</p>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading categories:', error);
-                const categoriesList = document.getElementById('categories-list');
-                categoriesList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">❌</div>
-                        <h3>Errore nel caricamento</h3>
-                        <p>Impossibile caricare le categorie del forum. Riprova più tardi.</p>
-                    </div>
-                `;
-            }
+        
+        threadsView.innerHTML = '';
+        
+        threads.forEach((thread, index) => {
+          const threadCard = document.createElement('div');
+          threadCard.className = 'thread-card fade-in-up';
+          threadCard.style.animationDelay = `${index * 0.1}s`;
+          
+          // Determina il nome della categoria
+          let categoryName = 'Generale';
+          let categoryClass = 'thread-category';
+          
+          if (thread.category_id === 2) {
+            categoryName = 'Scuola';
+          } else if (thread.category_id === 3) {
+            categoryName = 'Green';
+          }
+          
+          threadCard.innerHTML = `
+            <div class="thread-header">
+              <div>
+                <h3 class="thread-title">${thread.title}</h3>
+                <div class="thread-meta">
+                  <span>Di ${thread.username}</span>
+                  <span>•</span>
+                  <span>${new Date(thread.created_at).toLocaleDateString('it-IT')}</span>
+                </div>
+              </div>
+              <div class="thread-stats">
+                <span class="${categoryClass}">${categoryName}</span>
+                <span>${thread.post_count} risposte</span>
+              </div>
+            </div>
+            <div class="thread-content">
+              ${thread.content.substring(0, 200)}${thread.content.length > 200 ? '...' : ''}
+            </div>
+          `;
+          
+          threadCard.addEventListener('click', () => loadThreadDetail(thread.id));
+          threadsView.appendChild(threadCard);
+        });
+        
+      } catch (error) {
+        console.error('Errore nel caricamento thread:', error);
+        document.getElementById('threadsView').innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Errore nel caricamento</h3>
+            <p class="text-muted">Impossibile caricare le discussioni. Riprova più tardi.</p>
+          </div>
+        `;
+      }
+    }
+    
+    // Carica dettaglio thread
+    async function loadThreadDetail(threadId) {
+      try {
+        const response = await fetch(`${FORUM_API_BASE_URL}/api/threads/${threadId}`);
+        const thread = await response.json();
+        
+        currentThread = thread;
+        
+        // Nascondi lista thread, mostra dettaglio
+        document.getElementById('threadsView').style.display = 'none';
+        document.getElementById('threadDetailView').style.display = 'block';
+        
+        const threadDetailContent = document.getElementById('threadDetailContent');
+        threadDetailContent.innerHTML = `
+          <div class="thread-detail">
+            <h2>${thread.title}</h2>
+            <div class="thread-meta">
+              <span>Di ${thread.username}</span>
+              <span>•</span>
+              <span>${new Date(thread.created_at).toLocaleDateString('it-IT')}</span>
+              <span>•</span>
+              <span>Categoria: ${thread.category_name}</span>
+              ${currentUser && currentUser.role === 'admin' ? `
+                <div class="admin-actions">
+                  <button class="delete-btn" onclick="openDeleteModal('thread', ${thread.id})">
+                    <i class="fas fa-trash"></i>
+                    Elimina
+                  </button>
+                </div>
+              ` : ''}
+            </div>
+            <div class="post-content">
+              ${thread.content}
+            </div>
+          </div>
+          <div id="postsContainer">
+            ${renderPosts(thread.posts)}
+          </div>
+          ${currentUser ? `
+            <div style="margin-top: 2rem; text-align: center;">
+              <button class="btn btn-accent" onclick="openReplyModal(${thread.id})">
+                <i class="fas fa-reply"></i>
+                Rispondi alla discussione
+              </button>
+            </div>
+          ` : `
+            <div style="margin-top: 2rem; text-align: center;">
+              <p class="text-muted">Devi essere loggato per rispondere</p>
+              <a href="login.html" class="btn">Accedi</a>
+            </div>
+          `}
+        `;
+        
+      } catch (error) {
+        console.error('Errore nel caricamento dettaglio thread:', error);
+        alert('Errore nel caricamento del thread');
+      }
+    }
+    
+    // Renderizza posts con struttura ad albero
+    function renderPosts(posts, parentId = null, level = 0) {
+      const childPosts = posts.filter(post => post.parent_id === parentId);
+      
+      if (childPosts.length === 0) return '';
+      
+      return childPosts.map((post, index) => `
+        <div class="post" style="margin-left: ${level * 20}px;">
+          <div class="post-header">
+            <div>
+              <span class="post-author">${post.username}</span>
+              <span class="post-date">${new Date(post.created_at).toLocaleDateString('it-IT')}</span>
+            </div>
+            <div class="post-actions">
+              <div class="vote-buttons">
+                <button class="vote-btn upvote ${userVotes[post.id] === 1 ? 'active' : ''}" 
+                        onclick="votePost(${post.id}, 1)" ${!currentUser ? 'disabled' : ''}>
+                  <i class="fas fa-arrow-up"></i>
+                </button>
+                <span class="vote-count">${post.upvotes - post.downvotes}</span>
+                <button class="vote-btn downvote ${userVotes[post.id] === -1 ? 'active' : ''}" 
+                        onclick="votePost(${post.id}, -1)" ${!currentUser ? 'disabled' : ''}>
+                  <i class="fas fa-arrow-down"></i>
+                </button>
+              </div>
+              ${currentUser ? `
+                <button class="reply-btn" onclick="openReplyModal(${currentThread.id}, ${post.id})">
+                  <i class="fas fa-reply"></i>
+                  Rispondi
+                </button>
+              ` : ''}
+              ${currentUser && currentUser.role === 'admin' ? `
+                <div class="admin-actions">
+                  <button class="delete-btn" onclick="openDeleteModal('post', ${post.id})">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+          <div class="post-content">
+            ${post.content}
+          </div>
+          ${renderPosts(posts, post.id, level + 1)}
+        </div>
+      `).join('');
+    }
+    
+    // Vota post
+    async function votePost(postId, voteType) {
+      if (!currentUser) {
+        alert('Devi essere loggato per votare');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${FORUM_API_BASE_URL}/api/posts/${postId}/vote`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: currentUser.email,
+            vote_type: voteType
+          })
+        });
+        
+        if (response.ok) {
+          // Ricarica il thread per aggiornare i voti
+          loadThreadDetail(currentThread.id);
+        } else {
+          alert('Errore nel voto');
         }
-
-        async function showThreadsForCategory(categoryId, categoryName) {
-            document.getElementById('categories-view').style.display = 'none';
-            document.getElementById('threads-view').style.display = 'block';
-            document.getElementById('threads-title').textContent = categoryName;
-            currentCategoryId = categoryId;
+      } catch (error) {
+        console.error('Errore nel voto:', error);
+        alert('Errore nel voto');
+      }
+    }
+    
+    // Apri modale risposta
+    function openReplyModal(threadId, parentId = null) {
+      if (!currentUser) {
+        alert('Devi essere loggato per rispondere');
+        return;
+      }
+      
+      document.getElementById('replyThreadId').value = threadId;
+      document.getElementById('replyParentId').value = parentId || '';
+      document.getElementById('replyContent').value = '';
+      document.getElementById('newReplyModal').style.display = 'block';
+    }
+    
+    // Apri modale eliminazione
+    function openDeleteModal(itemType, itemId) {
+      if (!currentUser || currentUser.role !== 'admin') {
+        alert('Solo gli admin possono eliminare contenuti');
+        return;
+      }
+      
+      document.getElementById('deleteItemType').value = itemType;
+      document.getElementById('deleteItemId').value = itemId;
+      document.getElementById('deleteReason').value = '';
+      document.getElementById('deleteModal').style.display = 'block';
+    }
+    
+    // Setup event listeners
+    function setupEventListeners() {
+      // Filtri categorie
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCategory = btn.dataset.category;
+          loadThreads();
+        });
+      });
+      
+      // Modale nuovo thread
+      document.getElementById('newThreadBtn').addEventListener('click', () => {
+        if (!currentUser) {
+          alert('Devi essere loggato per creare un thread');
+          return;
+        }
+        document.getElementById('newThreadModal').style.display = 'block';
+      });
+      
+      // Torna ai thread
+      document.getElementById('backToThreads').addEventListener('click', () => {
+        document.getElementById('threadsView').style.display = 'block';
+        document.getElementById('threadDetailView').style.display = 'none';
+        currentThread = null;
+      });
+      
+      // Form nuovo thread
+      document.getElementById('newThreadForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const title = document.getElementById('threadTitle').value;
+        const category = document.getElementById('threadCategory').value;
+        const content = document.getElementById('threadContent').value;
+        
+        try {
+          const response = await fetch(`${FORUM_API_BASE_URL}/api/threads`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: currentUser.email,
+              title: title,
+              content: content,
+              category_id: category
+            })
+          });
+          
+          if (response.ok) {
+            document.getElementById('newThreadModal').style.display = 'none';
+            document.getElementById('newThreadForm').reset();
+            loadThreads();
+            alert('Discussione creata con successo!');
+          } else {
+            const error = await response.json();
+            alert('Errore: ' + error.error);
+          }
+        } catch (error) {
+          console.error('Errore nella creazione thread:', error);
+          alert('Errore nella creazione della discussione');
+        }
+      });
+      
+      // Form nuova risposta
+      document.getElementById('newReplyForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const threadId = document.getElementById('replyThreadId').value;
+        const parentId = document.getElementById('replyParentId').value;
+        const content = document.getElementById('replyContent').value;
+        
+        try {
+          const response = await fetch(`${FORUM_API_BASE_URL}/api/threads/${threadId}/posts`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: currentUser.email,
+              content: content,
+              parent_id: parentId || null
+            })
+          });
+          
+          if (response.ok) {
+            document.getElementById('newReplyModal').style.display = 'none';
+            document.getElementById('newReplyForm').reset();
+            loadThreadDetail(threadId);
+            alert('Risposta inviata con successo!');
+          } else {
+            const error = await response.json();
+            alert('Errore: ' + error.error);
+          }
+        } catch (error) {
+          console.error('Errore nell\'invio risposta:', error);
+          alert('Errore nell\'invio della risposta');
+        }
+      });
+      
+      // Form eliminazione
+      document.getElementById('deleteForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const itemType = document.getElementById('deleteItemType').value;
+        const itemId = document.getElementById('deleteItemId').value;
+        const reason = document.getElementById('deleteReason').value;
+        
+        try {
+          const url = itemType === 'thread' 
+            ? `${FORUM_API_BASE_URL}/api/threads/${itemId}`
+            : `${FORUM_API_BASE_URL}/api/posts/${itemId}`;
             
-            if (currentUser) {
-                document.getElementById('create-thread-btn').style.display = 'block';
-            }
-
-            try {
-                const response = await fetch(`${FORUM_API}/api/threads?category_id=${categoryId}`);
-                const threads = await response.json();
-                const threadsList = document.getElementById('threads-list');
-                
-                if (threads.length === 0) {
-                    threadsList.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">💬</div>
-                            <h3>Nessuna discussione</h3>
-                            <p>Sii il primo a creare una discussione in questa categoria!</p>
-                            ${currentUser ? `<button onclick="showCreateThread()" class="btn" style="margin-top: 1rem;">
-                                <i class="fas fa-plus"></i>
-                                Crea la prima discussione
-                            </button>` : ''}
-                        </div>
-                    `;
-                    return;
-                }
-                
-                threadsList.innerHTML = threads.map(thread => `
-                    <div class="thread-item" onclick="showThread(${thread.id})">
-                        <h3>${thread.title}</h3>
-                        <div class="thread-meta">
-                            <span><i class="fas fa-user"></i> ${thread.username}</span>
-                            <span><i class="fas fa-comment"></i> ${thread.post_count} risposte</span>
-                            <span><i class="fas fa-clock"></i> ${new Date(thread.created_at).toLocaleString()}</span>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading threads:', error);
-                const threadsList = document.getElementById('threads-list');
-                threadsList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">❌</div>
-                        <h3>Errore nel caricamento</h3>
-                        <p>Impossibile caricare le discussioni. Riprova più tardi.</p>
-                    </div>
-                `;
-            }
-        }
-
-        async function showThread(threadId) {
-            document.getElementById('threads-view').style.display = 'none';
-            document.getElementById('thread-view').style.display = 'block';
-            currentThreadId = threadId;
+          const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: currentUser.email,
+              reason: reason
+            })
+          });
+          
+          if (response.ok) {
+            document.getElementById('deleteModal').style.display = 'none';
+            document.getElementById('deleteForm').reset();
             
-            try {
-                const response = await fetch(`${FORUM_API}/api/threads/${threadId}`);
-                const thread = await response.json();
-                
-                document.getElementById('thread-title').textContent = thread.title;
-                document.getElementById('thread-content').innerHTML = `
-                    <div class="post-item">
-                        <div class="post-header">
-                            <span class="post-author">${thread.username}</span>
-                            <span class="post-date">${new Date(thread.created_at).toLocaleString()}</span>
-                        </div>
-                        <div class="post-content">
-                            ${thread.content}
-                        </div>
-                    </div>
-                `;
-                
-                const postsList = document.getElementById('posts-list');
-                if (thread.posts && thread.posts.length > 0) {
-                    postsList.innerHTML = thread.posts.map(post => `
-                        <div class="post-item">
-                            <div class="post-header">
-                                <span class="post-author">${post.username}</span>
-                                <span class="post-date">${new Date(post.created_at).toLocaleString()}</span>
-                            </div>
-                            <div class="post-content">
-                                ${post.content}
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    postsList.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">💬</div>
-                            <h3>Nessuna risposta</h3>
-                            <p>Sii il primo a rispondere a questa discussione!</p>
-                        </div>
-                    `;
-                }
-
-                if (currentUser) {
-                    document.getElementById('post-form').style.display = 'block';
-                } else {
-                    document.getElementById('post-form').style.display = 'none';
-                }
-            } catch (error) {
-                console.error('Error loading thread:', error);
-                document.getElementById('thread-content').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">❌</div>
-                        <h3>Errore nel caricamento</h3>
-                        <p>Impossibile caricare la discussione. Riprova più tardi.</p>
-                    </div>
-                `;
-            }
-        }
-
-        function showCategories() {
-            document.getElementById('threads-view').style.display = 'none';
-            document.getElementById('thread-view').style.display = 'none';
-            document.getElementById('create-thread-view').style.display = 'none';
-            document.getElementById('categories-view').style.display = 'block';
-        }
-
-        function showThreads() {
-            document.getElementById('thread-view').style.display = 'none';
-            document.getElementById('create-thread-view').style.display = 'none';
-            document.getElementById('threads-view').style.display = 'block';
-        }
-
-        function showCreateThread() {
-            if (!currentUser) {
-                alert('Devi effettuare il login per creare una discussione');
-                window.location.href = 'login.html';
-                return;
-            }
-            document.getElementById('threads-view').style.display = 'none';
-            document.getElementById('create-thread-view').style.display = 'block';
-        }
-
-        function updateUI() {
-            const createThreadBtn = document.getElementById('create-thread-btn');
-            const postForm = document.getElementById('post-form');
-            
-            if (currentUser) {
-                createThreadBtn.style.display = 'block';
-                postForm.style.display = 'block';
+            if (itemType === 'thread') {
+              // Torna alla lista thread
+              document.getElementById('threadsView').style.display = 'block';
+              document.getElementById('threadDetailView').style.display = 'none';
+              loadThreads();
             } else {
-                createThreadBtn.style.display = 'none';
-                postForm.style.display = 'none';
+              // Ricarica il thread
+              loadThreadDetail(currentThread.id);
             }
-        }
-
-        // Form submissions
-        document.getElementById('create-thread-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) {
-                alert('Devi effettuare il login per creare una discussione');
-                window.location.href = 'login.html';
-                return;
-            }
-
-            const title = document.getElementById('thread-title-input').value;
-            const content = document.getElementById('thread-content-input').value;
-            const categoryId = document.getElementById('thread-category').value;
-
-            if (!title || !content || !categoryId) {
-                alert('Per favore, compila tutti i campi richiesti');
-                return;
-            }
-
-            try {
-                const response = await fetch(`${FORUM_API}/api/threads`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify({ 
-                        title, 
-                        content, 
-                        category_id: categoryId,
-                        email: currentUser.email 
-                    })
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    showThreadsForCategory(categoryId, document.getElementById('threads-title').textContent);
-                } else {
-                    alert('Errore nella creazione della discussione');
-                }
-            } catch (error) {
-                console.error('Error creating thread:', error);
-                alert('Errore nella creazione della discussione');
-            }
-        });
-
-        async function createPost() {
-            if (!currentUser) {
-                alert('Devi effettuare il login per rispondere');
-                window.location.href = 'login.html';
-                return;
-            }
-
-            const content = document.getElementById('post-content').value;
-            const threadId = currentThreadId;
-
-            if (!content.trim()) {
-                alert('Per favore, inserisci il contenuto della risposta');
-                return;
-            }
-
-            try {
-                const response = await fetch(`${FORUM_API}/api/threads/${threadId}/posts`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify({ 
-                        content,
-                        email: currentUser.email
-                    })
-                });
-
-                if (response.ok) {
-                    document.getElementById('post-content').value = '';
-                    showThread(threadId);
-                } else {
-                    alert('Errore nella creazione della risposta');
-                }
-            } catch (error) {
-                console.error('Error creating post:', error);
-                alert('Errore nella creazione della risposta');
-            }
-        }
-
-        // User management functions
-        function getNameFromEmail(email) {
-            return email.split('@')[0];
-        }
-
-        function getInitialFromEmail(email) {
-            return email.charAt(0).toUpperCase();
-        }
-
-        function getBadgeText(role) {
-            return role === 'admin' ? 'Admin' : 'User';
-        }
-
-        function getBadgeClass(role) {
-            return role === 'admin' ? 'badge-admin' : 'badge-user';
-        }
-
-        function updateUserInterface() {
-            const utente = localStorage.getItem('utente');
-            const ruolo = localStorage.getItem('utente_ruolo') || 'user';
             
-            if(utente) {
-                // Nascondi link login
-                document.getElementById('loginLink').style.display = 'none';
-                
-                // Mostra userbar al posto di "Accedi"
-                const userbar = document.getElementById('userbar');
-                userbar.style.display = 'flex';
-                
-                // Imposta nome utente e badge
-                document.getElementById('userName').innerText = getNameFromEmail(utente);
-                document.getElementById('userBadge').innerText = getBadgeText(ruolo);
-                document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
-                document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
-            }
+            alert('Elemento eliminato con successo!');
+          } else {
+            const error = await response.json();
+            alert('Errore: ' + error.error);
+          }
+        } catch (error) {
+          console.error('Errore nell\'eliminazione:', error);
+          alert('Errore nell\'eliminazione');
         }
-
-        function logout() {
-            localStorage.removeItem('utente');
-            localStorage.removeItem('utente_ruolo');
-            localStorage.removeItem('userEmail');
-            window.location.href = "login.html";
-        }
-
-        // Handle sidebar
-        function handleClick() {
-            const sidebar = document.querySelector('.sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('active');
-            }
-        }
-    </script>
+      });
+      
+      // Chiudi modali
+      document.querySelectorAll('.close-modal').forEach(button => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('.modal').forEach(modal => {
+            modal.style.display = 'none';
+          });
+        });
+      });
+      
+      // Chiudi modali cliccando fuori
+      window.addEventListener('click', (e) => {
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });
+    }
+    
+    function logout() {
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      window.location.href = "login.html";
+    }
+</script>
+  <script src="theme.js"></script>
+  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>

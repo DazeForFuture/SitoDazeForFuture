@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'  # Usa la stessa secret_key di server.py
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app, supports_credentials=True)
 
 # Database paths
 db_path = app.config['DATABASE'] = os.path.join('../../database', 'forum.db')
@@ -59,9 +59,25 @@ def init_db():
             content TEXT NOT NULL,
             user_id INTEGER,
             thread_id INTEGER,
+            parent_id INTEGER,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id),
-            FOREIGN KEY (thread_id) REFERENCES threads (id)
+            FOREIGN KEY (thread_id) REFERENCES threads (id),
+            FOREIGN KEY (parent_id) REFERENCES posts (id)
+        )
+    ''')
+    
+    # Votes table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS votes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            post_id INTEGER NOT NULL,
+            vote_type INTEGER NOT NULL, -- 1 for upvote, -1 for downvote
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id),
+            FOREIGN KEY (post_id) REFERENCES posts (id),
+            UNIQUE(user_id, post_id)
         )
     ''')
     
@@ -96,7 +112,7 @@ def check_auth():
     conn = sqlite3.connect(users_db_path)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
-    c.execute('SELECT id, nome, cognome, email FROM users WHERE email = ?', (email,))
+    c.execute('SELECT id, nome, cognome, email, ruolo FROM users WHERE email = ?', (email,))
     user = c.fetchone()
     conn.close()
     
@@ -106,7 +122,8 @@ def check_auth():
             'user': {
                 'id': user['id'],
                 'username': f"{user['nome']} {user['cognome']}",
-                'email': user['email']
+                'email': user['email'],
+                'role': user['ruolo']
             }
         })
     return jsonify({'authenticated': False})
@@ -172,8 +189,6 @@ def get_threads():
         threads.append(thread_dict)
     
     conn_users.close()
-    
-    threads = [dict(row) for row in c.fetchall()]
     conn.close()
     return jsonify(threads)
 
@@ -223,7 +238,12 @@ def get_thread(thread_id):
         JOIN categories c ON t.category_id = c.id
         WHERE t.id = ?
     ''', (thread_id,))
-    thread = dict(c.fetchone())
+    thread_row = c.fetchone()
+    if not thread_row:
+        conn.close()
+        return jsonify({'error': 'Thread non trovato'}), 404
+    
+    thread = dict(thread_row)
     
     # Get user info from utenti.db
     conn_users = sqlite3.connect(users_db_path)
@@ -235,22 +255,20 @@ def get_thread(thread_id):
         thread['username'] = f"{user['nome']} {user['cognome']}"
     else:
         thread['username'] = "Utente sconosciuto"
-    conn_users.close()
     
-    # Get posts for this thread
+    # Get posts for this thread with votes
     c.execute('''
-        SELECT p.* 
+        SELECT p.*, 
+               COALESCE(SUM(CASE WHEN v.vote_type = 1 THEN 1 ELSE 0 END), 0) as upvotes,
+               COALESCE(SUM(CASE WHEN v.vote_type = -1 THEN 1 ELSE 0 END), 0) as downvotes
         FROM posts p 
+        LEFT JOIN votes v ON p.id = v.post_id
         WHERE p.thread_id = ? 
+        GROUP BY p.id
         ORDER BY p.created_at ASC
     ''', (thread_id,))
+    
     posts = []
-    
-    # Get user info for each post
-    conn_users = sqlite3.connect(users_db_path)
-    conn_users.row_factory = sqlite3.Row
-    cu = conn_users.cursor()
-    
     for row in c.fetchall():
         post_dict = dict(row)
         cu.execute('SELECT nome, cognome FROM users WHERE id = ?', (post_dict['user_id'],))
@@ -262,7 +280,6 @@ def get_thread(thread_id):
         posts.append(post_dict)
     
     conn_users.close()
-    
     conn.close()
     
     thread['posts'] = posts
@@ -273,6 +290,7 @@ def create_post(thread_id):
     data = request.json
     email = data.get('email')
     content = data.get('content')
+    parent_id = data.get('parent_id')
     
     if not all([email, content]):
         return jsonify({'error': 'Email e contenuto sono richiesti'}), 400
@@ -291,13 +309,138 @@ def create_post(thread_id):
     conn = get_db_connection()
     c = conn.cursor()
     c.execute('''
-        INSERT INTO posts (content, user_id, thread_id)
-        VALUES (?, ?, ?)
-    ''', (content, user['id'], thread_id))
+        INSERT INTO posts (content, user_id, thread_id, parent_id)
+        VALUES (?, ?, ?, ?)
+    ''', (content, user['id'], thread_id, parent_id))
+    conn.commit()
+    post_id = c.lastrowid
+    conn.close()
+    
+    return jsonify({'message': 'Post creato', 'post_id': post_id}), 201
+
+@app.route('/api/posts/<int:post_id>/vote', methods=['POST'])
+def vote_post(post_id):
+    data = request.json
+    email = data.get('email')
+    vote_type = data.get('vote_type')  # 1 for upvote, -1 for downvote
+    
+    if not all([email, vote_type]):
+        return jsonify({'error': 'Email e tipo di voto sono richiesti'}), 400
+    
+    # Get user from utenti.db
+    conn_users = sqlite3.connect(users_db_path)
+    conn_users.row_factory = sqlite3.Row
+    c_users = conn_users.cursor()
+    c_users.execute('SELECT id FROM users WHERE email = ?', (email,))
+    user = c_users.fetchone()
+    conn_users.close()
+    
+    if not user:
+        return jsonify({'error': 'Utente non autorizzato'}), 401
+    
+    conn = get_db_connection()
+    c = conn.cursor()
+    
+    # Check if user already voted
+    c.execute('SELECT id, vote_type FROM votes WHERE user_id = ? AND post_id = ?', (user['id'], post_id))
+    existing_vote = c.fetchone()
+    
+    if existing_vote:
+        if existing_vote['vote_type'] == vote_type:
+            # Remove vote if clicking same button
+            c.execute('DELETE FROM votes WHERE id = ?', (existing_vote['id'],))
+            message = 'Voto rimosso'
+        else:
+            # Update vote if changing vote type
+            c.execute('UPDATE votes SET vote_type = ? WHERE id = ?', (vote_type, existing_vote['id']))
+            message = 'Voto aggiornato'
+    else:
+        # Insert new vote
+        c.execute('INSERT INTO votes (user_id, post_id, vote_type) VALUES (?, ?, ?)', 
+                 (user['id'], post_id, vote_type))
+        message = 'Voto aggiunto'
+    
     conn.commit()
     conn.close()
     
-    return jsonify({'message': 'Post creato'}), 201
+    return jsonify({'message': message}), 200
+
+@app.route('/api/threads/<int:thread_id>', methods=['DELETE'])
+def delete_thread(thread_id):
+    data = request.json
+    email = data.get('email')
+    reason = data.get('reason')
+    
+    if not email:
+        return jsonify({'error': 'Email richiesta'}), 400
+    
+    # Get user from utenti.db
+    conn_users = sqlite3.connect(users_db_path)
+    conn_users.row_factory = sqlite3.Row
+    c_users = conn_users.cursor()
+    c_users.execute('SELECT id, ruolo FROM users WHERE email = ?', (email,))
+    user = c_users.fetchone()
+    conn_users.close()
+    
+    if not user or user['ruolo'] != 'admin':
+        return jsonify({'error': 'Solo gli admin possono eliminare thread'}), 403
+    
+    if not reason:
+        return jsonify({'error': 'Motivazione richiesta per eliminazione'}), 400
+    
+    conn = get_db_connection()
+    c = conn.cursor()
+    
+    # Delete thread and all related posts and votes
+    c.execute('DELETE FROM votes WHERE post_id IN (SELECT id FROM posts WHERE thread_id = ?)', (thread_id,))
+    c.execute('DELETE FROM posts WHERE thread_id = ?', (thread_id,))
+    c.execute('DELETE FROM threads WHERE id = ?', (thread_id,))
+    
+    conn.commit()
+    conn.close()
+    
+    # Log the deletion with reason (in a real app, you'd store this in a moderation log)
+    print(f"Thread {thread_id} eliminato da {email}. Motivazione: {reason}")
+    
+    return jsonify({'message': 'Thread eliminato'}), 200
+
+@app.route('/api/posts/<int:post_id>', methods=['DELETE'])
+def delete_post(post_id):
+    data = request.json
+    email = data.get('email')
+    reason = data.get('reason')
+    
+    if not email:
+        return jsonify({'error': 'Email richiesta'}), 400
+    
+    # Get user from utenti.db
+    conn_users = sqlite3.connect(users_db_path)
+    conn_users.row_factory = sqlite3.Row
+    c_users = conn_users.cursor()
+    c_users.execute('SELECT id, ruolo FROM users WHERE email = ?', (email,))
+    user = c_users.fetchone()
+    conn_users.close()
+    
+    if not user or user['ruolo'] != 'admin':
+        return jsonify({'error': 'Solo gli admin possono eliminare post'}), 403
+    
+    if not reason:
+        return jsonify({'error': 'Motivazione richiesta per eliminazione'}), 400
+    
+    conn = get_db_connection()
+    c = conn.cursor()
+    
+    # Delete post and all related votes
+    c.execute('DELETE FROM votes WHERE post_id = ?', (post_id,))
+    c.execute('DELETE FROM posts WHERE id = ?', (post_id,))
+    
+    conn.commit()
+    conn.close()
+    
+    # Log the deletion with reason
+    print(f"Post {post_id} eliminato da {email}. Motivazione: {reason}")
+    
+    return jsonify({'message': 'Post eliminato'}), 200
 
 if __name__ == '__main__':
     init_db()
