@@ -587,7 +587,8 @@
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
-      
+      <a href="forum.html">Forum</a>
+
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
@@ -632,38 +633,50 @@
     </section>
   </main>
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
-    <h2>Menu</h2>
-    <ul class="sidebar-menu">
-      <li><a href="index.html"><span>🏠</span> Home</a></li>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <button class="sidebar-close">&times;</button>
+  <h2>Menu</h2>
+  
+  <ul class="sidebar-menu">
+    <li><a href="index.html"><span>🏠</span>Home</a></li>
       <li><a href="missione.html"><span>🌱</span> Missione</a></li>
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+  <!-- Dropdown -->
+    <li class="sidebar-dropdown">
+      <button class="sidebar-dropdown-toggle">
+        <span>📁</span>
+        <span>Progetti</span>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+      <ul class="sidebar-dropdown-menu">
+        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
+      </ul>
+    </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📄</span> Documenti</a></li>
+      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+      <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-    </ul>
+  </ul>
 
-    <!-- User info per mobile nella sidebar -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-      <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar"></div>
-        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-      </div>
-      <div class="mobile-user-display">
-        <span class="mobile-user-name" id="mobileUserName"></span>
-        <span class="mobile-user-badge" id="mobileUserBadge"></span>
-      </div>
-      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Logout</span>
-      </button>
+  <!-- Sezione utente mobile -->
+  <div id="mobileUserInfo" class="mobile-user-info" style="display: none;">
+    <div class="mobile-user-header">
+      <span>Il tuo account</span>
     </div>
-  </aside>
+    <div class="mobile-user-display">
+      <div class="user-avatar" id="mobileUserAvatar">U</div>
+      <div>
+        <div class="mobile-user-name" id="mobileUserName">Utente</div>
+        <div class="mobile-user-badge badge-user" id="mobileUserBadge">USER</div>
+      </div>
+    </div>
+    <button class="logout-btn">
+      <span>🚪</span>Logout
+    </button>
+  </div>
+</aside>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">

@@ -748,21 +748,7 @@
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
       <a href="forum.html">Forum</a>
-
-      <!-- Userbar che sostituisce "Accedi" quando loggato -->
-      <div id="userbar" class="user-info" style="display:none;">
-        <div class="user-avatar" id="userAvatar"></div>
-        <div class="user-display">
-          <span class="user-name" id="userName"></span>
-          <span class="user-badge" id="userBadge"></span>
-        </div>
-        <button class="logout-btn" onclick="logout()">
-          <span>Logout</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
+      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
@@ -798,39 +784,51 @@
     </form>
   </main>
   
-    <!-- Sidebar -->
-  <aside class="sidebar">
-    <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
-    <h2>Menu</h2>
-    <ul class="sidebar-menu">
-      <li><a href="index.html"><span>🏠</span> Home</a></li>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <button class="sidebar-close">&times;</button>
+  <h2>Menu</h2>
+  
+  <ul class="sidebar-menu">
+    <li><a href="index.html"><span>🏠</span>Home</a></li>
       <li><a href="missione.html"><span>🌱</span> Missione</a></li>
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+  <!-- Dropdown -->
+    <li class="sidebar-dropdown">
+      <button class="sidebar-dropdown-toggle">
+        <span>📁</span>
+        <span>Progetti</span>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+      <ul class="sidebar-dropdown-menu">
+        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
+      </ul>
+    </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
       <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
       <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-    </ul>
-
-    <!-- User info per mobile nella sidebar -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-      <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar"></div>
-        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-      </div>
-      <div class="mobile-user-display">
-        <span class="mobile-user-name" id="mobileUserName"></span>
-        <span class="mobile-user-badge" id="mobileUserBadge"></span>
-      </div>
-      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Logout</span>
-      </button>
+  </ul>
+  
+  <!-- User info per mobile nella sidebar -->
+  <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+    <div class="mobile-user-header">
+      <div class="user-avatar" id="mobileUserAvatar"></div>
+      <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
     </div>
-  </aside>
+    <div class="mobile-user-display">
+      <span class="mobile-user-name" id="mobileUserName"></span>
+      <span class="mobile-user-badge" id="mobileUserBadge"></span>
+    </div>
+    <button class="logout-btn" onclick="userbar.logout()" style="justify-content: center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Logout</span>
+    </button>
+  </div>
+</aside>
 
   <!-- Overlay per sidebar -->
   <div class="overlay" id="overlay"></div>
@@ -944,92 +942,6 @@
       });
     });
 
-    // Funzione per estrarre il nome dall'email (prima parte prima della @)
-    function getNameFromEmail(email) {
-      return email.split('@')[0];
-    }
-
-    // Funzione per generare l'iniziale dall'email
-    function getInitialFromEmail(email) {
-      return email.charAt(0).toUpperCase();
-    }
-
-    // Funzione per ottenere il testo del badge in base al ruolo
-    function getBadgeText(role) {
-      return role === 'admin' ? 'Admin' : 'User';
-    }
-
-    // Funzione per ottenere la classe CSS del badge in base al ruolo
-    function getBadgeClass(role) {
-      return role === 'admin' ? 'badge-admin' : 'badge-user';
-    }
-
-    // Mostra la barra utente se loggato
-    function updateUserInterface() {
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
-      
-      if(utente) {
-        // Nascondi link login
-        document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
-        
-        // Mostra userbar al posto di "Accedi"
-        const userbar = document.getElementById('userbar');
-        userbar.style.display = 'flex';
-        
-        // Imposta nome utente e badge
-        document.getElementById('userName').innerText = getNameFromEmail(utente);
-        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
-        
-        
-        // Mostra popup se l'utente è già loggato e sta visitando la pagina di login
-        if (window.location.pathname.includes('login.html')) {
-          setTimeout(() => {
-            document.getElementById('currentUserEmail').innerText = utente;
-            document.getElementById('alreadyLoggedPopup').classList.add('show');
-          }, 500);
-        }
-      } else {
-        // Se non loggato, assicurati che i link di login siano visibili
-        document.getElementById('loginLink').style.display = 'block';
-        document.getElementById('sidebarLoginLink').style.display = 'block';
-        document.getElementById('userbar').style.display = 'none';
-        document.getElementById('mobileUserInfo').style.display = 'none';
-      }
-    }
-
-    function logout() {
-      localStorage.removeItem('utente');
-      localStorage.removeItem('utente_ruolo');
-      window.location.href = "login.html";
-    }
-
-    function logoutFromPopup() {
-      // Rimuove i dati di login
-      localStorage.removeItem('utente');
-      localStorage.removeItem('utente_ruolo');
-      
-      // Chiude il popup
-      closeAlreadyLoggedPopup();
-      
-      // Aggiorna l'interfaccia per rimuovere la userbar
-      updateUserInterface();
-      
-      // Ricarica la pagina per mostrare il form di login
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
-    }
-
-    function closeAlreadyLoggedPopup() {
-      document.getElementById('alreadyLoggedPopup').classList.remove('show');
-      // Reindirizza alla home se l'utente sceglie di non fare logout
-      window.location.href = "index.html";
-    }
-
     // Funzione per costruire l'email completa
     function buildEmail() {
       const prefix = document.getElementById('emailPrefix').value.trim();
@@ -1085,8 +997,19 @@
 
         if(result.success) {
           mostraPopup("Accesso effettuato con successo!", "success");
-          localStorage.setItem('utente', dati.email);
-          localStorage.setItem('utente_ruolo', result.ruolo || 'user'); 
+          
+          // Salva i dati utente usando la funzione userbar
+          if (window.userbar && window.userbar.updateUserbarOnLogin) {
+            window.userbar.updateUserbarOnLogin({
+              email: dati.email,
+              nome: dati.email.split('@')[0], // Usa la parte prima della @ come nome
+              ruolo: result.ruolo || 'user'
+            });
+          } else {
+            // Fallback se userbar non è disponibile
+            localStorage.setItem('utente', dati.email);
+            localStorage.setItem('utente_ruolo', result.ruolo || 'user');
+          }
           
           setTimeout(() => {
             window.location.href = "index.html";
@@ -1099,9 +1022,47 @@
         mostraPopup("Errore di connessione al server", "error");
       }
     }
+
+    // Funzioni per gestire il popup utente già loggato
+    function checkIfAlreadyLogged() {
+      if (userbar.isUserLoggedIn && userbar.isUserLoggedIn()) {
+        const currentUser = userbar.getCurrentUser();
+        if (currentUser && currentUser.email) {
+          document.getElementById('currentUserEmail').innerText = currentUser.email;
+          document.getElementById('alreadyLoggedPopup').classList.add('show');
+        }
+      }
+    }
+
+    function logoutFromPopup() {
+      if (window.userbar && window.userbar.logout) {
+        window.userbar.logout();
+      } else {
+        // Fallback se userbar non è disponibile
+        localStorage.removeItem('utente');
+        localStorage.removeItem('utente_ruolo');
+      }
+      
+      closeAlreadyLoggedPopup();
+    }
+
+    function closeAlreadyLoggedPopup() {
+      document.getElementById('alreadyLoggedPopup').classList.remove('show');
+      window.location.href = "index.html";
+    }
+
+    // Verifica se l'utente è già loggato al caricamento della pagina
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        if (window.userbar && window.userbar.isUserLoggedIn && window.userbar.isUserLoggedIn()) {
+          checkIfAlreadyLogged();
+        }
+      }, 500);
+    });
   </script>
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
+  <script src="css/userbar/userbar.js"></script>
   <div id="popup" class="popup"></div>
 </body>
 </html>

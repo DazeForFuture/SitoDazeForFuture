@@ -78,6 +78,7 @@
   border-radius: 12px;
   transition: all 0.3s ease;
   font-size: 1rem;
+  font-family: inherit;
 }
 
 .sidebar-menu a span {
@@ -96,6 +97,144 @@
   background: rgba(0, 122, 255, 0.15);
   color: var(--accent);
   border-left: 3px solid var(--accent);
+}
+
+/* Stili per i dropdown nella sidebar - PERFETTAMENTE INTEGRATI */
+.sidebar-dropdown {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 1rem;
+}
+
+.sidebar-dropdown-toggle:hover {
+  background: var(--hover-bg);
+  transform: translateX(5px);
+}
+
+.sidebar-dropdown-toggle.active {
+  background: rgba(0, 122, 255, 0.15);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+}
+
+.sidebar-dropdown-toggle .dropdown-icon {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar-dropdown-toggle .dropdown-text {
+  flex: 1;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.sidebar-dropdown-toggle .dropdown-arrow {
+  font-size: 0.9rem;
+  width: 16px;
+  transition: transform 0.3s ease;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-dropdown-toggle.active .dropdown-arrow {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+/* Menu dropdown */
+.sidebar-dropdown-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: var(--dropdown-bg, rgba(0, 0, 0, 0.03));
+  border-radius: 8px;
+  margin-top: 0.25rem;
+  border: 1px solid var(--sidebar-border);
+}
+
+.sidebar-dropdown-menu.active {
+  max-height: 500px;
+  padding: 0.5rem 0;
+}
+
+.sidebar-dropdown-menu li {
+  margin: 0;
+}
+
+.sidebar-dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text);
+  border-radius: 0;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-family: inherit;
+  border-left: 2px solid transparent;
+}
+
+.sidebar-dropdown-menu a span {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar-dropdown-menu a:hover {
+  background: var(--hover-bg);
+  color: var(--accent);
+  border-left-color: var(--accent);
+  transform: translateX(5px);
+}
+
+.sidebar-dropdown-menu a.active {
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+  font-weight: 600;
+}
+
+/* Animazione per i dropdown */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sidebar-dropdown-menu.active {
+  animation: slideDown 0.3s ease;
 }
 
 /* Stili migliorati per la sezione utente mobile */
@@ -185,6 +324,7 @@
   justify-content: center;
   gap: 0.5rem;
   font-size: 0.9rem;
+  font-family: inherit;
 }
 
 .mobile-user-info .logout-btn:hover {
@@ -224,6 +364,28 @@
   .sidebar-menu a {
     padding: 0.6rem 0.8rem;
     font-size: 0.95rem;
+  }
+  
+  .sidebar-dropdown-toggle {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .sidebar-dropdown-toggle .dropdown-text {
+    font-size: 0.95rem;
+  }
+  
+  .sidebar-dropdown-toggle .dropdown-icon {
+    font-size: 1.1rem;
+  }
+  
+  .sidebar-dropdown-menu a {
+    padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+    font-size: 0.95rem;
+  }
+  
+  .sidebar-dropdown-menu a span {
+    font-size: 1.1rem;
   }
   
   .mobile-user-info {
