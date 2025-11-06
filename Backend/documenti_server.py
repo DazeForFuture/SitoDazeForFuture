@@ -6,22 +6,30 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CORS(app)
+# limiti upload
+app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  # 50MB
 
-# --- CONFIGURAZIONE DINAMICA DELLE DIRECTORY ---
-# Calcola PROJECT_ROOT come due livelli sopra la cartella Backend (es. /sitoDFF)
-# Puoi sovrascriverlo con la variabile d'ambiente SITO_ROOT se necessario.
+# CORS configurabile via env FRONTEND_ORIGINS (comma-separated).
+# Se usi credenziali (cookie/session) assicurati di elencare le origini e supports_credentials=True.
+FRONTEND_ORIGINS = os.environ.get("FRONTEND_ORIGINS")
+if FRONTEND_ORIGINS:
+    origins = [o.strip() for o in FRONTEND_ORIGINS.split(",") if o.strip()]
+else:
+    origins = ["http://localhost:5000", "http://192.168.0.137:5000", "http://100.108.96.23:5000"]
+
+CORS(app, origins=origins, supports_credentials=True)
+
+
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.environ.get("SITO_ROOT") or os.path.abspath(os.path.join(HERE, "..", ".."))
 PROJECT_ROOT = os.path.normpath(PROJECT_ROOT)
 
-# BASE_DIR punta alla cartella Backend all'interno di SitoDazeForFuture (compatibile con la struttura fornita)
+
 BASE_DIR = os.path.join(PROJECT_ROOT, "SitoDazeForFuture", "Backend")
 if not os.path.isdir(BASE_DIR):
-    # fallback: se il repository è la cartella SitoDazeForFuture stessa, usa il parent diretto
+
     BASE_DIR = os.path.abspath(HERE)
 
-# Cartella dove salvare i file caricati e percorso DB (entrambi relativi a PROJECT_ROOT)
 UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, "ServerDocumenti")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -29,16 +37,13 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["DATABASE"] = os.path.join(PROJECT_ROOT, "database", "documenti.db")
 os.makedirs(os.path.dirname(app.config["DATABASE"]), exist_ok=True)
 
-# Tipi di file consentiti
 ALLOWED_EXTENSIONS = {"pdf", "doc", "docx", "txt", "png", "jpg", "jpeg", "gif"}
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# --- FUNZIONI DATABASE ---
 def init_db():
     try:
-        # Crea cartelle se mancano
         os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
         os.makedirs(os.path.dirname(app.config["DATABASE"]), exist_ok=True)
 
@@ -73,14 +78,12 @@ def close_db(error):
     if hasattr(g, "db"):
         g.db.close()
 
-# --- AUTH SEMPLIFICATA ---
 def get_current_user():
     return {
         "email": request.headers.get("X-User-Email", ""),
         "role": request.headers.get("X-User-Role", "user"),
     }
 
-# --- API ---
 @app.route("/api/articles", methods=["GET"])
 def get_articles():
     try:
@@ -124,12 +127,13 @@ def create_article():
             return jsonify({"success": False, "message": "File non selezionato"}), 400
 
         if file and allowed_file(file.filename):
-            # Nome file sicuro (opzionale: aggiungi timestamp per evitare collisioni)
             filename = secure_filename(file.filename)
-            # timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-            # filename = f"{timestamp}_{secure_filename(file.filename)}"
-
+            # evita sovrascritture: aggiungi timestamp se esiste
             save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            if os.path.exists(save_path):
+                name, ext = os.path.splitext(filename)
+                filename = f"{name}_{int(datetime.utcnow().timestamp())}{ext}"
+                save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(save_path)
 
             data = request.form
@@ -147,8 +151,8 @@ def create_article():
                 data["publication_date"],
                 filename,
                 data.get("description", ""),
-                data.get("is_published", False),
-            ))
+                int(str(data.get("is_published", "0")).lower() in ("1", "true", "on")),
+             ))
             db.commit()
 
             return jsonify({
