@@ -14,16 +14,29 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 CORS(app)
 
-# --- CONFIGURAZIONE FILE SYSTEM ---
+# --- CORREZIONE CONFIGURAZIONE PATH ---
+
+# 1. BASE_DIR è la directory dove si trova app.py (e.g., .../sitoDFF/SitoDazeForFuture/Backend)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Definisce la cartella di upload nella root dell'applicazione
-UPLOAD_FOLDER = os.path.join(BASE_DIR, 'ServerDocumenti')
+
+# 2. Risaliamo di due livelli per trovare la root del progetto (e.g., .../sitoDFF)
+# BASE_DIR è .../Backend
+# os.path.dirname(BASE_DIR) è .../SitoDazeForFuture
+# os.path.dirname(os.path.dirname(BASE_DIR)) è .../sitoDFF (PROJECT_ROOT)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(BASE_DIR))
+
+# Definisce la cartella di upload: /sitoDFF/ServerDocumenti
+# La directory ServerDocumenti è a livello di PROJECT_ROOT
+UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'ServerDocumenti')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# Limita i tipi di file accettati (es. PDF, DOCX, Immagini)
+
+# Configurazione database: /sitoDFF/database/documenti.db
+app.config['DATABASE'] = os.path.join(PROJECT_ROOT, 'database', 'documenti.db') 
+
+# Limita i tipi di file accettati (mantenuto)
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'txt', 'png', 'jpg', 'jpeg', 'gif'}
 
-# Configurazione database (mantenuta come da originale)
-app.config['DATABASE'] = os.path.join(BASE_DIR, 'database', 'documenti.db') 
+# --- FINE CORREZIONE CONFIGURAZIONE PATH ---
 
 def allowed_file(filename):
     """Controlla l'estensione del file"""
@@ -78,7 +91,7 @@ def close_db(error):
     if hasattr(g, 'db'):
         g.db.close()
 
-# --- FUNZIONI UTILITY ---
+# --- FUNZIONI UTILITY (INVARIATE) ---
 
 def get_current_user():
     """Funzione semplificata per ottenere l'utente corrente"""
@@ -87,7 +100,7 @@ def get_current_user():
         'role': request.headers.get('X-User-Role', 'user')
     }
 
-# --- ENDPOINT API ---
+# --- ENDPOINT API (INVARIANTI NELLA LOGICA) ---
 
 @app.route('/api/articles', methods=['GET'])
 def get_articles():
@@ -138,8 +151,6 @@ def create_article():
         if user['role'] != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono creare articoli'}), 403
         
-        # L'upload di file usa request.files per il file e request.form per gli altri dati
-        
         if 'document_file' not in request.files:
             return jsonify({'success': False, 'message': 'Nessun file inviato con la chiave "document_file"'}), 400
         
@@ -156,7 +167,7 @@ def create_article():
 
             # 2. Ottieni gli altri dati
             data = request.form
-            required = ['title', 'author', 'publication_date'] # file_path è ora il filename
+            required = ['title', 'author', 'publication_date']
             
             for field in required:
                 if not data.get(field):
@@ -175,7 +186,7 @@ def create_article():
                 data['title'],
                 data['author'],
                 data['publication_date'], 
-                filename, # Salviamo solo il nome del file
+                filename, 
                 data.get('description', ''),
                 data.get('is_published', False)
             ))
@@ -193,17 +204,16 @@ def create_article():
     except Exception as e:
         return jsonify({'success': False, 'message': f'Errore nel caricamento: {str(e)}'}), 500
 
-# --- NUOVO ENDPOINT PER SCARICARE I DOCUMENTI ---
+# --- ENDPOINT PER SCARICARE I DOCUMENTI (INVARIANTE) ---
 
 @app.route('/documents/<filename>', methods=['GET'])
 def download_file(filename):
     """Serve i file dalla directory ServerDocumenti"""
     try:
-        # Aggiungere qui la logica di autenticazione/autorizzazione se necessaria
         return send_from_directory(
             app.config['UPLOAD_FOLDER'], 
             filename,
-            as_attachment=True # Forza il download invece della visualizzazione nel browser
+            as_attachment=True 
         )
     except FileNotFoundError:
         return jsonify({'success': False, 'message': 'File non trovato'}), 404
@@ -214,7 +224,6 @@ def download_file(filename):
 @app.route('/api/articles/<int:article_id>/publish', methods=['POST'])
 def toggle_publish(article_id):
     """Pubblica o mette in revisione un articolo (solo admin)"""
-    # Logica invariata, gestisce solo l'aggiornamento dello stato
     try:
         user = get_current_user()
         if user['role'] != 'admin':
