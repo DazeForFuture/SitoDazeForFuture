@@ -8,20 +8,26 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 CORS(app)
 
-# --- CONFIGURAZIONE FISSA DELLE DIRECTORY (UBUNTU) ---
-# Imposta qui la radice del progetto secondo la tua struttura:
-# /sitoDFF
-PROJECT_ROOT = "/sitoDFF"
+# --- CONFIGURAZIONE DINAMICA DELLE DIRECTORY ---
+# Calcola PROJECT_ROOT come due livelli sopra la cartella Backend (es. /sitoDFF)
+# Puoi sovrascriverlo con la variabile d'ambiente SITO_ROOT se necessario.
+HERE = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.environ.get("SITO_ROOT") or os.path.abspath(os.path.join(HERE, "..", ".."))
+PROJECT_ROOT = os.path.normpath(PROJECT_ROOT)
 
-# /sitoDFF/SitoDazeForFuture/Backend/app.py  (file server)
+# BASE_DIR punta alla cartella Backend all'interno di SitoDazeForFuture (compatibile con la struttura fornita)
 BASE_DIR = os.path.join(PROJECT_ROOT, "SitoDazeForFuture", "Backend")
+if not os.path.isdir(BASE_DIR):
+    # fallback: se il repository è la cartella SitoDazeForFuture stessa, usa il parent diretto
+    BASE_DIR = os.path.abspath(HERE)
 
-# Cartella dove salvare i file caricati: /sitoDFF/ServerDocumenti
+# Cartella dove salvare i file caricati e percorso DB (entrambi relativi a PROJECT_ROOT)
 UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, "ServerDocumenti")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-# Database: /sitoDFF/database/documenti.db
 app.config["DATABASE"] = os.path.join(PROJECT_ROOT, "database", "documenti.db")
+os.makedirs(os.path.dirname(app.config["DATABASE"]), exist_ok=True)
 
 # Tipi di file consentiti
 ALLOWED_EXTENSIONS = {"pdf", "doc", "docx", "txt", "png", "jpg", "jpeg", "gif"}
