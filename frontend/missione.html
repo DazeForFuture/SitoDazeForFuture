@@ -789,6 +789,145 @@
       background: var(--sidebar-border);
       margin: 0.25rem 0;
     }
+        /* Stili per la preview della pagina centrale meteorologica */
+    .page-preview {
+      position: absolute;
+      left: -460px; /* Spostata a sinistra per essere completamente visibile */
+      top: 0;
+      width: 450px;
+      height: 320px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-20px) scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      z-index: 1002;
+      border: 1px solid var(--sidebar-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .dropdown-item:hover .page-preview {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+    }
+
+    .page-preview-content {
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .page-preview-hero {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-hero h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-preview-hero p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .page-preview-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-card {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid var(--sidebar-border);
+      transition: transform 0.2s ease;
+    }
+
+    .page-preview-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .page-preview-card h3 {
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .page-preview-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .page-preview-chart {
+      height: 80px;
+      background: var(--bg);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--sidebar-border);
+      padding: 10px;
+    }
+
+    .page-preview-chart-line {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .page-preview-chart-point {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .page-preview-footer {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .page-preview-footer p {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .page-preview {
+        display: none;
+      }
+    }
 
   </style>
 </head>
@@ -825,7 +964,8 @@
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
-      
+      <a href="forum.html">Forum</a>
+
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
@@ -856,7 +996,7 @@
 
     <section>
       <div class="card fade-in-up">
-        <p class="text-muted">Daze for Future è un'associazione studentesca nata con l'obiettivo di promuovere la sostenibilità ambientale, l'uso consapevole della tecnologia e la collaborazione tra studenti, docenti e comunità locale. Crediamo che piccole azioni possano portare a grandi cambiamenti.</p>
+        <p class="text-muted">Daze For Future è la nuova commissione ecologia del D'Azeglio, nata con l'obiettivo di promuovere la sostenibilità ambientale con un impronta tecnologica, unendo tutti gli indirizzi del D'Azeglio.</p>
         
         <div class="mission-cards">
           <div class="mission-card fade-in-up">
@@ -867,14 +1007,14 @@
           
           <div class="mission-card fade-in-up">
             <div class="icon">💻</div>
-            <h3>Open Source</h3>
-            <p>Incoraggiamo l'uso di software libero e open source, organizzando workshop e fornendo supporto per la migrazione a soluzioni tecnologiche etiche e accessibili a tutti.</p>
+            <h3>Tecnologia e Innovazione</h3>
+            <p>Integriamo soluzioni tecnologiche innovative nei nostri progetti ambientali, coinvolgendo studenti di tutti gli indirizzi per un approccio multidisciplinare alla sostenibilità.</p>
           </div>
           
           <div class="mission-card fade-in-up">
             <div class="icon">👥</div>
-            <h3>Comunità</h3>
-            <p>Costruiamo una rete di studenti, insegnanti e cittadini impegnati per un futuro migliore, attraverso eventi, collaborazioni con altre associazioni e progetti condivisi.</p>
+            <h3>Unità tra Indirizzi</h3>
+            <p>Uniamo studenti di tutti gli indirizzi del D'Azeglio, valorizzando le diverse competenze per creare progetti più completi e inclusivi che coinvolgano l'intera comunità scolastica.</p>
           </div>
         </div>
       </div>
@@ -884,11 +1024,11 @@
       <div class="card fade-in-up">
         <h2 class="section-title">I nostri obiettivi</h2>
         <ul class="objectives-list">
-          <li>Ridurre l'impatto ambientale della scuola attraverso iniziative concrete</li>
-          <li>Educare alla sostenibilità attraverso workshop e materiali didattici</li>
-          <li>Promuovere l'uso di software open source e competenze digitali etiche</li>
-          <li>Creare una comunità attiva e consapevole sui temi ambientali</li>
-          <li>Collaborare con altre organizzazioni per amplificare il nostro impatto</li>
+          <li>Promuovere la sostenibilità ambientale attraverso progetti concreti</li>
+          <li>Integrare tecnologia e innovazione nelle iniziative ecologiche</li>
+          <li>Unire studenti di tutti gli indirizzi del D'Azeglio</li>
+          <li>Creare una comunità scolastica più consapevole e coinvolta</li>
+          <li>Sviluppare competenze trasversali attraverso progetti multidisciplinari</li>
         </ul>
       </div>
     </section>
@@ -896,7 +1036,7 @@
     <section>
       <div class="card fade-in-up" style="text-align: center;">
         <h2 class="section-title">Unisciti a noi</h2>
-        <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono partecipare alle nostre attività e contribuire ai progetti in corso.</p>
+        <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono partecipare alle nostre attività e contribuire ai progetti in corso, indipendentemente dal proprio indirizzo di studi.</p>
         <a href="contatti.html" class="btn">
           <i class="fas fa-envelope"></i>
           I nostri contatti
@@ -1047,6 +1187,20 @@
         card.style.animationDelay = `${index * 0.1}s`;
       });
     });
+    
+    // Funzione per aggiornare la preview della centrale meteorologica
+    function aggiornaPreviewMeteo() {
+      setInterval(() => {
+        const temp = (20 + Math.random() * 5).toFixed(1);
+        const air = (10 + Math.random() * 30).toFixed(1);
+        
+        const tempElement = document.getElementById('previewTempValue');
+        const airElement = document.getElementById('previewAirValue');
+        
+        if (tempElement) tempElement.textContent = temp + " °C";
+        if (airElement) airElement.textContent = air + " µg/m³";
+      }, 2000);
+    }
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
     function getNameFromEmail(email) {

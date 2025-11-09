@@ -1,5 +1,5 @@
-# Sito di Daze for Future
-Il sito sta attualmente girando su un Raspberry Pi 400.
+# Sito di Daze For Future
+Il sito è attualmente hostato su un Raspberry Pi 400.
 ## Specifiche Raspberry Pi 400
 
 | Caratteristica        | Specifica                                                                 |
@@ -7,7 +7,7 @@ Il sito sta attualmente girando su un Raspberry Pi 400.
 | Processore             | Broadcom BCM2711 quad-core Cortex-A72 (ARM v8) 64-bit SoC a 1,8 GHz       |
 | GPU                    | VideoCore VI                                                             |
 | RAM                    | 4 GB LPDDR4-3200                                                         |
-| Archiviazione          | Slot per microSD                                                         |
+| Archiviazione          | microSD 128GB                                                         |
 | Connettività wireless  | Wi-Fi 802.11b/g/n/ac (2,4 e 5 GHz), Bluetooth 5.0, BLE                   |
 | Ethernet               | Gigabit Ethernet                                                         |
 | Porte USB              | 2 × USB 3.0, 1 × USB 2.0                                                 |
@@ -17,7 +17,7 @@ Il sito sta attualmente girando su un Raspberry Pi 400.
 | Alimentazione          | USB-C (5V/3A consigliati)                                                |
 | Tastiera integrata     | Layout completo a 78/79 tasti (dipende dal mercato)                      |
 | Dimensioni             | 286 × 122 × 23 mm                                                        |
-| Sistema operativo      | Raspberry Pi OS e distribuzioni Linux compatibili                        |
+| Sistema operativo      | Ubuntu Server 24.04.03 LTS                        |
 
 ## Fatto da:
 - Davide Albanese 

@@ -3,32 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Daze for Future" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Documenti - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
-  <link rel="icon" href="immagini/logo.ico" type="image/x-icon" />
-
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
   <style>
-    /* === THEME TOKENS === */
+    /* CSS esistente mantenuto */
     :root {
       --bg: #fff;
       --text: #1d1d1f;
       --muted: #6e6e73;
       --footer-bg: #f9f9f9;
-      --hover-bg: rgba(0, 0, 0, 0.05);
+      --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255, 255, 255, 0.95);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255, 255, 255, 0.98);
-      --sidebar-border: rgba(0, 0, 0, 0.15);
-      --sidebar-shadow: rgba(0, 0, 0, 0.15);
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -48,14 +47,14 @@
         --text: #f5f5f7;
         --muted: #a1a1a6;
         --footer-bg: #111;
-        --hover-bg: rgba(255, 255, 255, 0.05);
+        --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29, 29, 31, 0.95);
+        --header-bg: rgba(29,29,31,0.95);
         --header-text: #ffffff;
-        --sidebar-bg: rgba(29, 29, 31, 0.98);
-        --sidebar-border: rgba(255, 255, 255, 0.15);
-        --sidebar-shadow: rgba(0, 0, 0, 0.4);
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
@@ -75,14 +74,14 @@
       --text: #f5f5f7;
       --muted: #a1a1a6;
       --footer-bg: #111;
-      --hover-bg: rgba(255, 255, 255, 0.05);
+      --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29, 29, 31, 0.95);
+      --header-bg: rgba(29,29,31,0.95);
       --header-text: #ffffff;
-      --sidebar-bg: rgba(29, 29, 31, 0.98);
-      --sidebar-border: rgba(255, 255, 255, 0.15);
-      --sidebar-shadow: rgba(0, 0, 0, 0.4);
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
@@ -101,14 +100,14 @@
       --text: #1d1d1f;
       --muted: #6e6e73;
       --footer-bg: #f9f9f9;
-      --hover-bg: rgba(0, 0, 0, 0.05);
+      --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255, 255, 255, 0.95);
+      --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255, 255, 255, 0.98);
-      --sidebar-border: rgba(0, 0, 0, 0.15);
-      --sidebar-shadow: rgba(0, 0, 0, 0.15);
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -122,17 +121,15 @@
       --info: #007aff;
     }
 
-    /* === BASE === */
-    * { box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
-      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=2074&q=80');
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -142,293 +139,1539 @@
     body::before {
       content: '';
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: -1;
       transition: background 0.3s ease;
     }
-    :root[data-theme="light"] body::before { background: var(--overlay-light); }
-    :root[data-theme="dark"] body::before { background: var(--overlay-dark); }
-    :root:not([data-theme]) body::before { background: var(--overlay-light); }
+
+    :root[data-theme="light"] body::before {
+      background: var(--overlay-light);
+    }
+
+    :root[data-theme="dark"] body::before {
+      background: var(--overlay-dark);
+    }
+
+    :root:not([data-theme]) body::before {
+      background: var(--overlay-light);
+    }
+
     @media (prefers-color-scheme: dark) {
-      :root:not([data-theme]) body::before { background: var(--overlay-dark); }
+      :root:not([data-theme]) body::before {
+        background: var(--overlay-dark);
+      }
     }
 
     header {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      width: 100%;
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2rem; z-index: 1000;
-      color: var(--header-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
     }
 
-    .logo { font-weight: 800; font-size: 1.4rem; cursor: pointer; user-select: none; color: var(--header-text); display: flex; align-items: center; gap: 12px; }
-    .logo-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-    nav { display: flex; align-items: center; }
-    nav > a { margin-left: 2rem; text-decoration: none; color: var(--header-text); font-weight: 600; position: relative; padding: 0.5rem; }
-    nav > a::after { content: ""; position: absolute; left: 0; bottom: -4px; width: 0; height: 2px; background: var(--text); transition: width 0.3s; }
-    nav > a:hover::after { width: 100%; }
+    nav {
+      display: flex;
+      align-items: center;
+    }
 
-    section { padding: 140px 2rem 100px; max-width: 1200px; margin: auto; }
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
 
-    .hero { text-align: center; padding-top: 200px; position: relative; overflow: hidden; }
-    .hero h1 { font-size: 3.2rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(90deg, #007aff, #00c6ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: fadeInUp 1s ease; }
-    .hero p { font-size: 1.25rem; color: var(--muted); margin-bottom: 2rem; animation: fadeInUp 1s ease 0.2s both; }
+    nav > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
+    }
 
-    .btn { display: inline-flex; align-items: center; gap: 8px; background-color: var(--btn-bg); color: var(--bg); padding: 0.75rem 1.5rem; border-radius: 12px; text-decoration: none; font-weight: 600; transition: transform 0.3s, background 0.3s, box-shadow 0.3s; cursor: pointer; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .btn:hover { background-color: var(--btn-hover-bg); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
-    .btn:active { transform: translateY(0); }
-    .btn-accent { background: linear-gradient(90deg, #007aff, #00c6ff); color: #fff; }
-    .btn-accent:hover { background: linear-gradient(90deg, #0062cc, #0099cc); }
-    .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; }
-    .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
-    .btn-outline:hover { background: var(--accent); color: #fff; }
+    nav > a:hover::after {
+      width: 100%;
+    }
 
-    .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(90deg, #007aff, #00c6ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-    .text-muted { color: var(--muted); line-height: 1.6; font-size: 1.1rem; }
+    section {
+      padding: 140px 2rem 100px;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.9rem; background: var(--footer-bg); position: relative; z-index: 1; }
+    .hero {
+      text-align: center;
+      padding-top: 200px;
+      position: relative;
+      overflow: hidden;
+    }
 
-    /* Cards */
-    .card { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 16px; padding: 2rem; box-shadow: var(--card-shadow); margin-bottom: 2rem; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(255,255,255,0.1); }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
 
-    /* Anim */
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .fade-in-up { animation: fadeInUp 0.8s ease; }
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease;
+    }
 
-    /* Role sections */
-    .admin-only { display: none; }
-    .user-only { display: none; }
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
 
-    /* Document list */
-    .document-list { margin-top: 2rem; }
-    .document-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: background 0.3s; border-radius: 8px; }
-    .document-item:hover { background: var(--hover-bg); }
-    .document-info { display: flex; align-items: center; flex: 1; gap: 1rem; }
-    .document-icon { font-size: 1.5rem; min-width: 40px; }
-    .document-details { flex: 1; }
-    .document-details h3 { font-size: 1rem; margin: 0 0 0.25rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-    .document-details p { font-size: 0.875rem; color: var(--muted); }
-    .document-actions { display: flex; gap: 0.5rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--btn-bg);
+      color: var(--bg);
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-    .action-btn { background: none; border: none; padding: 0.5rem; border-radius: 8px; cursor: pointer; transition: background 0.3s, color 0.3s; color: var(--text); display: flex; align-items: center; justify-content: center; }
-    .action-btn:hover { background: var(--hover-bg); }
-    .delete-btn:hover { color: var(--error); }
-    .download-btn:hover { color: var(--accent); }
-    .view-btn:hover { color: var(--info); }
-    .publish-btn { color: var(--success); }
-    .unpublish-btn { color: var(--warning); }
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
 
-    .empty-state { text-align: center; padding: 2rem; color: var(--muted); }
+    .btn:active {
+      transform: translateY(0);
+    }
 
-    .status-badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
-    .status-published { background: rgba(52, 199, 89, 0.2); color: var(--success); }
-    .draft-badge { background: rgba(255, 149, 0, 0.2); color: var(--warning); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
 
-    .cloud-indicator { display: inline-flex; align-items: center; gap: 0.25rem; background: rgba(0, 122, 255, 0.1); color: var(--accent); padding: 0.25rem 0.5rem; border-radius: 8px; font-size: 0.75rem; }
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
+    }
 
-    .review-notes { background: rgba(255,149,0,0.1); padding: 0.75rem; border-radius: 8px; border-left: 3px solid #ff9500; margin-top: 1rem; font-size: 0.9rem; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-    /* Viewer modal */
-    #viewerModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-    #viewerContent { background: var(--card-bg); padding: 2rem; border-radius: 16px; max-width: 90vw; max-height: 90vh; width: 800px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); position: relative; }
-    .viewer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .viewer-title { font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0; }
-    .viewer-body { max-height: 70vh; overflow-y: auto; padding: 1rem 0; }
-    .viewer-actions { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); }
-    .file-preview { text-align: center; padding: 2rem; }
-    .file-preview img { max-width: 100%; max-height: 400px; border-radius: 8px; }
-    .unsupported-format { padding: 3rem; color: var(--muted); font-size: 1.1rem; }
+    .text-muted {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
 
-    /* Publication modal */
-    #publicationModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-    #publicationForm { background: var(--card-bg); padding: 2.5rem; border-radius: 20px; max-width: 600px; width: 90vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); position: relative; }
-    .close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; color: var(--muted); cursor: pointer; padding: 0.5rem; border-radius: 50%; transition: all 0.3s ease; }
-    .close-btn:hover { background: var(--hover-bg); color: var(--text); }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+      position: relative;
+      z-index: 1;
+    }
 
-    .form-section { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .form-section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); display: flex; align-items: center; gap: 0.5rem; }
-    .form-group { margin-bottom: 1.5rem; }
-    label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text); font-size: 0.9rem; }
-    input, textarea, select { width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.95rem; transition: all 0.3s ease; }
-    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
-    textarea { resize: vertical; min-height: 120px; }
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-    /* Add (+) */
-    #addDocumentBtn { display: none; margin-left: 2rem; font-size: 1.5rem; background: var(--accent); color: #fff; border: none; border-radius: 50%; width: 48px; height: 48px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    #addDocumentBtn:hover { transform: scale(1.1); background: #0056cc; box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
-    #addDocumentBtn:active { transform: scale(0.9); }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
 
-    /* Popup */
-    .popup { position: fixed; top: 20px; right: 20px; background: var(--card-bg); color: var(--text); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-20px); transition: all 0.4s ease; z-index: 2000; font-weight: 600; max-width: 300px; backdrop-filter: blur(10px); }
-    .popup.show { opacity: 1; transform: translateY(0); }
-    .popup.success { border-left: 6px solid var(--success); }
-    .popup.error { border-left: 6px solid var(--error); }
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-    /* Filters */
-    .document-filters { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; padding: 1.5rem; background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; }
-    .document-filters:hover { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
-    .filter-group { display: flex; flex-direction: column; min-width: 180px; flex: 1; }
-    .filter-group label { font-size: 0.85rem; margin-bottom: 0.75rem; color: var(--text); font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
-    .filter-group select { padding: 0.85rem 1rem; border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.95rem; transition: all 0.3s ease; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%236e6e73' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 12px; }
-    .filter-group select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.1); transform: translateY(-2px); }
-    .filter-group select:hover { border-color: var(--accent); }
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
 
-    .filter-actions { display: flex; align-items: flex-end; margin-left: auto; }
-    #resetFilters { background: transparent; border: 2px solid var(--muted); color: var(--muted); padding: 0.85rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem; }
-    #resetFilters:hover { background: var(--muted); color: var(--bg); border-color: var(--muted); transform: translateY(-2px); }
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
 
-    /* Badges */
-    .type-badge { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 10px; font-size: 0.8rem; font-weight: 600; margin-right: 0.5rem; transition: all 0.3s ease; }
-    .type-statuto { background: rgba(0, 122, 255, 0.15); color: var(--info); border: 1px solid rgba(0, 122, 255, 0.3); }
-    .type-relazione { background: rgba(52, 199, 89, 0.15); color: var(--success); border: 1px solid rgba(52, 199, 89, 0.3); }
-    .type-verbale { background: rgba(255, 149, 0, 0.15); color: var(--warning); border: 1px solid rgba(255, 149, 0, 0.3); }
-    .type-bilancio { background: rgba(175, 82, 222, 0.15); color: #af52de; border: 1px solid rgba(175, 82, 222, 0.3); }
-    .type-altro { background: rgba(142, 142, 147, 0.15); color: var(--muted); border: 1px solid rgba(142, 142, 147, 0.3); }
+    /* Sezioni specifiche per ruoli */
+    .admin-only {
+      display: none;
+    }
 
-    /* Table (admin) */
-    .documents-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    .documents-table th, .documents-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .documents-table th { font-weight: 600; color: var(--muted); font-size: 0.9rem; }
-    .documents-table tr:hover { background: var(--hover-bg); }
+    .user-only {
+      display: none;
+    }
 
-    /* Dropdown (top nav) */
-    .dropdown { position: relative; display: inline-block; }
-    .dropdown-toggle { margin-left: 2rem; text-decoration: none; color: var(--header-text); font-weight: 600; position: relative; padding: 0.5rem; background: none; border: none; font-family: inherit; font-size: inherit; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-    .dropdown-toggle::after { content: "▼"; font-size: 0.7rem; margin-left: 4px; transition: transform 0.3s ease; }
-    .dropdown:hover .dropdown-toggle::after { transform: rotate(180deg); }
-    .dropdown-menu { position: absolute; top: 100%; left: 0; background: var(--sidebar-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid var(--sidebar-border); border-radius: 12px; box-shadow: var(--card-shadow); min-width: 200px; padding: 0.5rem 0; z-index: 1001; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; }
-    .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-    .dropdown-item { display: block; padding: 0.75rem 1.5rem; text-decoration: none; color: var(--text); font-weight: 500; transition: background 0.3s ease; border: none; background: none; width: 100%; text-align: left; font-family: inherit; font-size: inherit; cursor: pointer; }
-    .dropdown-item:hover { background: var(--hover-bg); }
-    .dropdown-divider { height: 1px; background: var(--sidebar-border); margin: 0.25rem 0; }
+    /* Stili per le liste documenti */
+    .document-list {
+      margin-top: 2rem;
+    }
 
-    /* Mobile create CTA */
-    .mobile-create-section { display: none; margin-bottom: 2rem; text-align: center; }
-    .mobile-create-btn-large { display: inline-flex; align-items: center; gap: 12px; background: var(--accent); color: #fff; padding: 1rem 2rem; border-radius: 16px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; border: none; box-shadow: 0 6px 20px rgba(0,0,0,0.2); width: 100%; justify-content: center; }
-    .mobile-create-btn-large:hover { background: var(--btn-hover-bg); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
-    .mobile-create-btn-large:active { transform: translateY(-1px); }
+    .document-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+      border-radius: 8px;
+    }
+
+    .document-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .document-info {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .document-icon {
+      margin-right: 1rem;
+      font-size: 1.5rem;
+      min-width: 40px;
+    }
+
+    .document-details {
+      flex: 1;
+    }
+
+    .document-details h3 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .document-details p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .document-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btn:hover {
+      background: var(--hover-bg);
+    }
+
+    .delete-btn:hover {
+      color: var(--error);
+    }
+
+    .download-btn:hover {
+      color: var(--accent);
+    }
+
+    .view-btn:hover {
+      color: var(--info);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+    }
+
+    /* Badge per stato */
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status-published {
+      background: rgba(52, 199, 89, 0.2);
+      color: var(--success);
+    }
+
+    .status-pending {
+      background: rgba(0, 122, 255, 0.2);
+      color: var(--info);
+    }
+
+    .status-rejected {
+      background: rgba(255, 59, 48, 0.2);
+      color: var(--error);
+    }
+
+    .status-approved {
+      background: rgba(52, 199, 89, 0.2);
+      color: var(--success);
+    }
+
+    /* Badge bozza */
+    .draft-badge {
+      background: rgba(255, 149, 0, 0.2);
+      color: var(--warning);
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .cloud-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(0, 122, 255, 0.1);
+      color: var(--accent);
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+    }
+
+    .admin-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(255, 59, 48, 0.1);
+      color: var(--admin-badge);
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .review-notes {
+      background: rgba(255, 149, 0, 0.1);
+      padding: 0.75rem;
+      border-radius: 8px;
+      border-left: 3px solid #ff9500;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Modal per visualizzazione documenti */
+    #viewerModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #viewerContent {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 90vw;
+      max-height: 90vh;
+      width: 800px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .viewer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .viewer-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .viewer-body {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 1rem 0;
+    }
+
+    .viewer-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .file-preview {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .file-preview img {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 8px;
+    }
+
+    .file-preview .unsupported-format {
+      padding: 3rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    /* Modal pubblicazione */
+    #publicationModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #publicationForm {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .form-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* Pulsante + */
+    #addDocumentBtn {
+      display: none;
+      margin-left: 2rem;
+      font-size: 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    #addDocumentBtn:hover {
+      transform: scale(1.1);
+      background: #0056cc;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    /* Popup notifiche */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
+      font-weight: 600;
+      max-width: 300px;
+      backdrop-filter: blur(10px);
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left: 6px solid var(--success);
+    }
+
+    .popup.error {
+      border-left: 6px solid var(--error);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      section {
+        padding: 120px 1rem 80px;
+      }
+      
+      .hero {
+        padding-top: 160px;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+
+      .document-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .document-actions {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      #viewerContent {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+
+      .viewer-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .viewer-actions {
+        flex-direction: column;
+      }
+    }
+
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
 
     @media (max-width: 768px) {
-      header { padding: 0.8rem 1rem; }
-      .logo { font-size: 1.2rem; }
-      nav > a { margin-left: 1rem; font-size: 0.9rem; }
-      .hero h1 { font-size: 2.2rem; }
-      .section { padding: 120px 1rem 80px; }
-      .hero { padding-top: 160px; }
-      .card { padding: 1.5rem; }
-      #mainNav { display: none; }
-      #sidebarToggle { display: flex; }
-      .document-item { flex-direction: column; align-items: flex-start; }
-      .document-actions { margin-top: 1rem; width: 100%; justify-content: flex-end; }
-      #viewerContent { margin: 1rem; padding: 1.5rem; width: auto; }
-      .viewer-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      .viewer-actions { flex-direction: column; }
-      .mobile-create-section { display: block; }
-      #addDocumentBtn { display: none !important; }
+      #sidebarToggle {
+        display: flex;
+      }
     }
 
+    /* Theme FAB - Stile identico a index.html */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    /* MIGLIORAMENTI CSS FILTRI */
+    
+    /* Filtri per documenti - VERSIONE MIGLIORATA */
+    .document-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .document-filters:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 180px;
+      flex: 1;
+    }
+    
+    .filter-group label {
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* SVG al posto delle emoji */
+    .filter-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .filter-group label::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+    }
+
+    #typeFilter + label::before { 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z'/%3E%3C/svg%3E");
+    }
+    
+    #statusFilter + label::before { 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    
+    #dateFilter + label::before { 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z'/%3E%3Cpath fill-rule='evenodd' d='M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    
+    .filter-group select {
+      padding: 0.85rem 1rem;
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%236e6e73' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 12px;
+    }
+
+    .filter-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .filter-group select:hover {
+      border-color: var(--accent);
+    }
+    
+    /* Pulsante reset filtri migliorato */
+    .filter-actions {
+      display: flex;
+      align-items: flex-end;
+      margin-left: auto;
+    }
+
+    #resetFilters {
+      background: transparent;
+      border: 2px solid var(--muted);
+      color: var(--muted);
+      padding: 0.85rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #resetFilters:hover {
+      background: var(--muted);
+      color: var(--bg);
+      border-color: var(--muted);
+      transform: translateY(-2px);
+    }
+
+    #resetFilters:active {
+      transform: translateY(0);
+    }
+    
+    /* Badge per tipo documento */
+    .type-badge {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .type-statuto {
+      background: rgba(0, 122, 255, 0.15);
+      color: var(--info);
+      border: 1px solid rgba(0, 122, 255, 0.3);
+    }
+    
+    .type-relazione {
+      background: rgba(52, 199, 89, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(52, 199, 89, 0.3);
+    }
+    
+    .type-verbale {
+      background: rgba(255, 149, 0, 0.15);
+      color: var(--warning);
+      border: 1px solid rgba(255, 149, 0, 0.3);
+    }
+    
+    .type-bilancio {
+      background: rgba(175, 82, 222, 0.15);
+      color: #af52de;
+      border: 1px solid rgba(175, 82, 222, 0.3);
+    }
+    
+    .type-altro {
+      background: rgba(142, 142, 147, 0.15);
+      color: var(--muted);
+      border: 1px solid rgba(142, 142, 147, 0.3);
+    }
+
+    /* Responsive per filtri */
+    @media (max-width: 768px) {
+      .document-filters {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.25rem;
+      }
+      
+      .filter-group {
+        min-width: 100%;
+      }
+      
+      .filter-actions {
+        margin-left: 0;
+        width: 100%;
+      }
+      
+      #resetFilters {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Document card migliorata */
+    .document-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .document-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .document-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .document-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .document-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    
+    .document-card-description {
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+    
+    .document-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .document-card-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    /* Tabella documenti per admin */
+    .documents-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    
+    .documents-table th,
+    .documents-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .documents-table th {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+    .documents-table tr:hover {
+      background: var(--hover-bg);
+    }
+    
+    /* Pulsanti azione migliorati */
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+    
+    .btn-outline:hover {
+      background: var(--accent);
+      color: white;
+    }
+    
+    /* Modal migliorato per tipi documento */
+    .document-type-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .document-type-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .document-type-option:hover {
+      border-color: var(--accent);
+      background: rgba(0, 122, 255, 0.05);
+    }
+    
+    .document-type-option.selected {
+      border-color: var(--accent);
+      background: rgba(0, 122, 255, 0.1);
+    }
+    
+    .document-type-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 0.5rem;
+      fill: currentColor;
+    }
+    
+    .document-type-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* SVG per azioni documento */
+    .action-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* SVG per cloud indicator */
+    .cloud-icon {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+                /* Stili per il dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--sidebar-border);
+      margin: 0.25rem 0;
+    }
+    
+    /* Bottone mobile per creare documento */
+    .mobile-create-section {
+      display: none;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .mobile-create-btn-large {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      width: 100%;
+      justify-content: center;
+    }
+
+    .mobile-create-btn-large:hover {
+      background: var(--btn-hover-bg);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .mobile-create-btn-large:active {
+      transform: translateY(-1px);
+    }
+
+    .mobile-create-icon {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .mobile-create-text {
+      flex: 1;
+      text-align: center;
+    }
+
+    /* Media query per mostrare il bottone solo su mobile */
+    @media (max-width: 768px) {
+      .mobile-create-section {
+        display: block;
+      }
+      
+      #addDocumentBtn {
+        display: none !important; /* Nascondi completamente su mobile */
+      }
+    }
+
+    /* Miglioramenti per schermi piccoli */
     @media (max-width: 480px) {
-      .mobile-create-btn-large { padding: 0.9rem 1.5rem; font-size: 1rem; }
+      .mobile-create-btn-large {
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+      }
+      
+      .mobile-create-icon {
+        font-size: 1.3rem;
+      }
+      
+    }
+    /* Stile per il link Accedi - colore blu */
+nav a[href="login.html"],
+nav a[href="login.html"]:visited {
+  color: var(--accent) !important;
+  font-weight: 700;
+}
+
+nav a[href="login.html"]:hover {
+  text-decoration: underline;
+}
+    /* Stili per la preview della pagina centrale meteorologica */
+    .page-preview {
+      position: absolute;
+      left: -460px; /* Spostata a sinistra per essere completamente visibile */
+      top: 0;
+      width: 450px;
+      height: 320px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-20px) scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      z-index: 1002;
+      border: 1px solid var(--sidebar-border);
+      backdrop-filter: blur(10px);
     }
 
-    /* Sidebar trigger */
-    #sidebarToggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--header-text); padding: 0.5rem; }
-    @media (max-width: 768px) { #sidebarToggle { display: flex; } }
+    .dropdown-item:hover .page-preview {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+    }
 
-    /* Theme FAB */
-    #theme-fab { position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: #fff; width: 56px; height: 56px; border-radius: 50%; font-size: 1.7rem; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.25); z-index: 3000; transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease; animation: float 3s ease-in-out infinite; }
-    #theme-fab:hover { background: var(--btn-hover-bg); transform: scale(1.1); box-shadow: 0 8px 18px rgba(0,0,0,0.35); }
-    #theme-fab:active { transform: scale(0.92) rotate(15deg); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    #theme-fab.show { animation: fabPopIn 0.4s ease forwards; }
-    @keyframes fabPopIn { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 70% { transform: scale(1.15) rotate(10deg); opacity: 1; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .page-preview-content {
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-    #theme-popup { position: fixed; bottom: 90px; right: 24px; background: var(--sidebar-bg); border: 1px solid var(--sidebar-border); box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 12px; display: none; flex-direction: column; padding: 0.5rem; z-index: 3001; backdrop-filter: blur(10px); opacity: 0; transform: translateY(10px) scale(0.95); transition: opacity 0.25s ease, transform 0.25s ease; }
-    #theme-popup.show { display: flex; opacity: 1; transform: translateY(0) scale(1); }
-    #theme-popup button.theme-option { background: none; border: none; font-size: 1.5rem; padding: 0.6rem; cursor: pointer; color: var(--text); transition: background 0.25s, transform 0.25s, color 0.25s; border-radius: 8px; }
-    #theme-popup button.theme-option:hover { background: var(--hover-bg); transform: scale(1.2) rotate(8deg); }
-    #theme-popup button.theme-option:active { transform: scale(0.9) rotate(-8deg); }
-    #theme-popup button.theme-option.active { background: var(--accent); color: #fff; transform: scale(1.15); }
+    .page-preview-hero {
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-    /* Nav login link color */
-    nav a[href="login.html"], nav a[href="login.html"]:visited { color: var(--accent) !important; font-weight: 700; }
-    nav a[href="login.html"]:hover { text-decoration: underline; }
+    .page-preview-hero h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-preview-hero p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .page-preview-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-card {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid var(--sidebar-border);
+      transition: transform 0.2s ease;
+    }
+
+    .page-preview-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .page-preview-card h3 {
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .page-preview-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .page-preview-chart {
+      height: 80px;
+      background: var(--bg);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--sidebar-border);
+      padding: 10px;
+    }
+
+    .page-preview-chart-line {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .page-preview-chart-point {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .page-preview-footer {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .page-preview-footer p {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .page-preview {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <button class="logo" id="toggleSidebar" aria-label="Apri menu laterale">
-      <img src="immagini/logo.jpg" alt="Logo Daze for Future" class="logo-img" />
-      <span>Daze for Future</span>
-    </button>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze for Future
+    </div>
     <div style="flex:1"></div>
-
-    <nav id="mainNav" aria-label="Navigazione principale">
+    
+    <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
-
+      
+      <!-- Menu a tendina Progetti -->
       <div class="dropdown">
-        <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Progetti</button>
-        <div class="dropdown-menu" role="menu">
-          <a href="centrale_meteo.html" class="dropdown-item" role="menuitem">
-            <i class="fas fa-cloud-sun" style="margin-right:8px" aria-hidden="true"></i>
+        <button class="dropdown-toggle">
+          Progetti
+        </button>
+        <div class="dropdown-menu">
+          <a href="centrale_meteo.html" class="dropdown-item">
+            <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
           </a>
         </div>
       </div>
-
+      
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      <a href="forum.html">Forum</a>
 
-      <!-- Userbar (hidden by default) -->
-      <div id="userbar" class="user-info" style="display:none; align-items:center; gap:10px">
-        <div class="user-avatar" id="userAvatar" aria-hidden="true"></div>
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
         <div class="user-display">
           <span class="user-name" id="userName"></span>
           <span class="user-badge" id="userBadge"></span>
         </div>
-        <button class="logout-btn" type="button" onclick="logout()" aria-label="Logout">
+        <button class="logout-btn" onclick="logout()">
           <span>Logout</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </div>
-
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
-      <button id="addDocumentBtn" title="Crea nuovo documento" aria-label="Crea nuovo documento">+</button>
+      
+      <!-- Pulsante + per creare documento -->
+      <button id="addDocumentBtn" title="Crea nuovo documento">+</button>
     </nav>
-
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
   <main>
-    <section class="hero" aria-labelledby="page-title">
+    <section class="hero">
       <div class="hero-content">
-        <h1 id="page-title">Documenti</h1>
+        <h1>Documenti</h1>
         <p>Consulta e gestisci i documenti dell'associazione</p>
       </div>
     </section>
 
     <section>
-      <!-- Mobile create CTA -->
+      <!-- Sezione mobile per creare documento -->
       <div class="mobile-create-section fade-in-up">
         <button class="mobile-create-btn-large" id="mobileCreateBtnLarge">
-          <span class="mobile-create-icon" aria-hidden="true">+</span>
+          <span class="mobile-create-icon">+</span>
           <span class="mobile-create-text">Crea Nuovo Documento</span>
         </button>
       </div>
 
-      <!-- Filters -->
-      <div class="card fade-in-up" aria-labelledby="filters-title">
-        <h2 class="section-title" id="filters-title">Filtra Documenti</h2>
+      <!-- Filtri per documenti - VERSIONE MIGLIORATA -->
+      <div class="card fade-in-up">
+        <h2 class="section-title">Filtra Documenti</h2>
         <div class="document-filters">
           <div class="filter-group">
             <label for="typeFilter">Tipo Documento</label>
@@ -441,16 +1684,18 @@
               <option value="altro">Altro</option>
             </select>
           </div>
-
+          
           <div class="filter-group">
             <label for="statusFilter">Stato</label>
             <select id="statusFilter">
               <option value="all">Tutti gli stati</option>
               <option value="published">Pubblicato</option>
-              <option value="draft">Bozza</option>
+              <option value="pending">In revisione</option>
+              <option value="approved">Approvato</option>
+              <option value="rejected">Rifiutato</option>
             </select>
           </div>
-
+          
           <div class="filter-group">
             <label for="dateFilter">Ordina per data</label>
             <select id="dateFilter">
@@ -458,10 +1703,10 @@
               <option value="oldest">Più vecchi</option>
             </select>
           </div>
-
+          
           <div class="filter-actions">
-            <button class="btn" id="resetFilters" type="button" aria-label="Reset filtri">
-              <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <button class="btn" id="resetFilters">
+              <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z" clip-rule="evenodd" />
               </svg>
               Reset Filtri
@@ -470,9 +1715,9 @@
         </div>
       </div>
 
-      <!-- Admin: drafts -->
+      <!-- Sezione Admin: Bozze da revisionare -->
       <div class="card admin-only fade-in-up" id="reviewSection">
-        <h2 class="section-title">Bozze da Revisionare (Non Pubblicate)</h2>
+        <h2 class="section-title">Bozze da Revisionare</h2>
         <div class="document-list" id="draftList">
           <div class="empty-state" id="emptyDrafts">
             <p>Nessuna bozza da revisionare al momento.</p>
@@ -480,9 +1725,9 @@
         </div>
       </div>
 
-      <!-- Published -->
+      <!-- Sezione per tutti: Documenti pubblicati -->
       <div class="card fade-in-up">
-        <h2 class="section-title" id="publishedSectionTitle">Documenti Pubblicati</h2>
+        <h2 class="section-title">Documenti Pubblicati</h2>
         <div class="document-list" id="documentList">
           <div class="empty-state" id="emptyState">
             <p>Nessun documento disponibile al momento.</p>
@@ -490,9 +1735,14 @@
         </div>
       </div>
 
-      <!-- User: my drafts (placeholder) -->
-      <div class="card user-only fade-in-up" id="myDraftsSection" style="display: none;">
-        <h2 class="section-title">Le Mie Bozze <span class="cloud-indicator" aria-label="Salvate nel cloud">☁️ Salvate nel cloud</span></h2>
+      <!-- Sezione User: Le mie bozze -->
+      <div class="card user-only fade-in-up" id="myDraftsSection">
+        <h2 class="section-title">Le Mie Bozze <span class="cloud-indicator">
+          <svg class="cloud-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd" />
+          </svg>
+          Salvate nel cloud
+        </span></h2>
         <div class="document-list" id="myDraftsList">
           <div class="empty-state" id="emptyMyDrafts">
             <p>Non hai ancora creato bozze.</p>
@@ -500,15 +1750,15 @@
           </div>
         </div>
       </div>
-    </section>
+    </section>  
   </main>
 
-  <!-- Viewer modal -->
-  <div id="viewerModal" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+  <!-- Modal per visualizzazione documenti -->
+  <div id="viewerModal">
     <div id="viewerContent">
       <div class="viewer-header">
         <h3 class="viewer-title" id="viewerTitle">Documento</h3>
-        <button class="close-btn" id="closeViewer" type="button" aria-label="Chiudi">&times;</button>
+        <button class="close-btn" id="closeViewer">&times;</button>
       </div>
       <div class="viewer-body" id="viewerBody">
         <div class="file-preview">
@@ -519,129 +1769,166 @@
         </div>
       </div>
       <div class="viewer-actions">
-        <button class="btn" id="downloadFromViewer" type="button" aria-label="Scarica">
-          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <button class="btn" id="downloadFromViewer">
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
           </svg>
           Scarica
         </button>
-        <button class="btn btn-outline" id="closeViewerBtn" type="button">Chiudi</button>
+        <button class="btn btn-outline" id="closeViewerBtn">Chiudi</button>
       </div>
     </div>
   </div>
 
-  <!-- Publication modal -->
-  <div id="publicationModal" role="dialog" aria-modal="true" aria-labelledby="publicationTitleHeading">
+  <!-- Modal per creazione pubblicazione -->
+  <div id="publicationModal">
     <form id="publicationForm">
-      <button type="button" class="close-btn" id="closeModal" aria-label="Chiudi">&times;</button>
-      <h2 id="publicationTitleHeading" style="margin-bottom: 1.5rem; color: var(--text); font-size: 1.8rem; text-align: center;">Crea Nuova Pubblicazione</h2>
-
+      <button type="button" class="close-btn" id="closeModal">&times;</button>
+      <h2 style="margin-bottom: 1.5rem; color: var(--text); font-size: 1.8rem; text-align: center;">Crea Nuova Pubblicazione</h2>
+      
       <div class="form-section">
         <div class="form-section-title">
-          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd"/></svg>
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+          </svg>
           Informazioni Base
         </div>
         <div class="form-group">
           <label for="publicationTitle">Titolo *</label>
           <input type="text" id="publicationTitle" placeholder="Es: Relazione Attività 2024" required />
         </div>
+        
         <div class="form-group">
           <label for="publicationDescription">Descrizione *</label>
           <textarea id="publicationDescription" placeholder="Descrivi il contenuto del documento..." rows="4" required></textarea>
         </div>
+        
         <div class="form-group">
           <label for="publicationType">Tipo Documento *</label>
-          <div class="document-type-selector" role="list">
-            <button class="document-type-option" data-type="statuto" type="button" role="listitem" aria-pressed="false">
-              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd"/><path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/></svg>
+          <div class="document-type-selector">
+            <div class="document-type-option" data-type="statuto">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
+                <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
+              </svg>
               <div class="document-type-name">Statuto</div>
-            </button>
-            <button class="document-type-option" data-type="relazione" type="button" role="listitem" aria-pressed="false">
-              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 0 1 8.25-8.25.75.75 0 0 1 .75.75v6.75H18a.75.75 0 0 1 .75.75 8.25 8.25 0 0 1-16.5 0Z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd"/></svg>
+            </div>
+            <div class="document-type-option" data-type="relazione">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 0 1 8.25-8.25.75.75 0 0 1 .75.75v6.75H18a.75.75 0 0 1 .75.75 8.25 8.25 0 0 1-16.5 0Z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd" />
+              </svg>
               <div class="document-type-name">Relazione</div>
-            </button>
-            <button class="document-type-option" data-type="verbale" type="button" role="listitem" aria-pressed="false">
-              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd"/></svg>
+            </div>
+            <div class="document-type-option" data-type="verbale">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+              </svg>
               <div class="document-type-name">Verbale</div>
-            </button>
-            <button class="document-type-option" data-type="bilancio" type="button" role="listitem" aria-pressed="false">
-              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"/><path fill-rule="evenodd" d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z" clip-rule="evenodd"/><path d="M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z"/></svg>
+            </div>
+            <div class="document-type-option" data-type="bilancio">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+                <path fill-rule="evenodd" d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z" clip-rule="evenodd" />
+                <path d="M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z" />
+              </svg>
               <div class="document-type-name">Bilancio</div>
-            </button>
-            <button class="document-type-option" data-type="altro" type="button" role="listitem" aria-pressed="false">
-              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM9.75 17.25a.75.75 0 0 0-1.5 0V18a3 3 0 1 0 6 0v-.75a.75.75 0 0 0-1.5 0V18a1.5 1.5 0 0 1-3 0v-.75Z" clip-rule="evenodd"/><path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z"/></svg>
+            </div>
+            <div class="document-type-option" data-type="altro">
+              <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM9.75 17.25a.75.75 0 0 0-1.5 0V18a3 3 0 1 0 6 0v-.75a.75.75 0 0 0-1.5 0V18a1.5 1.5 0 0 1-3 0v-.75Z" clip-rule="evenodd" />
+                <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
+              </svg>
               <div class="document-type-name">Altro</div>
-            </button>
+            </div>
           </div>
-          <input type="hidden" id="publicationType" required />
+          <input type="hidden" id="publicationType" required>
         </div>
       </div>
 
       <div class="form-section">
         <div class="form-section-title">
-          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18.97 2.659a2.25 2.25 0 0 0-3.182 0l-10.94 10.94a3.75 3.75 0 1 0 5.304 5.303l7.693-7.693a.75.75 0 0 1 1.06 1.06l-7.693 7.693a5.25 5.25 0 1 1-7.424-7.424l10.939-10.94a3.75 3.75 0 1 1 5.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 0 1 5.91 15.66l7.81-7.81a.75.75 0 0 1 1.061 1.06l-7.81 7.81a.75.75 0 0 0 1.054 1.068L18.97 5.84a2.25 2.25 0 0 0 0-3.182Z" clip-rule="evenodd"/></svg>
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M18.97 2.659a2.25 2.25 0 0 0-3.182 0l-10.94 10.94a3.75 3.75 0 1 0 5.304 5.303l7.693-7.693a.75.75 0 0 1 1.06 1.06l-7.693 7.693a5.25 5.25 0 1 1-7.424-7.424l10.939-10.94a3.75 3.75 0 1 1 5.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 0 1 5.91 15.66l7.81-7.81a.75.75 0 0 1 1.061 1.06l-7.81 7.81a.75.75 0 0 0 1.054 1.068L18.97 5.84a2.25 2.25 0 0 0 0-3.182Z" clip-rule="evenodd" />
+          </svg>
           Documento
         </div>
         <div class="form-group">
           <label for="publicationFile">File del documento *</label>
-          <input type="file" id="publicationFile" required accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.xls,.xlsx,.ppt,.pptx,.zip" />
-          <small style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem; display:block">Supporta: PDF, DOC, DOCX, TXT, immagini, Excel, PowerPoint, ZIP (max 10MB)</small>
+          <input type="file" id="publicationFile" required accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif,.xls,.xlsx,.ppt,.pptx,.zip">
+          <small style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">
+            Supporta: PDF, DOC, DOCX, TXT, immagini, Excel, PowerPoint, ZIP (max 10MB)
+          </small>
         </div>
       </div>
 
-      <div class="form-actions" style="display:flex; gap:1rem; justify-content:flex-end; border-top:1px solid rgba(255,255,255,0.1); padding-top:1.5rem">
+      <div class="form-actions">
         <button type="button" class="btn" id="cancelPublication" style="background: var(--muted);">Annulla</button>
         <button type="submit" class="btn" id="submitPublication">
-          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd"/></svg>
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd" />
+          </svg>
           Crea Bozza
         </button>
       </div>
     </form>
   </div>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" aria-label="Menu laterale">
-    <button class="sidebar-close" type="button" aria-label="Chiudi menu">&times;</button>
-    <h2>Menu</h2>
-    <ul class="sidebar-menu">
-      <li><a href="index.html"><span>🏠</span>Home</a></li>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <button class="sidebar-close">&times;</button>
+  <h2>Menu</h2>
+  
+  <ul class="sidebar-menu">
+    <li><a href="index.html"><span>🏠</span>Home</a></li>
       <li><a href="missione.html"><span>🌱</span> Missione</a></li>
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-      <li class="sidebar-dropdown">
-        <button class="sidebar-dropdown-toggle" type="button" aria-expanded="false"><span>📁</span><span>Progetti</span><span class="dropdown-arrow">▼</span></button>
-        <ul class="sidebar-dropdown-menu">
-          <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-        </ul>
-      </li>
+  <!-- Dropdown -->
+    <li class="sidebar-dropdown">
+      <button class="sidebar-dropdown-toggle">
+        <span>📁</span>
+        <span>Progetti</span>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+      <ul class="sidebar-dropdown-menu">
+        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
+      </ul>
+    </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
       <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
       <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-    </ul>
-
+  </ul>
+  <!-- User info per mobile nella sidebar -->
     <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
       <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar" aria-hidden="true"></div>
-        <span style="margin-left:0.75rem; font-weight:600;">Account</span>
+        <div class="user-avatar" id="mobileUserAvatar"></div>
+        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
       </div>
       <div class="mobile-user-display">
         <span class="mobile-user-name" id="mobileUserName"></span>
         <span class="mobile-user-badge" id="mobileUserBadge"></span>
       </div>
-      <button class="logout-btn" type="button" onclick="logout()" style="justify-content:center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         <span>Logout</span>
       </button>
     </div>
   </aside>
 
-  <!-- Theme controls -->
-  <div id="theme-fab" title="Scegli tema" role="button" aria-haspopup="true" aria-controls="theme-popup">🎨</div>
-  <div id="theme-popup" role="menu" aria-label="Seleziona tema">
-    <button class="theme-option" data-theme="light" type="button" aria-pressed="false">🌞</button>
-    <button class="theme-option" data-theme="dark" type="button" aria-pressed="false">🌙</button>
-    <button class="theme-option" data-theme="auto" type="button" aria-pressed="true">🌓</button>
+   <!-- Floating Theme Button -->
+  <div id="theme-fab" title="Scegli tema">
+    🎨
+  </div>
+
+   <!-- Floating Theme Popup -->
+  <div id="theme-popup">
+    <button class="theme-option" data-theme="light">🌞</button>
+    <button class="theme-option" data-theme="dark">🌙</button>
+    <button class="theme-option" data-theme="auto">🌓</button>
   </div>
 
   <footer>
@@ -650,51 +1937,51 @@
 
   <script>
     // ===== CONFIGURAZIONE =====
-    (async function () {
+    (async function() {
+      // Hostname corrente
       const currentHost = window.location.hostname;
-      const protocol = window.location.protocol === 'https:' ? 'https' : 'http';
-      const guesses = [
-        `${protocol}://${currentHost}:5001`,
-        `${protocol}://localhost:5001`,
-        `${protocol}://192.168.0.92:5001`
+      
+      // Lista di endpoint da testare
+      const endpointsToTest = [
+        `http://${currentHost}:5001`,
+        'http://localhost:5001', 
+        'http://192.168.0.92:5001'
       ];
-
+      
+      // Funzione per testare la connettività
       async function testEndpoint(url) {
-        // Implementiamo un timeout manuale (compatibile Safari)
-        const controller = new AbortController();
-        const t = setTimeout(() => controller.abort(), 3000);
         try {
-          const res = await fetch(`${url}/api/articles`, { method: 'GET', signal: controller.signal });
-          return res.ok ? url : null;
-        } catch (_) {
+          const response = await fetch(`${url}/api/documents`, {
+            method: 'GET',
+            signal: AbortSignal.timeout(3000) // Timeout di 3 secondi
+          });
+          return response.ok ? url : null;
+        } catch (error) {
           return null;
-        } finally {
-          clearTimeout(t);
         }
       }
-
-      for (const endpoint of guesses) {
-        const ok = await testEndpoint(endpoint);
-        if (ok) {
-          window.API_BASE_URL = ok;
-          console.log('✅ Server API trovato:', ok);
+      
+      // Prova ogni endpoint
+      for (const endpoint of endpointsToTest) {
+        const workingEndpoint = await testEndpoint(endpoint);
+        if (workingEndpoint) {
+          window.API_BASE_URL = workingEndpoint;
+          console.log('✅ Server API trovato:', window.API_BASE_URL);
           break;
         }
       }
+      
+      // Fallback se nessun endpoint funziona
       if (!window.API_BASE_URL) {
-        window.API_BASE_URL = guesses[0];
+        window.API_BASE_URL = endpointsToTest[0];
         console.warn('⚠️ Usando endpoint di default:', window.API_BASE_URL);
       }
     })();
-
-    // ===== STATO GLOBALE =====
-    let userRole = 'user';
-
     // ===== HELPERS =====
     function authHeaders() {
       const email = localStorage.getItem('utente') || '';
-      userRole = localStorage.getItem('utente_ruolo') || 'user';
-      return { 'X-User-Email': email, 'X-User-Role': userRole };
+      const role = localStorage.getItem('utente_ruolo') || 'user';
+      return { 'X-User-Email': email, 'X-User-Role': role };
     }
 
     function mostraPopup(messaggio, tipo) {
@@ -706,89 +1993,62 @@
         document.body.appendChild(popup);
       }
       popup.textContent = messaggio;
-      popup.className = 'popup ' + (tipo || '');
-      requestAnimationFrame(() => popup.classList.add('show'));
-      setTimeout(() => popup.classList.remove('show'), 3000);
+      popup.className = "popup " + tipo;
+      popup.classList.add("show");
+      setTimeout(() => popup.classList.remove("show"), 3000);
     }
 
-    function escapeHTML(str) {
-      return (str || '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
-    }
-
-    function getFileExtensionFromPath(filePath) {
-      if (!filePath) return '';
-      const clean = String(filePath).split('?')[0].split('#')[0];
-      const parts = clean.split('.');
-      return parts.length > 1 ? parts.pop().toLowerCase() : '';
-    }
-
-    function getFileIcon(filePath) {
-      const ext = getFileExtensionFromPath(filePath);
-      const icons = { pdf: '📕', doc: '📘', docx: '📘', xls: '📗', xlsx: '📗', ppt: '📙', pptx: '📙', txt: '📄', zip: '📦', rar: '📦', jpg: '🖼️', jpeg: '🖼️', png: '🖼️', gif: '🖼️' };
-      return icons[ext] || '📄';
-    }
-
-    function getTypeText(type) {
-      const map = { statuto: 'Statuto', relazione: 'Relazione', verbale: 'Verbale', bilancio: 'Bilancio', altro: 'Altro' };
-      return map[type] || type || 'Altro';
-    }
-
-    function stripSystemPrefixes(str) {
-      return (str || '').replace(/^\s*(publication|document)\s*[-:]*\s*/i, '').replace(/\b(publication|document)\b/gi, '').replace(/^\s*[-–—:]\s*/g, '').trim();
-    }
-
-    // ===== AUTH / UI BOOT =====
-    document.addEventListener('DOMContentLoaded', () => {
-      const utente = localStorage.getItem('utente'); // email intera
-      userRole = localStorage.getItem('utente_ruolo') || 'user';
-
-      if (utente) {
-        // nascondi link login
-        const loginLink = document.getElementById('loginLink');
-        if (loginLink) loginLink.style.display = 'none';
-        const sidebarLoginLink = document.getElementById('sidebarLoginLink');
-        if (sidebarLoginLink) sidebarLoginLink.style.display = 'none';
-
-        // userbar
+    // ===== GESTIONE UTENTE =====
+    document.addEventListener('DOMContentLoaded', function() {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
+      
+      if(utente) {
+        // Nascondi link login
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('sidebarLoginLink').style.display = 'none';
+        
+        // Mostra userbar
         const userbar = document.getElementById('userbar');
         if (userbar) {
           userbar.style.display = 'flex';
           document.getElementById('userName').innerText = utente.split('@')[0];
-          const badge = document.getElementById('userBadge');
-          badge.innerText = userRole === 'admin' ? 'Admin' : 'User';
-          badge.className = `user-badge ${userRole === 'admin' ? 'badge-admin' : 'badge-user'}`;
-          const avatar = document.getElementById('userAvatar');
-          avatar.innerText = (utente.charAt(0) || '?').toUpperCase();
-          avatar.setAttribute('aria-label', `Utente ${utente}`);
+          document.getElementById('userBadge').innerText = ruolo === 'admin' ? 'Admin' : 'User';
+          document.getElementById('userBadge').className = `user-badge ${ruolo === 'admin' ? 'badge-admin' : 'badge-user'}`;
+          document.getElementById('userAvatar').innerText = utente.charAt(0).toUpperCase();
         }
 
-        // mobile user info
+        // Mostra user info mobile
         const mobileUserInfo = document.getElementById('mobileUserInfo');
         if (mobileUserInfo) {
           mobileUserInfo.style.display = 'block';
           document.getElementById('mobileUserName').innerText = utente.split('@')[0];
-          const mBadge = document.getElementById('mobileUserBadge');
-          mBadge.innerText = userRole === 'admin' ? 'Admin' : 'User';
-          mBadge.className = `mobile-user-badge ${userRole === 'admin' ? 'badge-admin' : 'badge-user'}`;
-          const mAvatar = document.getElementById('mobileUserAvatar');
-          mAvatar.innerText = (utente.charAt(0) || '?').toUpperCase();
+          document.getElementById('mobileUserBadge').innerText = ruolo === 'admin' ? 'Admin' : 'User';
+          document.getElementById('mobileUserBadge').className = `mobile-user-badge ${ruolo === 'admin' ? 'badge-admin' : 'badge-user'}`;
+          document.getElementById('mobileUserAvatar').innerText = utente.charAt(0).toUpperCase();
         }
 
-        // sezioni per ruolo
-        if (userRole === 'admin') {
-          document.querySelectorAll('.admin-only').forEach(el => (el.style.display = 'block'));
-          document.getElementById('publishedSectionTitle').textContent = 'Tutti gli Articoli';
+        // Mostra sezioni in base al ruolo
+        if (ruolo === 'admin') {
+          document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
         } else {
-          document.querySelectorAll('.user-only').forEach(el => (el.style.display = 'block'));
-          document.getElementById('myDraftsSection').style.display = 'none';
+          document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
         }
-
-        // pulsante +
+        
+        // Mostra pulsante +
         document.getElementById('addDocumentBtn').style.display = 'block';
       }
-
-      // init
-      loadArticles();
+      
+      // Carica i contenuti
+      loadDocuments();
+      if (utente && ruolo === 'admin') {
+        loadDraftsForReview();
+        loadAllPublications();
+      }
+      if (utente) {
+        loadMyDrafts();
+      }
+      
       initSidebar();
       initTheme();
       initFilters();
@@ -801,22 +2061,27 @@
     function logout() {
       localStorage.removeItem('utente');
       localStorage.removeItem('utente_ruolo');
-      window.location.href = 'login.html';
+      window.location.href = "login.html";
     }
 
-    // ===== MOBILE CREATE BTN =====
+    // ===== GESTIONE BOTTONE MOBILE =====
     function initMobileCreateButton() {
-      const btn = document.getElementById('mobileCreateBtnLarge');
-      if (btn) btn.addEventListener('click', () => (document.getElementById('publicationModal').style.display = 'flex'));
+      const mobileCreateBtnLarge = document.getElementById('mobileCreateBtnLarge');
+      
+      if (mobileCreateBtnLarge) {
+        mobileCreateBtnLarge.addEventListener('click', function() {
+          document.getElementById('publicationModal').style.display = 'flex';
+        });
+      }
     }
 
-    // ===== FILTRI =====
+    // ===== GESTIONE FILTRI =====
     function initFilters() {
       const typeFilter = document.getElementById('typeFilter');
       const statusFilter = document.getElementById('statusFilter');
       const dateFilter = document.getElementById('dateFilter');
       const resetFilters = document.getElementById('resetFilters');
-
+      
       if (typeFilter && statusFilter && dateFilter) {
         typeFilter.addEventListener('change', applyFilters);
         statusFilter.addEventListener('change', applyFilters);
@@ -824,166 +2089,275 @@
         resetFilters.addEventListener('click', resetAllFilters);
       }
     }
-
+    
     function applyFilters() {
-      const typeVal = document.getElementById('typeFilter').value;
-      const statusVal = document.getElementById('statusFilter').value;
-
-      document.querySelectorAll('.document-item').forEach((item) => {
+      const typeFilter = document.getElementById('typeFilter').value;
+      const statusFilter = document.getElementById('statusFilter').value;
+      const dateFilter = document.getElementById('dateFilter').value;
+      
+      // Applica filtri a tutti i documenti
+      document.querySelectorAll('.document-item, .document-card').forEach(item => {
         let show = true;
-        if (typeVal !== 'all' && (item.getAttribute('data-type') || '') !== typeVal) show = false;
-        if (statusVal !== 'all') {
-          const isPublished = item.getAttribute('data-status') === 'published';
-          if ((statusVal === 'published' && !isPublished) || (statusVal === 'draft' && isPublished)) show = false;
+        
+        // Filtro per tipo
+        if (typeFilter !== 'all') {
+          const itemType = item.getAttribute('data-type') || '';
+          if (itemType !== typeFilter) {
+            show = false;
+          }
         }
-        item.style.display = show ? (item.classList.contains('document-card') ? 'block' : 'flex') : 'none';
+        
+        // Filtro per stato
+        if (statusFilter !== 'all') {
+          const itemStatus = item.getAttribute('data-status') || '';
+          if (itemStatus !== statusFilter) {
+            show = false;
+          }
+        }
+        
+        // Mostra/nascondi elemento
+        item.style.display = show ? 'flex' : 'none';
+        if (item.classList.contains('document-card')) {
+          item.style.display = show ? 'block' : 'none';
+        }
       });
-
+      
+      // Controlla se ci sono risultati
       checkEmptyStates();
     }
-
+    
     function resetAllFilters() {
       document.getElementById('typeFilter').value = 'all';
       document.getElementById('statusFilter').value = 'all';
       document.getElementById('dateFilter').value = 'newest';
       applyFilters();
     }
-
+    
     function checkEmptyStates() {
-      const sections = ['documentList', 'draftList'];
-      sections.forEach((id) => {
-        const container = document.getElementById(id);
+      // Controlla se ci sono documenti visibili in ogni sezione
+      const sections = ['documentList', 'draftList', 'myDraftsList', 'allPublicationsList'];
+      
+      sections.forEach(sectionId => {
+        const container = document.getElementById(sectionId);
         if (!container) return;
-        const visible = Array.from(container.querySelectorAll('.document-item')).some((el) => getComputedStyle(el).display !== 'none');
-        const empty = container.querySelector('.empty-state');
-        if (empty) empty.style.display = visible ? 'none' : 'block';
+        
+        const visibleItems = container.querySelectorAll('.document-item[style*="display: flex"], .document-item:not([style]), .document-card[style*="display: block"], .document-card:not([style])');
+        const emptyState = container.querySelector('.empty-state');
+        
+        if (visibleItems.length === 0 && emptyState) {
+          emptyState.style.display = 'block';
+        } else if (emptyState) {
+          emptyState.style.display = 'none';
+        }
       });
     }
 
-    // ===== TYPE SELECTOR =====
+    // ===== GESTIONE TIPI DOCUMENTO =====
     function initDocumentTypeSelector() {
-      const options = document.querySelectorAll('.document-type-option');
-      const hiddenInput = document.getElementById('publicationType');
-      options.forEach((opt) => {
-        opt.addEventListener('click', () => {
-          options.forEach((o) => { o.classList.remove('selected'); o.setAttribute('aria-pressed', 'false'); });
-          opt.classList.add('selected');
-          opt.setAttribute('aria-pressed', 'true');
-          hiddenInput.value = opt.getAttribute('data-type');
+      const typeOptions = document.querySelectorAll('.document-type-option');
+      const typeInput = document.getElementById('publicationType');
+      
+      typeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          // Rimuovi selezione precedente
+          typeOptions.forEach(opt => opt.classList.remove('selected'));
+          
+          // Aggiungi selezione corrente
+          option.classList.add('selected');
+          
+          // Imposta valore nel campo nascosto
+          typeInput.value = option.getAttribute('data-type');
         });
       });
     }
 
-    // ===== PUBLICATION MODAL =====
+    // ===== GESTIONE MODAL PUBBLICAZIONE =====
     function initPublicationModal() {
-      const addBtn = document.getElementById('addDocumentBtn');
-      const closeBtn = document.getElementById('closeModal');
-      const cancelBtn = document.getElementById('cancelPublication');
+      document.getElementById('addDocumentBtn').addEventListener('click', () => {
+        document.getElementById('publicationModal').style.display = 'flex';
+      });
 
-      if (addBtn) addBtn.addEventListener('click', () => (document.getElementById('publicationModal').style.display = 'flex'));
-      if (closeBtn) closeBtn.addEventListener('click', () => (document.getElementById('publicationModal').style.display = 'none'));
-      if (cancelBtn) cancelBtn.addEventListener('click', () => (document.getElementById('publicationModal').style.display = 'none'));
+      document.getElementById('closeModal').addEventListener('click', () => {
+        document.getElementById('publicationModal').style.display = 'none';
+      });
+
+      document.getElementById('cancelPublication').addEventListener('click', () => {
+        document.getElementById('publicationModal').style.display = 'none';
+      });
 
       document.getElementById('publicationForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        await createArticle();
+        await createPublication();
       });
     }
 
-    // ===== VIEWER MODAL =====
+    // ===== GESTIONE MODAL VISUALIZZATORE =====
     function initViewerModal() {
       const viewerModal = document.getElementById('viewerModal');
       const closeViewer = document.getElementById('closeViewer');
       const closeViewerBtn = document.getElementById('closeViewerBtn');
       const downloadFromViewer = document.getElementById('downloadFromViewer');
-
-      closeViewer.addEventListener('click', () => (viewerModal.style.display = 'none'));
-      closeViewerBtn.addEventListener('click', () => (viewerModal.style.display = 'none'));
-
+      
+      closeViewer.addEventListener('click', () => {
+        viewerModal.style.display = 'none';
+      });
+      
+      closeViewerBtn.addEventListener('click', () => {
+        viewerModal.style.display = 'none';
+      });
+      
       downloadFromViewer.addEventListener('click', () => {
-        const fileName = viewerModal.getAttribute('data-file-path');
-        if (fileName) {
-          downloadFile(fileName);
-        } else {
-          mostraPopup('Impossibile trovare il nome del file.', 'error');
+        const docId = viewerModal.getAttribute('data-doc-id');
+        const fileName = viewerModal.getAttribute('data-file-name');
+        if (docId) {
+          downloadDocument(docId, fileName);
         }
       });
-
-      viewerModal.addEventListener('click', (e) => { if (e.target === viewerModal) viewerModal.style.display = 'none'; });
+      
+      // Chiudi modal cliccando fuori
+      viewerModal.addEventListener('click', (e) => {
+        if (e.target === viewerModal) {
+          viewerModal.style.display = 'none';
+        }
+      });
     }
 
-    async function viewDocument(filePath, title, description) {
+    async function viewDocument(id, fileName, title, description) {
       const viewerModal = document.getElementById('viewerModal');
       const viewerTitle = document.getElementById('viewerTitle');
       const viewerBody = document.getElementById('viewerBody');
-
-      viewerTitle.textContent = stripSystemPrefixes(title || 'Documento');
-      viewerBody.innerHTML = '<div class="file-preview"><div class="unsupported-format"><p>Caricamento anteprima...</p></div></div>';
+      
+      // Imposta il titolo
+      viewerTitle.textContent = title || 'Documento';
+      
+      // Mostra messaggio di caricamento
+      viewerBody.innerHTML = `
+        <div class="file-preview">
+          <div class="unsupported-format">
+            <p>Caricamento anteprima...</p>
+          </div>
+        </div>
+      `;
+      
+      // Mostra il modal
       viewerModal.style.display = 'flex';
-      viewerModal.setAttribute('data-file-path', filePath);
-
+      viewerModal.setAttribute('data-doc-id', id);
+      viewerModal.setAttribute('data-file-name', fileName);
+      
       try {
-        const downloadUrl = `${API_BASE_URL}/documents/${filePath}`;
-        const res = await fetch(downloadUrl);
+        const res = await fetch(`${API_BASE_URL}/api/download/${id}`);
         if (!res.ok) throw new Error('Errore nel recupero del file');
+        
         const blob = await res.blob();
         const fileType = blob.type;
         const url = window.URL.createObjectURL(blob);
-
+        
+        // Mostra anteprima in base al tipo di file
         if (fileType.startsWith('image/')) {
-          viewerBody.innerHTML = `<div class="file-preview"><img src="${url}" alt="${escapeHTML(title || 'Anteprima documento')}" /><p style="margin-top:1rem; color: var(--muted);">${escapeHTML(description || '')}</p></div>`;
+          viewerBody.innerHTML = `
+            <div class="file-preview">
+              <img src="${url}" alt="${title || 'Anteprima documento'}" />
+              <p style="margin-top: 1rem; color: var(--muted);">${description || ''}</p>
+            </div>
+          `;
         } else if (fileType === 'application/pdf') {
-          viewerBody.innerHTML = `<iframe src="${url}" style="width:100%; height:65vh; border:none; border-radius:8px;"></iframe><p style="margin-top:1rem; color: var(--muted); text-align:center;">${escapeHTML(description || '')}</p>`;
+          // Per PDF potremmo usare un iframe, ma per semplicità mostriamo un messaggio
+          viewerBody.innerHTML = `
+            <div class="file-preview">
+              <div class="unsupported-format">
+                <p>Anteprima PDF non disponibile nel browser.</p>
+                <p>Scarica il file per visualizzarlo.</p>
+                <p style="margin-top: 1rem; color: var(--muted);">${description || ''}</p>
+              </div>
+            </div>
+          `;
         } else {
-          const ext = getFileExtensionFromPath(filePath).toUpperCase();
-          viewerBody.innerHTML = `<div class="file-preview"><div class="unsupported-format"><p>Anteprima non disponibile per questo formato (${ext}).</p><p>Scarica il file per visualizzarlo.</p><p style="margin-top:1rem; color: var(--muted);">${escapeHTML(description || '')}</p></div></div>`;
+          viewerBody.innerHTML = `
+            <div class="file-preview">
+              <div class="unsupported-format">
+                <p>Anteprima non disponibile per questo formato.</p>
+                <p>Scarica il file per visualizzarlo.</p>
+                <p style="margin-top: 1rem; color: var(--muted);">${description || ''}</p>
+              </div>
+            </div>
+          `;
         }
-
-        const cleanup = () => { window.URL.revokeObjectURL(url); viewerModal.removeEventListener('click', cleanup); };
-        viewerModal.addEventListener('click', cleanup);
+        
+        // Pulisci l'URL quando il modal viene chiuso
+        viewerModal.addEventListener('click', function cleanup() {
+          window.URL.revokeObjectURL(url);
+          viewerModal.removeEventListener('click', cleanup);
+        });
+        
       } catch (error) {
-        viewerBody.innerHTML = `<div class="file-preview"><div class="unsupported-format"><p>Errore nel caricamento dell'anteprima: ${escapeHTML(error.message)}</p><p>Scarica il file per visualizzarlo.</p></div></div>`;
+        viewerBody.innerHTML = `
+          <div class="file-preview">
+            <div class="unsupported-format">
+              <p>Errore nel caricamento dell'anteprima: ${error.message}</p>
+              <p>Scarica il file per visualizzarlo.</p>
+            </div>
+          </div>
+        `;
       }
     }
 
-    // ===== CRUD ARTICOLI =====
-    async function createArticle() {
+    // ===== FUNZIONI PRINCIPALI =====
+    async function createPublication() {
       const title = document.getElementById('publicationTitle').value.trim();
       const description = document.getElementById('publicationDescription').value.trim();
       const type = document.getElementById('publicationType').value;
       const fileInput = document.getElementById('publicationFile');
-
-      const author = localStorage.getItem('utente') || 'Autore Sconosciuto'; // allinea al resto dell'app
-      const publicationDate = new Date().toISOString().slice(0, 10);
-
+      
       if (!title || !description || !type || !fileInput.files[0]) {
         mostraPopup('Compila tutti i campi richiesti', 'error');
         return;
       }
-
+      
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
       formData.append('type', type);
-      formData.append('author', author);
-      formData.append('publication_date', publicationDate);
-      formData.append('document_file', fileInput.files[0]);
-
+      formData.append('file', fileInput.files[0]);
+      
       const submitBtn = document.getElementById('submitPublication');
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Caricamento...';
-
+      submitBtn.textContent = 'Creazione...';
+      
       try {
-        const res = await fetch(`${API_BASE_URL}/api/articles`, { method: 'POST', body: formData, headers: authHeaders() });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.success) {
-          mostraPopup(data.message || 'Articolo creato con successo!', 'success');
+        const res = await fetch(`${API_BASE_URL}/api/create_publication`, {
+          method: 'POST',
+          body: formData,
+          headers: authHeaders()
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          const userRole = localStorage.getItem('utente_ruolo');
+          if (userRole === 'admin') {
+            mostraPopup('Documento pubblicato con successo!', 'success');
+          } else {
+            mostraPopup('Bozza creata con successo! In attesa di revisione.', 'success');
+          }
+          
           document.getElementById('publicationModal').style.display = 'none';
           document.getElementById('publicationForm').reset();
-          document.querySelectorAll('.document-type-option').forEach((o) => o.classList.remove('selected'));
-          loadArticles();
+          
+          // Reset selezione tipo documento
+          document.querySelectorAll('.document-type-option').forEach(opt => {
+            opt.classList.remove('selected');
+          });
+          
+          // Ricarica i contenuti
+          setTimeout(() => {
+            loadMyDrafts();
+            if (userRole === 'admin') {
+              loadDraftsForReview();
+              loadAllPublications();
+            }
+            loadDocuments();
+          }, 800);
         } else {
-          mostraPopup('Errore: ' + (data.message || `HTTP ${res.status}`), 'error');
+          mostraPopup('Errore: ' + (data.message || 'Operazione fallita'), 'error');
         }
       } catch (error) {
         mostraPopup('Errore di connessione: ' + error.message, 'error');
@@ -993,200 +2367,540 @@
       }
     }
 
-    async function loadArticles() {
+    async function loadDocuments() {
       try {
+        console.log('🔍 Tentativo di connessione a:', `${API_BASE_URL}/api/documents`);
+        
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
-        const res = await fetch(`${API_BASE_URL}/api/articles`, { signal: controller.signal, headers: authHeaders() });
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // Timeout di 10 secondi
+        
+        const res = await fetch(`${API_BASE_URL}/api/documents`, {
+          signal: controller.signal
+        });
+        
         clearTimeout(timeoutId);
-        if (!res.ok) throw new Error(`Errore HTTP: ${res.status}`);
-        const data = await res.json();
-        const articles = Array.isArray(data.articles) ? data.articles : [];
-
-        const publishedContainer = document.getElementById('documentList');
-        const draftContainer = document.getElementById('draftList');
-        publishedContainer.innerHTML = '';
-        draftContainer.innerHTML = '';
-
-        let publishedCount = 0;
-        let draftCount = 0;
-
-        // ordinamento lato client opzionale
-        const dateOrder = document.getElementById('dateFilter').value;
-        articles.sort((a, b) => {
-          const da = new Date(a.publication_date || a.created_at || 0).getTime();
-          const db = new Date(b.publication_date || b.created_at || 0).getTime();
-          return dateOrder === 'oldest' ? da - db : db - da;
-        });
-
-        articles.forEach((article) => {
-          const element = createDocumentElement(article);
-          if (article.is_published) {
-            publishedContainer.appendChild(element);
-            publishedCount++;
-          } else if (userRole === 'admin') {
-            draftContainer.appendChild(element);
-            draftCount++;
-          }
-        });
-
-        document.getElementById('emptyState').style.display = publishedCount === 0 ? 'block' : 'none';
-        if (userRole === 'admin') {
-          document.getElementById('emptyDrafts').style.display = draftCount === 0 ? 'block' : 'none';
-          document.getElementById('reviewSection').style.display = 'block';
-        } else {
-          document.getElementById('reviewSection').style.display = 'none';
+        
+        if (!res.ok) {
+          throw new Error(`Errore HTTP: ${res.status}`);
         }
-
-        applyFilters(); // applica filtri correnti alla nuova lista
+        
+        const data = await res.json();
+        
+        const container = document.getElementById('documentList');
+        if (data.success && data.documents && data.documents.length > 0) {
+          document.getElementById('emptyState').style.display = 'none';
+          container.innerHTML = '';
+          data.documents.forEach(doc => {
+            container.appendChild(createDocumentElement(doc));
+          });
+        } else {
+          document.getElementById('emptyState').style.display = 'block';
+        }
       } catch (error) {
-        console.error('❌ Errore caricamento articoli:', error);
+        console.error('❌ Errore caricamento documenti:', error);
+        
+        // Mostra un messaggio di errore più specifico
         const container = document.getElementById('documentList');
         container.innerHTML = `
           <div class="empty-state">
             <p style="color: var(--error);">Errore di connessione al server</p>
-            <p class="text-muted">Impossibile raggiungere il server degli articoli.</p>
+            <p class="text-muted">Impossibile raggiungere il server dei documenti.</p>
             <p class="text-muted">Assicurati che il server sia in esecuzione su ${API_BASE_URL}</p>
-            <button class="btn" onclick="loadArticles()" style="margin-top:1rem">
-              <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z" clip-rule="evenodd" /></svg>
+            <button class="btn" onclick="loadDocuments()" style="margin-top: 1rem;">
+              <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z" clip-rule="evenodd" />
+              </svg>
               Riprova
             </button>
-          </div>`;
+          </div>
+        `;
       }
     }
 
+    async function loadDraftsForReview() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/drafts`, { headers: authHeaders() });
+        const data = await res.json();
+        
+        const container = document.getElementById('draftList');
+        if (data.success && data.drafts && data.drafts.length > 0) {
+          document.getElementById('emptyDrafts').style.display = 'none';
+          container.innerHTML = '';
+          data.drafts.forEach(draft => {
+            container.appendChild(createDraftElement(draft));
+          });
+        } else {
+          document.getElementById('emptyDrafts').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error loading drafts:', error);
+      }
+    }
+
+    async function loadMyDrafts() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/my_drafts`, { headers: authHeaders() });
+        const data = await res.json();
+        
+        const container = document.getElementById('myDraftsList');
+        if (data.success && data.drafts && data.drafts.length > 0) {
+          document.getElementById('emptyMyDrafts').style.display = 'none';
+          container.innerHTML = '';
+          data.drafts.forEach(draft => {
+            // Mostra solo bozze non approvate/pubblicate
+            if (draft.status !== 'published' && draft.status !== 'approved') {
+              container.appendChild(createMyDraftElement(draft));
+            }
+          });
+          
+          // Controlla se dopo il filtraggio ci sono ancora bozze
+          if (container.children.length === 0) {
+            document.getElementById('emptyMyDrafts').style.display = 'block';
+          }
+        } else {
+          document.getElementById('emptyMyDrafts').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error loading my drafts:', error);
+      }
+    }
+
+    async function loadAllPublications() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/all_publications`, { headers: authHeaders() });
+        const data = await res.json();
+        
+        const container = document.getElementById('allPublicationsList');
+        if (data.success && data.publications && data.publications.length > 0) {
+          document.getElementById('emptyAllPublications').style.display = 'none';
+          container.innerHTML = '';
+          data.publications.forEach(pub => {
+            container.appendChild(createPublicationElement(pub));
+          });
+        } else {
+          document.getElementById('emptyAllPublications').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error loading all publications:', error);
+      }
+    }
+
+    // ===== FUNZIONI DI CREAZIONE ELEMENTI =====
     function createDocumentElement(doc) {
       const item = document.createElement('div');
       item.className = 'document-item';
-      item.setAttribute('data-type', doc.type || 'altro');
-      item.setAttribute('data-status', doc.is_published ? 'published' : 'draft');
-
-      const isAdmin = userRole === 'admin';
-      const isPublished = !!doc.is_published;
-
-      const statusText = isPublished ? 'Pubblicato' : 'Bozza';
-      const statusClass = isPublished ? 'status-published' : 'draft-badge';
-      const statusBadge = `<span class="status-badge ${statusClass}">${statusText}</span>`;
-      const typeBadge = doc.type ? `<span class="type-badge type-${doc.type}">${getTypeText(doc.type)}</span>` : '';
-
-      const info = document.createElement('div');
-      info.className = 'document-info';
-
-      const icon = document.createElement('div');
-      icon.className = 'document-icon';
-      icon.textContent = getFileIcon(doc.file_path);
-
-      const details = document.createElement('div');
-      details.className = 'document-details';
-      const h3 = document.createElement('h3');
-      h3.innerHTML = `${typeBadge} ${escapeHTML(doc.title || 'Documento')} ${statusBadge}`;
-      const meta = document.createElement('p');
-      const when = new Date(doc.publication_date || Date.now()).toLocaleDateString('it-IT');
-      meta.innerHTML = `Caricato da: ${escapeHTML(doc.author || 'Sconosciuto')} (${when})`;
-      details.appendChild(h3);
-      details.appendChild(meta);
-
-      info.appendChild(icon);
-      info.appendChild(details);
-
-      const actions = document.createElement('div');
-      actions.className = 'document-actions';
-
-      const viewBtn = document.createElement('button');
-      viewBtn.className = 'action-btn view-btn';
-      viewBtn.title = 'Visualizza/Scarica';
-      viewBtn.setAttribute('aria-label', 'Visualizza/Scarica');
-      viewBtn.innerHTML = '<i class="fas fa-eye" aria-hidden="true"></i>';
-      viewBtn.addEventListener('click', () => viewDocument(doc.file_path, doc.title, doc.description || ''));
-      actions.appendChild(viewBtn);
-
-      if (isAdmin) {
-        const pubBtn = document.createElement('button');
-        pubBtn.className = `action-btn ${isPublished ? 'unpublish-btn' : 'publish-btn'}`;
-        pubBtn.title = isPublished ? 'Metti in revisione' : 'Pubblica Articolo';
-        pubBtn.innerHTML = `<i class="fas fa-${isPublished ? 'eye-slash' : 'paper-plane'}" aria-hidden="true"></i>`;
-        pubBtn.addEventListener('click', () => togglePublishStatus(doc.id, isPublished));
-        actions.appendChild(pubBtn);
-
-        const delBtn = document.createElement('button');
-        delBtn.className = 'action-btn delete-btn';
-        delBtn.title = 'Elimina Articolo e File';
-        delBtn.innerHTML = '<i class="fas fa-trash" aria-hidden="true"></i>';
-        delBtn.addEventListener('click', () => deleteArticle(doc.id));
-        actions.appendChild(delBtn);
-      }
-
-      item.appendChild(info);
-      item.appendChild(actions);
-
+      
+      const isAdmin = localStorage.getItem('utente_ruolo') === 'admin';
+      const publishStatus = doc.is_published ? 
+          '<span class="status-badge status-published">Pubblicato</span>' : 
+          '<span class="status-badge status-pending">In Revisione</span>';
+      
+      const publishButton = isAdmin ? `
+          <button class="action-btn ${doc.is_published ? 'unpublish-btn' : 'publish-btn'}" 
+                  onclick="togglePublishStatus(${doc.id}, ${doc.is_published})" 
+                  title="${doc.is_published ? 'Metti in revisione' : 'Pubblica'}">
+              <i class="fas fa-${doc.is_published ? 'eye-slash' : 'eye'}"></i>
+          </button>
+      ` : '';
+      
+      item.innerHTML = `
+          <div class="document-info">
+              <div class="document-icon">${getFileIcon(doc.file_type)}</div>
+              <div class="document-details">
+                  <h3>${doc.title} ${publishStatus}</h3>
+                  <p>${doc.description || ''} - ${doc.author} - ${new Date(doc.publication_date).toLocaleDateString('it-IT')}</p>
+              </div>
+          </div>
+          <div class="document-actions">
+              <button class="action-btn view-btn" onclick="viewDocument(${doc.id})" title="Visualizza">
+                  <i class="fas fa-eye"></i>
+              </button>
+              ${publishButton}
+              ${isAdmin ? `
+                  <button class="action-btn delete-btn" onclick="deleteDocument(${doc.id})" title="Elimina">
+                      <i class="fas fa-trash"></i>
+                  </button>
+              ` : ''}
+          </div>
+      `;
+      
       return item;
     }
 
-    async function downloadFile(fileName) {
+    function createDraftElement(draft) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      item.setAttribute('data-type', draft.type || 'altro');
+      item.setAttribute('data-status', draft.status);
+      
+      const typeBadge = draft.type ? `<span class="type-badge type-${draft.type}">${getTypeText(draft.type)}</span>` : '';
+      const draftBadge = draft.status !== 'published' ? `<span class="draft-badge">Bozza</span>` : '';
+      
+      item.innerHTML = `
+        <div class="document-info">
+          <div class="document-icon">${getFileIcon(draft.file_type)}</div>
+          <div class="document-details">
+            <h3>
+              ${typeBadge} ${draft.title} ${draftBadge}
+              <span class="status-badge status-${draft.status}">${getStatusText(draft.status)}</span>
+            </h3>
+            <p>${draft.description} - ${draft.author} - ${new Date(draft.created_at).toLocaleDateString('it-IT')}</p>
+          </div>
+        </div>
+        <div class="document-actions">
+          <button class="action-btn download-btn" onclick="viewDraft(${draft.id}, '${draft.original_name || draft.title}')" title="Visualizza">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+              <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button class="action-btn download-btn" onclick="reviewDraft(${draft.id}, 'approved')" title="Approva">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button class="action-btn delete-btn" onclick="reviewDraft(${draft.id}, 'rejected')" title="Rifiuta">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      `;
+      return item;
+    }
+
+    function createMyDraftElement(draft) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      item.setAttribute('data-type', draft.type || 'altro');
+      item.setAttribute('data-status', draft.status);
+      
+      const typeBadge = draft.type ? `<span class="type-badge type-${draft.type}">${getTypeText(draft.type)}</span>` : '';
+      const draftBadge = `<span class="draft-badge">Bozza</span>`;
+      
+      let reviewNotes = '';
+      if (draft.status === 'rejected' && draft.review_notes) {
+        reviewNotes = `<div class="review-notes"><strong>Motivo rifiuto:</strong> ${draft.review_notes}</div>`;
+      }
+      
+      item.innerHTML = `
+        <div class="document-info">
+          <div class="document-icon">${getFileIcon(draft.file_type)}</div>
+          <div class="document-details">
+            <h3>
+              ${typeBadge} ${draft.title} ${draftBadge}
+              <span class="status-badge status-${draft.status}">${getStatusText(draft.status)}</span>
+              <span class="cloud-indicator">
+                <svg class="cloud-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.5 3.75a6 6 0 0 0-5.98 6.496A5.25 5.25 0 0 0 6.75 20.25H18a4.5 4.5 0 0 0 2.206-8.423 3.75 3.75 0 0 0-4.133-4.303A6.001 6.001 0 0 0 10.5 3.75Zm2.03 5.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72v4.94a.75.75 0 0 0 1.5 0v-4.94l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clip-rule="evenodd" />
+                </svg>
+                Salvato nel cloud
+              </span>
+            </h3>
+            <p>${draft.description} - ${new Date(draft.created_at).toLocaleDateString('it-IT')}</p>
+            ${reviewNotes}
+          </div>
+        </div>
+        <div class="document-actions">
+          <button class="action-btn download-btn" onclick="viewDraft(${draft.id}, '${draft.original_name || draft.title}')" title="Visualizza">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+              <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      `;
+      return item;
+    }
+
+    function createPublicationElement(pub) {
+      const item = document.createElement('div');
+      item.className = 'document-item';
+      item.setAttribute('data-type', pub.type || 'altro');
+      item.setAttribute('data-status', pub.status);
+      
+      // USA SEMPRE LO STESSO ID - NESSUNA DISTINZIONE
+      const id = pub.id;
+      
+      const typeBadge = pub.type ? `<span class="type-badge type-${pub.type}">${getTypeText(pub.type)}</span>` : '';
+      const draftBadge = pub.status !== 'published' ? `<span class="draft-badge">Bozza</span>` : '';
+      
+      let actions = '';
+      if (pub.status === 'pending') {
+        actions = `
+          <button class="action-btn download-btn" onclick="reviewDraft(${id}, 'approved')" title="Approva">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button class="action-btn delete-btn" onclick="reviewDraft(${id}, 'rejected')" title="Rifiuta">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        `;
+      }
+      
+      // Usa sempre deleteDraft per le bozze, deleteDocument per i documenti pubblicati
+      const deleteFunction = pub.status === 'published' ? 'deleteDocument' : 'deleteDraft';
+      const viewFunction = pub.status === 'published' ? 'viewDocument' : 'viewDraft';
+      const viewParams = pub.status === 'published' ? 
+        `${id}, '${pub.original_name || pub.title}', '${escapeHTML(pub.title)}', '${escapeHTML(pub.description || '')}'` :
+        `${id}, '${pub.original_name || pub.title}'`;
+      
+      actions += `<button class="action-btn delete-btn" onclick="${deleteFunction}(${id})" title="Elimina">
+        <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+        </svg>
+      </button>`;
+      
+      item.innerHTML = `
+        <div class="document-info">
+          <div class="document-icon">${getFileIcon(pub.file_type)}</div>
+          <div class="document-details">
+            <h3>
+              ${typeBadge} ${pub.title} ${draftBadge}
+              <span class="status-badge status-${pub.status}">${getStatusText(pub.status)}</span>
+            </h3>
+            <p>${pub.description || 'Nessuna descrizione'} - ${pub.author} - ${new Date(pub.created_at).toLocaleDateString('it-IT')}</p>
+          </div>
+        </div>
+        <div class="document-actions">
+          <button class="action-btn view-btn" onclick="${viewFunction}(${viewParams})" title="Visualizza">
+            <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+              <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          ${actions}
+        </div>
+      `;
+      return item;
+    }
+
+    // Sanitizza stringhe: elimina prefissi di sistema e fa escaping
+    function stripSystemPrefixes(str) {
+      return (str || "")
+        .replace(/^\s*(publication|document)\s*[-:]*\s*/i, "") // all'inizio
+        .replace(/\b(publication|document)\b/gi, "")            // nel mezzo (fallback)
+        .replace(/^\s*[-–—:]\s*/g, "")                          // residui di separatori
+        .trim();
+    }
+
+    function escapeHTML(str) {
+      return (str || "").replace(/[&<>"']/g, s => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[s]));
+    }
+
+    // ===== FUNZIONI AUSILIARIE =====
+    function getStatusText(status) {
+      const statusMap = {
+        'pending': 'In Revisione',
+        'approved': 'Approvato',
+        'rejected': 'Rifiutato',
+        'published': 'Pubblicato'
+      };
+      return statusMap[status] || status;
+    }
+
+    function getTypeText(type) {
+      const typeMap = {
+        'statuto': 'Statuto',
+        'relazione': 'Relazione',
+        'verbale': 'Verbale',
+        'bilancio': 'Bilancio',
+        'altro': 'Altro'
+      };
+      return typeMap[type] || type;
+    }
+
+    function getFileIcon(fileType) {
+      const icons = {
+        'pdf': '📕', 'doc': '📘', 'docx': '📘', 'xls': '📗', 'xlsx': '📗',
+        'ppt': '📙', 'pptx': '📙', 'txt': '📄', 'zip': '📦', 'rar': '📦',
+        'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️', 'gif': '🖼️'
+      };
+      return icons[fileType?.toLowerCase()] || '📄';
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // ===== FUNZIONI AZIONI =====
+    async function downloadDocument(id, fileName) {
       try {
-        const downloadUrl = `${API_BASE_URL}/documents/${fileName}`;
+        const res = await fetch(`${API_BASE_URL}/api/download/${id}`);
+        if (!res.ok) throw new Error('Errore nel recupero del file');
+        
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = downloadUrl;
-        a.download = fileName;
-        a.rel = 'noopener';
+        a.href = url;
+        
+        // Usa il nome originale del file se disponibile, altrimenti usa un nome generico
+        if (fileName) {
+          a.download = fileName;
+        } else {
+          // Estrai l'estensione dal tipo MIME o usa un'estensione predefinita
+          const extension = getFileExtensionFromBlob(blob) || 'pdf';
+          a.download = `documento.${extension}`;
+        }
+        
         document.body.appendChild(a);
         a.click();
+        window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
-        mostraPopup(`Download di ${fileName} avviato.`, 'success');
       } catch (error) {
         mostraPopup('Errore nel scaricare il documento: ' + error.message, 'error');
       }
     }
 
-    async function deleteArticle(id) {
-      if (!confirm('Sei sicuro di voler eliminare questo articolo e il file associato?')) return;
+    async function viewDraft(id, fileName) {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/articles/${id}`, { method: 'DELETE', headers: authHeaders() });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.success) {
-          mostraPopup(data.message || 'Articolo eliminato', 'success');
-          loadArticles();
+        const res = await fetch(`${API_BASE_URL}/api/view_draft/${id}`, { headers: authHeaders() });
+        if (!res.ok) throw new Error('Errore nel recupero del file');
+        
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        
+        // Usa il nome originale del file se disponibile, altrimenti usa un nome generico
+        if (fileName) {
+          a.download = fileName;
         } else {
-          mostraPopup('Errore: ' + (data.message || `HTTP ${res.status}`), 'error');
+          // Estrai l'estensione dal tipo MIME o usa un'estensione predefinita
+          const extension = getFileExtensionFromBlob(blob) || 'pdf';
+          a.download = `bozza.${extension}`;
         }
-      } catch (_) {
-        mostraPopup('Errore di connessione', 'error');
+        
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } catch (error) {
+        mostraPopup('Errore nel visualizzare la bozza: ' + error.message, 'error');
       }
     }
 
-    async function togglePublishStatus(articleId, currentStatus) {
-      if (!confirm(`Sei sicuro di voler ${currentStatus ? 'mettere in revisione' : 'pubblicare'} questo articolo?`)) return;
+    // Funzione per estrarre l'estensione dal blob
+    function getFileExtensionFromBlob(blob) {
+      const mimeType = blob.type;
+      const mimeToExt = {
+        'application/pdf': 'pdf',
+        'application/msword': 'doc',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+        'application/vnd.ms-excel': 'xls',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+        'application/vnd.ms-powerpoint': 'ppt',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
+        'text/plain': 'txt',
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/gif': 'gif',
+        'application/zip': 'zip',
+        'application/x-rar-compressed': 'rar'
+      };
+      
+      return mimeToExt[mimeType] || null;
+    }
+
+    async function reviewDraft(id, action) {
+      if (!confirm(`Sei sicuro di voler ${action === 'approved' ? 'approvare' : 'rifiutare'} questa bozza?`)) return;
+      
       try {
-        const res = await fetch(`${API_BASE_URL}/api/articles/${articleId}/publish`, {
+        const body = { action: action };
+        if (action === 'rejected') {
+          const notes = prompt('Inserisci il motivo del rifiuto:');
+          if (notes) body.review_notes = notes;
+        }
+        
+        const res = await fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', ...authHeaders() },
-          body: JSON.stringify({ is_published: !currentStatus })
+          body: JSON.stringify(body)
         });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.success) {
-          mostraPopup(data.message || 'Stato aggiornato', 'success');
-          loadArticles();
+        const data = await res.json();
+        
+        if (data.success) {
+          mostraPopup(`Bozza ${action === 'approved' ? 'approvata' : 'rifiutata'} con successo!`, 'success');
+          loadDraftsForReview();
+          loadDocuments();
+          loadAllPublications();
+          setTimeout(() => loadMyDrafts(), 500); // Ricarica le bozze personali dopo un breve delay
         } else {
-          mostraPopup('Errore: ' + (data.message || `HTTP ${res.status}`), 'error');
+          mostraPopup('Errore: ' + data.message, 'error');
         }
-      } catch (_) {
+      } catch (error) {
         mostraPopup('Errore di connessione', 'error');
       }
     }
 
-    // ===== SIDEBAR & THEME =====
+    async function deleteDocument(id) {
+      if (!confirm('Sei sicuro di voler eliminare questo documento?')) return;
+      
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/delete/${id}`, {
+          method: 'DELETE',
+          headers: authHeaders()
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          mostraPopup('Documento eliminato con successo!', 'success');
+          loadDocuments();
+          loadAllPublications();
+        } else {
+          mostraPopup('Errore: ' + data.message, 'error');
+        }
+      } catch (error) {
+        mostraPopup('Errore di connessione', 'error');
+      }
+    }
+
+    async function deleteDraft(id) {
+      if (!confirm('Sei sicuro di voler eliminare questa bozza?')) return;
+      
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/delete_draft/${id}`, {
+          method: 'DELETE',
+          headers: authHeaders()
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          mostraPopup('Bozza eliminata con successo!', 'success');
+          loadAllPublications();
+          loadDraftsForReview();
+          setTimeout(() => loadMyDrafts(), 500);
+        } else {
+          mostraPopup('Errore: ' + data.message, 'error');
+        }
+      } catch (error) {
+        mostraPopup('Errore di connessione', 'error');
+      }
+    }
+
+    // ===== SIDEBAR E TEMA =====
     function initSidebar() {
       const sidebar = document.querySelector('.sidebar');
       const sidebarToggle = document.getElementById('sidebarToggle');
       const sidebarClose = document.querySelector('.sidebar-close');
       const toggleSidebar = document.getElementById('toggleSidebar');
-
+      
       sidebarToggle.addEventListener('click', () => sidebar.classList.add('open'));
       toggleSidebar.addEventListener('click', () => sidebar.classList.add('open'));
       sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
-
+      
       document.addEventListener('click', (e) => {
-        if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !toggleSidebar.contains(e.target) && sidebar.classList.contains('open')) {
+        if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && 
+            !toggleSidebar.contains(e.target) && sidebar.classList.contains('open')) {
           sidebar.classList.remove('open');
         }
       });
@@ -1198,49 +2912,100 @@
 
       fab.addEventListener('click', () => {
         fab.classList.add('animate');
-        fab.addEventListener('animationend', () => fab.classList.remove('animate'), { once: true });
+        fab.addEventListener('animationend', () => {
+          fab.classList.remove('animate');
+        }, { once: true });
+        
         if (popup.classList.contains('show')) {
           popup.classList.remove('show');
-          setTimeout(() => (popup.style.display = 'none'), 250);
+          setTimeout(() => popup.style.display = 'none', 250);
         } else {
           popup.style.display = 'flex';
           requestAnimationFrame(() => popup.classList.add('show'));
         }
       });
 
+      // Close on outside click
       document.addEventListener('click', (e) => {
         if (!fab.contains(e.target) && !popup.contains(e.target)) {
           if (popup.classList.contains('show')) {
             popup.classList.remove('show');
-            setTimeout(() => (popup.style.display = 'none'), 250);
+            setTimeout(() => popup.style.display = 'none', 250);
           }
         }
       });
 
-      document.querySelectorAll('.theme-option').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const theme = btn.dataset.theme;
+      // Apply theme and highlight selection
+      document.querySelectorAll('.theme-option').forEach(button => {
+        button.addEventListener('click', () => {
+          const theme = button.dataset.theme;
           localStorage.setItem('theme-preference', theme);
           applyTheme(theme);
-          document.querySelectorAll('.theme-option').forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
+
+          // Highlight active button
+          document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+
           popup.classList.remove('show');
-          setTimeout(() => (popup.style.display = 'none'), 250);
+          setTimeout(() => popup.style.display = 'none', 250);
         });
       });
 
       function applyTheme(theme) {
-        if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
-        else if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-        else document.documentElement.removeAttribute('data-theme');
+        if (theme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        } else if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
       }
 
+      // On load - Se non c'è tema salvato, usa "auto" come default
       const savedTheme = localStorage.getItem('theme-preference');
-      applyTheme(savedTheme || 'auto');
-      const activeBtn = document.querySelector(`.theme-option[data-theme="${savedTheme || 'auto'}"]`);
-      if (activeBtn) activeBtn.classList.add('active');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+        const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+        if (btn) btn.classList.add('active');
+      } else {
+        // Se non c'è preferenza salvata, usa il tema di sistema (auto)
+        applyTheme('auto');
+        const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+        if (autoBtn) autoBtn.classList.add('active');
+      }
 
+      // Mostra FAB con animazione al caricamento
       fab.classList.add('show');
+    }
+
+    async function togglePublishStatus(articleId, currentStatus) {
+      if (!confirm(`Sei sicuro di voler ${currentStatus ? 'mettere in revisione' : 'pubblicare'} questo articolo?`)) {
+          return;
+      }
+      
+      try {
+          const res = await fetch(`${API_BASE_URL}/api/articles/${articleId}/publish`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  ...authHeaders()
+              },
+              body: JSON.stringify({
+                  is_published: !currentStatus
+              })
+          });
+          
+          const data = await res.json();
+          if (data.success) {
+              mostraPopup(data.message, 'success');
+              // Ricarica la lista degli articoli
+              loadDocuments();
+          } else {
+              mostraPopup('Errore: ' + data.message, 'error');
+          }
+      } catch (error) {
+          mostraPopup('Errore di connessione', 'error');
+      }
     }
   </script>
   <script src="css/sidebar/sidebar.js"></script>

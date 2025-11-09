@@ -1018,7 +1018,145 @@ line-height: 1.5;
     .team-card .class-badge {
       margin-top: 4px;
     }
+    /* Stili per la preview della pagina centrale meteorologica */
+    .page-preview {
+      position: absolute;
+      left: -460px; /* Spostata a sinistra per essere completamente visibile */
+      top: 0;
+      width: 450px;
+      height: 320px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-20px) scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      z-index: 1002;
+      border: 1px solid var(--sidebar-border);
+      backdrop-filter: blur(10px);
+    }
 
+    .dropdown-item:hover .page-preview {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+    }
+
+    .page-preview-content {
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .page-preview-hero {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-hero h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-preview-hero p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .page-preview-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-card {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid var(--sidebar-border);
+      transition: transform 0.2s ease;
+    }
+
+    .page-preview-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .page-preview-card h3 {
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .page-preview-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .page-preview-chart {
+      height: 80px;
+      background: var(--bg);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--sidebar-border);
+      padding: 10px;
+    }
+
+    .page-preview-chart-line {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .page-preview-chart-point {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .page-preview-footer {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .page-preview-footer p {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .page-preview {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1054,7 +1192,8 @@ line-height: 1.5;
       
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
-      
+      <a href="forum.html">Forum</a>
+
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
@@ -1085,7 +1224,7 @@ line-height: 1.5;
 
     <section>
       <div class="card fade-in-up">
-        <h2 class="section-title">Il nostro team</h2>
+        <h2 class="section-title">Il coordinamento</h2>
         <p class="text-muted">Siamo un gruppo di studenti del Liceo D'Azeglio uniti dalla passione per la sostenibilità ambientale e l'innovazione tecnologica. Crediamo nel potere dell'azione collettiva e nel ruolo fondamentale dei giovani nel plasmare un futuro migliore.</p>
         
         <div class="team-cards">
@@ -1094,7 +1233,7 @@ line-height: 1.5;
             <h3>Davide Albanese
               <span class="class-badge">2CS</span>
             </h3>
-            <div class="role">Membro del consiglio direttivo</div>
+            <div class="role">Coordinatore</div>
             <p>Studente di II Scientifico, appassionato di informatica, networking, ed ecologia. Ideatore e coordinatore delle attività dell'associazione.</p>
           </a>
           
@@ -1103,7 +1242,7 @@ line-height: 1.5;
             <h3>Michele Antonio Portulano
               <span class="class-badge">5G</span>
             </h3>
-            <div class="role">Membro del consiglio direttivo</div>
+            <div class="role">Coordinatore</div>
             <p>Studente di V anno ampliamento Archimede, appassionato di fisica, programmazione e sostenibilità ambientale; tra gli altri hobbies storia, letteratura e musica.</p>
           </a>
           
@@ -1112,7 +1251,7 @@ line-height: 1.5;
             <h3>Achenio Sogno
               <span class="class-badge">2CS</span>
             </h3>
-            <div class="role">Membro del consiglio direttivo</div>
+            <div class="role">Coordinatore</div>
             <p>Studente di II Scientifico, appassionato di fisica, informatica ed ecologia. Ideatore e coordinatore delle actividades dell'associazione.</p>
           </a>
 
@@ -1121,7 +1260,7 @@ line-height: 1.5;
             <h3>Bianca Minozzi
               <span class="class-badge">2E</span>
             </h3>
-            <div class="role">Gestore delle attività/eventi</div>
+            <div class="role">Coordinatrice</div>
             <p>Studentessa di II Classico. Appassionata di ecologia e manifestazioni sull'ambiente</p>
           </a>
         </div>
@@ -1219,7 +1358,7 @@ line-height: 1.5;
     <section>
       <div class="card fade-in-up" style="text-align: center;">
         <h2 class="section-title">Vuoi unirti a noi?</h2>
-        <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono far parte della nostra associazione e contribuire ai nostri progetti.</p>
+        <p class="text-muted" style="margin-bottom: 2rem;">Tutti gli studenti del Liceo D'Azeglio possono far parte del gruppo e partecipare ai nostri progetti.</p>
         <a href="contatti.html" class="btn">
           <i class="fas fa-envelope"></i>
           Contattaci

@@ -126,6 +126,12 @@
       width: 100%;
     }
 
+    .error-emoji {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
     .error-code {
       font-size: 8rem;
       font-weight: 800;
@@ -149,6 +155,27 @@
       color: var(--muted);
       margin-bottom: 2.5rem;
       line-height: 1.6;
+    }
+
+    .technical-info {
+      background: rgba(255, 59, 48, 0.1);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      border-radius: 10px;
+      padding: 1.2rem;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+
+    .technical-info h3 {
+      color: var(--error-color);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .technical-info p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .btn {
@@ -194,6 +221,11 @@
         height: 50px;
       }
       
+      .error-emoji {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+      }
+      
       .error-code {
         font-size: 6rem;
       }
@@ -219,6 +251,10 @@
     }
 
     @media (max-width: 480px) {
+      .error-emoji {
+        font-size: 3rem;
+      }
+      
       .error-code {
         font-size: 4rem;
       }
@@ -245,6 +281,11 @@
 
     .fade-in-up {
       animation: fadeInUp 0.8s ease;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
     }
 
     #theme-fab {
@@ -287,11 +328,6 @@
       0% { transform: scale(0) rotate(-45deg); opacity: 0; }
       70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
       100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
     }
 
     #theme-popup {
@@ -365,12 +401,19 @@
   </div>
 
   <div class="error-container">
+    <div class="error-emoji fade-in-up">🔍</div>
     <div class="error-code fade-in-up">404</div>
     <h1 class="error-title fade-in-up">Pagina non trovata</h1>
     <p class="error-message fade-in-up">
       La pagina che stai cercando potrebbe essere stata rimossa, rinominata o non esistere più. 
       Torna alla home per esplorare le nostre iniziative per un futuro sostenibile.
     </p>
+
+    <div class="technical-info">
+      <h3>📋 Cosa è successo?</h3>
+      <p>La pagina che stai cercando non è stata trovata sul server. Questo potrebbe essere dovuto a un URL errato, una pagina spostata o eliminata.</p>
+    </div>
+
     <div class="btn-group">
       <a href="/" class="btn">
         <i class="fas fa-home"></i>

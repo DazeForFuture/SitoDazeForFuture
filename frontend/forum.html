@@ -1082,6 +1082,325 @@
     .fade-in-up {
       animation: fadeInUp 0.8s ease;
     }
+
+    /* AGGIUNTA: Stili per la barra di ricerca */
+    .search-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      position: relative;
+      animation: fadeInUp 0.8s ease 0.3s both;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      background: var(--card-bg);
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 6px 20px rgba(0, 122, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 1.1rem;
+      z-index: 2;
+    }
+
+    .search-results-info {
+      text-align: center;
+      margin: 1rem 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      display: none;
+    }
+
+    .clear-search:hover {
+      color: var(--danger);
+      background: rgba(255, 59, 48, 0.1);
+    }
+
+    .search-active .search-input {
+      padding-right: 3rem;
+    }
+
+    .search-active .clear-search {
+      display: block;
+    }
+
+    .highlight {
+      background-color: rgba(255, 235, 59, 0.3);
+      padding: 0.1rem 0.2rem;
+      border-radius: 3px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Responsive per la ricerca */
+    @media (max-width: 768px) {
+      .search-container {
+        margin: 1.5rem 1rem;
+      }
+      
+      .search-input {
+        padding: 0.9rem 0.9rem 0.9rem 2.8rem;
+        font-size: 0.95rem;
+      }
+      
+      .search-icon {
+        left: 0.9rem;
+        font-size: 1rem;
+      }
+      
+      .clear-search {
+        right: 0.9rem;
+        font-size: 1rem;
+      }
+    }
+
+    /* AGGIUNTA: Stili per il loading indicator */
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 122, 255, 0.2);
+      border-left: 4px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* AGGIUNTA: Stili per i popup di notifica */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
+      font-weight: 600;
+      max-width: 300px;
+      border-left: 6px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left-color: var(--success);
+    }
+
+    .popup.error {
+      border-left-color: var(--danger);
+    }
+
+    .popup.warning {
+      border-left-color: var(--warning);
+    }
+
+    .popup-icon {
+      font-size: 1.2rem;
+    }
+        /* Stili per la preview della pagina centrale meteorologica */
+    .page-preview {
+      position: absolute;
+      left: -460px; /* Spostata a sinistra per essere completamente visibile */
+      top: 0;
+      width: 450px;
+      height: 320px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-20px) scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      z-index: 1002;
+      border: 1px solid var(--sidebar-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .dropdown-item:hover .page-preview {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+    }
+
+    .page-preview-content {
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .page-preview-hero {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-hero h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-preview-hero p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .page-preview-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-card {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid var(--sidebar-border);
+      transition: transform 0.2s ease;
+    }
+
+    .page-preview-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .page-preview-card h3 {
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .page-preview-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .page-preview-chart {
+      height: 80px;
+      background: var(--bg);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--sidebar-border);
+      padding: 10px;
+    }
+
+    .page-preview-chart-line {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .page-preview-chart-point {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .page-preview-footer {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .page-preview-footer p {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .page-preview {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1150,6 +1469,18 @@
         <p id="loginPrompt" class="text-muted" style="margin-top: 1.5rem; font-size: 1.2rem;">
           <a href="login.html" style="color: var(--accent); font-weight: 600;">Accedi</a> per creare una nuova discussione
         </p>
+      </div>
+      
+      <!-- AGGIUNTA: Barra di ricerca -->
+      <div class="search-container">
+        <div class="search-box" id="searchBox">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="searchInput" class="search-input" placeholder="Cerca discussioni per titolo, contenuto o autore...">
+          <button class="clear-search" id="clearSearch" title="Cancella ricerca">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="searchResultsInfo" class="search-results-info"></div>
       </div>
       
       <!-- Filtri categorie -->
@@ -1310,23 +1641,181 @@
     &copy; 2025 Daze for Future. Tutti i diritti riservati.
   </footer>
 
+  <!-- AGGIUNTA: Popup di notifica -->
+  <div id="notificationPopup" class="popup"></div>
+
 <script>
-    // Configurazione backend
-    const FORUM_API_BASE_URL = 'http://localhost:5003';
+    // ===== CONFIGURAZIONE AUTO-RILEVAMENTO BACKEND =====
+    let FORUM_API_BASE_URL = '';
+
+    // Funzione per auto-rilevare il backend
+    async function detectBackend() {
+      // Hostname corrente
+      const currentHost = window.location.hostname;
+      
+      // Lista di endpoint da testare per il forum
+      const endpointsToTest = [
+        `http://${currentHost}:5003`,
+        'http://localhost:5003', 
+        'http://192.168.0.44:5003',
+        'http://192.168.0.137:5003',
+        'http://127.0.0.1:5003'
+      ];
+      
+      // Funzione per testare la connettività
+      async function testEndpoint(url) {
+        try {
+          console.log(`🔍 Testando endpoint: ${url}/api/threads`);
+          const response = await fetch(`${url}/api/threads`, {
+            method: 'GET',
+            signal: AbortSignal.timeout(3000) // Timeout di 3 secondi
+          });
+          if (response.ok) {
+            console.log(`✅ Server Forum trovato: ${url}`);
+            return url;
+          }
+          return null;
+        } catch (error) {
+          console.log(`❌ Endpoint non raggiungibile: ${url}`);
+          return null;
+        }
+      }
+      
+      // Prova ogni endpoint
+      for (const endpoint of endpointsToTest) {
+        const workingEndpoint = await testEndpoint(endpoint);
+        if (workingEndpoint) {
+          FORUM_API_BASE_URL = workingEndpoint;
+          localStorage.setItem('forum_backend_url', workingEndpoint);
+          console.log('✅ Server Forum configurato:', FORUM_API_BASE_URL);
+          return;
+        }
+      }
+      
+      // Fallback se nessun endpoint funziona
+      FORUM_API_BASE_URL = endpointsToTest[0];
+      localStorage.setItem('forum_backend_url', FORUM_API_BASE_URL);
+      console.warn('⚠️ Usando endpoint di default:', FORUM_API_BASE_URL);
+    }
+
+    // ===== INIZIALIZZAZIONE APPLICAZIONE =====
     
     // Stato applicazione
     let currentUser = null;
     let currentCategory = 'all';
     let currentThread = null;
     let userVotes = {};
-    
+    let currentSearchQuery = '';
+
     // Inizializzazione
-    document.addEventListener('DOMContentLoaded', function() {
-      checkAuthentication();
-      loadCategories();
-      loadThreads();
-      setupEventListeners();
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Mostra loading iniziale
+      document.getElementById('threadsView').innerHTML = `
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p class="text-muted">Ricerca del server in corso...</p>
+        </div>
+      `;
+
+      try {
+        // Auto-rileva il backend
+        await detectBackend();
+        
+        // Procedi con il caricamento normale
+        await checkAuthentication();
+        await loadCategories();
+        await loadThreads();
+        setupEventListeners();
+        setupSearch();
+        
+    //    mostraPopup("Connessione al forum stabilita", "success");
+      } catch (error) {
+        console.error('Errore durante l\'inizializzazione:', error);
+        document.getElementById('threadsView').innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Errore di connessione</h3>
+            <p class="text-muted">Impossibile raggiungere il server del forum.</p>
+            <button class="btn" onclick="window.location.reload()" style="margin-top: 1rem;">
+              <i class="fas fa-redo"></i>
+              Riprova
+            </button>
+          </div>
+        `;
+//        mostraPopup("Errore di connessione al forum", "error");
+      }
     });
+
+    // AGGIUNTA: Funzione per mostrare popup
+    function mostraPopup(messaggio, tipo) {
+      const popup = document.getElementById('notificationPopup');
+      
+      // Imposta l'icona in base al tipo
+      let icon = '';
+      switch(tipo) {
+        case 'success':
+          icon = '<i class="fas fa-check-circle popup-icon"></i>';
+          break;
+        case 'error':
+          icon = '<i class="fas fa-exclamation-circle popup-icon"></i>';
+          break;
+        case 'warning':
+          icon = '<i class="fas fa-exclamation-triangle popup-icon"></i>';
+          break;
+        default:
+          icon = '<i class="fas fa-info-circle popup-icon"></i>';
+      }
+      
+      popup.innerHTML = icon + messaggio;
+      popup.className = "popup " + tipo;
+      popup.classList.add("show");
+
+      // Nasconde il popup dopo 3 secondi
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 3000);
+    }
+
+    // AGGIUNTA: Setup della funzionalità di ricerca
+    function setupSearch() {
+      const searchInput = document.getElementById('searchInput');
+      const clearSearch = document.getElementById('clearSearch');
+      const searchBox = document.getElementById('searchBox');
+      
+      // Ricerca in tempo reale
+      searchInput.addEventListener('input', function() {
+        currentSearchQuery = this.value.trim();
+        
+        // Aggiorna UI della barra di ricerca
+        if (currentSearchQuery) {
+          searchBox.classList.add('search-active');
+        } else {
+          searchBox.classList.remove('search-active');
+        }
+        
+        // Esegui ricerca dopo un breve ritardo (debouncing)
+        clearTimeout(window.searchTimeout);
+        window.searchTimeout = setTimeout(() => {
+          loadThreads();
+        }, 300);
+      });
+      
+      // Pulsante per cancellare la ricerca
+      clearSearch.addEventListener('click', function() {
+        searchInput.value = '';
+        currentSearchQuery = '';
+        searchBox.classList.remove('search-active');
+        loadThreads();
+      });
+      
+      // Ricerca con Enter
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          loadThreads();
+        }
+      });
+    }
     
     // Controlla autenticazione
     async function checkAuthentication() {
@@ -1435,24 +1924,54 @@
       }
     }
     
-    // Carica thread
+    // Carica thread (AGGIORNATA per supportare la ricerca)
     async function loadThreads() {
       try {
-        const url = currentCategory !== 'all' 
-          ? `${FORUM_API_BASE_URL}/api/threads?category_id=${currentCategory}`
-          : `${FORUM_API_BASE_URL}/api/threads`;
+        // Costruisci URL con parametri di ricerca e categoria
+        let url = `${FORUM_API_BASE_URL}/api/threads`;
+        const params = [];
+        
+        if (currentCategory !== 'all') {
+          params.push(`category_id=${currentCategory}`);
+        }
+        
+        if (currentSearchQuery) {
+          params.push(`search=${encodeURIComponent(currentSearchQuery)}`);
+        }
+        
+        if (params.length > 0) {
+          url += `?${params.join('&')}`;
+        }
           
+        console.log(`📡 Richiesta a: ${url}`);
         const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`Errore HTTP: ${response.status}`);
+        }
+        
         const threads = await response.json();
         
         const threadsView = document.getElementById('threadsView');
+        const searchResultsInfo = document.getElementById('searchResultsInfo');
+        
+        // AGGIUNTA: Mostra informazioni sui risultati di ricerca
+        if (currentSearchQuery) {
+          if (threads.length === 0) {
+            searchResultsInfo.innerHTML = `Nessun risultato trovato per "<strong>${currentSearchQuery}</strong>"`;
+          } else {
+            searchResultsInfo.innerHTML = `${threads.length} risultato${threads.length !== 1 ? 'i' : ''} trovato${threads.length !== 1 ? 'i' : ''} per "<strong>${currentSearchQuery}</strong>"`;
+          }
+        } else {
+          searchResultsInfo.innerHTML = '';
+        }
         
         if (threads.length === 0) {
           threadsView.innerHTML = `
             <div class="empty-state">
               <i class="fas fa-comments"></i>
-              <h3>Nessuna discussione trovata</h3>
-              <p class="text-muted">Sii il primo a creare una discussione in questa categoria!</p>
+              <h3>${currentSearchQuery ? 'Nessuna discussione trovata' : 'Nessuna discussione ancora'}</h3>
+              <p class="text-muted">${currentSearchQuery ? 'Prova con termini di ricerca diversi' : 'Sii il primo a creare una discussione!'}</p>
             </div>
           `;
           return;
@@ -1475,10 +1994,20 @@
             categoryName = 'Green';
           }
           
+          // AGGIUNTA: Evidenzia i termini di ricerca nel titolo e nel contenuto
+          let highlightedTitle = thread.title;
+          let highlightedContent = thread.content.substring(0, 200) + (thread.content.length > 200 ? '...' : '');
+          
+          if (currentSearchQuery) {
+            const regex = new RegExp(`(${currentSearchQuery})`, 'gi');
+            highlightedTitle = highlightedTitle.replace(regex, '<span class="highlight">$1</span>');
+            highlightedContent = highlightedContent.replace(regex, '<span class="highlight">$1</span>');
+          }
+          
           threadCard.innerHTML = `
             <div class="thread-header">
               <div>
-                <h3 class="thread-title">${thread.title}</h3>
+                <h3 class="thread-title">${highlightedTitle}</h3>
                 <div class="thread-meta">
                   <span>Di ${thread.username}</span>
                   <span>•</span>
@@ -1491,7 +2020,7 @@
               </div>
             </div>
             <div class="thread-content">
-              ${thread.content.substring(0, 200)}${thread.content.length > 200 ? '...' : ''}
+              ${highlightedContent}
             </div>
           `;
           
@@ -1506,6 +2035,11 @@
             <i class="fas fa-exclamation-triangle"></i>
             <h3>Errore nel caricamento</h3>
             <p class="text-muted">Impossibile caricare le discussioni. Riprova più tardi.</p>
+            <p class="text-muted" style="font-size: 0.8rem; margin-top: 0.5rem;">Server: ${FORUM_API_BASE_URL}</p>
+            <button class="btn" onclick="loadThreads()" style="margin-top: 1rem;">
+              <i class="fas fa-redo"></i>
+              Riprova
+            </button>
           </div>
         `;
       }
@@ -1566,7 +2100,7 @@
         
       } catch (error) {
         console.error('Errore nel caricamento dettaglio thread:', error);
-        alert('Errore nel caricamento del thread');
+        mostraPopup('Errore nel caricamento del thread', 'error');
       }
     }
     
@@ -1730,14 +2264,14 @@
             document.getElementById('newThreadModal').style.display = 'none';
             document.getElementById('newThreadForm').reset();
             loadThreads();
-            alert('Discussione creata con successo!');
+            mostraPopup('Discussione creata con successo!', 'success');
           } else {
             const error = await response.json();
-            alert('Errore: ' + error.error);
+            mostraPopup('Errore: ' + error.error, 'error');
           }
         } catch (error) {
           console.error('Errore nella creazione thread:', error);
-          alert('Errore nella creazione della discussione');
+          mostraPopup('Errore nella creazione della discussione', 'error');
         }
       });
       
@@ -1766,14 +2300,14 @@
             document.getElementById('newReplyModal').style.display = 'none';
             document.getElementById('newReplyForm').reset();
             loadThreadDetail(threadId);
-            alert('Risposta inviata con successo!');
+            mostraPopup('Risposta inviata con successo!', 'success');
           } else {
             const error = await response.json();
-            alert('Errore: ' + error.error);
+            mostraPopup('Errore: ' + error.error, 'error');
           }
         } catch (error) {
           console.error('Errore nell\'invio risposta:', error);
-          alert('Errore nell\'invio della risposta');
+          mostraPopup('Errore nell\'invio della risposta', 'error');
         }
       });
       
@@ -1815,14 +2349,14 @@
               loadThreadDetail(currentThread.id);
             }
             
-            alert('Elemento eliminato con successo!');
+            mostraPopup('Elemento eliminato con successo!', 'success');
           } else {
             const error = await response.json();
-            alert('Errore: ' + error.error);
+            mostraPopup('Errore: ' + error.error, 'error');
           }
         } catch (error) {
           console.error('Errore nell\'eliminazione:', error);
-          alert('Errore nell\'eliminazione');
+          mostraPopup('Errore nell\'eliminazione', 'error');
         }
       });
       

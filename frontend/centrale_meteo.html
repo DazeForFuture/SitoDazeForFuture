@@ -133,6 +133,8 @@
       background-position: center;
       background-attachment: fixed;
       position: relative;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     /* Overlay dinamico che si adatta al tema */
@@ -227,11 +229,12 @@
       padding: 140px 2rem 80px;
       max-width: 1200px;
       margin: auto;
+      line-height: 1.6;
     }
 
     .hero {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     .hero h1 {
       font-size: 3rem;
@@ -240,17 +243,19 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 1rem;
+      line-height: 1.2;
     }
     .hero p {
       color: var(--muted);
       font-size: 1.2rem;
+      line-height: 1.4;
     }
 
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
       gap: 1.5rem;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     .card {
       background: var(--card-bg);
@@ -259,8 +264,10 @@
       text-align: center;
       transition: transform 0.3s;
       box-shadow: var(--card-shadow);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      -webkit-tap-highlight-color: transparent;
     }
     .card:hover { transform: translateY(-5px); }
     .card h3 {
@@ -272,13 +279,23 @@
       font-weight: 800;
       color: var(--accent);
     }
+    
+    /* GRAFICO OTTIMIZZATO PER MOBILE */
     .chart-container {
       background: var(--card-bg);
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 12px;
       box-shadow: var(--card-shadow);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 250px;
+      width: 100%;
     }
 
     footer {
@@ -287,7 +304,7 @@
       color: var(--muted);
       font-size: 0.9rem;
       background: var(--footer-bg);
-      margin-top: 3rem;
+      margin-top: 2rem;
     }
 
     nav a[href="login.html"],
@@ -453,6 +470,91 @@
       animation: fadeInUp 0.8s ease;
     }
 
+    /* Stili per il dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--sidebar-border);
+      margin: 0.25rem 0;
+    }
+
     /* MIGLIORAMENTI MOBILE COMPLETI */
     @media (max-width: 768px) {
       header {
@@ -491,17 +593,40 @@
       }
       
       main {
-        padding: 120px 1rem 80px;
+        padding: 120px 1rem 60px;
       }
       
-      .card {
-        padding: 1.5rem;
+      .cards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
         margin-bottom: 1.5rem;
       }
       
-      .btn {
-        padding: 0.7rem 1.2rem;
-        font-size: 0.9rem;
+      .card {
+        padding: 1.25rem;
+        margin-bottom: 0;
+      }
+      
+      .card h3 {
+        font-size: 1.25rem;
+      }
+      
+      .card .value {
+        font-size: 1.75rem;
+      }
+      
+      .chart-container {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .chart-wrapper {
+        height: 200px;
+      }
+      
+      nav > a {
+        padding: 0.75rem 0.5rem;
+        margin-left: 0.75rem;
       }
       
       /* Nascondi navigation su mobile e mostra hamburger */
@@ -526,6 +651,10 @@
         bottom: 80px;
         right: 20px;
       }
+
+      body {
+        background-attachment: scroll;
+      }
     }
 
     /* Per schermi molto piccoli */
@@ -546,9 +675,30 @@
         padding: 1rem;
       }
       
+      .card h3 {
+        font-size: 1.2rem;
+      }
+      
+      .card .value {
+        font-size: 1.5rem;
+      }
+      
+      .chart-container {
+        padding: 0.8rem;
+      }
+      
+      .chart-wrapper {
+        height: 180px;
+      }
+      
       .btn {
         width: 100%;
         justify-content: center;
+      }
+      
+      footer {
+        padding: 1.5rem;
+        margin-top: 1.5rem;
       }
     }
 
@@ -584,6 +734,20 @@
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
+      
+      <!-- Menu a tendina Progetti -->
+      <div class="dropdown">
+        <button class="dropdown-toggle">
+          Progetti
+        </button>
+        <div class="dropdown-menu">
+          <a href="centrale_meteo.html" class="dropdown-item">
+            <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
+            Centrale Meteorologica
+          </a>
+        </div>
+      </div>
+      
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
@@ -629,54 +793,56 @@
 
     <section class="chart-container fade-in-up">
       <h2 style="margin-bottom: 1rem;">Andamento nel tempo</h2>
-      <canvas id="sensorChart" height="120"></canvas>
+      <div class="chart-wrapper">
+        <canvas id="sensorChart"></canvas>
+      </div>
     </section>
   </main>
 
-<!-- Sidebar -->
-<aside class="sidebar">
-  <button class="sidebar-close">&times;</button>
-  <h2>Menu</h2>
-  
-  <ul class="sidebar-menu">
-    <li><a href="index.html"><span>🏠</span>Home</a></li>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <button class="sidebar-close">&times;</button>
+    <h2>Menu</h2>
+    
+    <ul class="sidebar-menu">
+      <li><a href="index.html"><span>🏠</span>Home</a></li>
       <li><a href="missione.html"><span>🌱</span> Missione</a></li>
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-  <!-- Dropdown -->
-    <li class="sidebar-dropdown">
-      <button class="sidebar-dropdown-toggle">
-        <span>📁</span>
-        <span>Progetti</span>
-        <span class="dropdown-arrow">▼</span>
-      </button>
-      <ul class="sidebar-dropdown-menu">
-        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-      </ul>
-    </li>
+      <!-- Dropdown -->
+      <li class="sidebar-dropdown">
+        <button class="sidebar-dropdown-toggle">
+          <span>📁</span>
+          <span>Progetti</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <ul class="sidebar-dropdown-menu">
+          <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
+        </ul>
+      </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
       <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
       <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-  </ul>
+    </ul>
 
-  <!-- Sezione utente mobile -->
-  <div id="mobileUserInfo" class="mobile-user-info" style="display: none;">
-    <div class="mobile-user-header">
-      <span>Il tuo account</span>
-    </div>
-    <div class="mobile-user-display">
-      <div class="user-avatar" id="mobileUserAvatar">U</div>
-      <div>
-        <div class="mobile-user-name" id="mobileUserName">Utente</div>
-        <div class="mobile-user-badge badge-user" id="mobileUserBadge">USER</div>
+    <!-- Sezione utente mobile -->
+    <div id="mobileUserInfo" class="mobile-user-info" style="display: none;">
+      <div class="mobile-user-header">
+        <span>Il tuo account</span>
       </div>
+      <div class="mobile-user-display">
+        <div class="user-avatar" id="mobileUserAvatar">U</div>
+        <div>
+          <div class="mobile-user-name" id="mobileUserName">Utente</div>
+          <div class="mobile-user-badge badge-user" id="mobileUserBadge">USER</div>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="logout()">
+        <span>🚪</span>Logout
+      </button>
     </div>
-    <button class="logout-btn">
-      <span>🚪</span>Logout
-    </button>
-  </div>
-</aside>
+  </aside>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
@@ -695,8 +861,25 @@
   </footer>
 
   <script>
-    // Grafico sensori
+    // Grafico sensori - OTTIMIZZATO PER MOBILE
     const ctx = document.getElementById('sensorChart').getContext('2d');
+    
+    function getMaxDataPoints() {
+      return window.innerWidth < 768 ? 8 : 12;
+    }
+    
+    function getChartHeight() {
+      return window.innerWidth < 480 ? 180 : (window.innerWidth < 768 ? 200 : 250);
+    }
+    
+    function getLegendFontSize() {
+      return window.innerWidth < 480 ? 10 : (window.innerWidth < 768 ? 11 : 12);
+    }
+    
+    function getAxisFontSize() {
+      return window.innerWidth < 480 ? 10 : 11;
+    }
+    
     const sensorChart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -707,29 +890,95 @@
             borderColor: '#ff3b30',
             backgroundColor: 'rgba(255,59,48,0.2)',
             data: [],
-            tension: 0.3
+            tension: 0.3,
+            borderWidth: 3,
+            pointRadius: 3,
+            pointHoverRadius: 5
           },
           {
-            label: 'Qualità Aria (PM2.5 µg/m³)',
+            label: 'Qualità Aria (PM2.5)',
             borderColor: '#007aff',
             backgroundColor: 'rgba(0,122,255,0.2)',
             data: [],
-            tension: 0.3
+            tension: 0.3,
+            borderWidth: 3,
+            pointRadius: 3,
+            pointHoverRadius: 5
           }
         ]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
-          x: { title: { display: true, text: 'Tempo' } },
-          y: { beginAtZero: true }
+          x: { 
+            ticks: {
+              maxTicksLimit: 6,
+              maxRotation: 0,
+              font: {
+                size: getAxisFontSize()
+              }
+            },
+            grid: {
+              display: false
+            }
+          },
+          y: { 
+            beginAtZero: false,
+            ticks: {
+              maxTicksLimit: 5,
+              font: {
+                size: getAxisFontSize()
+              }
+            },
+            grid: {
+              color: 'rgba(255,255,255,0.1)'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 12,
+              padding: 15,
+              font: {
+                size: getLegendFontSize()
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            titleFont: {
+              size: 12
+            },
+            bodyFont: {
+              size: 11
+            },
+            padding: 10
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index'
         }
       }
     });
 
+    // Aggiorna l'altezza del grafico
+    function updateChartHeight() {
+      const chartWrapper = document.querySelector('.chart-wrapper');
+      chartWrapper.style.height = getChartHeight() + 'px';
+      sensorChart.update();
+    }
+
     // Simulazione ricezione dati sensore ogni 2 secondi
     setInterval(() => {
-      const now = new Date().toLocaleTimeString();
+      const now = new Date().toLocaleTimeString('it-IT', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        second: '2-digit'
+      });
       const temp = (20 + Math.random() * 5).toFixed(1);
       const air = (10 + Math.random() * 30).toFixed(1);
 
@@ -740,13 +989,26 @@
       sensorChart.data.datasets[0].data.push(temp);
       sensorChart.data.datasets[1].data.push(air);
 
-      if (sensorChart.data.labels.length > 15) {
+      const maxPoints = getMaxDataPoints();
+      if (sensorChart.data.labels.length > maxPoints) {
         sensorChart.data.labels.shift();
         sensorChart.data.datasets.forEach(d => d.data.shift());
       }
 
       sensorChart.update();
     }, 2000);
+
+    // Aggiorna il grafico al ridimensionamento della finestra
+    window.addEventListener('resize', function() {
+      sensorChart.options.plugins.legend.labels.font.size = getLegendFontSize();
+      sensorChart.options.scales.x.ticks.font.size = getAxisFontSize();
+      sensorChart.options.scales.y.ticks.font.size = getAxisFontSize();
+      updateChartHeight();
+      sensorChart.update();
+    });
+
+    // Inizializza l'altezza del grafico
+    updateChartHeight();
 
     // Theme functionality
     const fab = document.getElementById('theme-fab');
