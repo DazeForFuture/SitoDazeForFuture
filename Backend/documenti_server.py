@@ -3,6 +3,7 @@ import sqlite3
 from datetime import datetime
 from flask import Flask, request, jsonify, g, send_from_directory
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 CORS(app)
@@ -270,6 +271,70 @@ def serve_file(folder, filename):
 def get_documents_wrapper():
     # wrapper compatibile -> riusa get_articles
     return get_articles()
+
+# nuovo endpoint compatibile con il frontend (gestisce multipart/form-data)
+@app.route('/api/create_publication', methods=['POST', 'OPTIONS'])
+def create_publication():
+    # Risponde correttamente anche al preflight OPTIONS
+    if request.method == 'OPTIONS':
+        return jsonify({'success': True}), 200
+
+    try:
+        user = get_current_user()
+        if user['role'] != 'admin':
+            return jsonify({'success': False, 'message': 'Solo gli admin possono creare pubblicazioni'}), 403
+
+        # campi dal form multipart
+        title = request.form.get('title', '').strip()
+        author = request.form.get('author', user.get('email', ''))
+        publication_date = request.form.get('publication_date') or datetime.utcnow().isoformat()
+        drive_link = request.form.get('drive_link', '').strip()
+        description = request.form.get('description', '').strip()
+        is_published = request.form.get('is_published', '0') in ('1', 'true', 'True', 'on')
+
+        if not title or not author or not publication_date:
+            return jsonify({'success': False, 'message': 'Campi title, author e publication_date richiesti'}), 400
+
+        file = request.files.get('file')
+        file_name = None
+        if file and file.filename:
+            filename = secure_filename(file.filename)
+            # rendi il nome univoco se necessario
+            base, ext = os.path.splitext(filename)
+            counter = 0
+            dest_folder = PUBLISHED_FOLDER if is_published else DRAFTS_FOLDER
+            dest_dir = os.path.join(STORAGE_ROOT, dest_folder)
+            os.makedirs(dest_dir, exist_ok=True)
+            candidate = filename
+            while os.path.exists(os.path.join(dest_dir, candidate)):
+                counter += 1
+                candidate = f"{base}_{counter}{ext}"
+            file_path = os.path.join(dest_dir, candidate)
+            file.save(file_path)
+            file_name = candidate
+
+        db = get_db()
+        db.execute('''
+            INSERT INTO articles (
+                title, author, publication_date, drive_link,
+                description, file_name, is_published
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            title,
+            author,
+            publication_date,
+            drive_link,
+            description,
+            file_name,
+            1 if is_published else 0
+        ))
+        db.commit()
+
+        return jsonify({'success': True, 'message': 'Pubblicazione creata con successo'})
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 if __name__ == '__main__':
     with app.app_context():
