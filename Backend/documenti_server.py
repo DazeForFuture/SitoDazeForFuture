@@ -42,8 +42,19 @@ def init_db():
                 last_modified DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ''')
-        
         db.commit()
+
+        # Migrazione minima: aggiungi la colonna review_notes se manca (usata per rifiuti)
+        cur = db.execute("PRAGMA table_info(articles)")
+        cols = [row['name'] for row in cur.fetchall()]
+        if 'review_notes' not in cols:
+            try:
+                db.execute("ALTER TABLE articles ADD COLUMN review_notes TEXT DEFAULT ''")
+                db.commit()
+            except Exception:
+                # ignore se non possibile (compatibilità)
+                pass
+        
         print("Database initialized successfully!")
         print(f"Database path: {app.config['DATABASE']}")
         print(f"Storage root: {STORAGE_ROOT}")
@@ -335,6 +346,186 @@ def create_publication():
 
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
+
+# --- Compatibilità API frontend -- START ---
+@app.route('/api/drafts', methods=['GET'])
+def api_get_drafts():
+    """Lista bozze (admin sees all, others none)"""
+    try:
+        user = get_current_user()
+        db = get_db()
+        cursor = db.execute("SELECT * FROM articles WHERE is_published = 0 ORDER BY created_at DESC")
+        rows = cursor.fetchall()
+        drafts = []
+        for r in rows:
+            file_type = None
+            if r['file_name']:
+                _, ext = os.path.splitext(r['file_name'])
+                file_type = ext.lstrip('.').lower()
+            drafts.append({
+                'id': r['id'],
+                'title': r['title'],
+                'description': r['description'],
+                'author': r['author'],
+                'created_at': r['created_at'],
+                'status': 'pending',
+                'type': None,
+                'file_type': file_type,
+                'original_name': r['file_name'],
+                'review_notes': r.get('review_notes', '')
+            })
+        return jsonify({'success': True, 'drafts': drafts})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/my_drafts', methods=['GET'])
+def api_my_drafts():
+    """Bozze dell'utente corrente"""
+    try:
+        user = get_current_user()
+        email = user.get('email', '')
+        if not email:
+            return jsonify({'success': False, 'message': 'Utente non autenticato'}), 401
+        db = get_db()
+        cursor = db.execute("SELECT * FROM articles WHERE is_published = 0 AND author = ? ORDER BY created_at DESC", (email,))
+        rows = cursor.fetchall()
+        drafts = []
+        for r in rows:
+            _, ext = os.path.splitext(r['file_name'] or '')
+            file_type = ext.lstrip('.').lower() if ext else None
+            drafts.append({
+                'id': r['id'],
+                'title': r['title'],
+                'description': r['description'],
+                'author': r['author'],
+                'created_at': r['created_at'],
+                'status': 'pending',
+                'type': None,
+                'file_type': file_type,
+                'original_name': r['file_name'],
+                'review_notes': r.get('review_notes', '')
+            })
+        return jsonify({'success': True, 'drafts': drafts})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/all_publications', methods=['GET'])
+def api_all_publications():
+    """Ritorna tutte le pubblicazioni/record (admin expected)"""
+    try:
+        user = get_current_user()
+        db = get_db()
+        cursor = db.execute("SELECT * FROM articles ORDER BY created_at DESC")
+        rows = cursor.fetchall()
+        pubs = []
+        for r in rows:
+            status = 'published' if r['is_published'] else 'pending'
+            _, ext = os.path.splitext(r['file_name'] or '')
+            file_type = ext.lstrip('.').lower() if ext else None
+            pubs.append({
+                'id': r['id'],
+                'title': r['title'],
+                'description': r['description'],
+                'author': r['author'],
+                'created_at': r['created_at'],
+                'status': status,
+                'type': None,
+                'file_type': file_type,
+                'original_name': r['file_name'],
+                'review_notes': r.get('review_notes', '')
+            })
+        return jsonify({'success': True, 'publications': pubs})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/view_draft/<int:article_id>', methods=['GET'])
+def api_view_draft(article_id):
+    """Serve la bozza (solo admin o autore)"""
+    try:
+        user = get_current_user()
+        db = get_db()
+        cur = db.execute("SELECT file_name, author, is_published FROM articles WHERE id = ?", (article_id,))
+        row = cur.fetchone()
+        if not row:
+            return jsonify({'success': False, 'message': 'Articolo non trovato'}), 404
+        if row['is_published']:
+            return jsonify({'success': False, 'message': 'Non è una bozza'}), 400
+        if user['role'] != 'admin' and user.get('email') != row['author']:
+            return jsonify({'success': False, 'message': 'Accesso negato'}), 403
+        if not row['file_name']:
+            return jsonify({'success': False, 'message': 'File non presente'}), 404
+        directory = os.path.join(STORAGE_ROOT, DRAFTS_FOLDER)
+        return send_from_directory(directory, row['file_name'], as_attachment=True)
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/download/<int:article_id>', methods=['GET'])
+def api_download(article_id):
+    """Download pubblico per file pubblicati"""
+    try:
+        db = get_db()
+        cur = db.execute("SELECT file_name, is_published FROM articles WHERE id = ?", (article_id,))
+        row = cur.fetchone()
+        if not row:
+            return jsonify({'success': False, 'message': 'Articolo non trovato'}), 404
+        if not row['file_name']:
+            return jsonify({'success': False, 'message': 'File non presente'}), 404
+        if not row['is_published']:
+            # non pubblicato: richiedi autenticazione (o blocca)
+            return jsonify({'success': False, 'message': 'File non pubblicato'}), 403
+        directory = os.path.join(STORAGE_ROOT, PUBLISHED_FOLDER)
+        return send_from_directory(directory, row['file_name'], as_attachment=True)
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/review_draft/<int:article_id>', methods=['POST'])
+def api_review_draft(article_id):
+    """Approva o rifiuta una bozza (admin)"""
+    try:
+        user = get_current_user()
+        if user['role'] != 'admin':
+            return jsonify({'success': False, 'message': 'Solo admin può rivedere bozze'}), 403
+        data = request.get_json() or {}
+        action = data.get('action')
+        review_notes = data.get('review_notes', '')
+        if action not in ('approved', 'rejected'):
+            return jsonify({'success': False, 'message': 'Action non valida'}), 400
+        db = get_db()
+        cur = db.execute("SELECT file_name, is_published FROM articles WHERE id = ?", (article_id,))
+        row = cur.fetchone()
+        if not row:
+            return jsonify({'success': False, 'message': 'Articolo non trovato'}), 404
+
+        if action == 'approved':
+            # sposta file in pubblicazioni se presente
+            if row['file_name']:
+                src = os.path.join(STORAGE_ROOT, DRAFTS_FOLDER, row['file_name'])
+                dst_dir = os.path.join(STORAGE_ROOT, PUBLISHED_FOLDER)
+                os.makedirs(dst_dir, exist_ok=True)
+                dst = os.path.join(dst_dir, row['file_name'])
+                if os.path.isfile(src):
+                    try:
+                        os.replace(src, dst)
+                    except Exception as e:
+                        return jsonify({'success': False, 'message': f'Errore spostamento file: {str(e)}'}), 500
+            db.execute("UPDATE articles SET is_published = 1, review_notes = ?, last_modified = CURRENT_TIMESTAMP WHERE id = ?", (review_notes, article_id))
+        else:
+            # rejected: salva note e mantiene come bozza
+            db.execute("UPDATE articles SET review_notes = ?, last_modified = CURRENT_TIMESTAMP WHERE id = ?", (review_notes, article_id))
+        db.commit()
+        return jsonify({'success': True, 'message': 'Operazione completata'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+# wrapper di compatibilità per delete chiamate dal frontend
+@app.route('/api/delete/<int:article_id>', methods=['DELETE'])
+def api_delete_article(article_id):
+    return delete_article(article_id)
+
+@app.route('/api/delete_draft/<int:article_id>', methods=['DELETE'])
+def api_delete_draft(article_id):
+    return delete_article(article_id)
+# --- Compatibilità API frontend -- END ---
 
 if __name__ == '__main__':
     with app.app_context():
