@@ -362,6 +362,7 @@ def api_get_drafts():
             if r['file_name']:
                 _, ext = os.path.splitext(r['file_name'])
                 file_type = ext.lstrip('.').lower()
+            review_notes = r['review_notes'] if 'review_notes' in r.keys() else ''
             drafts.append({
                 'id': r['id'],
                 'title': r['title'],
@@ -372,7 +373,7 @@ def api_get_drafts():
                 'type': None,
                 'file_type': file_type,
                 'original_name': r['file_name'],
-                'review_notes': r.get('review_notes', '')
+                'review_notes': review_notes
             })
         return jsonify({'success': True, 'drafts': drafts})
     except Exception as e:
@@ -393,6 +394,7 @@ def api_my_drafts():
         for r in rows:
             _, ext = os.path.splitext(r['file_name'] or '')
             file_type = ext.lstrip('.').lower() if ext else None
+            review_notes = r['review_notes'] if 'review_notes' in r.keys() else ''
             drafts.append({
                 'id': r['id'],
                 'title': r['title'],
@@ -403,7 +405,7 @@ def api_my_drafts():
                 'type': None,
                 'file_type': file_type,
                 'original_name': r['file_name'],
-                'review_notes': r.get('review_notes', '')
+                'review_notes': review_notes
             })
         return jsonify({'success': True, 'drafts': drafts})
     except Exception as e:
@@ -422,6 +424,7 @@ def api_all_publications():
             status = 'published' if r['is_published'] else 'pending'
             _, ext = os.path.splitext(r['file_name'] or '')
             file_type = ext.lstrip('.').lower() if ext else None
+            review_notes = r['review_notes'] if 'review_notes' in r.keys() else ''
             pubs.append({
                 'id': r['id'],
                 'title': r['title'],
@@ -432,7 +435,7 @@ def api_all_publications():
                 'type': None,
                 'file_type': file_type,
                 'original_name': r['file_name'],
-                'review_notes': r.get('review_notes', '')
+                'review_notes': review_notes
             })
         return jsonify({'success': True, 'publications': pubs})
     except Exception as e:
