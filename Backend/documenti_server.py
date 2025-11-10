@@ -266,6 +266,11 @@ def serve_file(folder, filename):
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
+@app.route('/api/documents', methods=['GET'])
+def get_documents_wrapper():
+    # wrapper compatibile -> riusa get_articles
+    return get_articles()
+
 if __name__ == '__main__':
     with app.app_context():
         init_db()
