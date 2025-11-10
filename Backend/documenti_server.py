@@ -358,10 +358,12 @@ def api_get_drafts():
         rows = cursor.fetchall()
         drafts = []
         for r in rows:
-            file_type = None
-            if r['file_name']:
-                _, ext = os.path.splitext(r['file_name'])
-                file_type = ext.lstrip('.').lower()
+            file_name = r['file_name']
+            _, ext = os.path.splitext(file_name or '')
+            file_type = ext.lstrip('.').lower() if ext else None
+            file_url = None
+            if file_name:
+                file_url = f"/files/{DRAFTS_FOLDER}/{file_name}"
             review_notes = r['review_notes'] if 'review_notes' in r.keys() else ''
             drafts.append({
                 'id': r['id'],
@@ -372,7 +374,8 @@ def api_get_drafts():
                 'status': 'pending',
                 'type': None,
                 'file_type': file_type,
-                'original_name': r['file_name'],
+                'original_name': file_name,
+                'file_url': file_url,
                 'review_notes': review_notes
             })
         return jsonify({'success': True, 'drafts': drafts})
@@ -392,8 +395,10 @@ def api_my_drafts():
         rows = cursor.fetchall()
         drafts = []
         for r in rows:
-            _, ext = os.path.splitext(r['file_name'] or '')
+            file_name = r['file_name']
+            _, ext = os.path.splitext(file_name or '')
             file_type = ext.lstrip('.').lower() if ext else None
+            file_url = f"/files/{DRAFTS_FOLDER}/{file_name}" if file_name else None
             review_notes = r['review_notes'] if 'review_notes' in r.keys() else ''
             drafts.append({
                 'id': r['id'],
@@ -404,7 +409,8 @@ def api_my_drafts():
                 'status': 'pending',
                 'type': None,
                 'file_type': file_type,
-                'original_name': r['file_name'],
+                'original_name': file_name,
+                'file_url': file_url,
                 'review_notes': review_notes
             })
         return jsonify({'success': True, 'drafts': drafts})
@@ -422,8 +428,13 @@ def api_all_publications():
         pubs = []
         for r in rows:
             status = 'published' if r['is_published'] else 'pending'
-            _, ext = os.path.splitext(r['file_name'] or '')
+            file_name = r['file_name']
+            _, ext = os.path.splitext(file_name or '')
             file_type = ext.lstrip('.').lower() if ext else None
+            file_url = None
+            if file_name:
+                folder = PUBLISHED_FOLDER if r['is_published'] else DRAFTS_FOLDER
+                file_url = f"/files/{folder}/{file_name}"
             review_notes = r['review_notes'] if 'review_notes' in r.keys() else ''
             pubs.append({
                 'id': r['id'],
@@ -434,7 +445,8 @@ def api_all_publications():
                 'status': status,
                 'type': None,
                 'file_type': file_type,
-                'original_name': r['file_name'],
+                'original_name': file_name,
+                'file_url': file_url,
                 'review_notes': review_notes
             })
         return jsonify({'success': True, 'publications': pubs})
@@ -443,7 +455,7 @@ def api_all_publications():
 
 @app.route('/api/view_draft/<int:article_id>', methods=['GET'])
 def api_view_draft(article_id):
-    """Serve la bozza (solo admin o autore)"""
+    """Serve la bozza (solo admin o autore). Se l'articolo è pubblicato serve dalla cartella pubblicazioni."""
     try:
         user = get_current_user()
         db = get_db()
@@ -451,14 +463,27 @@ def api_view_draft(article_id):
         row = cur.fetchone()
         if not row:
             return jsonify({'success': False, 'message': 'Articolo non trovato'}), 404
-        if row['is_published']:
-            return jsonify({'success': False, 'message': 'Non è una bozza'}), 400
-        if user['role'] != 'admin' and user.get('email') != row['author']:
-            return jsonify({'success': False, 'message': 'Accesso negato'}), 403
-        if not row['file_name']:
+
+        file_name = row['file_name']
+        is_pub = bool(row['is_published'])
+        if not file_name:
             return jsonify({'success': False, 'message': 'File non presente'}), 404
-        directory = os.path.join(STORAGE_ROOT, DRAFTS_FOLDER)
-        return send_from_directory(directory, row['file_name'], as_attachment=True)
+
+        # Se è bozza: solo admin o autore
+        if not is_pub:
+            if user['role'] != 'admin' and user.get('email') != row['author']:
+                return jsonify({'success': False, 'message': 'Accesso negato'}), 403
+            directory = os.path.join(STORAGE_ROOT, DRAFTS_FOLDER)
+        else:
+            # pubblicato: può essere visualizzato da tutti, prendi dalla cartella pubblicazioni
+            directory = os.path.join(STORAGE_ROOT, PUBLISHED_FOLDER)
+
+        file_path = os.path.join(directory, file_name)
+        if not os.path.isfile(file_path):
+            return jsonify({'success': False, 'message': 'File non trovato nel filesystem'}), 404
+
+        # Serve inline per permettere preview nel browser (non forzare download)
+        return send_from_directory(directory, file_name, as_attachment=False)
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
