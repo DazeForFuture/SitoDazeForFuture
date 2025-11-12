@@ -81,13 +81,12 @@ def init_db():
         )
     ''')
     
-    # Insert default categories
+    # Insert default categories - CORRETTE
     c.execute('''
-        INSERT OR IGNORE INTO categories (name, description) VALUES 
-        ('Generale', 'Discussioni generali'),
-        ('Python', 'Discussioni su Python'),
-        ('Web Development', 'Sviluppo web'),
-        ('Aiuto', 'Richiesta di aiuto')
+        INSERT OR IGNORE INTO categories (id, name, description) VALUES 
+        (1, 'Generale', 'Discussioni generali'),
+        (2, 'Scuola', 'Discussioni sulla scuola'),
+        (3, 'Green', 'Discussioni su ambiente e sostenibilità')
     ''')
     
     conn.commit()
@@ -143,6 +142,7 @@ def get_categories():
         FROM categories c 
         LEFT JOIN threads t ON c.id = t.category_id 
         GROUP BY c.id
+        ORDER BY c.id
     ''')
     categories = [dict(row) for row in c.fetchall()]
     conn.close()

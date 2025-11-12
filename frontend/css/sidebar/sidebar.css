@@ -1,59 +1,98 @@
-/* Stili migliorati per la sidebar */
+/* Stili migliorati per la sidebar mobile - FIXED FOR SAFARI */
 .sidebar {
   position: fixed;
   top: 0;
-  left: -280px;
-  width: 280px;
-  height: 100%;
-  background: var(--sidebar-bg);
+  left: -100%;
+  width: 85%;
+  max-width: 320px;
+  height: 100vh;
+  height: -webkit-fill-available; /* Per Safari iOS */
+  background: var(--sidebar-bg, rgba(255, 255, 255, 0.98));
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-right: 1px solid var(--sidebar-border);
-  box-shadow: var(--sidebar-shadow);
-  transition: left 0.3s ease;
+  border-right: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.1));
+  box-shadow: var(--sidebar-shadow, 0 0 40px rgba(0, 0, 0, 0.15));
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1200;
-  padding: 2rem 1rem;
+  padding: 1rem 0.75rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  -webkit-overflow-scrolling: touch;
+  /* Fix per Safari - evita rendering problematico */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
-/* Quando la sidebar è attiva */
+/* Quando la sidebar è attiva - USIAMO TRANSFORM INVECE DI LEFT */
 .sidebar.active {
+  transform: translateX(100%);
   left: 0;
 }
 
+/* Overlay per chiudere la sidebar toccando fuori */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: -webkit-fill-available;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1199;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
 .sidebar h2 {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  font-weight: 800;
+  font-size: 1.35rem;
+  margin: 0.5rem 0 1.5rem;
+  font-weight: 700;
   color: var(--text);
   text-align: center;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--sidebar-border);
+  position: relative;
 }
 
 .sidebar-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
   border: none;
-  font-size: 2rem;
+  font-size: 1.75rem;
   color: var(--muted);
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+  /* Fix per Safari */
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-.sidebar-close:hover {
+.sidebar-close:hover,
+.sidebar-close:focus {
   color: var(--text);
-  background: var(--hover-bg);
+  background: var(--hover-bg, rgba(0, 0, 0, 0.1));
+  outline: none;
+}
+
+.sidebar-close:active {
+  transform: scale(0.95);
 }
 
 .sidebar-menu {
@@ -64,44 +103,58 @@
 }
 
 .sidebar-menu li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .sidebar-menu a {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
+  gap: 0.85rem;
+  padding: 0.85rem 0.9rem;
   text-decoration: none;
   font-weight: 600;
   color: var(--text);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  font-size: 1rem;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
   font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+  /* Fix per Safari */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .sidebar-menu a span {
-  font-size: 1.2rem;
-  width: 24px;
+  font-size: 1.15rem;
+  width: 22px;
   text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-menu a:hover span,
+.sidebar-menu a:focus span {
+  transform: scale(1.1);
 }
 
 .sidebar-menu a:hover,
+.sidebar-menu a:focus,
 .sidebar-menu a.active {
-  background: var(--hover-bg);
+  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
   transform: translateX(5px);
+  outline: none;
 }
 
 .sidebar-menu a.active {
-  background: rgba(0, 122, 255, 0.15);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: rgba(0, 122, 255, 0.12);
+  color: var(--accent, #007AFF);
+  border-left: 3px solid var(--accent, #007AFF);
 }
 
-/* Stili per i dropdown nella sidebar - PERFETTAMENTE INTEGRATI */
+/* Stili per i dropdown nella sidebar - FIXED FOR SAFARI */
 .sidebar-dropdown {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .sidebar-dropdown-toggle {
@@ -109,47 +162,61 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 0.9rem;
   text-decoration: none;
   font-weight: 600;
   color: var(--text);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  font-size: 1rem;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
   font-family: inherit;
   background: none;
   border: none;
   cursor: pointer;
-  gap: 1rem;
+  gap: 0.85rem;
+  -webkit-tap-highlight-color: transparent;
+  /* Fix per Safari */
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
-.sidebar-dropdown-toggle:hover {
-  background: var(--hover-bg);
+.sidebar-dropdown-toggle:hover,
+.sidebar-dropdown-toggle:focus {
+  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
   transform: translateX(5px);
+  outline: none;
 }
 
 .sidebar-dropdown-toggle.active {
-  background: rgba(0, 122, 255, 0.15);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: rgba(0, 122, 255, 0.12);
+  color: var(--accent, #007AFF);
+  border-left: 3px solid var(--accent, #007AFF);
 }
 
 .sidebar-dropdown-toggle .dropdown-icon {
-  font-size: 1.2rem;
-  width: 24px;
+  font-size: 1.15rem;
+  width: 22px;
   text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-dropdown-toggle:hover .dropdown-icon,
+.sidebar-dropdown-toggle:focus .dropdown-icon {
+  transform: scale(1.1);
 }
 
 .sidebar-dropdown-toggle .dropdown-text {
   flex: 1;
   text-align: left;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   font-family: inherit;
 }
 
 .sidebar-dropdown-toggle .dropdown-arrow {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   width: 16px;
   transition: transform 0.3s ease;
   color: var(--muted);
@@ -160,7 +227,7 @@
 
 .sidebar-dropdown-toggle.active .dropdown-arrow {
   transform: rotate(180deg);
-  color: var(--accent);
+  color: var(--accent, #007AFF);
 }
 
 /* Menu dropdown */
@@ -170,16 +237,19 @@
   margin: 0;
   max-height: 0;
   overflow: hidden;
-  transition: all 0.3s ease;
-  background: var(--dropdown-bg, rgba(0, 0, 0, 0.03));
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--dropdown-bg, rgba(0, 0, 0, 0.02));
   border-radius: 8px;
-  margin-top: 0.25rem;
-  border: 1px solid var(--sidebar-border);
+  margin-top: 0.2rem;
+  border: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.05));
+  /* Fix per Safari */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .sidebar-dropdown-menu.active {
   max-height: 500px;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
 }
 
 .sidebar-dropdown-menu li {
@@ -189,133 +259,141 @@
 .sidebar-dropdown-menu a {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  gap: 0.85rem;
+  padding: 0.75rem 0.9rem 0.75rem 2.3rem;
   text-decoration: none;
   font-weight: 600;
   color: var(--text);
   border-radius: 0;
-  transition: all 0.3s ease;
-  font-size: 1rem;
+  transition: all 0.25s ease;
+  font-size: 0.9rem;
   font-family: inherit;
   border-left: 2px solid transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .sidebar-dropdown-menu a span {
-  font-size: 1.2rem;
-  width: 24px;
+  font-size: 1.1rem;
+  width: 20px;
   text-align: center;
 }
 
-.sidebar-dropdown-menu a:hover {
-  background: var(--hover-bg);
-  color: var(--accent);
-  border-left-color: var(--accent);
+.sidebar-dropdown-menu a:hover,
+.sidebar-dropdown-menu a:focus {
+  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+  color: var(--accent, #007AFF);
+  border-left-color: var(--accent, #007AFF);
   transform: translateX(5px);
+  outline: none;
 }
 
 .sidebar-dropdown-menu a.active {
-  background: rgba(0, 122, 255, 0.1);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: rgba(0, 122, 255, 0.08);
+  color: var(--accent, #007AFF);
+  border-left: 3px solid var(--accent, #007AFF);
   font-weight: 600;
-}
-
-/* Animazione per i dropdown */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.sidebar-dropdown-menu.active {
-  animation: slideDown 0.3s ease;
 }
 
 /* Stili migliorati per la sezione utente mobile */
 .mobile-user-info {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-top: 2rem;
-  border: 1px solid var(--sidebar-border);
-  box-shadow: var(--card-shadow);
+  background: var(--card-bg, rgba(255, 255, 255, 0.7));
+  border-radius: 14px;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  border: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.1));
+  box-shadow: var(--card-shadow, 0 4px 12px rgba(0, 0, 0, 0.05));
+  position: relative;
+  overflow: hidden;
+  /* Fix per Safari */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.mobile-user-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent, #007AFF), #00c6ff);
 }
 
 .mobile-user-header {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.1));
 }
 
 .mobile-user-header span {
   font-weight: 700;
   color: var(--text);
+  font-size: 0.95rem;
 }
 
 .mobile-user-display {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .mobile-user-name {
   font-weight: 600;
   color: var(--text);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .mobile-user-badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 16px;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .mobile-user-badge.badge-admin {
-  background: var(--admin-badge);
+  background: var(--admin-badge, linear-gradient(135deg, #FF2D95 0%, #C50067 100%));
   color: white;
 }
 
 .mobile-user-badge.badge-user {
-  background: var(--user-badge);
+  background: var(--user-badge, linear-gradient(135deg, #007AFF 0%, #0040FF 100%));
   color: white;
 }
 
 /* Avatar migliorato */
 .user-avatar {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), #00c6ff);
+  background: linear-gradient(135deg, var(--accent, #007AFF), #00c6ff);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.user-avatar:active {
+  transform: scale(0.95);
 }
 
 /* Bottone logout migliorato */
 .mobile-user-info .logout-btn {
   width: 100%;
-  background: var(--hover-bg);
-  border: 1px solid var(--sidebar-border);
+  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+  border: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.1));
   color: var(--text);
   padding: 0.75rem 1rem;
-  border-radius: 12px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -323,74 +401,75 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  /* Fix per Safari */
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-.mobile-user-info .logout-btn:hover {
+.mobile-user-info .logout-btn:hover,
+.mobile-user-info .logout-btn:focus {
   background: rgba(255, 59, 48, 0.1);
   color: #ff3b30;
   border-color: rgba(255, 59, 48, 0.3);
   transform: translateY(-2px);
+  outline: none;
 }
 
 .mobile-user-info .logout-btn:active {
   transform: translateY(0);
 }
 
-/* Animazione di entrata per la sezione utente */
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.mobile-user-info {
-  animation: slideInUp 0.5s ease 0.2s both;
-}
-
-/* Media query per mobile */
+/* Media query per mobile - FIXED FOR SAFARI */
 @media (max-width: 768px) {
   .sidebar {
-    width: 280px;
-    padding: 1.5rem 1rem;
+    width: 85%;
+    max-width: 320px;
+    padding: 1rem 0.75rem;
+    /* Usiamo transform per l'animazione invece di left */
+    transform: translateX(-100%);
+    left: 0;
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
   }
   
   .sidebar-menu a {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.95rem;
+    padding: 0.75rem 0.8rem;
+    font-size: 0.9rem;
+    gap: 0.75rem;
   }
   
   .sidebar-dropdown-toggle {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.95rem;
+    padding: 0.75rem 0.8rem;
+    font-size: 0.9rem;
+    gap: 0.75rem;
   }
   
   .sidebar-dropdown-toggle .dropdown-text {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
   
   .sidebar-dropdown-toggle .dropdown-icon {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
   
   .sidebar-dropdown-menu a {
-    padding: 0.6rem 0.8rem 0.6rem 2.2rem;
-    font-size: 0.95rem;
+    padding: 0.65rem 0.8rem 0.65rem 2rem;
+    font-size: 0.85rem;
+    gap: 0.75rem;
   }
   
   .sidebar-dropdown-menu a span {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   
   .mobile-user-info {
-    padding: 1.25rem;
-    margin-top: 1.5rem;
+    padding: 1.1rem;
+    margin-top: 1.25rem;
   }
   
   .user-avatar {
@@ -400,6 +479,61 @@
   }
   
   .mobile-user-name {
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .mobile-user-badge {
+    font-size: 0.65rem;
+    padding: 0.18rem 0.6rem;
+  }
+  
+  /* Alternative al backdrop-filter per browser che non lo supportano bene */
+  @supports not (backdrop-filter: blur(20px)) {
+    .sidebar {
+      background: var(--sidebar-bg, rgba(255, 255, 255, 0.95));
+    }
+  }
+  
+  /* Supporto per dispositivi con notch */
+  @supports (padding: max(0px)) {
+    .sidebar {
+      padding-left: max(0.75rem, env(safe-area-inset-left));
+      padding-right: max(0.75rem, env(safe-area-inset-right));
+      padding-top: max(1rem, env(safe-area-inset-top));
+      height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* Fallback per browser che non supportano backdrop-filter */
+@supports not (backdrop-filter: blur(20px)) {
+  .sidebar {
+    background: var(--sidebar-bg-fallback, rgba(255, 255, 255, 0.95));
+  }
+}
+
+/* Miglioramenti per l'accessibilità */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar-menu a,
+  .sidebar-dropdown-toggle,
+  .sidebar-dropdown-menu,
+  .sidebar-close,
+  .logout-btn {
+    transition-duration: 0.1s;
+  }
+}
+
+/* Supporto per modalità scura */
+@media (prefers-color-scheme: dark) {
+  .sidebar {
+    --sidebar-bg: rgba(30, 30, 30, 0.95);
+    --sidebar-border: rgba(255, 255, 255, 0.1);
+    --text: rgba(255, 255, 255, 0.9);
+    --muted: rgba(255, 255, 255, 0.6);
+    --hover-bg: rgba(255, 255, 255, 0.08);
+    --card-bg: rgba(40, 40, 40, 0.7);
+    --dropdown-bg: rgba(255, 255, 255, 0.05);
+    --sidebar-bg-fallback: rgba(30, 30, 30, 0.98);
   }
 }

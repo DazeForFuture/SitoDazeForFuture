@@ -999,16 +999,6 @@
         <div class="field-error" id="passwordError">La password non soddisfa i requisiti di sicurezza</div>
       </div>
 
-      <div class="form-group">
-        <label for="ruolo">Sei:</label>
-        <select id="ruolo" name="ruolo" required>
-          <option value="">-- Seleziona --</option>
-          <option value="insegnante">Insegnante</option>
-          <option value="studente">Studente</option>
-        </select>
-        <div class="field-error" id="ruoloError">Seleziona un ruolo</div>
-      </div>
-
       <div class="checkbox-group">
         <input type="checkbox" id="isAdmin" name="isAdmin" />
         <label for="isAdmin">Registrati come admin</label>
@@ -1029,6 +1019,18 @@
           <div class="field-error" id="adminPasswordError">Password admin non valida</div>
         </div>
       </div>
+
+      <div class="form-group">
+        <label for="ruolo">Sei:</label>
+        <select id="ruolo" name="ruolo" required>
+          <option value="">-- Seleziona --</option>
+          <option value="insegnante">Insegnante</option>
+          <option value="studente">Studente</option>
+        </select>
+        <div class="field-error" id="ruoloError">Seleziona un ruolo</div>
+      </div>
+
+
 
       <div id="studenteFields" style="display:none;">
         <div class="form-group">
@@ -1343,7 +1345,7 @@
           return;
         }
         if (option.value === "G") {
-          option.disabled = !(anno === 5);
+          option.disabled = !(anno === 4);
           return;
         }
 

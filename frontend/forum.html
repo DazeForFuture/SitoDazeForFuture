@@ -137,22 +137,23 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.5;
+    
+    /* FIX PER IPHONE: Sfondo fisso con approccio compatibile */
+    .background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed;
-      position: relative;
+      /* background-attachment: fixed; */ /* Rimosso per compatibilità iOS */
     }
 
-    /* Overlay dinamico che si adatta al tema */
-    body::before {
-      content: '';
+    /* Overlay dinamico che si adatta al tema - FIX per iOS */
+    .background-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -163,24 +164,34 @@
     }
 
     /* Tema chiaro - overlay chiaro per contrasto */
-    :root[data-theme="light"] body::before {
+    :root[data-theme="light"] .background-overlay {
       background: var(--overlay-light);
     }
 
     /* Tema scuro - overlay scuro per contrasto */
-    :root[data-theme="dark"] body::before {
+    :root[data-theme="dark"] .background-overlay {
       background: var(--overlay-dark);
     }
 
     /* Tema automatico - usa preferenza sistema */
-    :root:not([data-theme]) body::before {
+    :root:not([data-theme]) .background-overlay {
       background: var(--overlay-light);
     }
 
     @media (prefers-color-scheme: dark) {
-      :root:not([data-theme]) body::before {
+      :root:not([data-theme]) .background-overlay {
         background: var(--overlay-dark);
       }
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      position: relative;
+      min-height: 100vh;
     }
 
     header {
@@ -1404,6 +1415,10 @@
   </style>
 </head>
 <body>
+  <!-- FIX PER IPHONE: Container per lo sfondo -->
+  <div class="background-container"></div>
+  <div class="background-overlay"></div>
+
   <header>
     <div class="logo" id="toggleSidebar">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
@@ -1488,15 +1503,7 @@
         <button class="category-btn active" data-category="all">
           Tutte le discussioni
         </button>
-        <button class="category-btn" data-category="1">
-          Generale
-        </button>
-        <button class="category-btn" data-category="2">
-          Scuola
-        </button>
-        <button class="category-btn" data-category="3">
-          Green
-        </button>
+        <!-- I pulsanti delle categorie verranno caricati dinamicamente dal backend -->
       </div>
       
       <!-- Vista lista thread -->
@@ -1532,7 +1539,7 @@
         <div class="form-group">
           <label class="form-label" for="threadCategory">Categoria</label>
           <select id="threadCategory" class="form-select" required>
-            <!-- Le categorie verranno caricate dinamicamente -->
+            <!-- Le categorie verranno caricate dinamicamente dal backend -->
           </select>
         </div>
         <div class="form-group">
@@ -1723,12 +1730,11 @@
         
         // Procedi con il caricamento normale
         await checkAuthentication();
-        await loadCategories();
+        await loadCategories(); // Carica le categorie dal backend
         await loadThreads();
         setupEventListeners();
         setupSearch();
         
-    //    mostraPopup("Connessione al forum stabilita", "success");
       } catch (error) {
         console.error('Errore durante l\'inizializzazione:', error);
         document.getElementById('threadsView').innerHTML = `
@@ -1742,7 +1748,7 @@
             </button>
           </div>
         `;
-//        mostraPopup("Errore di connessione al forum", "error");
+        mostraPopup("Errore di connessione al forum", "error");
       }
     });
 
@@ -1873,55 +1879,88 @@
       document.getElementById('mobileUserAvatar').innerText = currentUser.username.charAt(0).toUpperCase();
     }
     
-    // Funzione per sincronizzare categorie tra filtri e modale
-    function syncCategories() {
-      const categoryButtons = document.querySelectorAll('.category-btn[data-category]');
-      const categorySelect = document.getElementById('threadCategory');
-      
-      // Pulisci il select
-      categorySelect.innerHTML = '';
-      
-      // Aggiungi tutte le categorie tranne "all"
-      categoryButtons.forEach(btn => {
-        const categoryId = btn.dataset.category;
-        const categoryName = btn.textContent.trim();
-        
-        if (categoryId !== 'all') {
-          const option = document.createElement('option');
-          option.value = categoryId;
-          option.textContent = categoryName;
-          categorySelect.appendChild(option);
-        }
-      });
-    }
-    
-    // Carica categorie
+    // CARICA CATEGORIE DAL BACKEND - FUNZIONE CORRETTA
     async function loadCategories() {
       try {
+        console.log('📋 Caricamento categorie dal backend...');
         const response = await fetch(`${FORUM_API_BASE_URL}/api/categories`);
-        const categories = await response.json();
         
-        // Se l'API restituisce categorie, usale
-        if (categories && categories.length > 0) {
-          const categorySelect = document.getElementById('threadCategory');
-          categorySelect.innerHTML = '';
-          
-          categories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.id;
-            option.textContent = category.name;
-            categorySelect.appendChild(option);
-          });
-        } else {
-          // Altrimenti usa il sync con i filtri
-          syncCategories();
+        if (!response.ok) {
+          throw new Error(`Errore HTTP: ${response.status}`);
         }
         
+        const categories = await response.json();
+        
+        console.log('✅ Categorie caricate dal backend:', categories);
+        
+        // Aggiorna il select nel form di creazione
+        const categorySelect = document.getElementById('threadCategory');
+        categorySelect.innerHTML = '';
+        
+        categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id;
+          option.textContent = category.name;
+          categorySelect.appendChild(option);
+        });
+        
+        // Aggiorna anche i filtri categoria
+        updateCategoryFilters(categories);
+        
       } catch (error) {
-        console.error('Errore nel caricamento categorie:', error);
-        // Fallback al sync con i filtri
-        syncCategories();
+        console.error('❌ Errore nel caricamento categorie:', error);
+        
+        // Fallback: usa categorie predefinite
+        const fallbackCategories = [
+          { id: 1, name: 'Generale' },
+          { id: 2, name: 'Scuola' },
+          { id: 3, name: 'Green' }
+        ];
+        
+        const categorySelect = document.getElementById('threadCategory');
+        categorySelect.innerHTML = '';
+        
+        fallbackCategories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id;
+          option.textContent = category.name;
+          categorySelect.appendChild(option);
+        });
+        
+        updateCategoryFilters(fallbackCategories);
+        
+        mostraPopup('Errore nel caricamento categorie. Usando categorie predefinite.', 'warning');
       }
+    }
+
+    // Aggiorna i filtri categoria con quelle del backend
+    function updateCategoryFilters(categories) {
+      const categoriesContainer = document.querySelector('.categories-container');
+      
+      // Mantieni solo il pulsante "Tutte le discussioni"
+      const allButton = categoriesContainer.querySelector('[data-category="all"]');
+      categoriesContainer.innerHTML = '';
+      categoriesContainer.appendChild(allButton);
+      
+      // Aggiungi i pulsanti per ogni categoria
+      categories.forEach(category => {
+        const button = document.createElement('button');
+        button.className = 'category-btn';
+        button.dataset.category = category.id;
+        button.textContent = category.name;
+        
+        categoriesContainer.appendChild(button);
+      });
+      
+      // Re-attacha gli event listeners
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentCategory = this.dataset.category;
+          loadThreads();
+        });
+      });
     }
     
     // Carica thread (AGGIORNATA per supportare la ricerca)
@@ -2212,15 +2251,7 @@
     
     // Setup event listeners
     function setupEventListeners() {
-      // Filtri categorie
-      document.querySelectorAll('.category-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentCategory = btn.dataset.category;
-          loadThreads();
-        });
-      });
+      // Filtri categorie (ora gestiti dinamicamente in updateCategoryFilters)
       
       // Modale nuovo thread
       document.getElementById('newThreadBtn').addEventListener('click', () => {

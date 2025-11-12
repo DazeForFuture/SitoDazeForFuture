@@ -128,15 +128,26 @@
       color: var(--text);
       overflow-x: hidden;
       line-height: 1.5;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* FIX PER IPHONE: Sfondo fisso con approccio compatibile */
+    .background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed;
-      position: relative;
+      /* background-attachment: fixed; */ /* Rimosso per compatibilità iOS */
     }
 
-    body::before {
-      content: '';
+    /* Overlay dinamico che si adatta al tema - FIX per iOS */
+    .background-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -146,20 +157,23 @@
       transition: background 0.3s ease;
     }
 
-    :root[data-theme="light"] body::before {
+    /* Tema chiaro - overlay chiaro per contrasto */
+    :root[data-theme="light"] .background-overlay {
       background: var(--overlay-light);
     }
 
-    :root[data-theme="dark"] body::before {
+    /* Tema scuro - overlay scuro per contrasto */
+    :root[data-theme="dark"] .background-overlay {
       background: var(--overlay-dark);
     }
 
-    :root:not([data-theme]) body::before {
+    /* Tema automatico - usa preferenza sistema */
+    :root:not([data-theme]) .background-overlay {
       background: var(--overlay-light);
     }
 
     @media (prefers-color-scheme: dark) {
-      :root:not([data-theme]) body::before {
+      :root:not([data-theme]) .background-overlay {
         background: var(--overlay-dark);
       }
     }
@@ -762,6 +776,74 @@
       border-left: 6px solid var(--error);
     }
 
+    /* Modal per rifiuto con motivo */
+    #rejectionModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #rejectionForm {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 90vw;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    .modal-header {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+    }
+
+    .btn-secondary {
+      background: var(--muted);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: var(--text);
+    }
+
+    .btn-danger {
+      background: var(--error);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #d70015;
+    }
+
     /* Mobile */
     @media (max-width: 768px) {
       header {
@@ -828,6 +910,10 @@
       }
 
       .viewer-actions {
+        flex-direction: column;
+      }
+
+      .modal-actions {
         flex-direction: column;
       }
     }
@@ -1381,6 +1467,10 @@
   </style>
 </head>
 <body>
+  <!-- FIX PER IPHONE: Container per lo sfondo -->
+  <div class="background-container"></div>
+  <div class="background-overlay"></div>
+
   <header>
     <div class="logo" id="toggleSidebar">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
@@ -1666,20 +1756,62 @@
     </form>
   </div>
 
-   <!-- Sidebar -->
-  <aside class="sidebar">
-    <button class="sidebar-close" aria-label="Chiudi menu">&times;</button>
-    <h2>Menu</h2>
-    <ul class="sidebar-menu">
-      <li><a href="index.html"><span>🏠</span> Home</a></li>
+  <!-- Modal per rifiuto con motivo -->
+  <div id="rejectionModal">
+    <form id="rejectionForm">
+      <button type="button" class="close-btn" id="closeRejectionModal">&times;</button>
+      
+      <div class="modal-header">
+        <h3 class="modal-title">Rifiuta Bozza</h3>
+        <p class="modal-subtitle">Inserisci il motivo del rifiuto</p>
+      </div>
+      
+      <div class="form-group">
+        <label for="rejectionNotes">Motivo del rifiuto *</label>
+        <textarea id="rejectionNotes" placeholder="Spiega perché questa bozza viene rifiutata..." rows="4" required></textarea>
+        <small style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">
+          Questo messaggio sarà visibile all'autore della bozza.
+        </small>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cancelRejection">Annulla</button>
+        <button type="submit" class="btn btn-danger" id="confirmRejection">
+          <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+          Rifiuta Bozza
+        </button>
+      </div>
+    </form>
+  </div>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <button class="sidebar-close">&times;</button>
+  <h2>Menu</h2>
+  
+  <ul class="sidebar-menu">
+    <li><a href="index.html"><span>🏠</span>Home</a></li>
       <li><a href="missione.html"><span>🌱</span> Missione</a></li>
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+  <!-- Dropdown -->
+    <li class="sidebar-dropdown">
+      <button class="sidebar-dropdown-toggle">
+        <span>📁</span>
+        <span>Progetti</span>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+      <ul class="sidebar-dropdown-menu">
+        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
+      </ul>
+    </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📨</span> Documenti</a></li>
+      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+      <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-
-    </ul>
+  </ul>
 
     <!-- User info per mobile nella sidebar -->
     <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
@@ -1839,6 +1971,7 @@
     initDocumentTypeSelector();
     initViewerModal();
     initPublicationModal();
+    initRejectionModal();
   });
 
   function logout() {
@@ -1961,6 +2094,76 @@
       e.preventDefault();
       await createPublication();
     });
+  }
+
+  // ===== GESTIONE MODAL RIFIUTO =====
+  function initRejectionModal() {
+    const rejectionModal = document.getElementById('rejectionModal');
+    const closeRejectionModal = document.getElementById('closeRejectionModal');
+    const cancelRejection = document.getElementById('cancelRejection');
+    const rejectionForm = document.getElementById('rejectionForm');
+    
+    closeRejectionModal.addEventListener('click', () => {
+      rejectionModal.style.display = 'none';
+    });
+    
+    cancelRejection.addEventListener('click', () => {
+      rejectionModal.style.display = 'none';
+    });
+    
+    rejectionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const draftId = rejectionModal.getAttribute('data-draft-id');
+      const notes = document.getElementById('rejectionNotes').value.trim();
+      
+      if (notes) {
+        await submitRejection(draftId, notes);
+        rejectionModal.style.display = 'none';
+        document.getElementById('rejectionNotes').value = '';
+      } else {
+        mostraPopup('Inserisci il motivo del rifiuto', 'error');
+      }
+    });
+    
+    // Chiudi modal cliccando fuori
+    rejectionModal.addEventListener('click', (e) => {
+      if (e.target === rejectionModal) {
+        rejectionModal.style.display = 'none';
+      }
+    });
+  }
+
+  function showRejectionModal(draftId) {
+    const rejectionModal = document.getElementById('rejectionModal');
+    rejectionModal.setAttribute('data-draft-id', draftId);
+    rejectionModal.style.display = 'flex';
+    document.getElementById('rejectionNotes').focus();
+  }
+
+  async function submitRejection(draftId, notes) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/review_draft/${draftId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+        body: JSON.stringify({ 
+          action: 'rejected',
+          review_notes: notes
+        })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        mostraPopup('Bozza rifiutata con successo!', 'success');
+        loadDraftsForReview();
+        loadDocuments();
+        loadAllPublications();
+        setTimeout(() => loadMyDrafts(), 500);
+      } else {
+        mostraPopup('Errore: ' + data.message, 'error');
+      }
+    } catch (error) {
+      mostraPopup('Errore di connessione', 'error');
+    }
   }
 
   // ===== GESTIONE MODAL VISUALIZZATORE =====
@@ -2330,7 +2533,7 @@
             <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
           </svg>
         </button>
-        <button class="action-btn delete-btn" onclick="reviewDraft(${draft.id}, 'rejected')" title="Rifiuta">
+        <button class="action-btn delete-btn" onclick="showRejectionModal(${draft.id})" title="Rifiuta">
           <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
           </svg>
@@ -2404,7 +2607,7 @@
             <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
           </svg>
         </button>
-        <button class="action-btn delete-btn" onclick="reviewDraft(${id}, 'rejected')" title="Rifiuta">
+        <button class="action-btn delete-btn" onclick="showRejectionModal(${id})" title="Rifiuta">
           <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
           </svg>
@@ -2583,34 +2786,31 @@
   }
 
   async function reviewDraft(id, action) {
-    if (!confirm(`Sei sicuro di voler ${action === 'approved' ? 'approvare' : 'rifiutare'} questa bozza?`)) return;
-    
-    try {
-      const body = { action: action };
-      if (action === 'rejected') {
-        const notes = prompt('Inserisci il motivo del rifiuto:');
-        if (notes) body.review_notes = notes;
-      }
+    if (action === 'approved') {
+      if (!confirm('Sei sicuro di voler approvare questa bozza?')) return;
       
-      const res = await fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeaders() },
-        body: JSON.stringify(body)
-      });
-      const data = await res.json();
-      
-      if (data.success) {
-        mostraPopup(`Bozza ${action === 'approved' ? 'approvata' : 'rifiutata'} con successo!`, 'success');
-        loadDraftsForReview();
-        loadDocuments();
-        loadAllPublications();
-        setTimeout(() => loadMyDrafts(), 500); // Ricarica le bozze personali dopo un breve delay
-      } else {
-        mostraPopup('Errore: ' + data.message, 'error');
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/review_draft/${id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
+          body: JSON.stringify({ action: 'approved' })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          mostraPopup('Bozza approvata con successo!', 'success');
+          loadDraftsForReview();
+          loadDocuments();
+          loadAllPublications();
+          setTimeout(() => loadMyDrafts(), 500);
+        } else {
+          mostraPopup('Errore: ' + data.message, 'error');
+        }
+      } catch (error) {
+        mostraPopup('Errore di connessione', 'error');
       }
-    } catch (error) {
-      mostraPopup('Errore di connessione', 'error');
     }
+    // Per 'rejected' ora usiamo il modal
   }
 
   async function deleteDocument(id) {
