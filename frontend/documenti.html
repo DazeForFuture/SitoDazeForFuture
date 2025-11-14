@@ -213,7 +213,7 @@
     nav > a {
       margin-left: 2rem;
       text-decoration: none;
-      color: var(--header-text, var(--text));
+      color: var(--header-text, var,--text);
       font-weight: 600;
       position: relative;
       padding: 0.5rem;
@@ -1711,7 +1711,7 @@
             <div class="document-type-option" data-type="bilancio">
               <svg class="document-type-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
-                <path fill-rule="evenodd" d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1  1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z" clip-rule="evenodd" />
                 <path d="M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z" />
               </svg>
               <div class="document-type-name">Bilancio</div>
@@ -1897,7 +1897,7 @@
   function authHeaders() {
     const email = localStorage.getItem('utente') || '';
     const role = localStorage.getItem('utente_ruolo') || 'user';
-    return { 'X-User-Email': email, 'X-User-Role': role };
+    return { 'X-User-Email': email, 'X-User-Ruolo': role };
   }
 
   function mostraPopup(messaggio, tipo) {
@@ -2201,10 +2201,10 @@
     const viewerModal = document.getElementById('viewerModal');
     const viewerTitle = document.getElementById('viewerTitle');
     const viewerBody = document.getElementById('viewerBody');
-    
+
     // Imposta il titolo
     viewerTitle.textContent = title || 'Documento';
-    
+
     // Mostra messaggio di caricamento
     viewerBody.innerHTML = `
       <div class="file-preview">
@@ -2213,20 +2213,20 @@
         </div>
       </div>
     `;
-    
+
     // Mostra il modal
     viewerModal.style.display = 'flex';
     viewerModal.setAttribute('data-doc-id', id);
-    viewerModal.setAttribute('data-file-name', fileName);
-    
+    viewerModal.setAttribute('data-file-name', fileName || '');
+
     try {
       const res = await fetch(`${API_BASE_URL}/api/download/${id}`);
       if (!res.ok) throw new Error('Errore nel recupero del file');
-      
+
       const blob = await res.blob();
       const fileType = blob.type;
       const url = window.URL.createObjectURL(blob);
-      
+
       // Mostra anteprima in base al tipo di file
       if (fileType.startsWith('image/')) {
         viewerBody.innerHTML = `
@@ -2236,14 +2236,11 @@
           </div>
         `;
       } else if (fileType === 'application/pdf') {
-        // Per PDF potremmo usare un iframe, ma per semplicità mostriamo un messaggio
+        // Mostra PDF inline usando iframe con object URL
         viewerBody.innerHTML = `
-          <div class="file-preview">
-            <div class="unsupported-format">
-              <p>Anteprima PDF non disponibile nel browser.</p>
-              <p>Scarica il file per visualizzarlo.</p>
-              <p style="margin-top: 1rem; color: var(--muted);">${description || ''}</p>
-            </div>
+          <div class="file-preview" style="height: 70vh;">
+            <iframe src="${url}" style="width:100%; height:100%; border:none;" title="${title || 'PDF'}"></iframe>
+            <p style="margin-top: 0.75rem; color: var(--muted);">${description || ''}</p>
           </div>
         `;
       } else {
@@ -2257,13 +2254,14 @@
           </div>
         `;
       }
-      
+
       // Pulisci l'URL quando il modal viene chiuso
-      viewerModal.addEventListener('click', function cleanup() {
+      const cleanup = () => {
         window.URL.revokeObjectURL(url);
         viewerModal.removeEventListener('click', cleanup);
-      });
-      
+      };
+      viewerModal.addEventListener('click', cleanup);
+
     } catch (error) {
       viewerBody.innerHTML = `
         <div class="file-preview">
@@ -2486,7 +2484,7 @@
             </div>
         </div>
         <div class="document-actions">
-            <button class="action-btn view-btn" onclick="viewDocument(${doc.id})" title="Visualizza">
+            <button class="action-btn view-btn" onclick="viewDocument(${doc.id}, '${doc.file_name || ''}', '${escapeHTML(doc.title || '')}', '${escapeHTML(doc.description || '')}')" title="Visualizza">
                 <i class="fas fa-eye"></i>
             </button>
             ${publishButton}

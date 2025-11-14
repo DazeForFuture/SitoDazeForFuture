@@ -127,7 +127,8 @@ def get_articles():
                 'file_url': file_url
             })
         
-        return jsonify({'success': True, 'articles': result})
+        # Fornisco both 'articles' e 'documents' per compatibilità col frontend
+        return jsonify({'success': True, 'articles': result, 'documents': result})
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
