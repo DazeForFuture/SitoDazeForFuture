@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Daze for Future">
-  <title>Home - Daze for Future</title>
+  <meta name="apple-mobile-web-app-title" content="Daze For Future">
+  <title>Home - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
@@ -177,6 +177,7 @@
       }
     }
 
+    /* ANIMAZIONE HEADER - AGGIUNTA DAL SECONDO FILE */
     header {
       position: fixed;
       top: 0;
@@ -191,7 +192,14 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
+      animation: slideDown 1s ease forwards; /* ANIMAZIONE AGGIUNTA */
     }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -232,10 +240,26 @@
       width: 100%;
     }
 
+    /* ANIMAZIONE SEZIONI - AGGIUNTA DAL SECONDO FILE */
     section {
       padding: 140px 2rem 100px;
       max-width: 1000px;
       margin: auto;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp 1.2s ease forwards;
+    }
+
+    /* Ritardi progressivi per le sezioni */
+    section:nth-of-type(1) { animation-delay: 0.2s; }
+    section:nth-of-type(2) { animation-delay: 0.5s; }
+    section:nth-of-type(3) { animation-delay: 1s; }
+    section:nth-of-type(4) { animation-delay: 1.5s; }
+    section:nth-of-type(5) { animation-delay: 2s; }
+    section:nth-of-type(6) { animation-delay: 2.5s; }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .hero {
@@ -810,6 +834,12 @@
       margin: 0.25rem 0;
     }
 
+    /* ANIMAZIONE DROPDOWN - AGGIUNTA DAL SECONDO FILE */
+    @keyframes fadeInDropdown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Stili per la sidebar */
     .sidebar-dropdown {
       position: relative;
@@ -1158,14 +1188,14 @@
       </div>
     </section>
     
-    <section id="registrazione">
+    <section id="chi-siamo">
       <div class="card fade-in-up">
-        <img src="https://avvocatomattiafontana.com/wp-content/uploads/2025/06/Registrare-una-conversazione-e-reato.jpg" alt="Registrazione" class="card-image">
-        <h2 class="section-title">Registrati</h2>
-        <p class="text-muted">Unisciti a noi per contribuire a un futuro più sostenibile. Se sei già registrato, <a href="login.html">accedi</a></p>
-        <a href="registrati.html" class="btn">
-          <i class="fas fa-user-plus"></i>
-          Registrati
+        <img src="https://www.quotidianopiemontese.it/wp-content/uploads/2022/08/liceo-massimo-dazeglio.jpg" alt="Chi siamo" class="card-image">
+        <h2 class="section-title">Chi siamo</h2>
+        <p class="text-muted">Siamo un gruppo di studenti appassionati, supportati da docenti, che lavorano insieme per realizzare progetti educativi e sociali.</p>
+        <a href="chi_siamo.html" class="btn">
+          <i class="fas fa-users"></i>
+          Conosci il team
         </a>
       </div>
     </section>
@@ -1182,14 +1212,15 @@
       </div>
     </section>
 
-    <section id="chi-siamo">
+
+    <section id="registrazione">
       <div class="card fade-in-up">
-        <img src="https://www.quotidianopiemontese.it/wp-content/uploads/2022/08/liceo-massimo-dazeglio.jpg" alt="Chi siamo" class="card-image">
-        <h2 class="section-title">Chi siamo</h2>
-        <p class="text-muted">Siamo un gruppo di studenti appassionati, supportati da docenti, che lavorano insieme per realizzare progetti educativi e sociali.</p>
-        <a href="chi_siamo.html" class="btn">
-          <i class="fas fa-users"></i>
-          Conosci il team
+        <img src="https://avvocatomattiafontana.com/wp-content/uploads/2025/06/Registrare-una-conversazione-e-reato.jpg" alt="Registrazione" class="card-image">
+        <h2 class="section-title">Registrati</h2>
+        <p class="text-muted">Unisciti a noi per contribuire a un futuro più sostenibile. Se sei già registrato, <a href="login.html">accedi</a></p>
+        <a href="registrati.html" class="btn">
+          <i class="fas fa-user-plus"></i>
+          Registrati
         </a>
       </div>
     </section>
@@ -1282,7 +1313,7 @@
   </div>
 
   <footer>
-    &copy; 2025 Daze for Future. Tutti i diritti riservati.
+    &copy; 2025 Daze For Future. Tutti i diritti riservati.
   </footer>
 
 <script>

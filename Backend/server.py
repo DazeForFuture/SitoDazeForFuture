@@ -30,6 +30,20 @@ def init_db():
     conn.commit()
     conn.close()
 
+# Errori con pagine personalizzate
+@app.errorhandler(403)
+def forbidden_error(error):
+    return send_from_directory(frontend_dir, 'errori/403.html'), 403
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return send_from_directory(frontend_dir, 'errori/404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return send_from_directory(frontend_dir, 'errori/500.html'), 500
+
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json

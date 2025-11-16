@@ -367,15 +367,30 @@
       animation: fadeIn 0.8s ease;
     }
 
+    /* CORREZIONE: Pannello di creazione discussione CENTRATO */
     .create-thread-container {
       text-align: center;
-      margin: 3rem 0;
-      padding: 2rem;
+      margin: 3rem auto;
+      padding: 2.5rem;
       background: var(--card-bg);
-      border-radius: 16px;
+      border-radius: 20px;
       box-shadow: var(--card-shadow);
       border: 1px solid var(--border);
       animation: fadeInUp 0.8s ease;
+      position: relative;
+      overflow: hidden;
+      max-width: 600px;
+      width: 90%;
+    }
+
+    .create-thread-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
     }
 
     .new-thread-btn {
@@ -383,6 +398,7 @@
       display: inline-flex;
       font-size: 1.2rem;
       padding: 1rem 2rem;
+      box-shadow: 0 6px 20px rgba(0, 122, 255, 0.3);
     }
 
     .categories-container {
@@ -397,14 +413,31 @@
     .category-btn {
       background: var(--card-bg);
       border: 2px solid var(--border);
-      padding: 1rem 2rem;
-      border-radius: 20px;
+      padding: 1rem 1.5rem;
+      border-radius: 50px;
       cursor: pointer;
       transition: all 0.3s ease;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       color: var(--text);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .category-btn:hover::before {
+      left: 100%;
     }
 
     .category-btn:hover {
@@ -418,6 +451,7 @@
       color: white;
       border-color: var(--accent);
       box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+      transform: translateY(-2px);
     }
 
     .threads-container {
@@ -493,7 +527,7 @@
       margin-bottom: 1rem;
     }
 
-    /* Modal Styles */
+    /* Modal Styles - MIGLIORATI */
     .modal {
       display: none;
       position: fixed;
@@ -501,10 +535,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.7);
       z-index: 2000;
+      align-items: center;
+      justify-content: center;
       backdrop-filter: blur(5px);
       animation: fadeIn 0.3s ease;
+      padding: 1rem;
+      overflow-y: auto;
     }
 
     @keyframes fadeIn {
@@ -513,30 +551,27 @@
     }
 
     .modal-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       background: var(--card-bg);
-      border-radius: 16px;
-      padding: 2rem;
-      width: 90%;
+      border-radius: 20px;
+      padding: 2.5rem;
       max-width: 600px;
-      max-height: 90vh;
+      width: 100%;
+      max-height: 85vh;
       overflow-y: auto;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       border: 1px solid var(--border);
       animation: modalSlideIn 0.3s ease;
+      position: relative;
     }
 
     @keyframes modalSlideIn {
       from {
         opacity: 0;
-        transform: translate(-50%, -60%);
+        transform: translateY(-60px) scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translate(-50%, -50%);
+        transform: translateY(0) scale(1);
       }
     }
 
@@ -545,37 +580,61 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
+      padding-bottom: 1.5rem;
       border-bottom: 1px solid var(--border);
+      position: relative;
     }
 
     .modal-title {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: var(--text);
+      text-align: center;
+      width: 100%;
+      margin: 0;
     }
 
     .close-modal {
-      background: none;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: var(--danger);
+      color: white;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       cursor: pointer;
-      color: var(--muted);
-      transition: color 0.3s;
       padding: 0.5rem;
-      border-radius: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 36px;
+      height: 36px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 10;
     }
 
     .close-modal:hover {
-      color: var(--danger);
-      background: rgba(255, 59, 48, 0.1);
+      background: #d70015;
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
     .form-group {
       margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
     }
 
     .form-label {
@@ -583,30 +642,31 @@
       margin-bottom: 0.5rem;
       font-weight: 600;
       color: var(--text);
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
     .form-input, .form-textarea, .form-select {
       width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
       background: var(--bg);
       color: var(--text);
-      font-family: inherit;
-      font-size: 1rem;
-      transition: border-color 0.3s;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
     }
 
     .form-input:focus, .form-textarea:focus, .form-select:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+      transform: translateY(-1px);
     }
 
     .form-textarea {
-      min-height: 120px;
       resize: vertical;
+      min-height: 120px;
       line-height: 1.5;
     }
 
@@ -614,9 +674,51 @@
       display: flex;
       gap: 1rem;
       justify-content: flex-end;
-      margin-top: 1.5rem;
-      padding-top: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
       border-top: 1px solid var(--border);
+    }
+
+    .form-actions .btn {
+      min-width: 140px;
+      justify-content: center;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .form-section::before {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .form-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .optional-badge {
+      font-size: 0.7rem;
+      background: var(--muted);
+      color: var(--bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 10px;
+      font-weight: 400;
     }
 
     /* Thread Detail Styles */
@@ -925,6 +1027,32 @@
       
       .form-actions .btn {
         width: 100%;
+        min-width: auto;
+      }
+
+      .close-modal {
+        top: -8px;
+        right: -8px;
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+      }
+
+      /* CORREZIONE RESPONSIVE PER IL PANNELLO DI CREAZIONE */
+      .create-thread-container {
+        margin: 2rem 1rem;
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-content {
+        padding: 1.25rem;
+        border-radius: 16px;
+      }
+      
+      .modal-title {
+        font-size: 1.3rem;
       }
     }
 
@@ -1231,49 +1359,149 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* AGGIUNTA: Stili per i popup di notifica */
+    /* AGGIUNTA: Stili migliorati per i popup di notifica */
     .popup {
       position: fixed;
       top: 20px;
       right: 20px;
       background: var(--card-bg);
       color: var(--text);
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      padding: 1.25rem 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       opacity: 0;
-      transform: translateY(-20px);
-      transition: all 0.4s ease;
+      transform: translateX(100px) scale(0.9);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 2000;
       font-weight: 600;
-      max-width: 300px;
+      max-width: 350px;
       border-left: 6px solid transparent;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
     }
 
     .popup.show {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0) scale(1);
+    }
+
+    .popup.hiding {
+      opacity: 0;
+      transform: translateX(100px) scale(0.9);
     }
 
     .popup.success {
       border-left-color: var(--success);
+      background: linear-gradient(135deg, var(--card-bg) 0%, rgba(52, 199, 89, 0.05) 100%);
     }
 
     .popup.error {
       border-left-color: var(--danger);
+      background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 59, 48, 0.05) 100%);
     }
 
     .popup.warning {
       border-left-color: var(--warning);
+      background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 149, 0, 0.05) 100%);
+    }
+
+    .popup.info {
+      border-left-color: var(--accent);
+      background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 122, 255, 0.05) 100%);
     }
 
     .popup-icon {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
-        /* Stili per la preview della pagina centrale meteorologica */
+
+    .popup.success .popup-icon {
+      background: rgba(52, 199, 89, 0.15);
+      color: var(--success);
+    }
+
+    .popup.error .popup-icon {
+      background: rgba(255, 59, 48, 0.15);
+      color: var(--danger);
+    }
+
+    .popup.warning .popup-icon {
+      background: rgba(255, 149, 0, 0.15);
+      color: var(--warning);
+    }
+
+    .popup.info .popup-icon {
+      background: rgba(0, 122, 255, 0.15);
+      color: var(--accent);
+    }
+
+    .popup-content {
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    .popup-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      width: 100%;
+      transform-origin: left;
+      animation: progress 3s linear forwards;
+    }
+
+    @keyframes progress {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+
+    .popup.success .popup-progress {
+      background: var(--success);
+    }
+
+    .popup.error .popup-progress {
+      background: var(--danger);
+    }
+
+    .popup.warning .popup-progress {
+      background: var(--warning);
+    }
+
+    .popup.info .popup-progress {
+      background: var(--accent);
+    }
+
+    /* Responsive per mobile */
+    @media (max-width: 768px) {
+      .popup {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        transform: translateY(-100px) scale(0.9);
+      }
+      
+      .popup.show {
+        transform: translateY(0) scale(1);
+      }
+      
+      .popup.hiding {
+        transform: translateY(-100px) scale(0.9);
+      }
+    }
+
+    /* Stili per la preview della pagina centrale meteorologica */
     .page-preview {
       position: absolute;
       left: -460px; /* Spostata a sinistra per essere completamente visibile */
@@ -1475,7 +1703,7 @@
         <p class="text-muted">Discuti, condividi idee e collabora con la community</p>
       </div>
       
-      <!-- Pulsante per nuovo thread al centro -->
+      <!-- Pulsante per nuovo thread al centro - ORA CORRETTAMENTE CENTRATO -->
       <div class="create-thread-container">
         <button id="newThreadBtn" class="btn btn-accent new-thread-btn" style="display: none;">
           <i class="fas fa-plus"></i>
@@ -1524,75 +1752,91 @@
     </section>
   </main>
   
-  <!-- Modale per nuovo thread -->
+  <!-- Modale per nuovo thread - MIGLIORATO -->
   <div id="newThreadModal" class="modal">
     <div class="modal-content">
+      <button class="close-modal">&times;</button>
       <div class="modal-header">
         <h3 class="modal-title">Crea Nuova Discussione</h3>
-        <button class="close-modal">&times;</button>
       </div>
       <form id="newThreadForm">
-        <div class="form-group">
-          <label class="form-label" for="threadTitle">Titolo</label>
-          <input type="text" id="threadTitle" class="form-input" placeholder="Inserisci un titolo per la discussione..." required>
+        <div class="form-section">
+          <div class="form-section-title">📝 Informazioni Base</div>
+          <div class="form-group">
+            <label class="form-label" for="threadTitle">Titolo Discussione *</label>
+            <input type="text" id="threadTitle" class="form-input" placeholder="Inserisci un titolo accattivante per la discussione..." required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="threadCategory">Categoria *</label>
+            <select id="threadCategory" class="form-select" required>
+              <!-- Le categorie verranno caricate dinamicamente dal backend -->
+            </select>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label" for="threadCategory">Categoria</label>
-          <select id="threadCategory" class="form-select" required>
-            <!-- Le categorie verranno caricate dinamicamente dal backend -->
-          </select>
+
+        <div class="form-section">
+          <div class="form-section-title">💬 Contenuto</div>
+          <div class="form-group">
+            <label class="form-label" for="threadContent">Contenuto della Discussione *</label>
+            <textarea id="threadContent" class="form-textarea" placeholder="Scrivi il contenuto della tua discussione. Sii chiaro e dettagliato per favorire una buona conversazione..." rows="6" required></textarea>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label" for="threadContent">Contenuto</label>
-          <textarea id="threadContent" class="form-textarea" placeholder="Scrivi il contenuto della tua discussione..." required></textarea>
-        </div>
+
         <div class="form-actions">
-          <button type="button" class="btn close-modal">Annulla</button>
           <button type="submit" class="btn btn-accent">Crea Discussione</button>
         </div>
       </form>
     </div>
   </div>
   
-  <!-- Modale per nuova risposta -->
+  <!-- Modale per nuova risposta - MIGLIORATO -->
   <div id="newReplyModal" class="modal">
     <div class="modal-content">
+      <button class="close-modal">&times;</button>
       <div class="modal-header">
         <h3 class="modal-title">Rispondi</h3>
-        <button class="close-modal">&times;</button>
       </div>
       <form id="newReplyForm">
         <input type="hidden" id="replyThreadId">
         <input type="hidden" id="replyParentId">
-        <div class="form-group">
-          <label class="form-label" for="replyContent">La tua risposta</label>
-          <textarea id="replyContent" class="form-textarea" placeholder="Scrivi la tua risposta..." required></textarea>
+        
+        <div class="form-section">
+          <div class="form-section-title">💬 La tua risposta</div>
+          <div class="form-group">
+            <label class="form-label" for="replyContent">Contenuto della risposta *</label>
+            <textarea id="replyContent" class="form-textarea" placeholder="Scrivi la tua risposta. Contribuisci alla discussione con idee costruttive..." rows="6" required></textarea>
+          </div>
         </div>
+
         <div class="form-actions">
-          <button type="button" class="btn close-modal">Annulla</button>
           <button type="submit" class="btn btn-accent">Invia Risposta</button>
         </div>
       </form>
     </div>
   </div>
   
-  <!-- Modale per eliminazione (admin) -->
+  <!-- Modale per eliminazione (admin) - MIGLIORATO -->
   <div id="deleteModal" class="modal">
     <div class="modal-content">
+      <button class="close-modal">&times;</button>
       <div class="modal-header">
         <h3 class="modal-title">Conferma Eliminazione</h3>
-        <button class="close-modal">&times;</button>
       </div>
       <form id="deleteForm">
         <input type="hidden" id="deleteItemId">
         <input type="hidden" id="deleteItemType">
-        <div class="form-group">
-          <label class="form-label" for="deleteReason">Motivazione</label>
-          <textarea id="deleteReason" class="form-textarea" placeholder="Inserisci la motivazione per l'eliminazione..." required></textarea>
+        
+        <div class="form-section">
+          <div class="form-section-title">⚠️ Attenzione</div>
+          <div class="form-group">
+            <label class="form-label" for="deleteReason">Motivazione dell'eliminazione *</label>
+            <textarea id="deleteReason" class="form-textarea" placeholder="Inserisci la motivazione per l'eliminazione. Questa informazione sarà visibile agli altri amministratori..." rows="4" required></textarea>
+          </div>
         </div>
+
         <div class="form-actions">
-          <button type="button" class="btn close-modal">Annulla</button>
-          <button type="submit" class="btn btn-danger">Elimina</button>
+          <button type="submit" class="btn btn-danger">Conferma Eliminazione</button>
         </div>
       </form>
     </div>
@@ -1645,10 +1889,10 @@
   </aside>
 
   <footer>
-    &copy; 2025 Daze for Future. Tutti i diritti riservati.
+    &copy; 2025 Daze For Future. Tutti i diritti riservati.
   </footer>
-
-  <!-- AGGIUNTA: Popup di notifica -->
+  
+  <!-- AGGIUNTA: Popup di notifica migliorato -->
   <div id="notificationPopup" class="popup"></div>
 
 <script>
@@ -1752,7 +1996,7 @@
       }
     });
 
-    // AGGIUNTA: Funzione per mostrare popup
+    // AGGIUNTA: Funzione migliorata per mostrare popup
     function mostraPopup(messaggio, tipo) {
       const popup = document.getElementById('notificationPopup');
       
@@ -1760,7 +2004,7 @@
       let icon = '';
       switch(tipo) {
         case 'success':
-          icon = '<i class="fas fa-check-circle popup-icon"></i>';
+          icon = '<i class="fas fa-check popup-icon"></i>';
           break;
         case 'error':
           icon = '<i class="fas fa-exclamation-circle popup-icon"></i>';
@@ -1770,15 +2014,28 @@
           break;
         default:
           icon = '<i class="fas fa-info-circle popup-icon"></i>';
+          tipo = 'info';
       }
       
-      popup.innerHTML = icon + messaggio;
+      popup.innerHTML = `
+        ${icon}
+        <div class="popup-content">${messaggio}</div>
+        <div class="popup-progress"></div>
+      `;
+      
       popup.className = "popup " + tipo;
+      
+      // Forza un reflow per assicurarsi che l'animazione funzioni
+      void popup.offsetWidth;
+      
       popup.classList.add("show");
 
-      // Nasconde il popup dopo 3 secondi
+      // Nasconde il popup dopo 3 secondi con animazione
       setTimeout(() => {
-        popup.classList.remove("show");
+        popup.classList.add("hiding");
+        setTimeout(() => {
+          popup.classList.remove("show", "hiding");
+        }, 500);
       }, 3000);
     }
 

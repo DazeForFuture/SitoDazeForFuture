@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Daze for Future">
-  <title>Registrazione - Daze for Future</title>
+  <meta name="apple-mobile-web-app-title" content="Daze For Future">
+  <title>Registrazione - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
-  <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
@@ -600,6 +599,82 @@
       border-left: 6px solid var(--warning);
     }
 
+    /* Popup per utente già loggato */
+    .already-logged-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 4000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .already-logged-popup.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .already-logged-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .already-logged-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .already-logged-message {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .already-logged-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .already-logged-buttons button {
+      flex: 1;
+      max-width: 150px;
+      margin-bottom: 0;
+    }
+
+    .already-logged-buttons .secondary-btn {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--muted);
+    }
+
+    .already-logged-buttons .secondary-btn:hover {
+      background: var(--hover-bg);
+    }
+    
+    .already-logged-buttons .logout-btn-popup {
+      background: var(--error) !important;
+      color: white !important;
+    }
+    
+    .already-logged-buttons .logout-btn-popup:hover {
+      background: #d70015 !important;
+    }
+
     /* Animazioni per transizioni fluide */
     .fade-in {
       animation: fadeIn 0.3s ease forwards;
@@ -915,8 +990,8 @@
 <body>
   <header>
     <div class="logo" id="toggleSidebar">
-      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
-      Daze for Future
+      <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
+      Daze For Future
     </div>
     <div style="flex:1"></div>
     
@@ -926,30 +1001,14 @@
       <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-      
-      <!-- Userbar che sostituisce "Accedi" quando loggato -->
-      <div id="userbar" class="user-info" style="display:none;">
-        <div class="user-avatar" id="userAvatar"></div>
-        <div class="user-display">
-          <span class="user-name" id="userName"></span>
-          <span class="user-badge" id="userBadge"></span>
-        </div>
-        <button class="logout-btn" onclick="logout()">
-          <span>Logout</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <!-- Link "Accedi" che viene nascosto quando loggato -->
-      <a href="login.html" id="loginLink">Accedi</a>
+      <a href="login.html">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
   <main>
     <h1 class="section-title fade-in-up">Partecipa alle nostre attività</h1>
-    <p class="text-muted fade-in-up">Compila il modulo qui sotto per diventare parte di Daze for Future.</p>
+    <p class="text-muted fade-in-up">Compila il modulo qui sotto per diventare parte di Daze For Future.</p>
 
     <form id="registrationForm" class="fade-in-up">
       <div class="form-group">
@@ -1099,25 +1158,22 @@
       <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
   </ul>
-    
-    <!-- User info per mobile nella sidebar -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-      <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar"></div>
-        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+</aside>
+
+  <!-- Overlay per sidebar -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Popup per utente già loggato -->
+  <div id="alreadyLoggedPopup" class="already-logged-popup">
+    <div class="already-logged-content">
+      <h2 class="already-logged-title">Hai già effettuato l'accesso</h2>
+      <p class="already-logged-message">Hai già effettuato l'accesso con l'account <strong id="currentUserEmail"></strong>. Per registrare un nuovo account, devi prima effettuare il logout.</p>
+      <div class="already-logged-buttons">
+        <button class="secondary-btn" onclick="closeAlreadyLoggedPopup()">Torna indietro</button>
+        <button class="logout-btn-popup" onclick="logoutFromPopup()">Effettua il logout</button>
       </div>
-      <div class="mobile-user-display">
-        <span class="mobile-user-name" id="mobileUserName"></span>
-        <span class="mobile-user-badge" id="mobileUserBadge"></span>
-      </div>
-      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Logout</span>
-      </button>
     </div>
-  </aside>
+  </div>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
@@ -1131,11 +1187,39 @@
     <button class="theme-option" data-theme="auto">🌓</button>
   </div>
 
-  <footer>&copy; 2025 Daze for Future. Tutti i diritti riservati.</footer>
+  <footer>&copy; 2025 Daze For Future. Tutti i diritti riservati.</footer>
 
 <script>
   // Attendi che il DOM sia completamente caricato
   document.addEventListener('DOMContentLoaded', function() {
+    // Verifica se l'utente è già loggato
+    function checkIfAlreadyLogged() {
+      const utente = localStorage.getItem('utente');
+      if (utente) {
+        document.getElementById('currentUserEmail').innerText = utente;
+        document.getElementById('alreadyLoggedPopup').classList.add('show');
+        return true;
+      }
+      return false;
+    }
+
+    // Funzioni per gestire il popup utente già loggato
+    function logoutFromPopup() {
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      closeAlreadyLoggedPopup();
+    }
+
+    function closeAlreadyLoggedPopup() {
+      document.getElementById('alreadyLoggedPopup').classList.remove('show');
+      window.location.href = "index.html";
+    }
+
+    // Verifica se l'utente è già loggato al caricamento della pagina
+    if (checkIfAlreadyLogged()) {
+      return; // Non procedere con il resto del codice se l'utente è già loggato
+    }
+
     // Costruzione email come in login
     function buildEmail() {
       const prefix = document.getElementById('emailPrefix').value.trim();
@@ -1562,60 +1646,6 @@
         submitBtn.textContent = 'Registrati';
       }
     });
-
-    // Funzione per estrarre il nome dall'email (prima parte prima della @)
-    function getNameFromEmail(email) {
-      return email.split('@')[0];
-    }
-
-    // Funzione per generare l'iniziale dall'email
-    function getInitialFromEmail(email) {
-      return email.charAt(0).toUpperCase();
-    }
-
-    // Funzione per ottenere il testo del badge in base al ruolo
-    function getBadgeText(role) {
-      return role === 'admin' ? 'Admin' : 'User';
-    }
-
-    // Funzione per ottenere la classe CSS del badge in base al ruolo
-    function getBadgeClass(role) {
-      return role === 'admin' ? 'badge-admin' : 'badge-user';
-    }
-
-    // Mostra la barra utente se loggato
-    const utente = localStorage.getItem('utente');
-    const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
-    
-    if(utente) {
-      // Nascondi link login
-      document.getElementById('loginLink').style.display = 'none';
-      document.getElementById('sidebarLoginLink').style.display = 'none';
-      
-      // Mostra userbar al posto di "Accedi"
-      const userbar = document.getElementById('userbar');
-      userbar.style.display = 'flex';
-      
-      // Imposta nome utente e badge
-      document.getElementById('userName').innerText = getNameFromEmail(utente);
-      document.getElementById('userBadge').innerText = getBadgeText(ruolo);
-      document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
-      document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
-      
-      // Mostra user info mobile nella sidebar
-      const mobileUserInfo = document.getElementById('mobileUserInfo');
-      mobileUserInfo.style.display = 'block';
-      document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-      document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-      document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-      document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
-    }
-
-    function logout() {
-      localStorage.removeItem('utente');
-      localStorage.removeItem('utente_ruolo');
-      window.location.href = "login.html";
-    }
 
     // Theme functionality
     const fab = document.getElementById('theme-fab');
