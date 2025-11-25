@@ -108,4 +108,4 @@ def serve_css(filename):
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True, port=5000,host='0.0.0.0',ssl_context=('/etc/ssl/dff/cert.pem', '/etc/ssl/dff/key.pem'))
+    app.run(debug=True, port=5000,host='0.0.0.0')
