@@ -184,7 +184,7 @@ if __name__ == '__main__':
     init_db()
     # Default host and port match your Arduino configuration (server=192.168.50.1 ; port=8080)
     # Run with: python app.py
-    app.run(host='0.0.0.0', port=8080, threaded=True)
+    app.run(host='0.0.0.0', port=5005, threaded=True)
 
 
 # requirements.txt
