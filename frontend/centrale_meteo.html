@@ -36,6 +36,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --not-available: #8e8e93;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -59,6 +60,7 @@
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --not-available: #636366;
       }
     }
 
@@ -82,6 +84,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --not-available: #636366;
     }
 
     :root[data-theme="light"] {
@@ -104,6 +107,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --not-available: #8e8e93;
     }
 
     :root[data-theme="dark"] header {
@@ -289,6 +293,16 @@
       font-size: 2rem;
       font-weight: 800;
       color: var(--accent);
+    }
+    .card .value.not-available {
+      color: var(--not-available);
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .card .source {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
     }
     
     /* GRAFICO OTTIMIZZATO PER MOBILE */
@@ -566,6 +580,11 @@
       margin: 0.25rem 0;
     }
 
+    /* Stili per lo stato di connessione */
+    .status-connected { color: #34c759; }
+    .status-connecting { color: #ffcc00; }
+    .status-error { color: #ff3b30; }
+
     /* MIGLIORAMENTI MOBILE COMPLETI */
     @media (max-width: 768px) {
       header {
@@ -624,6 +643,10 @@
       
       .card .value {
         font-size: 1.75rem;
+      }
+      
+      .card .value.not-available {
+        font-size: 1.3rem;
       }
       
       .chart-container {
@@ -692,6 +715,10 @@
       
       .card .value {
         font-size: 1.5rem;
+      }
+      
+      .card .value.not-available {
+        font-size: 1.1rem;
       }
       
       .chart-container {
@@ -791,18 +818,25 @@
   <main>
     <section class="hero">
       <h1>Dati dalla Centrale Meteorologica</h1>
-      <p>Monitoraggio in tempo reale di temperatura e qualità dell'aria</p>
-      <p>Attualmente dati di test, non sono prelevati da nessun sensore.</p>
+      <p>Monitoraggio in tempo reale di temperatura, umidità e qualità dell'aria</p>
+      <p id="connectionStatus" class="status-connecting">🔄 Connessione al backend in corso...</p>
     </section>
 
     <section class="cards">
       <div class="card fade-in-up">
         <h3>🌡 Temperatura</h3>
         <div class="value" id="tempValue">-- °C</div>
+        <div class="source" id="tempSource"></div>
       </div>
       <div class="card fade-in-up">
-        <h3>💨 Qualità dell'Aria (PM2.5)</h3>
-        <div class="value" id="airValue">-- µg/m³</div>
+        <h3>💧 Umidità</h3>
+        <div class="value" id="humValue">-- %</div>
+        <div class="source" id="humSource"></div>
+      </div>
+      <div class="card fade-in-up">
+        <h3>💨 Qualità dell'Aria</h3>
+        <div class="value not-available" id="airValue">Non disponibile</div>
+        <div class="source">Sensore non installato</div>
       </div>
     </section>
 
@@ -875,8 +909,14 @@
     &copy; 2025 Daze For Future. Tutti i diritti riservati.
   </footer>
 
-
   <script>
+    // Configurazione backend
+    const BACKEND_URL = 'http://localhost:5005'; // Modifica se necessario
+
+    // Stato della connessione
+    let isConnected = false;
+    let eventSource = null;
+
     // Grafico sensori - OTTIMIZZATO PER MOBILE
     const ctx = document.getElementById('sensorChart').getContext('2d');
     
@@ -912,7 +952,7 @@
             pointHoverRadius: 5
           },
           {
-            label: 'Qualità Aria (PM2.5)',
+            label: 'Umidità (%)',
             borderColor: '#007aff',
             backgroundColor: 'rgba(0,122,255,0.2)',
             data: [],
@@ -988,22 +1028,38 @@
       sensorChart.update();
     }
 
-    // Simulazione ricezione dati sensore ogni 2 secondi
-    setInterval(() => {
-      const now = new Date().toLocaleTimeString('it-IT', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        second: '2-digit'
-      });
-      const temp = (20 + Math.random() * 5).toFixed(1);
-      const air = (10 + Math.random() * 30).toFixed(1);
+    // Funzioni per gestire la connessione al backend
+    function updateConnectionStatus(status, message) {
+      const statusElement = document.getElementById('connectionStatus');
+      statusElement.textContent = message;
+      statusElement.className = 'status-' + status;
+    }
 
-      document.getElementById('tempValue').textContent = temp + " °C";
-      document.getElementById('airValue').textContent = air + " µg/m³";
+    // Funzione per formattare la data/ora
+    function formatTimestamp(timestamp) {
+      try {
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString('it-IT', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          second: '2-digit'
+        });
+      } catch (e) {
+        return new Date().toLocaleTimeString('it-IT', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          second: '2-digit'
+        });
+      }
+    }
 
-      sensorChart.data.labels.push(now);
-      sensorChart.data.datasets[0].data.push(temp);
-      sensorChart.data.datasets[1].data.push(air);
+    // Funzione per aggiornare i dati nel grafico
+    function updateChartData(reading) {
+      const timeLabel = formatTimestamp(reading.timestamp);
+      
+      sensorChart.data.labels.push(timeLabel);
+      sensorChart.data.datasets[0].data.push(reading.temperature);
+      sensorChart.data.datasets[1].data.push(reading.humidity);
 
       const maxPoints = getMaxDataPoints();
       if (sensorChart.data.labels.length > maxPoints) {
@@ -1011,8 +1067,135 @@
         sensorChart.data.datasets.forEach(d => d.data.shift());
       }
 
-      sensorChart.update();
-    }, 2000);
+      sensorChart.update('none'); // 'none' per performance
+    }
+
+    // Funzione per aggiornare i valori delle card
+    function updateCardValues(reading, method) {
+      document.getElementById('tempValue').textContent = reading.temperature.toFixed(1) + " °C";
+      document.getElementById('humValue').textContent = reading.humidity.toFixed(1) + " %";
+      
+      // Mostra la fonte dei dati
+      const sourceText = method === 'wifi' ? '📡 WiFi' : 
+                        method === 'usb' ? '🔌 USB' : 
+                        '💾 DB Storico';
+      
+      document.getElementById('tempSource').textContent = sourceText;
+      document.getElementById('humSource').textContent = sourceText;
+      
+      // Qualità dell'aria rimane "Non disponibile"
+      document.getElementById('airValue').textContent = "Non disponibile";
+      document.getElementById('airValue').className = "value not-available";
+    }
+
+    // Carica i dati storici all'inizio
+    async function loadHistoricalData() {
+      try {
+        const response = await fetch(`${BACKEND_URL}/history?limit=50`);
+        if (!response.ok) throw new Error('Errore nel caricamento dati storici');
+        
+        const data = await response.json();
+        if (data.readings && data.readings.length > 0) {
+          // Pulisci il grafico
+          sensorChart.data.labels = [];
+          sensorChart.data.datasets[0].data = [];
+          sensorChart.data.datasets[1].data = [];
+          
+          // Aggiungi i dati storici (in ordine cronologico inverso)
+          const reversedReadings = [...data.readings].reverse();
+          reversedReadings.forEach(reading => {
+            updateChartData(reading);
+          });
+          
+          // Aggiorna con l'ultima lettura
+          const latestReading = data.readings[0];
+          updateCardValues(latestReading, latestReading.source || 'db');
+        }
+      } catch (error) {
+        console.error('Errore nel caricamento dati storici:', error);
+      }
+    }
+
+    // Ottieni i dati del sensore corrente
+    async function fetchCurrentSensorData() {
+      try {
+        const response = await fetch(`${BACKEND_URL}/sensor`);
+        if (!response.ok) throw new Error('Errore nel fetch dati sensore');
+        
+        const data = await response.json();
+        if (data.reading) {
+          updateCardValues(data.reading, data.method);
+          updateChartData(data.reading);
+          updateConnectionStatus('connected', '✅ Connesso al backend');
+          isConnected = true;
+        }
+      } catch (error) {
+        console.error('Errore nel fetch dati sensore:', error);
+        updateConnectionStatus('error', '❌ Errore di connessione al backend');
+        isConnected = false;
+        
+        // Riprova dopo 5 secondi
+        setTimeout(fetchCurrentSensorData, 5000);
+      }
+    }
+
+    // Inizializza la connessione SSE per aggiornamenti in tempo reale
+    function initSSEConnection() {
+      if (eventSource) {
+        eventSource.close();
+      }
+      
+      try {
+        eventSource = new EventSource(`${BACKEND_URL}/stream`);
+        
+        eventSource.onopen = () => {
+          console.log('Connessione SSE stabilita');
+          updateConnectionStatus('connected', '✅ Connesso in tempo reale');
+          isConnected = true;
+        };
+        
+        eventSource.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.type === 'reading') {
+              updateCardValues(data.payload, data.payload.source || 'sse');
+              updateChartData(data.payload);
+            }
+          } catch (e) {
+            console.error('Errore nel parsing dati SSE:', e);
+          }
+        };
+        
+        eventSource.onerror = (error) => {
+          console.error('Errore connessione SSE:', error);
+          updateConnectionStatus('error', '❌ Errore connessione in tempo reale');
+          isConnected = false;
+          
+          // Riprova dopo 3 secondi
+          setTimeout(initSSEConnection, 3000);
+        };
+      } catch (error) {
+        console.error('Impossibile inizializzare SSE:', error);
+        updateConnectionStatus('error', '❌ Browser non supporta aggiornamenti in tempo reale');
+      }
+    }
+
+    // Inizializza il grafico e i dati
+    async function initializeApp() {
+      updateConnectionStatus('connecting', '🔄 Connessione al backend in corso...');
+      
+      // Carica dati storici
+      await loadHistoricalData();
+      
+      // Ottieni dati correnti
+      await fetchCurrentSensorData();
+      
+      // Avvia connessione SSE per aggiornamenti in tempo reale
+      initSSEConnection();
+      
+      // Aggiorna periodicamente i dati correnti (fallback se SSE non funziona)
+      setInterval(fetchCurrentSensorData, 30000); // Ogni 30 secondi
+    }
 
     // Aggiorna il grafico al ridimensionamento della finestra
     window.addEventListener('resize', function() {
@@ -1104,6 +1287,9 @@
       cards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
       });
+      
+      // Inizializza l'app
+      initializeApp();
     });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)

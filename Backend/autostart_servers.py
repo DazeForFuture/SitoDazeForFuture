@@ -18,6 +18,10 @@ servers = [
         "cmd": [sys.executable, "forum.py"]
     },
     {
+        "name": "centrale.py",
+        "cmd": [sys.executable, "centrale.py"]
+    },
+    {
         "name": "post.py",
         "cmd": [sys.executable, "post.py"]
     }

@@ -1,79 +1,113 @@
+#!/usr/bin/env python3
 """
-app.py
-Flask backend to receive data from Arduino and provide realtime updates to the frontend.
-Features:
- - /update?t=<temp>&h=<hum>   -> Arduino (GET) sends measurements here
- - /latest                    -> returns the most recent reading as JSON
- - /history?limit=N           -> returns last N readings as JSON
- - /stream                    -> Server-Sent Events (SSE) stream for realtime updates to the frontend
- - Serves static files from ./static (so you can drop your HTML/CSS/JS there)
-
-Server defaults to host=0.0.0.0 port=8080 to match your Arduino sketch.
-Stores data in a lightweight SQLite DB (file: readings.db) and keeps an in-memory notify system
-for SSE clients.
+Backend Flask per letture DHT11 (Arduino R4).
+- Crea automaticamente il DB SQLite (e la cartella se necessario).
+- Endpoint /update (GET/POST) per ricevere dati via WiFi (o qualsiasi producer HTTP).
+- Lettura seriale opzionale (USB) in thread separato.
+- Endpoint /sensor preferisce WiFi se recente (WIFI_FRESH_MS), altrimenti usa USB o DB.
+- SSE su /stream per aggiornamenti in tempo reale.
 """
-
-from flask import Flask, request, jsonify, Response, send_from_directory, abort
-from flask_cors import CORS
-import sqlite3
-import threading
-import time
+import os
 import json
-from datetime import datetime
+import time
 import queue
+import threading
+import sqlite3
+from datetime import datetime, timezone
+from pathlib import Path
+from flask import Flask, request, jsonify, Response, send_from_directory
+from flask_cors import CORS
 
-DB_FILE = 'readings.db'
+# --- Config (modificabili via env) ---
+DB_FILE = os.environ.get('DB_FILE', '../../database/daticentrale.db')
+HOST = os.environ.get('HOST', '0.0.0.0')
+PORT = int(os.environ.get('PORT', '5005'))
 
+SERIAL_ENABLE = os.environ.get('ENABLE_SERIAL', 'true').lower() not in ('0', 'false', 'no')
+SERIAL_PATH = os.environ.get('SERIAL_PATH', '')  # se vuoto, prova autodetect
+SERIAL_BAUD = int(os.environ.get('SERIAL_BAUD', '115200'))
+
+WIFI_FRESH_MS = int(os.environ.get('WIFI_FRESH_MS', str(60 * 1000)))  # prefer WiFi se entro questo ms
+API_KEY = os.environ.get('API_KEY', None)  # opzionale
+
+# --- Optional pyserial import (non obbligatorio) ---
+try:
+    import serial
+    from serial.tools import list_ports
+except Exception:
+    serial = None
+    list_ports = None
+
+# --- App setup ---
 app = Flask(__name__, static_folder='static', static_url_path='')
-CORS(app)  # allow frontend to fetch API from different origin if needed
+CORS(app)
 
-# --- Database helpers ---
-def init_db():
-    conn = sqlite3.connect(DB_FILE)
+# --- In-memory latest caches e SSE clients ---
+latestWiFi = None
+latestUSB = None
+clients = set()
+clients_lock = threading.Lock()
+
+# --- Utility: assicurati che la cartella DB esista e crea DB e tabella ---
+def ensure_db_and_dirs(db_path: str):
+    p = Path(db_path)
+    if not p.parent.exists():
+        p.parent.mkdir(parents=True, exist_ok=True)
+    # Create DB file and table if not exists
+    conn = sqlite3.connect(db_path)
     cur = conn.cursor()
     cur.execute('''
         CREATE TABLE IF NOT EXISTS readings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             timestamp TEXT NOT NULL,
             temperature REAL NOT NULL,
-            humidity REAL NOT NULL
+            humidity REAL NOT NULL,
+            source TEXT,
+            raw TEXT
         )
     ''')
     conn.commit()
     conn.close()
 
-def insert_reading(temperature, humidity, ts=None):
-    ts = ts or datetime.utcnow().isoformat() + 'Z'
-    conn = sqlite3.connect(DB_FILE)
+def get_conn():
+    # ogni chiamata apre una nuova connessione: pattern sicuro per multi-thread con sqlite
+    return sqlite3.connect(DB_FILE, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+
+# --- DB helpers ---
+def insert_reading(temperature, humidity, ts=None, source=None, raw=None):
+    ts = ts or datetime.now(timezone.utc).isoformat()
+    conn = get_conn()
     cur = conn.cursor()
-    cur.execute('INSERT INTO readings (timestamp, temperature, humidity) VALUES (?, ?, ?)', (ts, temperature, humidity))
+    cur.execute('INSERT INTO readings (timestamp, temperature, humidity, source, raw) VALUES (?, ?, ?, ?, ?)',
+                (ts, temperature, humidity, source, json.dumps(raw) if raw is not None else None))
     conn.commit()
     conn.close()
-    return {'timestamp': ts, 'temperature': temperature, 'humidity': humidity}
+    return {'timestamp': ts, 'temperature': temperature, 'humidity': humidity, 'source': source, 'raw': raw}
 
-def get_latest_reading():
-    conn = sqlite3.connect(DB_FILE)
+def get_latest_reading_from_db():
+    conn = get_conn()
     cur = conn.cursor()
-    cur.execute('SELECT timestamp, temperature, humidity FROM readings ORDER BY id DESC LIMIT 1')
+    cur.execute('SELECT timestamp, temperature, humidity, source, raw FROM readings ORDER BY id DESC LIMIT 1')
     row = cur.fetchone()
     conn.close()
     if row:
-        return {'timestamp': row[0], 'temperature': row[1], 'humidity': row[2]}
+        raw = None
+        try:
+            raw = json.loads(row[4]) if row[4] else None
+        except Exception:
+            raw = row[4]
+        return {'timestamp': row[0], 'temperature': row[1], 'humidity': row[2], 'source': row[3], 'raw': raw}
     return None
 
 def get_history(limit=100):
-    conn = sqlite3.connect(DB_FILE)
+    conn = get_conn()
     cur = conn.cursor()
-    cur.execute('SELECT timestamp, temperature, humidity FROM readings ORDER BY id DESC LIMIT ?', (limit,))
+    cur.execute('SELECT timestamp, temperature, humidity, source FROM readings ORDER BY id DESC LIMIT ?', (limit,))
     rows = cur.fetchall()
     conn.close()
-    return [{'timestamp': r[0], 'temperature': r[1], 'humidity': r[2]} for r in rows]
+    return [{'timestamp': r[0], 'temperature': r[1], 'humidity': r[2], 'source': r[3]} for r in rows]
 
-# --- SSE / notifier ---
-# Simple pub-sub: each connected SSE client gets its own Queue
-clients = set()
-clients_lock = threading.Lock()
-
+# --- SSE pubsub ---
 def push_event(data: dict):
     text = 'data: ' + json.dumps(data) + '\n\n'
     with clients_lock:
@@ -84,26 +118,19 @@ def push_event(data: dict):
             except Exception:
                 dead.append(q)
         for d in dead:
-            try:
-                clients.remove(d)
-            except KeyError:
-                pass
+            clients.discard(d)
 
 @app.route('/stream')
 def stream():
     def gen(q: queue.Queue):
         try:
-            # on connect, send the latest reading immediately
-            latest = get_latest_reading()
+            latest = get_latest_reading_from_db()
             if latest:
                 q.put_nowait('data: ' + json.dumps({'type': 'initial', 'payload': latest}) + '\n\n')
-
             while True:
-                # block until next item is available
                 msg = q.get()
                 yield msg
         except GeneratorExit:
-            # client disconnected
             pass
 
     q = queue.Queue()
@@ -111,20 +138,43 @@ def stream():
         clients.add(q)
     return Response(gen(q), mimetype='text/event-stream')
 
-# --- API endpoints ---
+# --- Helpers for validation and API key ---
+def require_api_key():
+    if not API_KEY:
+        return True
+    key = request.headers.get('X-API-KEY') or request.args.get('api_key')
+    return key == API_KEY
+
+def is_valid_range(temp, hum):
+    try:
+        t = float(temp)
+        h = float(hum)
+    except Exception:
+        return False
+    if not (-50.0 <= t <= 80.0 and 0.0 <= h <= 100.0):
+        return False
+    return True
+
+# --- Endpoints ---
 @app.route('/update', methods=['GET', 'POST'])
 def update():
-    # Accept both GET (from your Arduino) and POST (from other producers)
-    # Query params: t, h (temperature, humidity). Accept also 'ts' optional ISO timestamp.
+    if not require_api_key():
+        return jsonify({'error': 'unauthorized'}), 401
+
+    # Accept both GET (querystring) and POST (json/form)
     if request.method == 'GET':
         t = request.args.get('t')
         h = request.args.get('h')
         ts = request.args.get('ts')
+        source = request.args.get('source', 'wifi')
+        raw = dict(request.args)
     else:
         data = request.get_json(silent=True) or {}
-        t = data.get('t') or request.form.get('t')
-        h = data.get('h') or request.form.get('h')
+        t = data.get('t') or data.get('temp') or request.form.get('t')
+        h = data.get('h') or data.get('hum') or request.form.get('h')
         ts = data.get('ts') or request.form.get('ts')
+        source = data.get('source') or request.form.get('source') or 'wifi'
+        raw = data if isinstance(data, dict) and data else request.form.to_dict()
 
     if t is None or h is None:
         return jsonify({'error': 'Missing parameters t (temperature) and h (humidity)'}), 400
@@ -135,16 +185,59 @@ def update():
     except ValueError:
         return jsonify({'error': 'Invalid numeric format for t or h'}), 400
 
-    record = insert_reading(temp, hum, ts)
+    if not is_valid_range(temp, hum):
+        return jsonify({'error': 'Reading out of plausible range'}), 400
 
-    # notify SSE clients
-    push_event({'type': 'reading', 'payload': record})
+    rec = insert_reading(temp, hum, ts, source=source, raw=raw)
 
-    return jsonify({'status': 'ok', 'reading': record})
+    # Update in-memory latest
+    global latestWiFi, latestUSB
+    if source and 'usb' in source.lower():
+        latestUSB = rec
+    else:
+        latestWiFi = rec
+
+    # Notify SSE clients
+    push_event({'type': 'reading', 'payload': rec})
+
+    return jsonify({'status': 'ok', 'reading': rec})
+
+@app.route('/sensor', methods=['GET'])
+def sensor():
+    """
+    Prefer WiFi if recent (WIFI_FRESH_MS), else USB, else DB latest.
+    """
+    now_ms = int(time.time() * 1000)
+    chosen = None
+    method = None
+
+    if latestWiFi:
+        try:
+            ts = int(datetime.fromisoformat(latestWiFi['timestamp']).replace(tzinfo=timezone.utc).timestamp() * 1000)
+        except Exception:
+            ts = now_ms
+        if now_ms - ts <= WIFI_FRESH_MS:
+            chosen = latestWiFi
+            method = 'wifi'
+
+    if not chosen and latestUSB:
+        chosen = latestUSB
+        method = 'usb'
+
+    if not chosen:
+        db_latest = get_latest_reading_from_db()
+        if db_latest:
+            chosen = db_latest
+            method = db_latest.get('source') or 'db'
+
+    if not chosen:
+        return jsonify({'error': 'no data available'}), 404
+
+    return jsonify({'method': method, 'reading': chosen})
 
 @app.route('/latest', methods=['GET'])
 def latest():
-    r = get_latest_reading()
+    r = get_latest_reading_from_db()
     if not r:
         return jsonify({'error': 'no data yet'}), 404
     return jsonify(r)
@@ -153,66 +246,119 @@ def latest():
 def history():
     try:
         limit = int(request.args.get('limit', 100))
-    except ValueError:
+    except Exception:
         limit = 100
-    data = get_history(limit)
-    return jsonify({'count': len(data), 'readings': data})
+    return jsonify({'count': len(get_history(limit)), 'readings': get_history(limit)})
 
-# Serve frontend static files
-# Place your provided HTML/CSS/JS files inside a directory named 'static'.
+# Serve frontend static if exists
 @app.route('/')
 def index():
     try:
         return send_from_directory(app.static_folder, 'centrale_meteo.html')
     except Exception:
-        # fallback to any index if present
         try:
             return send_from_directory(app.static_folder, 'index.html')
         except Exception:
             return "Static files not found. Put your frontend files in the ./static folder.", 404
 
-# Allow downloading DB for debugging (optional)
-@app.route('/download-db')
-def download_db():
-    # remove or protect this endpoint in production!
-    try:
-        return send_from_directory('.', DB_FILE, as_attachment=True)
-    except Exception:
-        abort(404)
+# --- Serial reader (optional) ---
+def auto_detect_serial_port():
+    if not list_ports:
+        return None
+    ports = list_ports.comports()
+    # try common Arduino-ish names first
+    candidates = []
+    for p in ports:
+        dev = p.device or ''
+        desc = p.description or ''
+        if 'Arduino' in desc or 'ttyACM' in dev or 'ttyUSB' in dev or 'USB Serial' in desc or 'COM' in dev:
+            candidates.append(dev)
+    if candidates:
+        return candidates[0]
+    if ports:
+        return ports[0].device
+    return None
 
+def start_serial_thread(path: str, baud: int):
+    if not serial:
+        app.logger.warning('pyserial non installato: lettura serial disabilitata')
+        return None
+
+    def reader_loop(path, baud):
+        global latestUSB
+        while True:
+            try:
+                ser = serial.Serial(path, baud, timeout=1)
+                app.logger.info(f'Seriale aperta {path} @ {baud}')
+                buf = ''
+                while True:
+                    chunk = ser.read(ser.in_waiting or 1)
+                    if not chunk:
+                        time.sleep(0.05)
+                        continue
+                    try:
+                        s = chunk.decode('utf-8', errors='replace')
+                    except Exception:
+                        s = str(chunk)
+                    buf += s
+                    while '\n' in buf:
+                        line, buf = buf.split('\n', 1)
+                        line = line.strip()
+                        if not line:
+                            continue
+                        parsed = None
+                        try:
+                            parsed = json.loads(line)
+                        except Exception:
+                            txt = line.replace('TEMP:', '').replace('temp:', '').replace('HUM:', '').replace('hum:', '')
+                            parts = [p.strip() for p in txt.replace(';', ',').split(',') if p.strip()]
+                            if len(parts) >= 2:
+                                try:
+                                    parsed = {'t': float(parts[0]), 'h': float(parts[1])}
+                                except Exception:
+                                    parsed = None
+                        if parsed:
+                            t = parsed.get('t') or parsed.get('temp') or parsed.get('temperature')
+                            h = parsed.get('h') or parsed.get('hum') or parsed.get('humidity')
+                            if t is None or h is None:
+                                app.logger.warning(f'Linea serial parsata ma mancano t/h: {parsed}')
+                                continue
+                            try:
+                                temp = float(t); hum = float(h)
+                            except Exception:
+                                app.logger.warning(f'Numerico invalido da serial: {line}')
+                                continue
+                            if not is_valid_range(temp, hum):
+                                app.logger.warning(f'Valori serial fuori range: {temp},{hum}')
+                                continue
+                            rec = insert_reading(temp, hum, source='usb', raw=line)
+                            latestUSB = rec
+                            push_event({'type': 'reading', 'payload': rec})
+                            app.logger.info(f'[USB] {temp}C {hum}%')
+                        else:
+                            app.logger.debug(f'Linea serial non parsata: {line}')
+            except Exception as e:
+                app.logger.error(f'Errore serial reader: {e}')
+                time.sleep(2)
+                # riprova
+
+    th = threading.Thread(target=reader_loop, args=(path, baud), daemon=True)
+    th.start()
+    return th
+
+# --- Avvio app ---
 if __name__ == '__main__':
-    init_db()
-    # Default host and port match your Arduino configuration (server=192.168.50.1 ; port=8080)
-    # Run with: python app.py
-    app.run(host='0.0.0.0', port=5005, threaded=True)
+    ensure_db_and_dirs(DB_FILE)
 
+    # Inizializza eventuale lettura serial
+    if SERIAL_ENABLE:
+        if SERIAL_PATH:
+            ser_path = SERIAL_PATH
+        else:
+            ser_path = auto_detect_serial_port()
+        if ser_path:
+            start_serial_thread(ser_path, SERIAL_BAUD)
+        else:
+            app.logger.warning('Serial enabled ma nessuna porta trovata. Imposta SERIAL_PATH per forzare una porta.')
 
-# requirements.txt
-# ----------------
-# Flask
-# flask-cors
-
-
-# README.md
-# ---------
-# Quick setup:
-# 1) Put your frontend files (the HTML you shared) in a folder named `static` and rename the main file to `centrale_meteo.html` or `index.html`.
-# 2) Create a Python virtualenv and install requirements:
-#    python -m venv venv
-#    source venv/bin/activate   # on Windows: venv\Scripts\activate
-#    pip install Flask flask-cors
-# 3) Run the server:
-#    python app.py
-# 4) Configure your Arduino sketch: change `server = "192.168.50.1"` to the server IP of the machine running this Flask app (or keep 192.168.50.1 if you assign that IP to the host).
-#    Keep `port = 8080` (or adjust app.run port accordingly).
-# 5) Frontend realtime update options:
-#    - Polling: your frontend can periodically GET /latest or /history
-#    - SSE: connect to `/stream` as an EventSource to receive new readings in real time.
-
-# Example SSE usage in the browser (JS):
-# const es = new EventSource('/stream');
-# es.onmessage = (e) => { const d = JSON.parse(e.data); console.log('sse', d); }
-
-# Security notes:
-# - This example is intentionally simple for local network use. Do not expose it to the public internet without adding auth and HTTPS.
-# - Consider adding an API key or basic auth to /update if you want to prevent unauthorized data injection.
+    app.run(host=HOST, port=PORT, threaded=True)
