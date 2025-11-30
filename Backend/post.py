@@ -2,9 +2,20 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 import sqlite3
+import logging
+from config import BaseConfig, require_secrets
+from logging.handlers import RotatingFileHandler
+from security import sanitize_text, validate_iso_date
 
 app = Flask(__name__)
+app.config.from_object(BaseConfig)
 CORS(app,supports_credentials=True)
+
+# Setup logging
+if not app.debug:
+    handler = RotatingFileHandler('post.log', maxBytes=10*1024*1024, backupCount=5)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
 db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/post.db'))
 
 def init_db():
@@ -31,18 +42,32 @@ init_db()
 @app.route('/api/post', methods=['POST'])
 def crea_post():
     data = request.json
-    titolo = data.get('titolo')
-    contenuto = data.get('contenuto')
+    
+    # Validazione e sanitizzazione input
+    titolo = sanitize_text(data.get('titolo'), max_length=200) if data.get('titolo') else None
+    contenuto = sanitize_text(data.get('contenuto'), max_length=5000, allow_newlines=True) if data.get('contenuto') else None
+    
+    if not titolo or not contenuto:
+        return jsonify({'success': False, 'message': 'Titolo e contenuto obbligatori e validi'}), 400
+    
+    # Opzionali - validazione base
     immagine = data.get('immagine')
     data_evento = data.get('data')
     orario = data.get('orario')
     durata = data.get('durata')
-    luogo = data.get('luogo')
-    indirizzo = data.get('indirizzo')
-
-    if not titolo or not contenuto:
-        return jsonify({'success': False, 'message': 'Titolo e contenuto obbligatori'}), 400
-
+    luogo = sanitize_text(data.get('luogo'), max_length=200) if data.get('luogo') else None
+    indirizzo = sanitize_text(data.get('indirizzo'), max_length=300) if data.get('indirizzo') else None
+    
+    # Valida data se presente
+    if data_evento and not validate_iso_date(data_evento):
+        return jsonify({'success': False, 'message': 'Data non valida (formato: YYYY-MM-DD)'}), 400
+    
+    # Valida orario se presente (semplice check HH:MM)
+    if orario:
+        import re
+        if not re.match(r'^([0-1][0-9]|2[0-3]):([0-5][0-9])$', orario):
+            return jsonify({'success': False, 'message': 'Orario non valido (formato: HH:MM)'}), 400
+    
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute("""
@@ -51,6 +76,7 @@ def crea_post():
     """, (titolo, contenuto, immagine, data_evento, orario, durata, luogo, indirizzo))
     conn.commit()
     conn.close()
+    
     return jsonify({'success': True, 'message': 'Post pubblicato'})
 
 @app.route('/api/post', methods=['GET'])
@@ -113,16 +139,25 @@ def elimina_post(post_id):
 @app.route('/api/post/<int:post_id>', methods=['PUT'])
 def modifica_post(post_id):
     data = request.json
-    titolo = data.get('titolo')
-    contenuto = data.get('contenuto')
+    
+    # Validazione e sanitizzazione
+    titolo = sanitize_text(data.get('titolo'), max_length=200) if data.get('titolo') else None
+    contenuto = sanitize_text(data.get('contenuto'), max_length=5000, allow_newlines=True) if data.get('contenuto') else None
+    
+    if not titolo or not contenuto:
+        return jsonify({'success': False, 'message': 'Titolo e contenuto obbligatori e validi'}), 400
+    
     immagine = data.get('immagine')
     data_evento = data.get('data')
     orario = data.get('orario')
     durata = data.get('durata')
-    luogo = data.get('luogo')
-    indirizzo = data.get('indirizzo')
-    if not titolo or not contenuto:
-        return jsonify({'success': False, 'message': 'Titolo e contenuto obbligatori'}), 400
+    luogo = sanitize_text(data.get('luogo'), max_length=200) if data.get('luogo') else None
+    indirizzo = sanitize_text(data.get('indirizzo'), max_length=300) if data.get('indirizzo') else None
+    
+    # Valida data se presente
+    if data_evento and not validate_iso_date(data_evento):
+        return jsonify({'success': False, 'message': 'Data non valida (formato: YYYY-MM-DD)'}), 400
+    
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute("""
@@ -138,5 +173,13 @@ def health_check():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002, debug=True)
+    try:
+        require_secrets(app)
+    except RuntimeError as e:
+        app.logger.error(str(e))
+        print(f"ERROR: {str(e)}")
+        exit(1)
+    
+    # IMPORTANT: debug=False for security. Use Gunicorn in production.
+    app.run(host='0.0.0.0', port=5002, debug=False)
     

@@ -1,13 +1,51 @@
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_talisman import Talisman
 import sqlite3
 import datetime
-import hashlib
 import os
+import logging
+from config import BaseConfig, require_secrets
+from logging.handlers import RotatingFileHandler
+from werkzeug.security import generate_password_hash, check_password_hash
+from security import is_valid_email, sanitize_text
+import re
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Usa la stessa secret_key di server.py
-CORS(app, supports_credentials=True)
+app.config.from_object(BaseConfig)
+
+# Rate Limiter setup
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
+
+# Security Headers with Talisman
+Talisman(
+    app,
+    force_https=True,
+    strict_transport_security=True,
+    strict_transport_security_max_age=31536000,
+)
+
+# Configure CORS with whitelist
+allowed_origins = os.environ.get('ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
+CORS(app, 
+    origins=allowed_origins,
+    supports_credentials=True,
+    methods=['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
+    allow_headers=['Content-Type', 'X-User-Email']
+)
+
+# Setup logging
+if not app.debug:
+    handler = RotatingFileHandler('forum.log', maxBytes=10*1024*1024, backupCount=5)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
 
 # Database paths
 db_path = app.config['DATABASE'] = os.path.join('../../database', 'forum.db')
@@ -93,21 +131,23 @@ def init_db():
     conn.close()
 
 # Utility functions
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
-
 def get_db_connection():
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
+def is_valid_email(email):
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(pattern, email) is not None and len(email) <= 254
+
 # Authentication routes
 @app.route('/api/check-auth', methods=['GET'])
 def check_auth():
-    email = request.args.get('email')
-    if not email:
-        return jsonify({'authenticated': False, 'error': 'Email richiesta'}), 400
-        
+    email = request.args.get('email', '').strip()
+    
+    if not is_valid_email(email):
+        return jsonify({'authenticated': False, 'error': 'Email non valida'}), 400
+    
     conn = sqlite3.connect(users_db_path)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
@@ -193,6 +233,7 @@ def get_threads():
     return jsonify(threads)
 
 @app.route('/api/threads', methods=['POST'])
+@limiter.limit("10 per hour")
 def create_thread():
     data = request.json
     email = data.get('email')
@@ -286,6 +327,7 @@ def get_thread(thread_id):
     return jsonify(thread)
 
 @app.route('/api/threads/<int:thread_id>/posts', methods=['POST'])
+@limiter.limit("30 per hour")
 def create_post(thread_id):
     data = request.json
     email = data.get('email')
@@ -319,6 +361,7 @@ def create_post(thread_id):
     return jsonify({'message': 'Post creato', 'post_id': post_id}), 201
 
 @app.route('/api/posts/<int:post_id>/vote', methods=['POST'])
+@limiter.limit("60 per hour")
 def vote_post(post_id):
     data = request.json
     email = data.get('email')
@@ -443,5 +486,13 @@ def delete_post(post_id):
     return jsonify({'message': 'Post eliminato'}), 200
 
 if __name__ == '__main__':
+    try:
+        require_secrets(app)
+    except RuntimeError as e:
+        app.logger.error(str(e))
+        print(f"ERROR: {str(e)}")
+        exit(1)
+    
     init_db()
-    app.run(debug=True, host='0.0.0.0', port=5003)
+    # IMPORTANT: debug=False for security. Use Gunicorn in production.
+    app.run(debug=False, host='0.0.0.0', port=5003)

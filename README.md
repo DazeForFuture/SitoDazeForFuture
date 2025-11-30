@@ -37,3 +37,73 @@ Il sito è attualmente hostato su un Raspberry Pi 400.
     </a>
     </p>
 
+
+---
+
+##  Security & Setup Guide
+
+### Quick Start
+
+1. **Installa le dipendenze:**
+   \\\ash
+   pip install -r requirements.txt
+   \\\
+
+2. **Configura le variabili d'ambiente:**
+   \\\ash
+   cp .env.example .env
+   # Edita .env e genera secret keys sicure:
+   python -c "import secrets; print('FLASK_SECRET_KEY=' + secrets.token_hex(32))"
+   python -c "import secrets; print('API_KEY=' + secrets.token_urlsafe(32))"
+   \\\
+
+3. **Avvia i server:**
+   \\\ash
+   # Terminal 1
+   python Backend/server.py
+
+   # Terminal 2
+   python Backend/forum.py
+
+   # Terminal 3
+   python Backend/post.py
+
+   # Terminal 4
+   python Backend/centrale.py
+
+   # Terminal 5
+   python Backend/documenti_server.py
+   \\\
+
+###  Security Features Implemented
+
+| Feature | Status | Details |
+|---------|--------|---------|
+| Input Validation & Sanitization |  | Email, password, text validation |
+| Secure Password Hashing |  | PBKDF2 with 16-byte salt |
+| API Key Security |  | Timing-safe comparison, header-only |
+| CORS Protection |  | Whitelist-based with environment config |
+| XSS Prevention |  | HTML entity escaping |
+| SQL Injection Prevention |  | Parametrized queries (all endpoints) |
+| Dependencies Updated |  | Flask 3.0.3, Werkzeug 3.0.3 |
+
+###  Documentation
+
+See \SECURITY_FIXES.md\ for detailed security implementation guide and testing procedures.
+
+###  Testing Security
+
+\\\ash
+python Backend/test_security.py http://localhost:5000
+\\\
+
+###  Production Deployment Checklist
+
+- [ ] Enable HTTPS with valid certificate
+- [ ] Set all environment variables in \.env\
+- [ ] Use Gunicorn instead of Flask dev server
+- [ ] Configure database backups
+- [ ] Setup monitoring and alerting
+- [ ] Run \pip-audit\ to check for vulnerabilities
+- [ ] Configure firewall rules
+- [ ] Review logs for suspicious activity

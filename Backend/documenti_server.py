@@ -1,12 +1,51 @@
 import os
 import sqlite3
+import logging
 from datetime import datetime
 from flask import Flask, request, jsonify, g, send_from_directory
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_talisman import Talisman
 from werkzeug.utils import secure_filename
+from config import BaseConfig, require_secrets
+from file_utils import allowed_file, save_uploaded_file, safe_send_file, validate_file_ownership
+from logging.handlers import RotatingFileHandler
+from security import sanitize_text, is_valid_email
 
 app = Flask(__name__)
-CORS(app)
+app.config.from_object(BaseConfig)
+
+# Rate Limiter setup
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
+
+# Security Headers with Talisman
+Talisman(
+    app,
+    force_https=True,
+    strict_transport_security=True,
+    strict_transport_security_max_age=31536000,
+)
+
+# Configure CORS with whitelist
+allowed_origins = os.environ.get('ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
+CORS(app,
+    origins=allowed_origins,
+    supports_credentials=True,
+    methods=['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
+    allow_headers=['Content-Type', 'X-User-Email', 'X-User-Role']
+)
+
+# Setup logging
+if not app.debug:
+    handler = RotatingFileHandler('documenti.log', maxBytes=10*1024*1024, backupCount=5)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app.config['DATABASE'] = os.path.join('../../database', 'documenti.db')
@@ -133,6 +172,7 @@ def get_articles():
         return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/api/articles', methods=['POST'])
+@limiter.limit("10 per hour")
 def create_article():
     """Crea un nuovo articolo (solo admin)"""
     try:
@@ -180,6 +220,7 @@ def create_article():
         return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/api/articles/<int:article_id>/publish', methods=['POST'])
+@limiter.limit("20 per hour")
 def toggle_publish(article_id):
     """Pubblica o mette in revisione un articolo (solo admin) e sposta il file se presente"""
     try:
@@ -264,19 +305,24 @@ def delete_article(article_id):
 
 @app.route('/files/<folder>/<path:filename>', methods=['GET'])
 def serve_file(folder, filename):
-    """Serve i PDF. Le bozze sono accessibili solo agli admin."""
+    """Serve i PDF con protezione contro path traversal."""
     try:
         if folder not in (PUBLISHED_FOLDER, DRAFTS_FOLDER):
             return jsonify({'success': False, 'message': 'Folder non valido'}), 400
+        
         user = get_current_user()
+        
+        # Accesso a bozze solo per admin
         if folder == DRAFTS_FOLDER and user['role'] != 'admin':
+            app.logger.warning(f"Unauthorized draft access attempt by {user['email']}")
             return jsonify({'success': False, 'message': 'Accesso negato'}), 403
+        
         directory = os.path.join(STORAGE_ROOT, folder)
-        file_path = os.path.join(directory, filename)
-        if not os.path.isfile(file_path):
-            return jsonify({'success': False, 'message': 'File non trovato'}), 404
-        return send_from_directory(directory, filename, as_attachment=True)
+        app.logger.info(f"File serve request: {user['email']} -> {folder}/{filename}")
+        return safe_send_file(directory, filename)
+    
     except Exception as e:
+        app.logger.error(f"File serve error: {str(e)}")
         return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/api/documents', methods=['GET'])
@@ -284,10 +330,10 @@ def get_documents_wrapper():
     # wrapper compatibile -> riusa get_articles
     return get_articles()
 
-# nuovo endpoint compatibile con il frontend (gestisce multipart/form-data)
 @app.route('/api/create_publication', methods=['POST', 'OPTIONS'])
+@limiter.limit("20 per hour")
 def create_publication():
-    # Risponde correttamente anche al preflight OPTIONS
+    """Create a new publication with file upload (admin only)."""
     if request.method == 'OPTIONS':
         return jsonify({'success': True}), 200
 
@@ -296,7 +342,7 @@ def create_publication():
         if user['role'] != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono creare pubblicazioni'}), 403
 
-        # campi dal form multipart
+        # Extract form fields
         title = request.form.get('title', '').strip()
         author = request.form.get('author', user.get('email', ''))
         publication_date = request.form.get('publication_date') or datetime.utcnow().isoformat()
@@ -307,23 +353,18 @@ def create_publication():
         if not title or not author or not publication_date:
             return jsonify({'success': False, 'message': 'Campi title, author e publication_date richiesti'}), 400
 
-        file = request.files.get('file')
         file_name = None
+        file = request.files.get('file')
+        
         if file and file.filename:
-            filename = secure_filename(file.filename)
-            # rendi il nome univoco se necessario
-            base, ext = os.path.splitext(filename)
-            counter = 0
-            dest_folder = PUBLISHED_FOLDER if is_published else DRAFTS_FOLDER
-            dest_dir = os.path.join(STORAGE_ROOT, dest_folder)
-            os.makedirs(dest_dir, exist_ok=True)
-            candidate = filename
-            while os.path.exists(os.path.join(dest_dir, candidate)):
-                counter += 1
-                candidate = f"{base}_{counter}{ext}"
-            file_path = os.path.join(dest_dir, candidate)
-            file.save(file_path)
-            file_name = candidate
+            try:
+                dest_folder = PUBLISHED_FOLDER if is_published else DRAFTS_FOLDER
+                dest_dir = os.path.join(STORAGE_ROOT, dest_folder)
+                file_name = save_uploaded_file(file, dest_dir, app.config['ALLOWED_EXTENSIONS'], max_size_mb=8)
+                app.logger.info(f"File uploaded by {user['email']}: {file_name}")
+            except ValueError as ve:
+                app.logger.warning(f"File upload validation failed: {str(ve)}")
+                return jsonify({'success': False, 'message': f"File upload error: {str(ve)}"}), 400
 
         db = get_db()
         db.execute('''
@@ -343,9 +384,11 @@ def create_publication():
         ))
         db.commit()
 
+        app.logger.info(f"Publication created by {user['email']}: {title}")
         return jsonify({'success': True, 'message': 'Pubblicazione creata con successo'})
 
     except Exception as e:
+        app.logger.error(f"Publication creation error: {str(e)}")
         return jsonify({'success': False, 'message': str(e)}), 500
 
 # --- Compatibilità API frontend -- START ---
@@ -557,6 +600,15 @@ def api_delete_draft(article_id):
 # --- Compatibilità API frontend -- END ---
 
 if __name__ == '__main__':
+    try:
+        require_secrets(app)
+    except RuntimeError as e:
+        app.logger.error(str(e))
+        print(f"ERROR: {str(e)}")
+        exit(1)
+    
     with app.app_context():
         init_db()
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    
+    # IMPORTANT: debug=False for security. Use Gunicorn in production.
+    app.run(debug=False, host='0.0.0.0', port=5001)
