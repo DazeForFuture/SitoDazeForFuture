@@ -13,22 +13,10 @@ import time
 import queue
 import threading
 import sqlite3
-import logging
-import hmac
 from datetime import datetime, timezone
 from pathlib import Path
 from flask import Flask, request, jsonify, Response, send_from_directory
 from flask_cors import CORS
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
-from flask_talisman import Talisman
-from config import BaseConfig, require_secrets
-from logging.handlers import RotatingFileHandler
-from security import validate_range, secure_compare_api_keys
-from serial import Serial
-from serial.tools.list_ports import comports
-from html import escape
-import re
 
 # --- Config (modificabili via env) ---
 DB_FILE = os.environ.get('DB_FILE', '../../database/daticentrale.db')
@@ -40,7 +28,7 @@ SERIAL_PATH = os.environ.get('SERIAL_PATH', '')  # se vuoto, prova autodetect
 SERIAL_BAUD = int(os.environ.get('SERIAL_BAUD', '115200'))
 
 WIFI_FRESH_MS = int(os.environ.get('WIFI_FRESH_MS', str(60 * 1000)))  # prefer WiFi se entro questo ms
-API_KEY = os.environ.get('API_KEY')  # opzionale
+API_KEY = os.environ.get('API_KEY', None)  # opzionale
 
 # --- Optional pyserial import (non obbligatorio) ---
 try:
@@ -52,35 +40,7 @@ except Exception:
 
 # --- App setup ---
 app = Flask(__name__, static_folder='static', static_url_path='')
-app.config.from_object(BaseConfig)
 CORS(app)
-
-# Rate Limiter setup
-limiter = Limiter(
-    app=app,
-    key_func=get_remote_address,
-    default_limits=["200 per day", "50 per hour"],
-    storage_uri="memory://"
-)
-
-# Security Headers with Talisman
-Talisman(
-    app,
-    force_https=True,
-    strict_transport_security=True,
-    strict_transport_security_max_age=31536000,
-    content_security_policy={
-        'default-src': ["'self'"],
-        'script-src': ["'self'"],
-        'style-src': ["'self'"],
-    }
-)
-
-# Setup logging
-if not app.debug:
-    handler = RotatingFileHandler('centrale.log', maxBytes=10*1024*1024, backupCount=5)
-    handler.setLevel(logging.INFO)
-    app.logger.addHandler(handler)
 
 # --- In-memory latest caches e SSE clients ---
 latestWiFi = None
@@ -180,47 +140,27 @@ def stream():
 
 # --- Helpers for validation and API key ---
 def require_api_key():
-    """Valida API key in modo sicuro"""
     if not API_KEY:
-        return False  # Nega se non configurato
-    
-    # Solo da header, mai da query string
-    key = request.headers.get('X-API-Key')
-    if not key:
-        return False
-    
-    # Confronto sicuro (timing-safe)
-    return secure_compare_api_keys(key, API_KEY)
+        return True
+    key = request.headers.get('X-API-KEY') or request.args.get('api_key')
+    return key == API_KEY
 
-
-def is_valid_range(temp: float, hum: float) -> bool:
-    """
-    Valida che temperatura e umidità siano in range plausibili.
-    Temperatura: -50 a 80°C (per DHT11 e ambienti)
-    Umidità: 0 a 100%
-    """
+def is_valid_range(temp, hum):
     try:
-        temp_f = float(temp)
-        hum_f = float(hum)
-        return (-50 <= temp_f <= 80) and (0 <= hum_f <= 100)
-    except (TypeError, ValueError):
+        t = float(temp)
+        h = float(hum)
+    except Exception:
         return False
+    if not (-50.0 <= t <= 80.0 and 0.0 <= h <= 100.0):
+        return False
+    return True
 
-# Usa il decorator
-from functools import wraps
-
-def require_valid_api_key(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not require_api_key():
-            return jsonify({'error': 'Unauthorized'}), 401
-        return f(*args, **kwargs)
-    return decorated_function
-
+# --- Endpoints ---
 @app.route('/update', methods=['GET', 'POST'])
-@limiter.limit("30 per hour")
-@require_valid_api_key
-def update_sensor():
+def update():
+    if not require_api_key():
+        return jsonify({'error': 'unauthorized'}), 401
+
     # Accept both GET (querystring) and POST (json/form)
     if request.method == 'GET':
         t = request.args.get('t')
@@ -296,7 +236,6 @@ def sensor():
     return jsonify({'method': method, 'reading': chosen})
 
 @app.route('/latest', methods=['GET'])
-@limiter.limit("60 per hour")
 def latest():
     r = get_latest_reading_from_db()
     if not r:
@@ -304,7 +243,6 @@ def latest():
     return jsonify(r)
 
 @app.route('/history', methods=['GET'])
-@limiter.limit("30 per hour")
 def history():
     try:
         limit = int(request.args.get('limit', 100))
@@ -423,41 +361,4 @@ if __name__ == '__main__':
         else:
             app.logger.warning('Serial enabled ma nessuna porta trovata. Imposta SERIAL_PATH per forzare una porta.')
 
-    # IMPORTANT: debug=False for security. Use Gunicorn in production.
-    app.run(host=HOST, port=PORT, threaded=True, debug=False)
-
-# Valida formato data
-def validate_date(date_str):
-    try:
-        datetime.fromisoformat(date_str)
-        return True
-    except:
-        return False
-
-# Sanitizza input
-def sanitize_text(text, max_length=1000):
-    if not isinstance(text, str):
-        return None
-    text = text.strip()
-    if len(text) > max_length:
-        return None
-    # Escape HTML per evitare XSS
-    return escape(text)
-
-@app.route('/api/post', methods=['POST'])
-def crea_post():
-    data = request.json
-    
-    # Validazione e sanitizzazione
-    titolo = sanitize_text(data.get('titolo'), 200)
-    contenuto = sanitize_text(data.get('contenuto'), 5000)
-    
-    if not titolo or not contenuto:
-        return jsonify({'success': False, 'message': 'Input non valido'}), 400
-    
-    # Valida data se presente
-    data_evento = data.get('data')
-    if data_evento and not validate_date(data_evento):
-        return jsonify({'success': False, 'message': 'Data non valida'}), 400
-    
-    # ... rest della logica
+    app.run(host=HOST, port=PORT, threaded=True)
