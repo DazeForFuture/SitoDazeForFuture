@@ -3,6 +3,7 @@ import sys
 import os
 import signal
 import time
+import logging
 
 servers = [
     {
@@ -31,19 +32,19 @@ processes = []
 
 def start_servers():
     for server in servers:
-        print(f"Sto avviando {server['name']}...")
+        logging.info(f"Sto avviando {server['name']}...")
         p = subprocess.Popen(server["cmd"])
         processes.append(p)
-    print("Ho aperto tutti i server.")
+    logging.info("Ho aperto tutti i server.")
 
 def stop_servers():
-    print("Sto chiudendo tutti i server...")
+    logging.info("Sto chiudendo tutti i server...")
     for p in processes:
         try:
             p.terminate()
         except Exception as e:
-            print(f"Errore nella chiusura del processo: {e}")
-    print("Tutti i server chiusi.")
+            logging.error(f"Errore nella chiusura del processo: {e}")
+    logging.info("Tutti i server chiusi.")
 
 if __name__ == "__main__":
     start_servers()

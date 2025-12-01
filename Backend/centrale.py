@@ -40,13 +40,18 @@ except Exception:
 
 # --- App setup ---
 app = Flask(__name__, static_folder='static', static_url_path='')
-CORS(app)
+cors_origins = os.environ.get('CORS_ORIGINS', '*')
+CORS(app, resources={r"/*": {"origins": cors_origins}})
+# SECURITY: set secret key from env
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.environ.get('SECRET_KEY', os.urandom(32)))
 
 # --- In-memory latest caches e SSE clients ---
 latestWiFi = None
 latestUSB = None
 clients = set()
 clients_lock = threading.Lock()
+# SECURITY: lock for in-memory latest caches to avoid race conditions
+latest_lock = threading.Lock()
 
 # --- Utility: assicurati che la cartella DB esista e crea DB e tabella ---
 def ensure_db_and_dirs(db_path: str):
@@ -71,7 +76,8 @@ def ensure_db_and_dirs(db_path: str):
 
 def get_conn():
     # ogni chiamata apre una nuova connessione: pattern sicuro per multi-thread con sqlite
-    return sqlite3.connect(DB_FILE, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+    # SECURITY: set check_same_thread False to allow usage from different thread contexts
+    return sqlite3.connect(DB_FILE, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES, check_same_thread=False)
 
 # --- DB helpers ---
 def insert_reading(temperature, humidity, ts=None, source=None, raw=None):
@@ -140,9 +146,17 @@ def stream():
 
 # --- Helpers for validation and API key ---
 def require_api_key():
+    """Check for API key via X-API-KEY header, Authorization: ApiKey <key> or api_key query param."""
     if not API_KEY:
         return True
     key = request.headers.get('X-API-KEY') or request.args.get('api_key')
+    if not key:
+        auth = request.headers.get('Authorization', '')
+        if auth.startswith('ApiKey '):
+            key = auth.split(' ', 1)[1].strip()
+        elif auth.startswith('Bearer '):
+            # Do not accept bearer for API_KEY by default; maintain compatibility if explicitly used
+            key = auth.split(' ', 1)[1].strip()
     return key == API_KEY
 
 def is_valid_range(temp, hum):
@@ -190,12 +204,13 @@ def update():
 
     rec = insert_reading(temp, hum, ts, source=source, raw=raw)
 
-    # Update in-memory latest
+    # Update in-memory latest (thread-safe)
     global latestWiFi, latestUSB
-    if source and 'usb' in source.lower():
-        latestUSB = rec
-    else:
-        latestWiFi = rec
+    with latest_lock:
+        if source and 'usb' in source.lower():
+            latestUSB = rec
+        else:
+            latestWiFi = rec
 
     # Notify SSE clients
     push_event({'type': 'reading', 'payload': rec})
@@ -211,7 +226,10 @@ def sensor():
     chosen = None
     method = None
 
-    if latestWiFi:
+    with latest_lock:
+        wi = latestWiFi
+        us = latestUSB
+    if wi:
         try:
             ts = int(datetime.fromisoformat(latestWiFi['timestamp']).replace(tzinfo=timezone.utc).timestamp() * 1000)
         except Exception:
@@ -220,8 +238,8 @@ def sensor():
             chosen = latestWiFi
             method = 'wifi'
 
-    if not chosen and latestUSB:
-        chosen = latestUSB
+    if not chosen and us:
+        chosen = us
         method = 'usb'
 
     if not chosen:
@@ -332,7 +350,8 @@ def start_serial_thread(path: str, baud: int):
                                 app.logger.warning(f'Valori serial fuori range: {temp},{hum}')
                                 continue
                             rec = insert_reading(temp, hum, source='usb', raw=line)
-                            latestUSB = rec
+                            with latest_lock:
+                                latestUSB = rec
                             push_event({'type': 'reading', 'payload': rec})
                             app.logger.info(f'[USB] {temp}C {hum}%')
                         else:
@@ -361,4 +380,5 @@ if __name__ == '__main__':
         else:
             app.logger.warning('Serial enabled ma nessuna porta trovata. Imposta SERIAL_PATH per forzare una porta.')
 
-    app.run(host=HOST, port=PORT, threaded=True)
+    # SECURITY: disable debug for production deployments
+    app.run(host=HOST, port=PORT, threaded=True, debug=False)

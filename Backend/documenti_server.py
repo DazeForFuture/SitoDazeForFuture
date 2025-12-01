@@ -1,12 +1,28 @@
 import os
 import sqlite3
+import logging
 from datetime import datetime
+import mimetypes
 from flask import Flask, request, jsonify, g, send_from_directory
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+import jwt  # PyJWT
+from functools import wraps
+
+# SECURITY: logging config
+logging.basicConfig(level=logging.INFO)
+
+# SECURITY: use env for secrets
+JWT_SECRET = os.environ.get('JWT_SECRET', None)
+if JWT_SECRET is None:
+    logging.warning('JWT_SECRET not set - generating ephemeral secret for non-prod')
+    JWT_SECRET = os.urandom(32)
 
 app = Flask(__name__)
-CORS(app)
+cors_origins = os.environ.get('CORS_ORIGINS', '*')
+CORS(app, resources={r"/*": {"origins": cors_origins}})
+# SECURITY: Flask secret key must come from environment
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.environ.get('SECRET_KEY', os.urandom(32)))
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app.config['DATABASE'] = os.path.join('../../database', 'documenti.db')
@@ -55,19 +71,20 @@ def init_db():
                 # ignore se non possibile (compatibilità)
                 pass
         
-        print("Database initialized successfully!")
-        print(f"Database path: {app.config['DATABASE']}")
-        print(f"Storage root: {STORAGE_ROOT}")
+        logging.info("Database initialized successfully!")
+        logging.debug(f"Database path: {app.config['DATABASE']}")
+        logging.debug(f"Storage root: {STORAGE_ROOT}")
         
     except Exception as e:
-        print(f"Errore nell'inizializzazione del database: {str(e)}")
+        logging.exception(f"Errore nell'inizializzazione del database: {e}")
 
 def get_db():
     """Ottiene la connessione al database"""
     if 'db' not in g:
         db_path = os.path.abspath(os.path.join(BASE_DIR, app.config['DATABASE']))
         # se il path era già assoluto nella config, os.path.abspath lo lascia intatto
-        g.db = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        # SECURITY: sqlite connections per-request; don't reuse connections across threads
+        g.db = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES, check_same_thread=False)
         g.db.row_factory = sqlite3.Row
     return g.db
 
@@ -78,12 +95,43 @@ def close_db(error):
     if db is not None:
         db.close()
 
+def decode_jwt(token: str):
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=['HS256'])
+        # SECURITY: return only expected fields
+        return {'email': payload.get('email'), 'role': payload.get('ruolo')}
+    except jwt.ExpiredSignatureError:
+        return None
+    except Exception:
+        return None
+
+
 def get_current_user():
-    """Funzione semplificata per ottenere l'utente corrente"""
+    """Extract user from Authorization: Bearer <token>. If absent, attempt to fall back to headers (legacy)."""
+    auth = request.headers.get('Authorization', '')
+    if auth.startswith('Bearer '):
+        token = auth.split(' ', 1)[1].strip()
+        u = decode_jwt(token)
+        if u:
+            return u
+    # fallback legacy headers (less secure) if token not present. Log a warning.
+    logging.warning('Using insecure header-based auth fallback; set up JWT on clients')
     return {
         'email': request.headers.get('X-User-Email', ''),
         'role': request.headers.get('X-User-Role', 'user')
     }
+
+
+def require_role(role: str):
+    def decorator(f):
+        @wraps(f)
+        def inner(*args, **kwargs):
+            user = get_current_user()
+            if not user or user.get('role') != role:
+                return jsonify({'success': False, 'message': 'Accesso negato'}), 403
+            return f(*args, **kwargs)
+        return inner
+    return decorator
 
 @app.route('/api/articles', methods=['GET'])
 def get_articles():
@@ -130,14 +178,15 @@ def get_articles():
         # Fornisco both 'articles' e 'documents' per compatibilità col frontend
         return jsonify({'success': True, 'articles': result, 'documents': result})
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in get_articles')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/articles', methods=['POST'])
 def create_article():
     """Crea un nuovo articolo (solo admin)"""
     try:
         user = get_current_user()
-        if user['role'] != 'admin':
+        if not user or user.get('role') != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono creare articoli'}), 403
         
         data = request.get_json() or {}
@@ -153,6 +202,9 @@ def create_article():
         if file_name:
             expected_folder = PUBLISHED_FOLDER if is_published else DRAFTS_FOLDER
             expected_path = os.path.join(STORAGE_ROOT, expected_folder, file_name)
+            # SECURITY: ensure resolved path remains inside storage
+            if not os.path.abspath(expected_path).startswith(os.path.abspath(STORAGE_ROOT)):
+                return jsonify({'success': False, 'message': 'Percorso file non valido'}), 400
             if not os.path.isfile(expected_path):
                 return jsonify({'success': False, 'message': f'File non trovato in {expected_folder} con nome {file_name}'}), 400
         
@@ -177,14 +229,15 @@ def create_article():
         return jsonify({'success': True, 'message': 'Articolo creato con successo'})
         
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in create_article')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/articles/<int:article_id>/publish', methods=['POST'])
 def toggle_publish(article_id):
     """Pubblica o mette in revisione un articolo (solo admin) e sposta il file se presente"""
     try:
         user = get_current_user()
-        if user['role'] != 'admin':
+        if not user or user.get('role') != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono pubblicare articoli'}), 403
         
         data = request.get_json() or {}
@@ -204,14 +257,20 @@ def toggle_publish(article_id):
             src_folder = PUBLISHED_FOLDER if old_is_published else DRAFTS_FOLDER
             dst_folder = PUBLISHED_FOLDER if is_published else DRAFTS_FOLDER
             src = os.path.join(STORAGE_ROOT, src_folder, file_name)
+            # SECURITY: ensure src path is inside storage root
+            if not os.path.abspath(src).startswith(os.path.abspath(STORAGE_ROOT)):
+                return jsonify({'success': False, 'message': 'Percorso file sorgente non valido'}), 400
             dst_dir = os.path.join(STORAGE_ROOT, dst_folder)
             os.makedirs(dst_dir, exist_ok=True)
             dst = os.path.join(dst_dir, file_name)
+            if not os.path.abspath(dst).startswith(os.path.abspath(STORAGE_ROOT)):
+                return jsonify({'success': False, 'message': 'Percorso file destinazione non valido'}), 400
             if os.path.isfile(src):
                 try:
                     os.replace(src, dst)
                 except Exception as e:
-                    return jsonify({'success': False, 'message': f'Errore nello spostamento file: {str(e)}'}), 500
+                    logging.exception('Error moving file')
+                    return jsonify({'success': False, 'message': 'Errore nello spostamento file'}), 500
         
         db.execute('''
             UPDATE articles 
@@ -228,14 +287,15 @@ def toggle_publish(article_id):
         })
         
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in toggle_publish')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/articles/<int:article_id>', methods=['DELETE'])
 def delete_article(article_id):
     """Elimina un articolo (solo admin) e il relativo file se presente"""
     try:
         user = get_current_user()
-        if user['role'] != 'admin':
+        if not user or user.get('role') != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono eliminare articoli'}), 403
         
         db = get_db()
@@ -251,8 +311,11 @@ def delete_article(article_id):
             try:
                 if os.path.isfile(file_path):
                     os.remove(file_path)
+                else:
+                    logging.debug(f"File da eliminare non trovato: {file_path}")
             except Exception as e:
-                return jsonify({'success': False, 'message': f'Errore eliminazione file: {str(e)}'}), 500
+                logging.exception('Error deleting file')
+                return jsonify({'success': False, 'message': 'Errore eliminazione file'}), 500
         
         db.execute('DELETE FROM articles WHERE id = ?', (article_id,))
         db.commit()
@@ -260,7 +323,8 @@ def delete_article(article_id):
         return jsonify({'success': True, 'message': 'Articolo eliminato con successo'})
         
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in delete_article')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/files/<folder>/<path:filename>', methods=['GET'])
 def serve_file(folder, filename):
@@ -269,7 +333,7 @@ def serve_file(folder, filename):
         if folder not in (PUBLISHED_FOLDER, DRAFTS_FOLDER):
             return jsonify({'success': False, 'message': 'Folder non valido'}), 400
         user = get_current_user()
-        if folder == DRAFTS_FOLDER and user['role'] != 'admin':
+        if folder == DRAFTS_FOLDER and (not user or user.get('role') != 'admin'):
             return jsonify({'success': False, 'message': 'Accesso negato'}), 403
         directory = os.path.join(STORAGE_ROOT, folder)
         file_path = os.path.join(directory, filename)
@@ -277,7 +341,8 @@ def serve_file(folder, filename):
             return jsonify({'success': False, 'message': 'File non trovato'}), 404
         return send_from_directory(directory, filename, as_attachment=True)
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in serve_file')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/documents', methods=['GET'])
 def get_documents_wrapper():
@@ -293,7 +358,7 @@ def create_publication():
 
     try:
         user = get_current_user()
-        if user['role'] != 'admin':
+        if not user or user.get('role') != 'admin':
             return jsonify({'success': False, 'message': 'Solo gli admin possono creare pubblicazioni'}), 403
 
         # campi dal form multipart
@@ -307,10 +372,17 @@ def create_publication():
         if not title or not author or not publication_date:
             return jsonify({'success': False, 'message': 'Campi title, author e publication_date richiesti'}), 400
 
+        # SECURITY: limit upload size to 20MB (server may also enforce this in reverse-proxy/nginx)
+        if request.content_length and request.content_length > (20 * 1024 * 1024):
+            return jsonify({'success': False, 'message': 'File troppo grande (max 20MB)'}), 413
         file = request.files.get('file')
         file_name = None
         if file and file.filename:
             filename = secure_filename(file.filename)
+            # SECURITY: only allow PDF uploads
+            _, ext = os.path.splitext(filename)
+            if ext.lower() != '.pdf':
+                return jsonify({'success': False, 'message': 'Solo file PDF supportati'}), 400
             # rendi il nome univoco se necessario
             base, ext = os.path.splitext(filename)
             counter = 0
@@ -346,7 +418,8 @@ def create_publication():
         return jsonify({'success': True, 'message': 'Pubblicazione creata con successo'})
 
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in create_publication')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 # --- Compatibilità API frontend -- START ---
 @app.route('/api/drafts', methods=['GET'])
@@ -354,6 +427,8 @@ def api_get_drafts():
     """Lista bozze (admin sees all, others none)"""
     try:
         user = get_current_user()
+        if not user or user.get('role') != 'admin':
+            return jsonify({'success': False, 'message': 'Solo admin può vedere bozze'}), 403
         db = get_db()
         cursor = db.execute("SELECT * FROM articles WHERE is_published = 0 ORDER BY created_at DESC")
         rows = cursor.fetchall()
@@ -381,7 +456,8 @@ def api_get_drafts():
             })
         return jsonify({'success': True, 'drafts': drafts})
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in api_get_drafts')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/my_drafts', methods=['GET'])
 def api_my_drafts():
@@ -416,7 +492,8 @@ def api_my_drafts():
             })
         return jsonify({'success': True, 'drafts': drafts})
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in api_my_drafts')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/all_publications', methods=['GET'])
 def api_all_publications():
@@ -452,7 +529,8 @@ def api_all_publications():
             })
         return jsonify({'success': True, 'publications': pubs})
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in api_all_publications')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/view_draft/<int:article_id>', methods=['GET'])
 def api_view_draft(article_id):
@@ -486,7 +564,8 @@ def api_view_draft(article_id):
         # Serve inline per permettere preview nel browser (non forzare download)
         return send_from_directory(directory, file_name, as_attachment=False)
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in api_view_draft')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/download/<int:article_id>', methods=['GET'])
 def api_download(article_id):
@@ -505,14 +584,15 @@ def api_download(article_id):
         directory = os.path.join(STORAGE_ROOT, PUBLISHED_FOLDER)
         return send_from_directory(directory, row['file_name'], as_attachment=True)
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in api_download')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/review_draft/<int:article_id>', methods=['POST'])
 def api_review_draft(article_id):
     """Approva o rifiuta una bozza (admin)"""
     try:
         user = get_current_user()
-        if user['role'] != 'admin':
+        if not user or user.get('role') != 'admin':
             return jsonify({'success': False, 'message': 'Solo admin può rivedere bozze'}), 403
         data = request.get_json() or {}
         action = data.get('action')
@@ -529,14 +609,19 @@ def api_review_draft(article_id):
             # sposta file in pubblicazioni se presente
             if row['file_name']:
                 src = os.path.join(STORAGE_ROOT, DRAFTS_FOLDER, row['file_name'])
+                if not os.path.abspath(src).startswith(os.path.abspath(STORAGE_ROOT)):
+                    return jsonify({'success': False, 'message': 'Percorso file non valido'}), 400
                 dst_dir = os.path.join(STORAGE_ROOT, PUBLISHED_FOLDER)
                 os.makedirs(dst_dir, exist_ok=True)
                 dst = os.path.join(dst_dir, row['file_name'])
+                if not os.path.abspath(dst).startswith(os.path.abspath(STORAGE_ROOT)):
+                    return jsonify({'success': False, 'message': 'Percorso file non valido'}), 400
                 if os.path.isfile(src):
                     try:
                         os.replace(src, dst)
                     except Exception as e:
-                        return jsonify({'success': False, 'message': f'Errore spostamento file: {str(e)}'}), 500
+                        logging.exception('Error moving file during review')
+                        return jsonify({'success': False, 'message': 'Errore spostamento file'}), 500
             db.execute("UPDATE articles SET is_published = 1, review_notes = ?, last_modified = CURRENT_TIMESTAMP WHERE id = ?", (review_notes, article_id))
         else:
             # rejected: salva note e mantiene come bozza
@@ -544,7 +629,8 @@ def api_review_draft(article_id):
         db.commit()
         return jsonify({'success': True, 'message': 'Operazione completata'})
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        logging.exception('Unexpected error in api_review_draft')
+        return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 # wrapper di compatibilità per delete chiamate dal frontend
 @app.route('/api/delete/<int:article_id>', methods=['DELETE'])
@@ -559,4 +645,5 @@ def api_delete_draft(article_id):
 if __name__ == '__main__':
     with app.app_context():
         init_db()
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    # SECURITY: disable debug and use env PORT
+    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5001)))

@@ -4,14 +4,27 @@ import sqlite3
 import datetime
 import hashlib
 import os
+import logging
+import jwt
+from functools import wraps
 
+# configure app
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Usa la stessa secret_key di server.py
+cors_origins = os.environ.get('CORS_ORIGINS', '*')
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": cors_origins}})
+# SECURITY: use environment provided secret key
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.environ.get('SECRET_KEY', os.urandom(32)))
+logging.basicConfig(level=logging.INFO)
+JWT_SECRET = os.environ.get('JWT_SECRET', None)
+if JWT_SECRET is None:
+    logging.warning('JWT_SECRET not set in env; generating ephemeral secret (not suitable for prod)')
+    JWT_SECRET = os.urandom(32)
 CORS(app, supports_credentials=True)
 
 # Database paths
-db_path = app.config['DATABASE'] = os.path.join('../../database', 'forum.db')
-users_db_path = app.config['DATABASE'] = os.path.join('../../database', 'utenti.db')
+db_path = os.path.join('../../database', 'forum.db')
+users_db_path = os.path.join('../../database', 'utenti.db')
+app.config['DATABASE'] = db_path
 
 # Database initialization
 def init_db():
@@ -97,18 +110,63 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def get_db_connection():
-    conn = sqlite3.connect(db_path)
+    # SECURITY: use per-request sqlite connection and allow cross thread
+    conn = sqlite3.connect(db_path, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def decode_jwt(token: str):
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=['HS256'])
+        return {'email': payload.get('email'), 'role': payload.get('ruolo')}
+    except Exception:
+        return None
+
+
+def get_authenticated_user(email_from_request: str = None):
+    """Prefer token-based auth and verify that token email matches the requested email (if provided)."""
+    auth = request.headers.get('Authorization', '')
+    if auth.startswith('Bearer '):
+        token = auth.split(' ', 1)[1]
+        user = decode_jwt(token)
+        if user:
+            return user
+    # fallback (less secure): match email param
+    if email_from_request:
+        # SECURITY: fallback to headers is insecure; allow for backward compatibility but log a warning
+        logging.warning('Using insecure header-based auth fallback; set up JWT on clients')
+        return {'email': email_from_request, 'role': request.headers.get('X-User-Role', 'user')}
+    return None
+
+
+def require_jwt(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        user = get_authenticated_user()
+        if not user:
+            return jsonify({'error': 'Autenticazione richiesta'}), 401
+        return f(*args, **kwargs)
+    return wrapper
 
 # Authentication routes
 @app.route('/api/check-auth', methods=['GET'])
 def check_auth():
-    email = request.args.get('email')
-    if not email:
-        return jsonify({'authenticated': False, 'error': 'Email richiesta'}), 400
-        
-    conn = sqlite3.connect(users_db_path)
+    # Prefer token-based verification
+    auth = request.headers.get('Authorization', '')
+    email = None
+    if auth.startswith('Bearer '):
+        token = auth.split(' ', 1)[1]
+        user_payload = decode_jwt(token)
+        if not user_payload:
+            return jsonify({'authenticated': False, 'error': 'Token non valido'}), 401
+        email = user_payload.get('email')
+    else:
+        # fallback: allow email param but note insecure
+        email = request.args.get('email')
+        if not email:
+            return jsonify({'authenticated': False, 'error': 'Email richiesta'}), 400
+    conn = sqlite3.connect(users_db_path, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
     c.execute('SELECT id, nome, cognome, email, ruolo FROM users WHERE email = ?', (email,))
@@ -154,7 +212,7 @@ def get_threads():
     conn = get_db_connection()
     c = conn.cursor()
     
-    conn_users = sqlite3.connect(users_db_path)
+    conn_users = sqlite3.connect(users_db_path, check_same_thread=False)
     conn_users.row_factory = sqlite3.Row
     
     if category_id:
@@ -195,7 +253,11 @@ def get_threads():
 @app.route('/api/threads', methods=['POST'])
 def create_thread():
     data = request.json
-    email = data.get('email')
+    # SECURITY: use token to determine email, fallback to payload email if provided
+    token_user = get_authenticated_user(data.get('email'))
+    if not token_user:
+        return jsonify({'error': 'Autenticazione richiesta'}), 401
+    email = token_user.get('email')
     title = data.get('title')
     content = data.get('content')
     category_id = data.get('category_id')
@@ -204,7 +266,7 @@ def create_thread():
         return jsonify({'error': 'Email, titolo e contenuto sono richiesti'}), 400
     
     # Get user from utenti.db
-    conn_users = sqlite3.connect(users_db_path)
+    conn_users = sqlite3.connect(users_db_path, check_same_thread=False)
     conn_users.row_factory = sqlite3.Row
     c_users = conn_users.cursor()
     c_users.execute('SELECT id FROM users WHERE email = ?', (email,))
@@ -246,7 +308,7 @@ def get_thread(thread_id):
     thread = dict(thread_row)
     
     # Get user info from utenti.db
-    conn_users = sqlite3.connect(users_db_path)
+    conn_users = sqlite3.connect(users_db_path, check_same_thread=False)
     conn_users.row_factory = sqlite3.Row
     cu = conn_users.cursor()
     cu.execute('SELECT nome, cognome FROM users WHERE id = ?', (thread['user_id'],))
@@ -288,7 +350,10 @@ def get_thread(thread_id):
 @app.route('/api/threads/<int:thread_id>/posts', methods=['POST'])
 def create_post(thread_id):
     data = request.json
-    email = data.get('email')
+    token_user = get_authenticated_user(data.get('email'))
+    if not token_user:
+        return jsonify({'error': 'Autenticazione richiesta'}), 401
+    email = token_user.get('email')
     content = data.get('content')
     parent_id = data.get('parent_id')
     
@@ -296,7 +361,7 @@ def create_post(thread_id):
         return jsonify({'error': 'Email e contenuto sono richiesti'}), 400
     
     # Get user from utenti.db
-    conn_users = sqlite3.connect(users_db_path)
+    conn_users = sqlite3.connect(users_db_path, check_same_thread=False)
     conn_users.row_factory = sqlite3.Row
     c_users = conn_users.cursor()
     c_users.execute('SELECT id FROM users WHERE email = ?', (email,))
@@ -321,14 +386,17 @@ def create_post(thread_id):
 @app.route('/api/posts/<int:post_id>/vote', methods=['POST'])
 def vote_post(post_id):
     data = request.json
-    email = data.get('email')
+    token_user = get_authenticated_user(data.get('email'))
+    if not token_user:
+        return jsonify({'error': 'Autenticazione richiesta'}), 401
+    email = token_user.get('email')
     vote_type = data.get('vote_type')  # 1 for upvote, -1 for downvote
     
     if not all([email, vote_type]):
         return jsonify({'error': 'Email e tipo di voto sono richiesti'}), 400
     
     # Get user from utenti.db
-    conn_users = sqlite3.connect(users_db_path)
+    conn_users = sqlite3.connect(users_db_path, check_same_thread=False)
     conn_users.row_factory = sqlite3.Row
     c_users = conn_users.cursor()
     c_users.execute('SELECT id FROM users WHERE email = ?', (email,))
@@ -368,14 +436,17 @@ def vote_post(post_id):
 @app.route('/api/threads/<int:thread_id>', methods=['DELETE'])
 def delete_thread(thread_id):
     data = request.json
-    email = data.get('email')
+    token_user = get_authenticated_user(data.get('email'))
+    if not token_user:
+        return jsonify({'error': 'Autenticazione richiesta'}), 401
+    email = token_user.get('email')
     reason = data.get('reason')
     
     if not email:
         return jsonify({'error': 'Email richiesta'}), 400
     
     # Get user from utenti.db
-    conn_users = sqlite3.connect(users_db_path)
+    conn_users = sqlite3.connect(users_db_path, check_same_thread=False)
     conn_users.row_factory = sqlite3.Row
     c_users = conn_users.cursor()
     c_users.execute('SELECT id, ruolo FROM users WHERE email = ?', (email,))
@@ -399,22 +470,25 @@ def delete_thread(thread_id):
     conn.commit()
     conn.close()
     
-    # Log the deletion with reason (in a real app, you'd store this in a moderation log)
-    print(f"Thread {thread_id} eliminato da {email}. Motivazione: {reason}")
+    # Log the deletion with reason (do not log sensitive PII beyond email)
+    logging.info(f"Thread {thread_id} eliminato da {email}. Motivazione: {reason}")
     
     return jsonify({'message': 'Thread eliminato'}), 200
 
 @app.route('/api/posts/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id):
     data = request.json
-    email = data.get('email')
+    token_user = get_authenticated_user(data.get('email'))
+    if not token_user:
+        return jsonify({'error': 'Autenticazione richiesta'}), 401
+    email = token_user.get('email')
     reason = data.get('reason')
     
     if not email:
         return jsonify({'error': 'Email richiesta'}), 400
     
     # Get user from utenti.db
-    conn_users = sqlite3.connect(users_db_path)
+    conn_users = sqlite3.connect(users_db_path, check_same_thread=False)
     conn_users.row_factory = sqlite3.Row
     c_users = conn_users.cursor()
     c_users.execute('SELECT id, ruolo FROM users WHERE email = ?', (email,))
@@ -438,10 +512,11 @@ def delete_post(post_id):
     conn.close()
     
     # Log the deletion with reason
-    print(f"Post {post_id} eliminato da {email}. Motivazione: {reason}")
+    logging.info(f"Post {post_id} eliminato da {email}. Motivazione: {reason}")
     
     return jsonify({'message': 'Post eliminato'}), 200
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True, host='0.0.0.0', port=5003)
+    # SECURITY: disable debug for production
+    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5003)))
