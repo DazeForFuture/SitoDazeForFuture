@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Daze For Future">
-  <title>Home - Daze For Future</title>
+  <meta name="apple-mobile-web-app-title" content="Daze for Future">
+  <title>Privacy Policy - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
-
   <style>
     :root {
       --bg: #fff;
@@ -35,7 +34,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-      --active-link: #007aff; /* Colore per il link attivo */
+      --active-link: #007aff;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -59,7 +58,7 @@
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+        --active-link: #0a84ff;
       }
     }
 
@@ -83,7 +82,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+      --active-link: #0a84ff;
     }
 
     :root[data-theme="light"] {
@@ -106,10 +105,9 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-      --active-link: #007aff; /* Colore per il link attivo in light mode */
+      --active-link: #007aff;
     }
 
-    /* Stili per evidenziare la pagina attiva */
     nav > a.active {
       color: var(--active-link) !important;
       font-weight: 700;
@@ -131,35 +129,24 @@
       font-weight: 700;
     }
 
-    .dropdown-toggle.active::after {
-      color: var(--active-link);
-    }
-
-    /* Per la sidebar */
     .sidebar-menu a.active {
       color: var(--active-link) !important;
       font-weight: 600;
       background: var(--hover-bg);
     }
 
-    :root[data-theme="dark"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-
-    :root[data-theme="light"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(0,0,0,0.15);
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    
-    /* FIX PER IPHONE: Sfondo fisso con approccio compatibile */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      position: relative;
+      min-height: 100vh;
+    }
+
     .background-container {
       position: fixed;
       top: 0;
@@ -170,10 +157,8 @@
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
-      /* background-attachment: fixed; */ /* Rimosso per compatibilità iOS */
     }
 
-    /* Overlay dinamico che si adatta al tema - FIX per iOS */
     .background-overlay {
       position: fixed;
       top: 0;
@@ -184,17 +169,14 @@
       transition: background 0.3s ease;
     }
 
-    /* Tema chiaro - overlay chiaro per contrasto */
     :root[data-theme="light"] .background-overlay {
       background: var(--overlay-light);
     }
 
-    /* Tema scuro - overlay scuro per contrasto */
     :root[data-theme="dark"] .background-overlay {
       background: var(--overlay-dark);
     }
 
-    /* Tema automatico - usa preferenza sistema */
     :root:not([data-theme]) .background-overlay {
       background: var(--overlay-light);
     }
@@ -203,16 +185,6 @@
       :root:not([data-theme]) .background-overlay {
         background: var(--overlay-dark);
       }
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.5;
-      position: relative;
-      min-height: 100vh;
     }
 
     header {
@@ -229,14 +201,7 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
-      animation: slideDown 1s ease forwards; /* ANIMAZIONE AGGIUNTA */
     }
-
-    @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -277,26 +242,10 @@
       width: 100%;
     }
 
-    /* ANIMAZIONE SEZIONI - AGGIUNTA DAL SECONDO FILE */
     section {
       padding: 140px 2rem 100px;
       max-width: 1000px;
       margin: auto;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeInUp 1.2s ease forwards;
-    }
-
-    /* Ritardi progressivi per le sezioni */
-    section:nth-of-type(1) { animation-delay: 0.2s; }
-    section:nth-of-type(2) { animation-delay: 0.5s; }
-    section:nth-of-type(3) { animation-delay: 1s; }
-    section:nth-of-type(4) { animation-delay: 1.5s; }
-    section:nth-of-type(5) { animation-delay: 2s; }
-    section:nth-of-type(6) { animation-delay: 2.5s; }
-
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .hero {
@@ -353,19 +302,6 @@
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     }
 
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    .btn-accent {
-      background: linear-gradient(90deg, #007aff, #00c6ff);
-      color: white;
-    }
-
-    .btn-accent:hover {
-      background: linear-gradient(90deg, #0062cc, #0099cc);
-    }
-
     .section-title {
       font-size: 2rem;
       font-weight: 800;
@@ -392,7 +328,6 @@
       z-index: 1;
     }
 
-    /* MIGLIORAMENTI MOBILE COMPLETI */
     @media (max-width: 768px) {
       header {
         padding: 0.8rem 1rem;
@@ -425,10 +360,6 @@
         font-size: 1.8rem;
       }
       
-      .sidebar {
-        width: 280px;
-      }
-      
       section {
         padding: 120px 1rem 80px;
       }
@@ -442,30 +373,6 @@
         margin-bottom: 1.5rem;
       }
       
-      .card-image {
-        height: 160px;
-      }
-      
-      .btn {
-        padding: 0.7rem 1.2rem;
-        font-size: 0.9rem;
-      }
-      
-      /* Miglioramenti specifici per eventi su mobile */
-      .event-meta {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      
-      .event-content {
-        padding: 1rem;
-      }
-      
-      .event-title {
-        font-size: 1.3rem;
-      }
-      
-      /* Nascondi navigation su mobile e mostra hamburger */
       #mainNav {
         display: none;
       }
@@ -474,7 +381,6 @@
         display: flex;
       }
       
-      /* FAB più piccolo su mobile */
       #theme-fab {
         width: 50px;
         height: 50px;
@@ -489,7 +395,6 @@
       }
     }
 
-    /* Per schermi molto piccoli */
     @media (max-width: 480px) {
       .hero h1 {
         font-size: 1.8rem;
@@ -506,14 +411,8 @@
       .card {
         padding: 1rem;
       }
-      
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
     }
 
-    /* Mostra hamburger menu solo su mobile */
     #sidebarToggle {
       display: none;
       background: none;
@@ -542,7 +441,6 @@
       text-decoration: underline;
     }
 
-    /* Floating Action Button */
     #theme-fab {
       position: fixed;
       bottom: 24px;
@@ -646,17 +544,6 @@
       100% { transform: scale(1) rotate(0deg); }
     }
 
-    #theme-fab.animate {
-      animation: fabClick 0.4s ease forwards;
-    }
-
-    section .btn {
-      display: inline-flex;
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
-    /* Card Styles */
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(10px);
@@ -673,15 +560,6 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
-    .card-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -710,7 +588,6 @@
       animation: fadeInUp 0.8s ease;
     }
 
-    /* Logo image */
     .logo-img {
       width: 36px;
       height: 36px;
@@ -725,67 +602,75 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    
-    /* Stili per sezione eventi con backend */
-    .events-container {
-      display: grid;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    
-    .event-card {
+
+    /* Stili specifici per la privacy policy */
+    .policy-content {
       background: var(--card-bg);
+      backdrop-filter: blur(10px);
       border-radius: 16px;
-      overflow: hidden;
+      padding: 2.5rem;
       box-shadow: var(--card-shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
-    .event-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+    .policy-section {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--sidebar-border);
     }
-    
-    .event-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
+
+    .policy-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
-    
-    .event-content {
-      padding: 1.5rem;
-    }
-    
-    .event-title {
+
+    .policy-section h2 {
       font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .policy-section h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.5rem;
       color: var(--text);
     }
-    
-    .event-meta {
-      display: flex;
-      gap: 1rem;
+
+    .policy-list {
+      margin-left: 1.5rem;
       margin-bottom: 1rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      flex-wrap: wrap;
     }
-    
-    .event-description {
-      color: var(--muted);
+
+    .policy-list li {
+      margin-bottom: 0.5rem;
       line-height: 1.6;
-      margin-bottom: 1.5rem;
     }
-    
-    .no-events {
-      text-align: center;
-      padding: 3rem;
+
+    .last-updated {
+      font-style: italic;
       color: var(--muted);
-      font-size: 1.1rem;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--sidebar-border);
+      text-align: center;
     }
-    
-    /* Stili per il dropdown menu */
+
+    .contact-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 1rem;
+    }
+
+    .contact-info i {
+      color: var(--accent);
+    }
+
+    /* Stili per il dropdown menu (copiati dal codice originale) */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -858,7 +743,6 @@
       font-family: inherit;
       font-size: inherit;
       cursor: pointer;
-      position: relative;
     }
 
     .dropdown-item:hover {
@@ -870,276 +754,27 @@
       background: var(--sidebar-border);
       margin: 0.25rem 0;
     }
-
-    /* ANIMAZIONE DROPDOWN - AGGIUNTA DAL SECONDO FILE */
-    @keyframes fadeInDropdown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Stili per la sidebar */
-    .sidebar-dropdown {
-      position: relative;
-    }
-
-    .sidebar-dropdown-toggle {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-family: inherit;
-      font-size: inherit;
-      padding: 0.75rem 1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .sidebar-dropdown-menu {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      background: var(--hover-bg);
-      border-radius: 8px;
-      margin: 0.25rem 0.5rem;
-    }
-
-    .sidebar-dropdown.active .sidebar-dropdown-menu {
-      max-height: 200px;
-    }
-
-    .sidebar-dropdown-item {
-      display: block;
-      padding: 0.6rem 1.5rem;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-      transition: background 0.3s ease;
-    }
-
-    .sidebar-dropdown-item:hover {
-      background: var(--hover-bg);
-    }
-
-    /* Media query per mobile */
-    @media (max-width: 768px) {
-      .dropdown {
-        display: none;
-      }
-      
-      nav > a, .dropdown-toggle {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
-      }
-    }
-
-    /* Stili per la sezione forum preview */
-    .feature-card {
-      background: var(--bg);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 1px solid var(--sidebar-border);
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .feature-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .feature-card h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      color: var(--text);
-    }
-
-    .feature-card p {
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 768px) {
-      .feature-card {
-        padding: 1rem;
-      }
-      
-      .feature-icon {
-        font-size: 2rem;
-      }
-    }
-
-    /* Stili per la preview della pagina centrale meteorologica */
-    .page-preview {
-      position: absolute;
-      left: -460px; /* Spostata a sinistra per essere completamente visibile */
-      top: 0;
-      width: 450px;
-      height: 320px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(-20px) scale(0.95);
-      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-      z-index: 1002;
-      border: 1px solid var(--sidebar-border);
-      backdrop-filter: blur(10px);
-    }
-
-    .dropdown-item:hover .page-preview {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0) scale(1);
-    }
-
-    .page-preview-content {
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      background: var(--card-bg);
-      color: var(--text);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .page-preview-hero {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-hero h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 5px;
-      background: linear-gradient(90deg, #007aff, #00c6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .page-preview-hero p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .page-preview-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-card {
-      background: var(--bg);
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border: 1px solid var(--sidebar-border);
-      transition: transform 0.2s ease;
-    }
-
-    .page-preview-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .page-preview-card h3 {
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .page-preview-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .page-preview-chart {
-      height: 80px;
-      background: var(--bg);
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--sidebar-border);
-      padding: 10px;
-    }
-
-    .page-preview-chart-line {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    .page-preview-chart-point {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    .page-preview-footer {
-      text-align: center;
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px solid var(--sidebar-border);
-    }
-
-    .page-preview-footer p {
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    @media (max-width: 768px) {
-      .page-preview {
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
-  <!-- FIX PER IPHONE: Container per lo sfondo -->
+  <!-- Sfondo fisso con overlay -->
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
-  <!-- HEADER DELLA PAGINA CONTATTI APPLICATO QUI -->
   <header>
     <div class="logo" id="toggleSidebar">
-      <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
       Daze For Future
     </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
-      <a href="index.html" class="active">Home</a>
+      <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
-
+      
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
@@ -1150,17 +785,11 @@
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
           </a>
-   <!--     <div class="dropdown-divider"></div>
-          <a href="altroprogetto.html" class="dropdown-item">
-            <i class="fas fa-lock" style="margin-right: 8px;"></i>
-            ///
-          </a> -->
         </div>
-      </div>
-
+      </div>      
       <a href="documenti.html">Documenti</a>
+      <a href="privacy.html" class="active">Privacy Policy</a>
 
-      
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
@@ -1175,114 +804,143 @@
           </svg>
         </button>
       </div>
+
       <!-- Link "Accedi" che viene nascosto quando loggato -->
-      <a href="login.html" id="loginLink">Accedi</a>
+      <a href="login.html" id="loginLink">Accedi</a>    
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
 
   <main>
-    <section id="home" class="hero">
+    <section class="hero">
       <div class="hero-content">
-        <h1>Benvenutə su Daze For Future</h1>
-        <p>Promuoviamo la sostenibilità, l'open source e la consapevolezza ambientale nella nostra scuola.</p>
-        <a href="https://liceodazeglio.edu.it" class="btn btn-accent">
-          <i class="fas fa-school"></i>
-          Liceo D'Azeglio
-        </a>
-      </div>
-    </section>
-    
-    <section id="chi-siamo">
-      <div class="card fade-in-up">
-        <img src="https://www.quotidianopiemontese.it/wp-content/uploads/2022/08/liceo-massimo-dazeglio.jpg" alt="Chi siamo" class="card-image">
-        <h2 class="section-title">Chi siamo</h2>
-        <p class="text-muted">Siamo un gruppo di studenti appassionati, supportati da docenti, che lavorano insieme per realizzare progetti educativi e sociali.</p>
-        <a href="chi_siamo.html" class="btn">
-          <i class="fas fa-users"></i>
-          Conosci il team
-        </a>
+        <h1>Privacy Policy</h1>
+        <p>Come proteggiamo e gestiamo i tuoi dati personali</p>
       </div>
     </section>
 
-    <section id="missione">
-      <div class="card fade-in-up">
-        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Missione" class="card-image">
-        <h2 class="section-title">La nostra missione</h2>
-        <p class="text-muted">Daze for Future è un'associazione no profit scolastica che si impegna a sensibilizzare gli studenti sul cambiamento climatico, promuovere software open source e sviluppare iniziative per un futuro sostenibile.</p>
-        <a href="missione.html" class="btn">
-          <i class="fas fa-bullseye"></i>
-          Scopri di più
-        </a>
-      </div>
-    </section>
-
-
-    <section id="registrazione">
-      <div class="card fade-in-up">
-        <img src="https://avvocatomattiafontana.com/wp-content/uploads/2025/06/Registrare-una-conversazione-e-reato.jpg" alt="Registrazione" class="card-image">
-        <h2 class="section-title">Registrati</h2>
-        <p class="text-muted">Unisciti a noi per contribuire a un futuro più sostenibile. Se sei già registrato, <a href="login.html">accedi</a></p>
-        <a href="registrati.html" class="btn">
-          <i class="fas fa-user-plus"></i>
-          Registrati
-        </a>
-      </div>
-    </section>
-
-<!--<section id="forum-preview">
-      <div class="card fade-in-up">
-        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80" alt="Forum Community" class="card-image">
-        <h2 class="section-title">Unisciti alla Community</h2>
-        <p class="text-muted">Il nostro forum è il luogo perfetto per discutere, condividere idee e collaborare con altri studenti appassionati di sostenibilità. Partecipa alle discussioni, fai domande e contribuisci a creare un futuro migliore insieme a noi.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;" id="forumButtons">
-         
+    <section>
+      <div class="policy-content fade-in-up">
+        <div class="policy-section">
+          <h2>1. Informativa sulla privacy</h2>
+          <p class="text-muted">
+            Daze For Future si impegna a proteggere la tua privacy e i tuoi dati personali. 
+            Questa informativa descrive come raccogliamo, utilizziamo e proteggiamo le informazioni 
+            che ci fornisci attraverso il nostro sito web e le nostre attività.
+          </p>
         </div>
-        <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;" id="forumFeatures">
+
+        <div class="policy-section">
+          <h2>2. Quali dati raccogliamo</h2>
+          <p class="text-muted">Raccogliamo diversi tipi di informazioni quando utilizzi il nostro sito:</p>
+          
+          <h3>Dati forniti direttamente</h3>
+          <ul class="policy-list text-muted">
+            <li>Informazioni di contatto (nome, email) quando ci contatti.</li>
+            <li>Credenziali di accesso (email e password) per l'area riservata, che sono conservate in modo sicuro e criptato nel databse degli utenti. Neanche noi possiamo vedere la password che inserisci</li>
+            <li>Messaggi e contributi pubblicati sul forum</li>
+            <li>Partecipazioni agli eventi che organizziamo</li>
+          </ul>
+        </div>
+
+        <div class="policy-section">
+          <h2>3. Come utilizziamo i tuoi dati</h2>
+          <p class="text-muted">Utilizziamo i tuoi dati personali per:</p>
+          <ul class="policy-list text-muted">
+            <li>Verificare la tua identità al momento dell'iscrizione</li>
+          </ul>
+        </div>
+
+        <div class="policy-section">
+          <h2>4. Condivisione dei dati</h2>
+          <p class="text-muted">
+            I tuoi dati personali non vengono venduti, affittati o ceduti a terzi. 
+          </p>
+        </div>
+
+        <div class="policy-section">
+          <h2>5. Conservazione dei dati</h2>
+          <p class="text-muted">
+            Conserviamo i tuoi dati personali solo per il tempo necessario a raggiungere 
+            le finalità per cui sono stati raccolti.
+          </p>
+          <ul class="policy-list text-muted">
+            <li>Dati dell'account: fino alla cancellazione da parte tua</li>
+          </ul>
+        </div>
+
+        <div class="policy-section">
+          <h2>6. Sicurezza dei dati</h2>
+          <p class="text-muted">
+            Implementiamo misure di sicurezza tecniche e organizzative appropriate per proteggere 
+            i tuoi dati personali da accessi non autorizzati, alterazioni, divulgazione o distruzione.
+          </p>
+          <p class="text-muted">
+            Tra queste misure includiamo crittografia, controllo degli accessi e backup regolari. 
+        </p>
+        </div>
+
+        <div class="policy-section">
+          <h2>7. Modifiche a questa policy</h2>
+          <p class="text-muted">
+            Ci riserviamo il diritto di aggiornare questa informativa sulla privacy periodicamente. 
+            Le modifiche entreranno in vigore al momento della pubblicazione sul sito.
+          </p>
+          <p class="text-muted">
+            Ti consigliamo di rivedere periodicamente questa pagina per essere informato 
+            su come proteggiamo le tue informazioni.
+          </p>
+        </div>
+
+        <div class="policy-section">
+          <h2>8. Contatti</h2>
+          <p class="text-muted">
+            Per qualsiasi domanda, dubbio o richiesta riguardante questa informativa sulla privacy 
+            o il trattamento dei tuoi dati personali, puoi contattarci:
+          </p>
+          <div class="contact-info text-muted">
+            <i class="fas fa-envelope"></i>
+            <span>Email: dazeforfuture@liceodazeglio.edu.it</span>
+          </div>
+          <div class="contact-info text-muted">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Indirizzo: Liceo "Massimo D'Azeglio", Via Parini 8, 10121 Torino</span>
+          </div>
+        </div>
+        <div class="last-updated text-muted">
+          Ultimo aggiornamento: 3 dicembre 2025
         </div>
       </div>
-    </section> -->
-
-    <section id="eventi-preview">
-      <h2 class="section-title">Eventi in programma</h2>
-      <div class="events-container" id="eventsContainer">
-        <!-- Gli eventi verranno caricati dinamicamente qui -->
-      </div>
-      <div style="text-align: center; margin-top: 2rem;">
-        <a href="prossimi_eventi.html" class="btn">
-          <i class="fas fa-calendar-alt"></i>
-          Vedi tutti gli eventi
-        </a>
-      </div>
-    </section> 
+    </section>
   </main>
 
-<!-- Sidebar -->
-<aside class="sidebar">
-  <button class="sidebar-close">&times;</button>
-  <h2>Menu</h2>
-  
-  <ul class="sidebar-menu">
-    <li><a href="index.html" class="active"><span>🏠</span>Home</a></li>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <button class="sidebar-close">&times;</button>
+    <h2>Menu</h2>
+    
+    <ul class="sidebar-menu">
+      <li><a href="index.html"><span>🏠</span>Home</a></li>
       <li><a href="missione.html"><span>🌱</span> Missione</a></li>
       <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-  <!-- Dropdown -->
-    <li class="sidebar-dropdown">
-      <button class="sidebar-dropdown-toggle">
-        <span>📁</span>
-        <span>Progetti</span>
-        <span class="dropdown-arrow">▼</span>
-      </button>
-      <ul class="sidebar-dropdown-menu">
-        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-      </ul>
-    </li>
+      <!-- Dropdown -->
+      <li class="sidebar-dropdown">
+        <button class="sidebar-dropdown-toggle">
+          <span>📁</span>
+          <span>Progetti</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <ul class="sidebar-dropdown-menu">
+          <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
+        </ul>
+      </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
       <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
       <li><a href="forum.html"><span>💬</span> Forum</a></li>
+      <li><a href="privacy.html" class="active"><span>🔒</span> Privacy</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-  </ul>
+    </ul>
 
     <!-- User info per mobile nella sidebar -->
     <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
@@ -1319,49 +977,7 @@
     &copy; 2025 Daze For Future. Tutti i diritti riservati.
   </footer>
 
-<script>
-    // ===== CONFIGURAZIONE BACKEND DINAMICA =====
-    (async function() {
-      // Hostname corrente
-      const currentHost = window.location.hostname;
-      
-      // Lista di endpoint da testare per gli eventi (:5002)
-      const eventEndpoints = [
-        `http://${currentHost}:5002`,
-        'http://localhost:5002', 
-        'http://192.168.0.92:5002'
-      ];
-      
-      // Funzione per testare la connettività
-      async function testEventEndpoint(url) {
-        try {
-          const response = await fetch(`${url}/api/post`, {
-            method: 'GET',
-            signal: AbortSignal.timeout(3000) // Timeout di 3 secondi
-          });
-          return response.ok ? url : null;
-        } catch (error) {
-          return null;
-        }
-      }
-      
-      // Prova ogni endpoint per gli eventi
-      for (const endpoint of eventEndpoints) {
-        const workingEndpoint = await testEventEndpoint(endpoint);
-        if (workingEndpoint) {
-          window.EVENTS_API_BASE_URL = workingEndpoint;
-          console.log('✅ Server Eventi trovato:', window.EVENTS_API_BASE_URL);
-          break;
-        }
-      }
-      
-      // Fallback se nessun endpoint funziona
-      if (!window.EVENTS_API_BASE_URL) {
-        window.EVENTS_API_BASE_URL = eventEndpoints[0];
-        console.warn('⚠️ Usando endpoint di default per eventi:', window.EVENTS_API_BASE_URL);
-      }
-    })();
-
+  <script>
     // Funzione per evidenziare la pagina corrente
     function highlightCurrentPage() {
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
@@ -1391,11 +1007,6 @@
       if (currentPage === '' || currentPage === 'index.html') {
         document.querySelector('nav a[href="index.html"]').classList.add('active');
         document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
-      }
-      
-      // Gestione speciale per le pagine nei dropdown
-      if (currentPage === 'centrale_meteo.html') {
-        document.querySelector('.dropdown-toggle').classList.add('active');
       }
     }
 
@@ -1454,14 +1065,13 @@
       }
     }
 
-    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+    // On load
     const savedTheme = localStorage.getItem('theme-preference');
     if (savedTheme) {
       applyTheme(savedTheme);
       const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
       if (btn) btn.classList.add('active');
     } else {
-      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
       applyTheme('auto');
       const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
       if (autoBtn) autoBtn.classList.add('active');
@@ -1480,30 +1090,7 @@
       
       // Evidenzia la pagina corrente
       highlightCurrentPage();
-      
-      // Carica eventi dal backend
-      caricaEventiHomepage();
-      
-      // Aggiorna la sezione forum in base allo stato di login
-      aggiornaSezioneForum();
-      
-      // Inizia l'aggiornamento della preview
-      aggiornaPreviewMeteo();
     });
-
-    // Funzione per aggiornare la preview della centrale meteorologica
-    function aggiornaPreviewMeteo() {
-      setInterval(() => {
-        const temp = (20 + Math.random() * 5).toFixed(1);
-        const air = (10 + Math.random() * 30).toFixed(1);
-        
-        const tempElement = document.getElementById('previewTempValue');
-        const airElement = document.getElementById('previewAirValue');
-        
-        if (tempElement) tempElement.textContent = temp + " °C";
-        if (airElement) airElement.textContent = air + " µg/m³";
-      }, 2000);
-    }
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
     function getNameFromEmail(email) {
@@ -1525,40 +1112,10 @@
       return role === 'admin' ? 'badge-admin' : 'badge-user';
     }
 
-    // Funzione per aggiornare la sezione forum in base allo stato di login
-    function aggiornaSezioneForum() {
-      const utente = localStorage.getItem('utente');
-      const forumButtons = document.getElementById('forumButtons');
-      const forumFeatures = document.getElementById('forumFeatures');
-      
-      if (utente) {
-        // Utente loggato - mostra solo "Vai al Forum"
-        forumButtons.innerHTML = `
-          <a href="forum.html" class="btn btn-accent">
-            <i class="fas fa-comments"></i>
-            Vai al Forum
-          </a>
-        `;
-        // Nascondi le feature cards
-        forumFeatures.style.display = 'none';
-      } else {
-        // Utente non loggato - mostra entrambi i pulsanti e le feature cards
-        forumButtons.innerHTML = `
-          <a href="forum.html" class="btn btn-accent">
-            <i class="fas fa-comments"></i>
-            Vai al Forum
-          </a>
-          <a href="registrati.html" class="btn">
-            <i class="fas fa-user-plus"></i>
-            Registrati per Partecipare
-          </a>
-        `;
-  }}
-
     // Mostra la barra utente se loggato
     document.addEventListener('DOMContentLoaded', function() {
       const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
       
       if(utente) {
         // Nascondi link login
@@ -1583,9 +1140,6 @@
         document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
       }
-      
-      // Aggiorna la sezione forum dopo aver controllato lo stato di login
-      aggiornaSezioneForum();
     });
 
     function logout() {
@@ -1621,88 +1175,10 @@
     }, observerOptions);
 
     // Observe all cards for animation
-    document.querySelectorAll('.card').forEach(card => {
+    document.querySelectorAll('.card, .policy-content').forEach(card => {
       observer.observe(card);
     });
-    
-    // ===== FUNZIONE CARICA EVENTI HOMEPAGE CON RICERCA AUTOMATICA =====
-    async function caricaEventiHomepage() {
-      try {
-        console.log('🔍 Caricamento eventi per homepage...');
-        
-        // Usa l'endpoint degli eventi specifico
-        const eventsEndpoint = window.EVENTS_API_BASE_URL || 'http://192.168.0.92:5002';
-        console.log('📡 Tentativo connessione a:', `${eventsEndpoint}/api/post`);
-        
-        const response = await fetch(`${eventsEndpoint}/api/post`);
-        
-        if (!response.ok) {
-          throw new Error(`Errore HTTP: ${response.status}`);
-        }
-        
-        const posts = await response.json();
-        
-        console.log('📦 Eventi ricevuti:', posts);
-        
-        const container = document.getElementById('eventsContainer');
-        
-        // Mostra solo i primi 2 eventi per la preview
-        const eventiPreview = posts.slice(0, 2);
-        
-        if (eventiPreview.length === 0) {
-          container.innerHTML = '<div class="no-events">Nessun evento programmato al momento. Torna presto per scoprire le nuove iniziative!</div>';
-          return;
-        }
-        
-        container.innerHTML = '';
-        
-        eventiPreview.forEach((post) => {
-          // Gestione dell'immagine
-          let imageHtml = '';
-          if (post.immagine && post.immagine.trim() !== '' && post.immagine !== 'null') {
-            imageHtml = `<img src="${post.immagine}" alt="${post.titolo || 'Evento'}" class="event-image" onerror="this.style.display='none';">`;
-          }
-
-          // Formatta la data
-          const dataEvento = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
-          const orarioEvento = post.orario || 'Orario da definire';
-
-          container.innerHTML += `
-            <article class="event-card fade-in-up">
-              ${imageHtml}
-              <div class="event-content">
-                <h3 class="event-title">${post.titolo || 'Titolo non disponibile'}</h3>
-                <div class="event-meta">
-                  <span>📅 ${dataEvento}</span>
-                  <span>🕒 ${orarioEvento}</span>
-                  <span>📍 ${post.luogo || 'Luogo da definire'}</span>
-                </div>
-                <p class="event-description">${post.contenuto || 'Descrizione non disponibile'}</p>
-                ${post.link ? `<a href="${post.link}" target="_blank" class="btn">Maggiori informazioni</a>` : ''}
-              </div>
-            </article>
-          `;
-        });
-        
-      } catch (error) {
-        console.error('❌ Errore caricamento eventi homepage:', error);
-        
-        // Mostra un messaggio di errore più specifico
-        const eventsEndpoint = window.EVENTS_API_BASE_URL || 'http://192.168.0.92:5002'; // Da capire quando si avrà l'IP Statico
-        document.getElementById('eventsContainer').innerHTML = `
-          <div class="no-events">
-            <p style="color: var(--error);">Errore nel caricamento degli eventi</p>
-            <p class="text-muted">Impossibile raggiungere il server degli eventi.</p>
-            <p class="text-muted">Assicurati che il server sia in esecuzione su ${eventsEndpoint}</p>
-            <button class="btn" onclick="caricaEventiHomepage()" style="margin-top: 1rem;">
-              <i class="fas fa-redo"></i>
-              Riprova
-            </button>
-          </div>
-        `;
-      }
-    }
-</script>
+  </script>
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>
 </body>

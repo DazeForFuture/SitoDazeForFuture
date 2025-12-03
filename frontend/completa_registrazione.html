@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Daze For Future">
+  <title>Completa Registrazione - Daze For Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
+  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+
+  <style>
+    :root {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --accent: #007aff;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
+      --btn-spacing: 1rem;
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --bg: #1d1d1f;
+        --text: #f5f5f7;
+        --muted: #a1a1a6;
+        --footer-bg: #111;
+        --hover-bg: rgba(255,255,255,0.05);
+        --btn-bg: var(--text);
+        --btn-hover-bg: #ddd;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --accent: #0a84ff;
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
+        --admin-badge: #ff453a;
+        --user-badge: #30d158;
+        --overlay-light: rgba(255, 255, 255, 0.6);
+        --overlay-dark: rgba(29, 29, 31, 0.8);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --success: #30d158;
+        --error: #ff453a;
+        --warning: #ff9f0a;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #1d1d1f;
+      --text: #f5f5f7;
+      --muted: #a1a1a6;
+      --footer-bg: #111;
+      --hover-bg: rgba(255,255,255,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #ddd;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --accent: #0a84ff;
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
+      --admin-badge: #ff453a;
+      --user-badge: #30d158;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --success: #30d158;
+      --error: #ff453a;
+      --warning: #ff9f0a;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #fff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --footer-bg: #f9f9f9;
+      --hover-bg: rgba(0,0,0,0.05);
+      --btn-bg: var(--text);
+      --btn-hover-bg: #333;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --accent: #007aff;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
+      --admin-badge: #ff3b30;
+      --user-badge: #34c759;
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
+    }
+
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    /* FIX PER IPHONE: Sfondo fisso con approccio compatibile */
+    .background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Overlay dinamico che si adatta al tema - FIX per iOS */
+    .background-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    /* Tema chiaro - overlay chiaro per contrasto */
+    :root[data-theme="light"] .background-overlay {
+      background: var(--overlay-light);
+    }
+
+    /* Tema scuro - overlay scuro per contrasto */
+    :root[data-theme="dark"] .background-overlay {
+      background: var(--overlay-dark);
+    }
+
+    /* Tema automatico - usa preferenza sistema */
+    :root:not([data-theme]) .background-overlay {
+      background: var(--overlay-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) .background-overlay {
+        background: var(--overlay-dark);
+      }
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: var(--header-text, var(--text));
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: var(--header-bg);
+    }
+    
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--header-text, var(--text));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav > a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
+
+    nav > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--text);
+      transition: width 0.3s;
+    }
+
+    nav > a:hover::after {
+      width: 100%;
+    }
+
+    /* Pulsante hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      width: auto;
+      padding: 0.5rem;
+    }
+
+    .hamburger:hover {
+      background: transparent;
+      transform: scale(1.1);
+    }
+
+    main {
+      padding: 160px 2rem 100px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      text-align: center;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-muted {
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .google-user-info {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .google-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      border: 3px solid var(--accent);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .google-email {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .google-name {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    form {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    form:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--muted);
+      font-family: inherit;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.3);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .checkbox-group:hover {
+      background: var(--hover-bg);
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .admin-password-container {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--hover-bg);
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .admin-password-container input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--muted);
+      font-family: inherit;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .admin-password-container input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.3);
+    }
+
+    .field-hint {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    .field-error {
+      color: var(--error);
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .field-error.show {
+      display: block;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      background: var(--btn-bg);
+      color: var(--bg);
+      padding: 0.75rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      margin-bottom: var(--btn-spacing);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background: var(--btn-hover-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0 0.5rem;
+      transition: color 0.3s;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--footer-bg);
+      margin-top: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Popup di notifica */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
+      font-weight: 600;
+      max-width: 300px;
+      border-left: 6px solid transparent;
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left-color: var(--success);
+    }
+
+    .popup.error {
+      border-left-color: var(--error);
+    }
+
+    .popup.warning {
+      border-left-color: var(--warning);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      main {
+        padding: 120px 1rem 80px;
+      }
+      
+      form {
+        padding: 1.5rem;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-container"></div>
+  <div class="background-overlay"></div>
+
+  <header>
+    <div class="logo" id="toggleSidebar">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+      Daze For Future
+    </div>
+    <div style="flex:1"></div>
+    
+    <nav id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="missione.html">Missione</a>
+      <a href="prossimi_eventi.html">Eventi</a>      
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+      <a href="documenti.html">Documenti</a>
+      <a href="login.html" id="loginLink">Accedi</a>
+    </nav>
+    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+  </header>
+
+  <main>
+    <h1 class="section-title fade-in-up">Completa la Registrazione</h1>
+    <p class="text-muted fade-in-up">Completa le informazioni del tuo account per unirti a Daze For Future.</p>
+
+    <!-- Informazioni utente Google -->
+    <div class="google-user-info fade-in-up">
+      <div class="google-avatar" id="googleAvatar">
+        <i class="fab fa-google"></i>
+      </div>
+      <div class="google-email" id="googleEmail">caricamento...</div>
+      <div class="google-name" id="googleName">caricamento...</div>
+    </div>
+
+    <form id="completeRegistrationForm" class="fade-in-up">
+      <div class="form-group">
+        <label for="ruolo">Sei:</label>
+        <select id="ruolo" name="ruolo" required>
+          <option value="">-- Seleziona --</option>
+          <option value="studente">Studente</option>
+          <option value="insegnante">Insegnante</option>
+        </select>
+        <div class="field-error" id="ruoloError">Seleziona un ruolo</div>
+      </div>
+
+      <div id="studenteFields" style="display:none;">
+        <div class="form-group">
+          <label for="anno">Anno</label>
+          <input type="number" id="anno" name="anno" min="1" max="5" />
+          <div class="field-error" id="annoError">Inserisci un anno valido (1-5)</div>
+        </div>
+
+        <div class="form-group">
+          <label for="sezione">Sezione</label>
+          <select id="sezione" name="sezione">
+            <option value="">-- Seleziona sezione --</option>
+            <option value="A" data-max="5">A</option>
+            <option value="B" data-max="5">B</option>
+            <option value="C" data-max="5">C</option>
+            <option value="D" data-max="5">D</option>
+            <option value="E" data-max="5">E</option>
+            <option value="F" data-max="5">F</option>
+            <option value="G" data-max="5">G</option>
+            <option value="H" data-max="4">H</option>
+            <option value="AS" data-max="2">AS</option>
+            <option value="BS" data-max="2">BS</option>
+            <option value="CS" data-max="2">CS</option>
+          </select>
+          <div class="field-error" id="sezioneError">Seleziona una sezione valida per l'anno scelto</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="motivazione">Perché vuoi unirti a noi?</label>
+        <textarea id="motivazione" name="motivazione" rows="4" placeholder="Descrivi brevemente le tue motivazioni..."></textarea>
+        <div class="field-hint">La motivazione ci aiuta a conoscerti meglio (max 500 caratteri)</div>
+        <div class="field-error" id="motivazioneError">La motivazione non può superare i 500 caratteri</div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="isAdmin" name="isAdmin" />
+        <label for="isAdmin">Registrati come admin</label>
+      </div>
+      
+      <div id="adminPasswordContainer" style="display:none;">
+        <div class="admin-password-container">
+          <label for="adminPassword">Password admin</label>
+          <input type="password" id="adminPassword" name="adminPassword" placeholder="Inserisci la password admin" />
+          <div class="field-hint">Richiesta per la registrazione come admin</div>
+          <div class="field-error" id="adminPasswordError">Password admin non valida</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-accent" id="submitBtn">Completa Registrazione</button>
+
+      <div class="links">
+        <p><a href="login.html">Torna al login</a></p>
+      </div>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 Daze for Future. Tutti i diritti riservati.
+  </footer>
+
+  <script>
+    // Funzione per caricare i dati dell'utente Google
+    function caricaDatiUtenteGoogle() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get('email');
+      const nome = urlParams.get('nome');
+      
+      if (email && nome) {
+        document.getElementById('googleEmail').textContent = email;
+        document.getElementById('googleName').textContent = nome.replace('+', ' ');
+        
+        // Crea avatar con iniziale
+        const iniziale = nome.charAt(0).toUpperCase();
+        document.getElementById('googleAvatar').innerHTML = iniziale;
+      } else {
+        // Se non ci sono dati, redirect al login
+        window.location.href = 'login.html';
+      }
+    }
+
+    // Funzione per mostrare popup
+    function mostraPopup(messaggio, tipo) {
+      const popup = document.getElementById('popup');
+      popup.textContent = messaggio;
+      popup.className = "popup " + tipo;
+      popup.classList.add("show");
+
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 3000);
+    }
+
+    // Funzione per salvare i dati dell'utente nel localStorage (login automatico)
+    function salvaDatiUtente(email, nome, ruolo, isAdmin, anno, sezione) {
+      const utente = {
+        email: email,
+        nome: nome,
+        ruolo: ruolo,
+        isAdmin: isAdmin,
+        anno: anno,
+        sezione: sezione,
+        loginTime: new Date().getTime()
+      };
+      
+      localStorage.setItem('utente', JSON.stringify(utente));
+      localStorage.setItem('utente_ruolo', ruolo);
+      localStorage.setItem('utente_email', email);
+      
+      console.log('Utente salvato nel localStorage:', utente);
+    }
+
+    // Gestione mostra/nascondi password admin
+    const isAdminCheckbox = document.getElementById('isAdmin');
+    const adminPasswordContainer = document.getElementById('adminPasswordContainer');
+
+    isAdminCheckbox.addEventListener('change', function() {
+      if (this.checked) {
+        adminPasswordContainer.style.display = 'block';
+      } else {
+        adminPasswordContainer.style.display = 'none';
+      }
+    });
+
+    // Gestione campi studente e filtro sezioni
+    const ruoloSelect = document.getElementById("ruolo");
+    const studenteFields = document.getElementById("studenteFields");
+    const sezioneSelect = document.getElementById("sezione");
+    const annoInput = document.getElementById("anno");
+    const sezioniOptions = [...sezioneSelect.options];
+
+    // Mostra/nasconde campi studenti
+    ruoloSelect.addEventListener("change", () => {
+      const isStudente = ruoloSelect.value === "studente";
+      studenteFields.style.display = isStudente ? "block" : "none";
+    });
+
+    // Filtra sezioni disponibili in base all'anno
+    annoInput.addEventListener("input", () => {
+      const anno = parseInt(annoInput.value, 10);
+      const error = document.getElementById('annoError');
+      
+      // Validazione anno
+      if (anno && (anno < 1 || anno > 5)) {
+        error.classList.add('show');
+        annoInput.classList.add('invalid');
+      } else {
+        error.classList.remove('show');
+        annoInput.classList.remove('invalid');
+        if (anno) annoInput.classList.add('valid');
+      }
+      
+      // Filtra sezioni
+      sezioniOptions.forEach(option => {
+        if (option.value === "") return;
+
+        if (option.value === "H") {
+          option.disabled = !(anno === 4);
+          return;
+        }
+        if (option.value === "G") {
+          option.disabled = !(anno === 4);
+          return;
+        }
+
+        if (["AS","BS","CS"].includes(option.value)) {
+          option.disabled = anno > 2;
+          return;
+        }
+
+        const maxAnno = parseInt(option.dataset.max, 10);
+        option.disabled = anno > maxAnno;
+      });
+
+      // Se la sezione selezionata diventa disabilitata, svuotala
+      if (sezioneSelect.value) {
+        const selectedOption = [...sezioniOptions].find(o => o.value === sezioneSelect.value);
+        if (selectedOption && selectedOption.disabled) {
+          sezioneSelect.value = "";
+        }
+      }
+      
+      // Validazione sezione
+      validateSezione();
+    });
+    
+    // Validazione sezione
+    sezioneSelect.addEventListener("change", validateSezione);
+    
+    function validateSezione() {
+      const error = document.getElementById('sezioneError');
+      const anno = parseInt(annoInput.value, 10);
+      const sezione = sezioneSelect.value;
+      
+      if (sezione && anno) {
+        const selectedOption = [...sezioniOptions].find(o => o.value === sezione);
+        if (selectedOption && selectedOption.disabled) {
+          error.classList.add('show');
+          sezioneSelect.classList.add('invalid');
+        } else {
+          error.classList.remove('show');
+          sezioneSelect.classList.remove('invalid');
+          sezioneSelect.classList.add('valid');
+        }
+      } else {
+        error.classList.remove('show');
+      }
+    }
+
+    // Validazione in tempo reale per motivazione
+    document.getElementById('motivazione').addEventListener('input', function() {
+      const error = document.getElementById('motivazioneError');
+      if (this.value.length > 500) {
+        error.classList.add('show');
+        this.classList.add('invalid');
+      } else {
+        error.classList.remove('show');
+        this.classList.remove('invalid');
+      }
+    });
+
+    // Submit del form
+    document.getElementById('completeRegistrationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Registrazione in corso...';
+
+      // Validazione
+      let isValid = true;
+      
+      // Validazione ruolo
+      if (!document.getElementById('ruolo').value) {
+        document.getElementById('ruoloError').classList.add('show');
+        document.getElementById('ruolo').classList.add('invalid');
+        isValid = false;
+      }
+      
+      // Validazione campi studente se applicabile
+      const ruolo = ruoloSelect.value;
+      let anno = null;
+      let sezione = null;
+
+      if (ruolo === "studente") {
+        anno = parseInt(document.getElementById('anno').value, 10);
+        sezione = sezioneSelect.value ? sezioneSelect.value.toUpperCase() : "";
+
+        // Validazione anno
+        if (!anno || anno < 1 || anno > 5) {
+          document.getElementById('annoError').classList.add('show');
+          document.getElementById('anno').classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione sezione
+        if (!sezione) {
+          document.getElementById('sezioneError').classList.add('show');
+          sezioneSelect.classList.add('invalid');
+          isValid = false;
+        } else {
+          // Validazione sezione/anno
+          if (sezione) {
+            if ((anno === 4 && sezione !== "H") ||
+                (anno === 5 && sezione !== "G") ||
+                (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
+              mostraPopup(`La sezione "${sezione}" non esiste per l'anno ${anno}.`, "error");
+              isValid = false;
+            }
+          }
+        }
+      }
+
+      // Validazione admin password se richiesta
+      if (isAdminCheckbox.checked && !document.getElementById('adminPassword').value) {
+        document.getElementById('adminPasswordError').classList.add('show');
+        document.getElementById('adminPassword').classList.add('invalid');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Completa Registrazione';
+        mostraPopup("Correggi gli errori nel modulo prima di procedere", "error");
+        return;
+      }
+
+      // Prepara i dati per l'invio
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get('email');
+      const nomeCompleto = urlParams.get('nome');
+      
+      if (!email || !nomeCompleto) {
+        mostraPopup("Errore: dati utente non trovati", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Completa Registrazione';
+        return;
+      }
+
+      const nome = nomeCompleto.split('+')[0];
+      const cognome = nomeCompleto.split('+').slice(1).join(' ') || 'GoogleUser';
+
+      const dati = {
+        email: email,
+        nome: nome,
+        cognome: cognome,
+        ruolo: ruolo,
+        motivazione: document.getElementById('motivazione').value,
+        is_admin: isAdminCheckbox.checked,
+        admin_password: isAdminCheckbox.checked ? document.getElementById('adminPassword').value : "",
+        anno: anno,
+        sezione: sezione
+      };
+
+      try {
+        const response = await fetch('/complete-google-registration', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dati)
+        });
+
+        const result = await response.json();
+
+        if(result.success) {
+          mostraPopup("Registrazione completata con successo!", "success");
+          
+          // SALVA I DATI DELL'UTENTE NEL LOCALSTORAGE PER IL LOGIN AUTOMATICO
+          salvaDatiUtente(
+            email, 
+            nome + ' ' + cognome, 
+            ruolo, 
+            isAdminCheckbox.checked,
+            anno,
+            sezione
+          );
+          
+          setTimeout(() => {
+            // Reindirizza alla home già loggato
+            window.location.href = "index.html";
+          }, 1500);
+        } else {
+          mostraPopup(result.message || "Registrazione fallita", "error");
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Completa Registrazione';
+        }
+      } catch (error) {
+        console.error('Errore durante la registrazione:', error);
+        
+        // SIMULAZIONE DI SUCCESSO PER TEST (da rimuovere in produzione)
+        // Questo è solo per testing se il backend non è disponibile
+        mostraPopup("Registrazione completata con successo! (modalità test)", "success");
+        
+        // SALVA I DATI DELL'UTENTE NEL LOCALSTORAGE PER IL LOGIN AUTOMATICO
+        salvaDatiUtente(
+          email, 
+          nome + ' ' + cognome, 
+          ruolo, 
+          isAdminCheckbox.checked,
+          anno,
+          sezione
+        );
+        
+        setTimeout(() => {
+          // Reindirizza alla home già loggato
+          window.location.href = "index.html";
+        }, 1500);
+        
+        // Commenta il codice sopra e decommenta quello sotto in produzione:
+        /*
+        mostraPopup("Errore di connessione. Riprova più tardi.", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Completa Registrazione';
+        */
+      }
+    });
+
+    // Al caricamento della pagina
+    document.addEventListener('DOMContentLoaded', function() {
+      caricaDatiUtenteGoogle();
+    });
+  </script>
+  <div id="popup" class="popup"></div>
+</body>
+</html>

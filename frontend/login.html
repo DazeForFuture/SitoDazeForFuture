@@ -39,6 +39,7 @@
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
+      --active-link: #007aff; /* Colore per il link attivo */
     }
 
     @media (prefers-color-scheme: dark) {
@@ -65,6 +66,7 @@
         --success: #30d158;
         --error: #ff453a;
         --warning: #ff9f0a;
+        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
       }
     }
 
@@ -91,6 +93,7 @@
       --success: #30d158;
       --error: #ff453a;
       --warning: #ff9f0a;
+      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
     }
 
     :root[data-theme="light"] {
@@ -116,6 +119,35 @@
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
+      --active-link: #007aff; /* Colore per il link attivo in light mode */
+    }
+
+    /* Stili per evidenziare la pagina attiva */
+    nav > a.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    nav > a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: var(--active-link);
+      transition: width 0.3s;
+    }
+
+    /* Stile per il link Accedi evidenziato - sovrascrive lo stile attivo */
+    nav a[href="login.html"].active,
+    nav a[href="login.html"]:visited.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover.active {
+      text-decoration: none;
     }
 
     :root[data-theme="dark"] header {
@@ -191,6 +223,7 @@
       min-height: 100vh;
     }
 
+    /* Animazione header come in index.html */
     header {
       position: fixed;
       top: 0;
@@ -205,6 +238,12 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
+      animation: slideDown 1s ease forwards; /* ANIMAZIONE AGGIUNTA */
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
     
     .logo {
@@ -273,7 +312,94 @@
       text-decoration: underline;
     }
 
-  /* Pulsante hamburger */
+    /* Stile per il bottone Google */
+    .btn-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: white;
+      color: #757575;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: var(--btn-spacing);
+    }
+
+    .btn-google:hover {
+      background: #f8f8f8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      border-color: #ccc;
+    }
+
+    .btn-google:active {
+      transform: translateY(0);
+    }
+
+    /* Versione dark mode */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) .btn-google {
+        background: #333;
+        color: #fff;
+        border-color: #555;
+      }
+      
+      :root:not([data-theme]) .btn-google:hover {
+        background: #444;
+        border-color: #666;
+      }
+    }
+
+    :root[data-theme="dark"] .btn-google {
+      background: #333;
+      color: #fff;
+      border-color: #555;
+    }
+
+    :root[data-theme="dark"] .btn-google:hover {
+      background: #444;
+      border-color: #666;
+    }
+
+    :root[data-theme="light"] .btn-google {
+      background: white;
+      color: #757575;
+      border-color: #ddd;
+    }
+
+    :root[data-theme="light"] .btn-google:hover {
+      background: #f8f8f8;
+      border-color: #ccc;
+    }
+
+    /* Separatore */
+    .separator {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.5rem 0;
+      color: var(--muted);
+    }
+
+    .separator::before,
+    .separator::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--muted);
+    }
+
+    .separator span {
+      padding: 0 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Pulsante hamburger */
     .hamburger {
       display: none;
       background: none;
@@ -739,6 +865,40 @@
         right: 20px;
       }
     }
+
+    /* Stili per il dropdown menu - NASCONDI IN PAGINA LOGIN */
+    .dropdown {
+      display: none !important;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
   </style>
 </head>
 <body>
@@ -746,22 +906,34 @@
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
+  <!-- HEADER SEMPLIFICATO: SOLO HOME E REGISTRATI -->
   <header>
     <div class="logo" id="toggleSidebar">
-      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
-      Daze for Future
+      <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
+      Daze For Future
     </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
-      <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Eventi</a>      
-      <a href="chi_siamo.html">Chi siamo</a>
-      <a href="contatti.html">Contatti</a>
-      <a href="documenti.html">Documenti</a>
-      <a href="forum.html">Forum</a>
-      <a href="login.html" id="loginLink">Accedi</a>
+      <a href="registrati.html">Registrati</a>
+
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <div class="user-display">
+          <span class="user-name" id="userName"></span>
+          <span class="user-badge" id="userBadge"></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink" class="active">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
@@ -790,9 +962,25 @@
 
       <button type="submit" class="btn-accent">Entra</button>
 
+      <!-- Separatore -->
+      <div class="separator">
+        <span>oppure</span>
+      </div>
+
+      <!-- Bottone Accedi con Google - IMPLEMENTAZIONE REALE -->
+      <button type="button" class="btn-google" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="margin-right: 12px;">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Accedi con Google
+      </button>
+
       <div class="links">
         <p><a href="registrati.html">Non hai un account? Registrati</a></p>
-        <p><a href="password_dimenticata.html">Password dimenticata?</a></p>
+        <p><a href="reset_password.html">Password dimenticata?</a></p>
       </div>
     </form>
   </main>
@@ -804,24 +992,8 @@
   
   <ul class="sidebar-menu">
     <li><a href="index.html"><span>🏠</span>Home</a></li>
-      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-  <!-- Dropdown -->
-    <li class="sidebar-dropdown">
-      <button class="sidebar-dropdown-toggle">
-        <span>📁</span>
-        <span>Progetti</span>
-        <span class="dropdown-arrow">▼</span>
-      </button>
-      <ul class="sidebar-dropdown-menu">
-        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-      </ul>
-    </li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-      <li><a href="forum.html"><span>💬</span> Forum</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+    <li><a href="registrati.html"><span>📝</span>Registrati</a></li>
+    <li><a href="login.html" id="sidebarLoginLink" class="active"><span>🔐</span> Accedi</a></li>
   </ul>
   
   <!-- User info per mobile nella sidebar -->
@@ -834,7 +1006,7 @@
       <span class="mobile-user-name" id="mobileUserName"></span>
       <span class="mobile-user-badge" id="mobileUserBadge"></span>
     </div>
-    <button class="logout-btn" onclick="userbar.logout()" style="justify-content: center;">
+    <button class="logout-btn" onclick="logout()" style="justify-content: center;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
@@ -875,6 +1047,89 @@
   </footer>
 
   <script>
+    // ===== CONFIGURAZIONE BACKEND DINAMICA =====
+    (async function() {
+      // Hostname corrente
+      const currentHost = window.location.hostname;
+      
+      // Lista di endpoint per l'autenticazione (:5000)
+      const authEndpoints = [
+        `http://${currentHost}:5000`,
+        'http://localhost:5000', 
+        'http://192.168.0.92:5000'
+      ];
+      
+      // Funzione per testare la connettività
+      async function testAuthEndpoint(url) {
+        try {
+          const response = await fetch(`${url}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({}),
+            signal: AbortSignal.timeout(3000) // Timeout di 3 secondi
+          });
+          // Anche se restituisce errore, l'endpoint è raggiungibile
+          return url;
+        } catch (error) {
+          return null;
+        }
+      }
+      
+      // Prova ogni endpoint per l'autenticazione
+      for (const endpoint of authEndpoints) {
+        const workingEndpoint = await testAuthEndpoint(endpoint);
+        if (workingEndpoint) {
+          window.AUTH_API_BASE_URL = workingEndpoint;
+          console.log('✅ Server Autenticazione trovato:', window.AUTH_API_BASE_URL);
+          break;
+        }
+      }
+      
+      // Fallback se nessun endpoint funziona
+      if (!window.AUTH_API_BASE_URL) {
+        window.AUTH_API_BASE_URL = authEndpoints[0];
+        console.warn('⚠️ Usando endpoint di default per autenticazione:', window.AUTH_API_BASE_URL);
+      }
+    })();
+
+    // Funzione per evidenziare la pagina corrente
+    function highlightCurrentPage() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('nav a');
+      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      
+      // Rimuovi la classe active da tutti i link
+      navLinks.forEach(link => link.classList.remove('active'));
+      sidebarLinks.forEach(link => link.classList.remove('active'));
+      
+      // Aggiungi la classe active al link corrente
+      navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      sidebarLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Gestione speciale per la home page
+      if (currentPage === '' || currentPage === 'index.html') {
+        document.querySelector('nav a[href="index.html"]').classList.add('active');
+        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
+      }
+      
+      // Evidenzia il link "Accedi" in questa pagina
+      if (currentPage === 'login.html') {
+        document.querySelector('nav a[href="login.html"]').classList.add('active');
+        document.querySelector('.sidebar-menu a[href="login.html"]').classList.add('active');
+      }
+    }
+
     // Theme functionality
     const fab = document.getElementById('theme-fab');
     const popup = document.getElementById('theme-popup');
@@ -953,7 +1208,32 @@
       cards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
       });
+      
+      // Evidenzia la pagina corrente
+      highlightCurrentPage();
+      
+      // Verifica se l'utente è già loggato
+      checkIfAlreadyLogged();
     });
+
+    // ===== IMPLEMENTAZIONE REALE LOGIN CON GOOGLE =====
+    async function loginWithGoogle() {
+      try {
+        mostraPopup("Reindirizzamento a Google...", "success");
+        
+        // Usa l'endpoint configurato per l'autenticazione
+        const authEndpoint = window.AUTH_API_BASE_URL || 'http://localhost:5000';
+        
+        // Reindirizza all'endpoint OAuth di Google sul backend
+        setTimeout(() => {
+          window.location.href = `${authEndpoint}/google/login`;
+        }, 500);
+        
+      } catch (error) {
+        console.error('Errore login Google:', error);
+        mostraPopup("Errore durante l'accesso con Google", "error");
+      }
+    }
 
     // Funzione per costruire l'email completa
     function buildEmail() {
@@ -973,7 +1253,15 @@
 
     // Funzione per mostrare popup
     function mostraPopup(messaggio, tipo) {
-      const popup = document.getElementById('popup');
+      // Crea o recupera il popup
+      let popup = document.getElementById('popup');
+      if (!popup) {
+        popup = document.createElement('div');
+        popup.id = 'popup';
+        popup.className = 'popup';
+        document.body.appendChild(popup);
+      }
+      
       popup.textContent = messaggio;
       popup.className = "popup " + tipo;
       popup.classList.add("show");
@@ -984,7 +1272,7 @@
       }, 3000);
     }
 
-    // Funzione login
+    // Funzione login standard
     async function loginUtente() {
       document.getElementById('email').value = buildEmail();
       
@@ -1000,7 +1288,10 @@
       }
 
       try {
-        const response = await fetch('/login', {
+        // Usa l'endpoint configurato per l'autenticazione
+        const authEndpoint = window.AUTH_API_BASE_URL || 'http://localhost:5000';
+        
+        const response = await fetch(`${authEndpoint}/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(dati)
@@ -1011,18 +1302,10 @@
         if(result.success) {
           mostraPopup("Accesso effettuato con successo!", "success");
           
-          // Salva i dati utente usando la funzione userbar
-          if (window.userbar && window.userbar.updateUserbarOnLogin) {
-            window.userbar.updateUserbarOnLogin({
-              email: dati.email,
-              nome: dati.email.split('@')[0], // Usa la parte prima della @ come nome
-              ruolo: result.ruolo || 'user'
-            });
-          } else {
-            // Fallback se userbar non è disponibile
-            localStorage.setItem('utente', dati.email);
-            localStorage.setItem('utente_ruolo', result.ruolo || 'user');
-          }
+          // Salva i dati utente
+          localStorage.setItem('utente', dati.email);
+          localStorage.setItem('utente_ruolo', result.ruolo || 'user');
+          localStorage.setItem('login_method', 'standard');
           
           setTimeout(() => {
             window.location.href = "index.html";
@@ -1038,25 +1321,26 @@
 
     // Funzioni per gestire il popup utente già loggato
     function checkIfAlreadyLogged() {
-      if (userbar.isUserLoggedIn && userbar.isUserLoggedIn()) {
-        const currentUser = userbar.getCurrentUser();
-        if (currentUser && currentUser.email) {
-          document.getElementById('currentUserEmail').innerText = currentUser.email;
-          document.getElementById('alreadyLoggedPopup').classList.add('show');
-        }
+      const utente = localStorage.getItem('utente');
+      if (utente) {
+        document.getElementById('currentUserEmail').innerText = utente;
+        document.getElementById('alreadyLoggedPopup').classList.add('show');
+        return true;
       }
+      return false;
     }
 
     function logoutFromPopup() {
-      if (window.userbar && window.userbar.logout) {
-        window.userbar.logout();
-      } else {
-        // Fallback se userbar non è disponibile
-        localStorage.removeItem('utente');
-        localStorage.removeItem('utente_ruolo');
-      }
+      // Rimuovi tutti i dati di login
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      localStorage.removeItem('login_method');
       
+      // Chiudi il popup e ricarica la pagina
       closeAlreadyLoggedPopup();
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
     }
 
     function closeAlreadyLoggedPopup() {
@@ -1064,14 +1348,68 @@
       window.location.href = "index.html";
     }
 
-    // Verifica se l'utente è già loggato al caricamento della pagina
+    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    function getNameFromEmail(email) {
+      return email.split('@')[0];
+    }
+
+    // Funzione per generare l'iniziale dall'email
+    function getInitialFromEmail(email) {
+      return email.charAt(0).toUpperCase();
+    }
+
+    // Funzione per ottenere il testo del badge in base al ruolo
+    function getBadgeText(role) {
+      return role === 'admin' ? 'Admin' : 'User';
+    }
+
+    // Funzione per ottenere la classe CSS del badge in base al ruolo
+    function getBadgeClass(role) {
+      return role === 'admin' ? 'badge-admin' : 'badge-user';
+    }
+
+    // Mostra la barra utente se loggato
     document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(() => {
-        if (window.userbar && window.userbar.isUserLoggedIn && window.userbar.isUserLoggedIn()) {
-          checkIfAlreadyLogged();
-        }
-      }, 500);
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      const loginMethod = localStorage.getItem('login_method');
+      
+      if(utente && loginMethod !== 'google_pending') {
+        // Nascondi link login
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('sidebarLoginLink').style.display = 'none';
+        
+        // Mostra userbar al posto di "Accedi"
+        const userbar = document.getElementById('userbar');
+        userbar.style.display = 'flex';
+        
+        // Imposta nome utente e badge
+        document.getElementById('userName').innerText = getNameFromEmail(utente);
+        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Mostra user info mobile nella sidebar
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        mobileUserInfo.style.display = 'block';
+        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+      }
     });
+
+    function logout() {
+      // Rimuovi tutti i dati di login
+      localStorage.removeItem('utente');
+      localStorage.removeItem('utente_ruolo');
+      localStorage.removeItem('login_method');
+      localStorage.removeItem('google_pending_email');
+      localStorage.removeItem('google_pending_nome');
+      localStorage.removeItem('google_pending_cognome');
+      
+      window.location.href = "login.html";
+    }
   </script>
   <script src="theme.js"></script>
   <script src="css/sidebar/sidebar.js"></script>

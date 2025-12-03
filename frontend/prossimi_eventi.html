@@ -2,17 +2,18 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
-  <title>Prossimi Eventi - Daze for Future</title>
+  <title>Prossimi Eventi - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+
   <style>
     :root {
       --bg: #fff;
@@ -34,6 +35,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff; /* Colore per il link attivo */
       --error: #ff3b30;
       --success: #34c759;
       --warning: #ff9500;
@@ -60,6 +62,7 @@
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
         --error: #ff453a;
         --success: #30d158;
         --warning: #ff9f0a;
@@ -86,6 +89,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
       --error: #ff453a;
       --success: #30d158;
       --warning: #ff9f0a;
@@ -111,9 +115,43 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff; /* Colore per il link attivo in light mode */
       --error: #ff3b30;
       --success: #34c759;
       --warning: #ff9500;
+    }
+
+    /* Stili per evidenziare la pagina attiva */
+    nav > a.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    nav > a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: var(--active-link);
+      transition: width 0.3s;
+    }
+
+    .dropdown-toggle.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    .dropdown-toggle.active::after {
+      color: var(--active-link);
+    }
+
+    /* Per la sidebar */
+    .sidebar-menu a.active {
+      color: var(--active-link) !important;
+      font-weight: 600;
+      background: var(--hover-bg);
     }
 
     :root[data-theme="dark"] header {
@@ -140,6 +178,7 @@
       line-height: 1.5;
       position: relative;
       min-height: 100vh;
+      font-size: 15px;
     }
 
     /* FIX PER IPHONE: Sfondo fisso con approccio compatibile */
@@ -202,6 +241,7 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
+      transition: all 0.3s ease;
     }
     .logo {
       font-weight: 800;
@@ -342,185 +382,164 @@
       z-index: 1;
     }
 
-    /* MIGLIORAMENTI MOBILE COMPLETI */
-    @media (max-width: 768px) {
-      header {
-        padding: 0.8rem 1rem;
-      }
-      
-      .logo {
-        font-size: 1.2rem;
-      }
-      
-      .logo-img {
-        width: 32px;
-        height: 32px;
-      }
-      
-      nav > a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
-      }
-      
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-      
-      .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .section-title {
-        font-size: 1.8rem;
-      }
-      
-      .sidebar {
-        width: 280px;
-      }
-      
-      section {
-        padding: 120px 1rem 80px;
-      }
-      
-      .hero {
-        padding-top: 160px;
-      }
-      
-      .card {
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      .card-image {
-        height: 160px;
-      }
-      
-      .btn {
-        padding: 0.7rem 1.2rem;
-        font-size: 0.9rem;
-      }
-      
-      .event-meta {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      
-      .event-content {
-        padding: 1rem;
-      }
-      
-      .event-title {
-        font-size: 1.3rem;
-      }
-      
-      #mainNav {
-        display: none;
-      }
-      
-      #sidebarToggle {
-        display: flex;
-      }
-      
-      #theme-fab {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-        bottom: 20px;
-        right: 20px;
-      }
-      
-      #theme-popup {
-        bottom: 80px;
-        right: 20px;
-      }
-      
-      #addPostBtn {
-        margin-left: 1rem;
-        width: 44px;
-        height: 44px;
-        font-size: 1.3rem;
-      }
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-      }
-      
-      .section-title {
-        font-size: 1.5rem;
-      }
-      
-      .card {
-        padding: 1rem;
-      }
-      
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
-    #sidebarToggle {
-      display: none;
-      background: none;
-      border: none;
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Stili per sezione eventi con backend */
+    .events-container {
+      display: grid;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .event-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .event-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .event-content {
+      padding: 1.5rem;
+    }
+    
+    .event-title {
       font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      padding: 0.5rem;
-    }
-
-    @media (max-width: 768px) {
-      #sidebarToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-
-    nav a[href="login.html"],
-    nav a[href="login.html"]:visited {
-      color: var(--accent) !important;
       font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
     }
-
-    nav a[href="login.html"]:hover {
-      text-decoration: underline;
-    }
-
-    /* Stili per il pulsante aggiungi evento - SPOSTATO A DESTRA ACCANTO ALLA USERBAR */
-    #addPostBtn {
-      display: none;
-      margin-left: 1rem;
-      font-size: 1.5rem;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    
+    .event-meta {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+    
+    .event-description {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    .no-events {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    
+    /* Stili per il calendario */
+    .calendar-section {
+      margin-top: 4rem;
+    }
+    
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .calendar-day {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .calendar-day:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .calendar-day h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
     }
 
-    #addPostBtn:hover {
-      transform: scale(1.1);
-      background: #0056cc;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    #addPostBtn:active {
-      transform: scale(0.95);
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Logo image */
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     /* Floating Action Button */
@@ -631,172 +650,502 @@
       animation: fabClick 0.4s ease forwards;
     }
 
-    section .btn {
-      display: inline-flex;
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
-    /* Card Styles */
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: var(--card-shadow);
-      margin-bottom: 2rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    .fade-in {
-      animation: fadeIn 1s ease;
-    }
-
-    .fade-in-up {
-      animation: fadeInUp 0.8s ease;
-    }
-
-    /* Logo image */
-    .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .logo:hover .logo-img {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    
-    /* Stili per sezione eventi con backend */
-    .events-container {
-      display: grid;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    
-    .event-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .event-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-    
-    .event-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    
-    .event-content {
-      padding: 1.5rem;
-    }
-    
-    .event-title {
+    /* Mostra hamburger menu solo su mobile */
+    #sidebarToggle {
+      display: none;
+      background: none;
+      border: none;
       font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+    }
+
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== MIGLIORAMENTI MOBILE COMPLETI ========== */
+    @media (max-width: 768px) {
+      /* Header più compatto */
+      header {
+        padding: 0.6rem 1rem;
+        height: 60px;
+      }
+      
+      .logo {
+        font-size: 1.1rem;
+        gap: 8px;
+      }
+      
+      .logo-img {
+        width: 28px;
+        height: 28px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      /* Hero section più compatta */
+      .hero {
+        padding-top: 120px;
+        min-height: auto;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      /* Sezioni più compatte */
+      section {
+        padding: 100px 1rem 60px;
+      }
+      
+      .card {
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .text-muted {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      
+      /* Event cards su una colonna con layout migliorato */
+      .events-container {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin-top: 1.5rem;
+      }
+      
+      .event-card {
+        padding: 0;
+      }
+      
+      .event-image {
+        height: 160px;
+      }
+      
+      .event-content {
+        padding: 1.2rem;
+      }
+      
+      .event-title {
+        font-size: 1.3rem;
+      }
+      
+      .event-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .calendar-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      /* Bottoni più adatti al mobile */
+      .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+      }
+      
+      /* FAB più piccolo e posizionato meglio */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+        bottom: 16px;
+        right: 16px;
+      }
+      
+      #theme-popup {
+        bottom: 76px;
+        right: 16px;
+      }
+      
+      /* Pulsante aggiungi evento per mobile */
+      #addPostBtn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+        margin-left: 0.5rem;
+      }
+      
+      .mobile-add-event-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        margin: 1rem 0;
+        padding: 1rem;
+      }
+      
+      /* Miglioramenti alla leggibilità */
+      body {
+        font-size: 15px;
+        line-height: 1.5;
+      }
+      
+      /* Riduci animazioni su mobile per prestazioni */
+      * {
+        animation-duration: 0.5s !important;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      #sidebarToggle {
+        display: flex;
+      }
+    }
+
+    /* Per schermi molto piccoli (iPhone SE, etc) */
+    @media (max-width: 375px) {
+      header {
+        padding: 0.5rem 0.8rem;
+      }
+      
+      .logo {
+        font-size: 1rem;
+      }
+      
+      .hero {
+        padding-top: 100px;
+      }
+      
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+      
+      section {
+        padding: 90px 0.8rem 50px;
+      }
+      
+      .card {
+        padding: 1rem;
+        border-radius: 12px;
+      }
+      
+      .event-content {
+        padding: 1rem;
+      }
+      
+      .calendar-day {
+        padding: 1rem;
+      }
+    }
+
+    /* Miglioramenti touch per dispositivi mobili */
+    @media (hover: none) and (pointer: coarse) {
+      .btn:hover,
+      .event-card:hover,
+      .calendar-day:hover {
+        transform: none;
+      }
+      
+      /* Migliora l'area toccabile */
+      nav > a, 
+      .btn, 
+      .event-footer .btn,
+      .theme-option {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      
+      #theme-fab,
+      #addPostBtn {
+        min-height: 50px;
+      }
+    }
+
+    /* Prevenire zoom su input per iOS */
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    /* Stili per il dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--sidebar-border);
+      margin: 0.25rem 0;
+    }
+    
+    /* Stili per la preview della pagina centrale meteorologica */
+    .page-preview {
+      position: absolute;
+      left: -460px; /* Spostata a sinistra per essere completamente visibile */
+      top: 0;
+      width: 450px;
+      height: 320px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-20px) scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      z-index: 1002;
+      border: 1px solid var(--sidebar-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .dropdown-item:hover .page-preview {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+    }
+
+    .page-preview-content {
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .page-preview-hero {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-hero h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-preview-hero p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .page-preview-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .page-preview-card {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid var(--sidebar-border);
+      transition: transform 0.2s ease;
+    }
+
+    .page-preview-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .page-preview-card h3 {
+      font-size: 0.85rem;
+      margin-bottom: 8px;
       color: var(--text);
     }
-    
-    .event-meta {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      flex-wrap: wrap;
-    }
-    
-    .event-description {
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-    
-    .no-events {
-      text-align: center;
-      padding: 3rem;
-      color: var(--muted);
-      font-size: 1.1rem;
-    }
-    
-    /* Stili per il calendario */
-    .calendar-section {
-      margin-top: 4rem;
-    }
-    
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    
-    .calendar-day {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 1.5rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: var(--card-shadow);
-    }
-    
-    .calendar-day:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    .calendar-day h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
+
+    .page-preview-value {
+      font-size: 1.4rem;
+      font-weight: 700;
       color: var(--accent);
     }
-    
+
+    .page-preview-chart {
+      height: 80px;
+      background: var(--bg);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--sidebar-border);
+      padding: 10px;
+    }
+
+    .page-preview-chart-line {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .page-preview-chart-point {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .page-preview-footer {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .page-preview-footer p {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .page-preview {
+        display: none;
+      }
+    }
+
+    /* Stili per il pulsante aggiungi evento per admin */
+    #addPostBtn {
+      display: none;
+      margin-left: 1rem;
+      font-size: 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #addPostBtn:hover {
+      transform: scale(1.1);
+      background: #0056cc;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    #addPostBtn:active {
+      transform: scale(0.95);
+    }
+
     /* Stili migliorati per il popup */
     #postFormContainer {
       display: none;
@@ -931,108 +1280,6 @@
       font-weight: 400;
     }
 
-    /* Stili per il dropdown menu */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-toggle {
-      margin-left: 2rem;
-      text-decoration: none;
-      color: var(--header-text, var(--text));
-      font-weight: 600;
-      position: relative;
-      padding: 0.5rem;
-      background: none;
-      border: none;
-      font-family: inherit;
-      font-size: inherit;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .dropdown-toggle::after {
-      content: "▼";
-      font-size: 0.7rem;
-      margin-left: 4px;
-      transition: transform 0.3s ease;
-    }
-
-    .dropdown:hover .dropdown-toggle::after {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: var(--sidebar-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      min-width: 200px;
-      padding: 0.5rem 0;
-      z-index: 1001;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-
-    .dropdown:hover .dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .dropdown-item {
-      display: block;
-      padding: 0.75rem 1.5rem;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-      transition: background 0.3s ease;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-      font-family: inherit;
-      font-size: inherit;
-      cursor: pointer;
-    }
-
-    .dropdown-item:hover {
-      background: var(--hover-bg);
-    }
-
-    .dropdown-divider {
-      height: 1px;
-      background: var(--sidebar-border);
-      margin: 0.25rem 0;
-    }
-    
-    /* CORREZIONE HEADER - COME NELLA PAGINA DOCUMENTI */
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      z-index: 1000;
-      color: var(--header-text, var(--text));
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      background: var(--header-bg);
-    }
-    
     /* Aggiungi questo div per spingere la navigazione verso destra */
     .header-spacer {
       flex: 1;
@@ -1253,6 +1500,9 @@
       border: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       transition: all 0.3s ease;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .mobile-add-event-btn:hover {
@@ -1264,9 +1514,6 @@
     @media (max-width: 768px) {
       .mobile-add-event-btn {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
       }
     }
 
@@ -1315,145 +1562,6 @@
     .sidebar-dropdown-item:hover {
       background: var(--hover-bg);
     }
-        /* Stili per la preview della pagina centrale meteorologica */
-    .page-preview {
-      position: absolute;
-      left: -460px; /* Spostata a sinistra per essere completamente visibile */
-      top: 0;
-      width: 450px;
-      height: 320px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(-20px) scale(0.95);
-      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-      z-index: 1002;
-      border: 1px solid var(--sidebar-border);
-      backdrop-filter: blur(10px);
-    }
-
-    .dropdown-item:hover .page-preview {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0) scale(1);
-    }
-
-    .page-preview-content {
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      background: var(--card-bg);
-      color: var(--text);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .page-preview-hero {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-hero h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 5px;
-      background: linear-gradient(90deg, #007aff, #00c6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .page-preview-hero p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .page-preview-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-card {
-      background: var(--bg);
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border: 1px solid var(--sidebar-border);
-      transition: transform 0.2s ease;
-    }
-
-    .page-preview-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .page-preview-card h3 {
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .page-preview-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .page-preview-chart {
-      height: 80px;
-      background: var(--bg);
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--sidebar-border);
-      padding: 10px;
-    }
-
-    .page-preview-chart-line {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    .page-preview-chart-point {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    .page-preview-footer {
-      text-align: center;
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px solid var(--sidebar-border);
-    }
-
-    .page-preview-footer p {
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    @media (max-width: 768px) {
-      .page-preview {
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
@@ -1464,15 +1572,17 @@
   <header>
     <div class="logo" id="toggleSidebar">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
-      <span>Daze for Future</span>
+      Daze For Future
     </div>
-    
-    <!-- Aggiungi questo div per spingere la navigazione verso destra -->
     <div class="header-spacer"></div>
     
     <nav id="mainNav">
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
+      <a href="prossimi_eventi.html" class="active">Eventi</a>
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+      
       
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
@@ -1483,15 +1593,42 @@
           <a href="centrale_meteo.html" class="dropdown-item">
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
+            <!-- Preview della pagina centrale meteorologica -->
+            <div class="page-preview">
+              <div class="page-preview-content">
+                <div class="page-preview-hero">
+                  <h2>Centrale Meteorologica</h2>
+                  <p>Monitoraggio in tempo reale di temperatura e qualità dell'aria</p>
+                </div>
+                <div class="page-preview-cards">
+                  <div class="page-preview-card">
+                    <h3>🌡 Temperatura</h3>
+                    <div class="page-preview-value" id="previewTempValue">23.5 °C</div>
+                  </div>
+                  <div class="page-preview-card">
+                    <h3>💨 Qualità Aria</h3>
+                    <div class="page-preview-value" id="previewAirValue">18.2 µg/m³</div>
+                  </div>
+                </div>
+                <div class="page-preview-chart">
+                  <div class="page-preview-chart-line"></div>
+                  <!-- Punti del grafico -->
+                  <div class="page-preview-chart-point" style="left: 10%; top: 30%"></div>
+                  <div class="page-preview-chart-point" style="left: 30%; top: 50%"></div>
+                  <div class="page-preview-chart-point" style="left: 50%; top: 40%"></div>
+                  <div class="page-preview-chart-point" style="left: 70%; top: 60%"></div>
+                  <div class="page-preview-chart-point" style="left: 90%; top: 45%"></div>
+                </div>
+                <div class="page-preview-footer">
+                  <p>Dati aggiornati in tempo reale</p>
+                </div>
+              </div>
+            </div>
           </a>
         </div>
       </div>
-      
-      <a href="chi_siamo.html">Chi siamo</a>
-      <a href="contatti.html">Contatti</a>
       <a href="documenti.html">Documenti</a>
-      <a href="forum.html">Forum</a>
-          
+
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
@@ -1509,8 +1646,8 @@
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
       
-      <!-- Pulsante aggiungi evento per admin - SPOSTATO QUI -->
-      <button id="addPostBtn" style="display:none; font-size:1.5rem; background:var(--accent); color:#fff; border:none; border-radius:50%; width:48px; height:48px; cursor:pointer;">+</button>
+      <!-- Pulsante aggiungi evento per admin -->
+      <button id="addPostBtn" style="display:none;">+</button>
     </nav>
     
     <!-- CONTROLLI HEADER PER MOBILE -->
@@ -1519,6 +1656,7 @@
       <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
     </div>
   </header>
+
   <main>
     <section class="hero">
       <div class="hero-content">
@@ -1564,9 +1702,11 @@
   
   <ul class="sidebar-menu">
     <li><a href="index.html"><span>🏠</span>Home</a></li>
-      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-  <!-- Dropdown -->
+    <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+    <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
+    <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+    <li><a href="prossimi_eventi.html" class="active"><span>📅</span> Eventi</a></li>
+    <!-- Dropdown -->
     <li class="sidebar-dropdown">
       <button class="sidebar-dropdown-toggle">
         <span>📁</span>
@@ -1577,30 +1717,29 @@
         <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
       </ul>
     </li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-      <li><a href="forum.html"><span>💬</span> Forum</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+    <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+    <li><a href="forum.html"><span>💬</span> Forum</a></li>
+    <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
   </ul>
-    <!-- User info per mobile nella sidebar -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-      <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar"></div>
-        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-      </div>
-      <div class="mobile-user-display">
-        <span class="mobile-user-name" id="mobileUserName"></span>
-        <span class="mobile-user-badge" id="mobileUserBadge"></span>
-      </div>
-      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Logout</span>
-      </button>
+  
+  <!-- User info per mobile nella sidebar -->
+  <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+    <div class="mobile-user-header">
+      <div class="user-avatar" id="mobileUserAvatar"></div>
+      <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
     </div>
-  </aside>
+    <div class="mobile-user-display">
+      <span class="mobile-user-name" id="mobileUserName"></span>
+      <span class="mobile-user-badge" id="mobileUserBadge"></span>
+    </div>
+    <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Logout</span>
+    </button>
+  </div>
+</aside>
 
   <!-- Overlay per sidebar -->
   <div class="overlay" id="overlay"></div>
@@ -2090,7 +2229,44 @@
     });
 
     // ===== GESTIONE UTENTE E TEMA =====
-    // Funzione per estrarre il nome dall'email
+    // Funzione per evidenziare la pagina corrente
+    function highlightCurrentPage() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('nav a');
+      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      
+      // Rimuovi la classe active da tutti i link
+      navLinks.forEach(link => link.classList.remove('active'));
+      sidebarLinks.forEach(link => link.classList.remove('active'));
+      
+      // Aggiungi la classe active al link corrente
+      navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      sidebarLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Gestione speciale per la home page
+      if (currentPage === '' || currentPage === 'index.html') {
+        document.querySelector('nav a[href="index.html"]').classList.add('active');
+        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
+      }
+      
+      // Gestione speciale per le pagine nei dropdown
+      if (currentPage === 'centrale_meteo.html') {
+        document.querySelector('.dropdown-toggle').classList.add('active');
+      }
+    }
+
+    // Funzione per estrarre il nome dall'email (prima parte prima della @)
     function getNameFromEmail(email) {
       return email.split('@')[0];
     }
@@ -2143,6 +2319,9 @@
           document.getElementById('addPostBtn').style.display = 'flex';
         }
       }
+      
+      // Evidenzia la pagina corrente
+      highlightCurrentPage();
     });
 
     function logout() {
@@ -2178,7 +2357,7 @@
     }, observerOptions);
 
     // Observe all cards for animation
-    document.querySelectorAll('.card').forEach(card => {
+    document.querySelectorAll('.card, .event-card, .calendar-day').forEach(card => {
       observer.observe(card);
     });
 
@@ -2237,13 +2416,14 @@
       }
     }
 
-    // On load
+    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
     const savedTheme = localStorage.getItem('theme-preference');
     if (savedTheme) {
       applyTheme(savedTheme);
       const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
       if (btn) btn.classList.add('active');
     } else {
+      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
       applyTheme('auto');
       const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
       if (autoBtn) autoBtn.classList.add('active');
@@ -2259,6 +2439,23 @@
       cards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
       });
+      
+      // Funzione per aggiornare la preview della centrale meteorologica
+      function aggiornaPreviewMeteo() {
+        setInterval(() => {
+          const temp = (20 + Math.random() * 5).toFixed(1);
+          const air = (10 + Math.random() * 30).toFixed(1);
+          
+          const tempElement = document.getElementById('previewTempValue');
+          const airElement = document.getElementById('previewAirValue');
+          
+          if (tempElement) tempElement.textContent = temp + " °C";
+          if (airElement) airElement.textContent = air + " µg/m³";
+        }, 2000);
+      }
+      
+      // Avvia l'aggiornamento della preview
+      aggiornaPreviewMeteo();
     });
 </script>
 <script src="css/sidebar/sidebar.js"></script>

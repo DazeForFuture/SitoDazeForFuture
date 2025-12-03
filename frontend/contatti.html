@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Daze for Future">
-  <title>Contatti - Daze for Future</title>
+  <meta name="apple-mobile-web-app-title" content="Daze For Future">
+  <title>Contatti - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
@@ -34,6 +34,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff; /* Colore per il link attivo */
     }
 
     @media (prefers-color-scheme: dark) {
@@ -57,6 +58,7 @@
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
       }
     }
 
@@ -80,6 +82,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
     }
 
     :root[data-theme="light"] {
@@ -102,6 +105,40 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff; /* Colore per il link attivo in light mode */
+    }
+
+    /* Stili per evidenziare la pagina attiva */
+    nav > a.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    nav > a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: var(--active-link);
+      transition: width 0.3s;
+    }
+
+    .dropdown-toggle.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    .dropdown-toggle.active::after {
+      color: var(--active-link);
+    }
+
+    /* Per la sidebar */
+    .sidebar-menu a.active {
+      color: var(--active-link) !important;
+      font-weight: 600;
+      background: var(--hover-bg);
     }
 
     :root[data-theme="dark"] header {
@@ -1125,17 +1162,17 @@
 
   <header>
     <div class="logo" id="toggleSidebar">
-      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
-      Daze for Future
+      <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
+      Daze For Future
     </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
-      <a href="index.html">Home</a>
+      <a href="/">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
-      <a href="chi_siamo.html">Chi siamo</a>
-
+      <a href="chi_siamo.html" class="active">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
@@ -1153,11 +1190,9 @@
           </a> -->
         </div>
       </div>
-
       <a href="documenti.html">Documenti</a>
-      <a href="forum.html">Forum</a>
+      </div>
 
-      
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
         <div class="user-avatar" id="userAvatar"></div>
@@ -1278,7 +1313,7 @@
       </ul>
     </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+      <li><a href="contatti.html" class="active"><span>📨</span> Contatti</a></li>
       <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
       <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
@@ -1321,6 +1356,43 @@
 
 
 <script>
+    // Funzione per evidenziare la pagina corrente
+    function highlightCurrentPage() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('nav a');
+      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      
+      // Rimuovi la classe active da tutti i link
+      navLinks.forEach(link => link.classList.remove('active'));
+      sidebarLinks.forEach(link => link.classList.remove('active'));
+      
+      // Aggiungi la classe active al link corrente
+      navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      sidebarLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Gestione speciale per la home page
+      if (currentPage === '' || currentPage === 'index.html') {
+        document.querySelector('nav a[href="index.html"]').classList.add('active');
+        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
+      }
+      
+      // Gestione speciale per le pagine nei dropdown
+      if (currentPage === 'centrale_meteo.html') {
+        document.querySelector('.dropdown-toggle').classList.add('active');
+      }
+    }
+
     // Theme functionality
     const fab = document.getElementById('theme-fab');
     const popup = document.getElementById('theme-popup');
@@ -1399,6 +1471,9 @@
       cards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
       });
+      
+      // Evidenzia la pagina corrente
+      highlightCurrentPage();
     });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)

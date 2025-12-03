@@ -519,4 +519,4 @@ def delete_post(post_id):
 if __name__ == '__main__':
     init_db()
     # SECURITY: disable debug for production
-    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5003)))
+    app.run(debug=False, host='0.0.0.0', port=5003)

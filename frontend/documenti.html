@@ -37,6 +37,7 @@
       --error: #ff3b30;
       --warning: #ff9500;
       --info: #007aff;
+      --active-link: #007aff; /* Aggiunto: Colore per il link attivo */
     }
 
     @media (prefers-color-scheme: dark) {
@@ -64,6 +65,7 @@
         --error: #ff453a;
         --warning: #ff9f0a;
         --info: #0a84ff;
+        --active-link: #0a84ff; /* Aggiunto per dark mode */
       }
     }
 
@@ -91,6 +93,7 @@
       --error: #ff453a;
       --warning: #ff9f0a;
       --info: #0a84ff;
+      --active-link: #0a84ff; /* Aggiunto per dark mode */
     }
 
     :root[data-theme="light"] {
@@ -117,6 +120,54 @@
       --error: #ff3b30;
       --warning: #ff9500;
       --info: #007aff;
+      --active-link: #007aff; /* Aggiunto per light mode */
+    }
+
+    /* Stili per evidenziare la pagina attiva */
+    nav > a.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    nav > a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: var(--active-link);
+      transition: width 0.3s;
+    }
+
+    .dropdown-toggle.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    .dropdown-toggle.active::after {
+      color: var(--active-link);
+    }
+
+    /* Per la sidebar */
+    .sidebar-menu a.active {
+      color: var(--active-link) !important;
+      font-weight: 600;
+      background: var(--hover-bg);
+    }
+
+    :root[data-theme="dark"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    :root[data-theme="light"] header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -212,7 +263,7 @@
     nav > a {
       margin-left: 2rem;
       text-decoration: none;
-      color: var(--header-text, var,--text);
+      color: var(--header-text, var(--text));
       font-weight: 600;
       position: relative;
       padding: 0.5rem;
@@ -915,6 +966,13 @@
       .modal-actions {
         flex-direction: column;
       }
+      
+      #addDocumentBtn {
+        margin-left: 0.5rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
     }
 
     #sidebarToggle {
@@ -1379,7 +1437,8 @@
       height: 14px;
       fill: currentColor;
     }
-                /* Stili per il dropdown menu */
+    
+    /* Stili per il dropdown menu */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -1463,6 +1522,17 @@
       background: var(--sidebar-border);
       margin: 0.25rem 0;
     }
+    
+    /* Stile per il link Accedi */
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -1470,6 +1540,7 @@
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
+  <!-- HEADER AGGIORNATO DALLA PAGINA CONTATTI -->
   <header>
     <div class="logo" id="toggleSidebar">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
@@ -1481,8 +1552,9 @@
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
-      
-      <!-- Menu a tendina Progetti -->
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
+       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
           Progetti
@@ -1492,16 +1564,10 @@
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
           </a>
-   <!--     <div class="dropdown-divider"></div>
-          <a href="altroprogetto.html" class="dropdown-item">
-            <i class="fas fa-lock" style="margin-right: 8px;"></i>
-            ///
-          </a> -->
         </div>
       </div>
       
-      <a href="chi_siamo.html">Chi siamo</a>
-      <a href="contatti.html">Contatti</a>
+      <a href="documenti.html" class="active">Documenti</a>
       
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
@@ -1517,10 +1583,11 @@
           </svg>
         </button>
       </div>
+      
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
       
-      <!-- Pulsante + per creare documento -->
+      <!-- Pulsante + per creare documento (MANTENUTO dalla versione documenti) -->
       <button id="addDocumentBtn" title="Crea nuovo documento">+</button>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
@@ -1617,7 +1684,7 @@
         </div>
       </div>
 
-      <!-- Sezione Admin: Tutte le pubblicazioni 
+      <!-- Sezione Admin: Tutte le pubblicazioni -->
       <div class="card admin-only fade-in-up" id="allPublicationsSection">
         <h2 class="section-title">Tutte le pubblicazioni <span class="admin-indicator">
           <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -1630,7 +1697,7 @@
             <p>Nessuna pubblicazione trovata.</p>
           </div>
         </div>
-      </div> -->
+      </div>
     </section>  
   </main>
 
@@ -1652,7 +1719,7 @@
       <div class="viewer-actions">
         <button class="btn" id="downloadFromViewer">
           <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+            <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5 1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
           </svg>
           Scarica
         </button>
@@ -1807,7 +1874,7 @@
     </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
       <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+      <li><a href="documenti.html" class="active"><span>📃</span> Documenti</a></li>
       <li><a href="forum.html"><span>💬</span> Forum</a></li>
       <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
   </ul>
@@ -1972,12 +2039,52 @@
     initViewerModal();
     initPublicationModal();
     initRejectionModal();
+    
+    // Evidenzia la pagina corrente
+    highlightCurrentPage();
   });
 
   function logout() {
     localStorage.removeItem('utente');
     localStorage.removeItem('utente_ruolo');
     window.location.href = "login.html";
+  }
+
+  // Funzione per evidenziare la pagina corrente
+  function highlightCurrentPage() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('nav a');
+    const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+    
+    // Rimuovi la classe active da tutti i link
+    navLinks.forEach(link => link.classList.remove('active'));
+    sidebarLinks.forEach(link => link.classList.remove('active'));
+    
+    // Aggiungi la classe active al link corrente
+    navLinks.forEach(link => {
+      const linkHref = link.getAttribute('href');
+      if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+        link.classList.add('active');
+      }
+    });
+    
+    sidebarLinks.forEach(link => {
+      const linkHref = link.getAttribute('href');
+      if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+        link.classList.add('active');
+      }
+    });
+    
+    // Gestione speciale per la home page
+    if (currentPage === '' || currentPage === 'index.html') {
+      document.querySelector('nav a[href="index.html"]').classList.add('active');
+      document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
+    }
+    
+    // Gestione speciale per le pagine nei dropdown
+    if (currentPage === 'centrale_meteo.html') {
+      document.querySelector('.dropdown-toggle').classList.add('active');
+    }
   }
 
   // ===== GESTIONE FILTRI =====

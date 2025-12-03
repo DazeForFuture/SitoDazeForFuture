@@ -9,10 +9,8 @@
   <title>Registrazione - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script>
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
+  <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
   <style>
     :root {
@@ -23,21 +21,22 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
-      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
-      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.6); /* RIDOTTA OPACITÀ PER VEDERE MEGLIO LO SFONDO */
-      --overlay-dark: rgba(29, 29, 31, 0.8); /* AUMENTATA OPACITÀ */
-      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
+      --active-link: #007aff;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -49,21 +48,22 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+        --header-bg: rgba(29,29,31,0.95);
         --header-text: #ffffff;
-        --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
-        --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
-        --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
+        --sidebar-bg: rgba(29,29,31,0.98);
+        --sidebar-border: rgba(255,255,255,0.15);
+        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
         --overlay-light: rgba(255, 255, 255, 0.6);
         --overlay-dark: rgba(29, 29, 31, 0.8);
-        --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         --success: #30d158;
         --error: #ff453a;
         --warning: #ff9f0a;
+        --active-link: #0a84ff;
       }
     }
 
@@ -75,21 +75,22 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
+      --header-bg: rgba(29,29,31,0.95);
       --header-text: #ffffff;
-      --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
+      --sidebar-bg: rgba(29,29,31,0.98);
+      --sidebar-border: rgba(255,255,255,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
-      --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       --success: #30d158;
       --error: #ff453a;
       --warning: #ff9f0a;
+      --active-link: #0a84ff;
     }
 
     :root[data-theme="light"] {
@@ -100,56 +101,80 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
-      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
-      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --sidebar-bg: rgba(255,255,255,0.98);
+      --sidebar-border: rgba(0,0,0,0.15);
+      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
-      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
+      --active-link: #007aff;
+    }
+
+    /* Stili per evidenziare la pagina attiva */
+    nav > a.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    nav > a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: var(--active-link);
+      transition: width 0.3s;
+    }
+
+    /* Per la sidebar */
+    .sidebar-menu a.active {
+      color: var(--active-link) !important;
+      font-weight: 600;
+      background: var(--hover-bg);
     }
 
     :root[data-theme="dark"] header {
       background: var(--header-bg);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
+      border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
     :root[data-theme="light"] header {
       background: var(--header-bg);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
+      border-bottom: 1px solid rgba(0,0,0,0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.5;
-      /* Sfondo ottimizzato per tutti i temi */
+    
+    /* FIX PER IPHONE: Sfondo fisso con approccio compatibile */
+    .background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed;
-      position: relative;
     }
 
-    /* Overlay dinamico che si adatta al tema */
-    body::before {
-      content: '';
+    /* Overlay dinamico che si adatta al tema - FIX per iOS */
+    .background-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -160,24 +185,34 @@
     }
 
     /* Tema chiaro - overlay chiaro per contrasto */
-    :root[data-theme="light"] body::before {
+    :root[data-theme="light"] .background-overlay {
       background: var(--overlay-light);
     }
 
     /* Tema scuro - overlay scuro per contrasto */
-    :root[data-theme="dark"] body::before {
+    :root[data-theme="dark"] .background-overlay {
       background: var(--overlay-dark);
     }
 
     /* Tema automatico - usa preferenza sistema */
-    :root:not([data-theme]) body::before {
+    :root:not([data-theme]) .background-overlay {
       background: var(--overlay-light);
     }
 
     @media (prefers-color-scheme: dark) {
-      :root:not([data-theme]) body::before {
+      :root:not([data-theme]) .background-overlay {
         background: var(--overlay-dark);
       }
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      position: relative;
+      min-height: 100vh;
     }
 
     header {
@@ -195,6 +230,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
     }
+    
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -204,6 +240,21 @@
       display: flex;
       align-items: center;
       gap: 12px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     nav {
@@ -234,11 +285,8 @@
     nav > a:hover::after {
       width: 100%;
     }
-    main {
-      padding: 160px 2rem 100px;
-      max-width: 700px;
-      margin: auto;
-    }
+
+    /* Stile per il link Accedi */
     nav a[href="login.html"],
     nav a[href="login.html"]:visited {
       color: var(--accent) !important;
@@ -247,7 +295,14 @@
 
     nav a[href="login.html"]:hover {
       text-decoration: underline;
-}
+    }
+
+    main {
+      padding: 160px 2rem 100px;
+      max-width: 700px;
+      margin: auto;
+    }
+
     .section-title {
       font-size: 2.5rem;
       font-weight: 800;
@@ -258,6 +313,7 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+
     .text-muted {
       color: var(--muted);
       text-align: center;
@@ -270,11 +326,15 @@
       padding: 2rem;
       border-radius: 16px;
       box-shadow: var(--card-shadow);
-      position: relative;
-      backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
+
+    form:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
     .form-group {
       margin-bottom: 1.5rem;
       position: relative;
@@ -371,16 +431,32 @@
       color: var(--bg);
       padding: 0.75rem;
       border: none;
-      border-radius: 999px;
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    
+
     button:hover {
       background: var(--btn-hover-bg);
-      transform: scale(1.03);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background: linear-gradient(90deg, #007aff, #00c6ff);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background: linear-gradient(90deg, #0062cc, #0099cc);
     }
     
     button:disabled {
@@ -399,113 +475,205 @@
       position: relative;
       z-index: 1;
     }
-    
-    .center-btn {
-      display: flex;
-      justify-content: center;
-    }
 
-    /* Stili per la Sidebar */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -280px;
-      width: 280px;
-      height: 100%;
-      background: var(--sidebar-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 2px 0 10px var(--sidebar-shadow);
-      border-right: 1px solid var(--sidebar-border);
-      transition: left 0.3s ease;
-      z-index: 1200;
-      padding: 2rem 1rem;
-      overflow-y: auto;
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    .sidebar h2 {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      font-weight: 800;
-      color: var(--text);
-      text-align: center;
-    }
-
-    .sidebar-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: color 0.3s ease;
-      width: auto;
-      padding: 0.5rem;
-    }
-
-    .sidebar-close:hover {
-      color: var(--text);
-      background: transparent;
-      transform: scale(1.1);
-    }
-
-    .sidebar-menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar-menu li {
-      margin-bottom: 1rem;
-    }
-
-    .sidebar-menu a {
+    /* Stili per la checkbox admin */
+    .checkbox-group {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 0.75rem 1rem;
-      text-decoration: none;
-      font-weight: 600;
-      color: var(--text);
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem;
       border-radius: 8px;
       transition: all 0.3s ease;
-      font-size: 1.05rem;
+      cursor: pointer;
     }
 
-    .sidebar-menu a span {
-      font-size: 1.3rem;
+    .checkbox-group:hover {
+      background: var(--hover-bg);
     }
 
-    .sidebar-menu a:hover,
-    .sidebar-menu a.active {
-      background-color: rgba(0, 122, 255, 0.2);
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    /* Stili per il container privacy - versione con una sola checkbox visiva */
+    .privacy-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: var(--hover-bg);
+      border: 1px solid transparent;
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Nasconde la checkbox nativa ma la mantiene cliccabile via label */
+    .privacy-container input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      width: 0;
+      height: 0;
+    }
+
+    .privacy-container:hover {
+      border-color: var(--accent);
+      background: rgba(0, 122, 255, 0.05);
+    }
+
+    .privacy-label {
+      flex: 1;
+      margin: 0;
+      cursor: pointer;
+      font-weight: 500;
+      user-select: none;
+      line-height: 1.4;
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .privacy-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      border: 2px solid var(--muted);
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .privacy-container input[type="checkbox"]:checked + .privacy-label .privacy-icon {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .privacy-link {
       color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      display: inline-block;
     }
 
-    
-    /* Overlay per quando la sidebar è aperta */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1100;
+    /* Tooltip per il link della privacy */
+    .privacy-tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 400;
+      width: 280px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      border: 1px solid rgba(0,122,255,0.2);
+      z-index: 1000;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      pointer-events: none;
+      text-align: left;
+      line-height: 1.5;
     }
 
-    .overlay.active {
+    .privacy-tooltip::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 8px solid transparent;
+      border-top-color: var(--card-bg);
+    }
+
+    .privacy-link:hover .privacy-tooltip {
       opacity: 1;
       visibility: visible;
+    }
+
+    .privacy-link:after {
+      content: "↗";
+      font-size: 0.8em;
+      margin-left: 3px;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .privacy-link:hover:after {
+      opacity: 1;
+    }
+
+    /* Stili per il toggle password */
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px;
+      width: auto;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .password-toggle:hover {
+      color: var(--text);
+      background: transparent;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .password-container {
+      position: relative;
+    }
+
+    /* Icone SVG per toggle password */
+    .eye-icon {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .eye-slash-icon {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     /* Pulsante hamburger */
@@ -525,34 +693,7 @@
       transform: scale(1.1);
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-      }
-      
-      .hamburger {
-        display: block;
-      }
-      
-      header {
-        padding: 1rem;
-      }
-      
-      main {
-        padding: 120px 1rem 80px;
-      }
-      
-      form {
-        padding: 1.5rem;
-      }
-      
-      .section-title {
-        font-size: 2rem;
-      }
-    }
-    
-    /* Email container come in login */
+    /* Email container */
     .email-container {
       display: flex;
       gap: 0.5rem;
@@ -561,7 +702,7 @@
     
     .email-input { flex: 1; }
     .domain-select { width: 250px; }
-    
+
     /* Popup di notifica */
     .popup {
       position: fixed;
@@ -578,8 +719,7 @@
       z-index: 2000;
       font-weight: 600;
       max-width: 300px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 6px solid transparent;
     }
 
     .popup.show {
@@ -588,15 +728,11 @@
     }
 
     .popup.success {
-      border-left: 6px solid var(--success);
+      border-left-color: var(--success);
     }
 
     .popup.error {
-      border-left: 6px solid var(--error);
-    }
-    
-    .popup.warning {
-      border-left: 6px solid var(--warning);
+      border-left-color: var(--error);
     }
 
     /* Popup per utente già loggato */
@@ -675,126 +811,170 @@
       background: #d70015 !important;
     }
 
-    /* Animazioni per transizioni fluide */
-    .fade-in {
-      animation: fadeIn 0.3s ease forwards;
-    }
-    
-    .slide-down {
-      animation: slideDown 0.3s ease forwards;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    @keyframes slideDown {
-      from { 
+    /* Animazioni */
+    @keyframes fadeInUp {
+      from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(20px);
       }
-      to { 
+      to {
         opacity: 1;
         transform: translateY(0);
       }
     }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease forwards;
+    }
     
-    /* Stili per il toggle password */
-    .password-toggle {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 4px;
-      width: auto;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* Stili per il bottone Google */
+    .google-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    
-    .password-toggle:hover {
-      color: var(--text);
-      background: transparent;
-      transform: translateY(-50%) scale(1.1);
-    }
-    
-    .password-container {
-      position: relative;
-    }
-
-    /* Stili per la checkbox admin */
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
+      width: 100%;
       padding: 0.75rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
+      margin-top: 1rem;
+      background: white;
+      color: #757575;
+      border: 1px solid #dadce0;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-decoration: none;
     }
 
-    .checkbox-group:hover {
-      background: var(--hover-bg);
+    .google-btn:hover {
+      background: #f8f9fa;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
     }
 
-    .checkbox-group input[type="checkbox"] {
+    .google-btn:active {
+      transform: translateY(0);
+    }
+
+    .google-btn img {
       width: 18px;
       height: 18px;
-      margin: 0;
-      cursor: pointer;
+      margin-right: 12px;
     }
 
-    .checkbox-group label {
-      margin: 0;
-      cursor: pointer;
-      font-weight: 600;
-      user-select: none;
+    /* Tema scuro per bottone Google */
+    :root[data-theme="dark"] .google-btn {
+      background: #333;
+      color: #e8eaed;
+      border-color: #5f6368;
     }
 
-    /* Icone SVG per toggle password */
-    .eye-icon {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    :root[data-theme="dark"] .google-btn:hover {
+      background: #3c4043;
     }
 
-    .eye-slash-icon {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    /* Divider "Oppure" */
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.5rem 0;
     }
 
-    
-    /* Logo image */
-    .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--muted);
     }
 
-    .logo:hover .logo-img {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    .divider span {
+      padding: 0 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .email-container {
+        flex-direction: column;
+      }
+      
+      .domain-select {
+        width: 100%;
+      }
+      
+      main {
+        padding: 120px 1rem 80px;
+      }
+      
+      form {
+        padding: 1.5rem;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      /* Tooltip responsive */
+      .privacy-tooltip {
+        width: 240px;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      form {
+        padding: 1rem;
+      }
+      
+      .privacy-tooltip {
+        width: 200px;
+        left: 0;
+        transform: translateX(0);
+      }
+      
+      .privacy-tooltip::before {
+        left: 20px;
+      }
     }
 
     /* Floating Action Button */
@@ -904,104 +1084,24 @@
     #theme-fab.animate {
       animation: fabClick 0.4s ease forwards;
     }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .fade-in-up {
-      animation: fadeInUp 0.8s ease;
-    }
-
-    /* Miglioramenti mobile completi */
-    @media (max-width: 768px) {
-      header {
-        padding: 0.8rem 1rem;
-      }
-      
-      .logo {
-        font-size: 1.2rem;
-      }
-      
-      .logo-img {
-        width: 32px;
-        height: 32px;
-      }
-      
-      .section-title {
-        font-size: 2rem;
-      }
-      
-      .sidebar {
-        width: 280px;
-      }
-      
-      main {
-        padding: 120px 1rem 80px;
-      }
-      
-      form {
-        padding: 1.5rem;
-      }
-      
-      .email-container {
-        flex-direction: column;
-      }
-      
-      .domain-select {
-        width: 100%;
-      }
-      
-      /* FAB più piccolo su mobile */
-      #theme-fab {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-        bottom: 20px;
-        right: 20px;
-      }
-      
-      #theme-popup {
-        bottom: 80px;
-        right: 20px;
-      }
-    }
-
-    /* Per schermi molto piccoli */
-    @media (max-width: 480px) {
-      .section-title {
-        font-size: 1.8rem;
-      }
-      
-      form {
-        padding: 1rem;
-      }
-    }
   </style>
 </head>
 <body>
+  <!-- FIX PER IPHONE: Container per lo sfondo -->
+  <div class="background-container"></div>
+  <div class="background-overlay"></div>
+
   <header>
     <div class="logo" id="toggleSidebar">
-      <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
+      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
       Daze For Future
     </div>
     <div style="flex:1"></div>
     
+    <!-- MODIFICA: Header semplificato - solo Home e Accedi -->
     <nav id="mainNav">
       <a href="index.html">Home</a>
-      <a href="missione.html">Missione</a>
-      <a href="prossimi_eventi.html">Eventi</a>
-      <a href="chi_siamo.html">Chi siamo</a>
-      <a href="contatti.html">Contatti</a>
-      <a href="login.html">Accedi</a>
+      <a href="login.html" id="loginLink">Accedi</a>
     </nav>
     <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
   </header>
@@ -1089,8 +1189,6 @@
         <div class="field-error" id="ruoloError">Seleziona un ruolo</div>
       </div>
 
-
-
       <div id="studenteFields" style="display:none;">
         <div class="form-group">
           <label for="anno">Anno</label>
@@ -1109,7 +1207,7 @@
             <option value="E" data-max="5">E</option>
             <option value="F" data-max="5">F</option>
             <option value="G" data-max="5">G</option>
-            <option value="H" data-max="4">H</option>
+            <option value="H" data-max="5">H</option>
             <option value="AS" data-max="2">AS</option>
             <option value="BS" data-max="2">BS</option>
             <option value="CS" data-max="2">CS</option>
@@ -1125,7 +1223,46 @@
         <div class="field-error" id="motivazioneError">La motivazione non può superare i 500 caratteri</div>
       </div>
 
-      <button type="submit" id="submitBtn">Registrati</button>
+      <!-- MODIFICA: Checkbox Privacy Policy unica con tooltip -->
+      <div class="form-group">
+        <div class="privacy-container">
+          <input type="checkbox" id="privacyCheckbox" name="privacyCheckbox" required />
+          <label for="privacyCheckbox" class="privacy-label">
+            <span class="privacy-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+            </span>
+            <span>
+              Dichiaro di aver letto e accetto la 
+              <a href="privacy.html" target="_blank" class="privacy-link">
+                Privacy Policy
+                <span class="privacy-tooltip">
+                  <strong>I tuoi dati sono al sicuro:</strong><br>
+                  • I dati personali sono crittografati e protetti<br>
+                  • Non condividiamo i tuoi dati con terze parti<br>
+                  • Puoi richiedere la cancellazione in qualsiasi momento<br>
+                  • I tuoi dati sono utilizzati solo per le attività del Daze For Future
+                </span>
+              </a>
+              e il trattamento dei miei dati personali
+            </span>
+          </label>
+        </div>
+        <div class="field-error" id="privacyError">È necessario accettare la privacy policy per registrarsi</div>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-accent">Registrati</button>
+
+      <div class="divider">
+        <span>Oppure</span>
+      </div>
+
+      <!-- Bottone Google Login Ufficiale -->
+      <a href="/google/login" class="google-btn">
+        <img src="https://www.google.com/favicon.ico" alt="Google Logo">
+        Registrati con Google
+      </a>
     </form>
   </main>
   
@@ -1139,9 +1276,8 @@
   
   <ul class="sidebar-menu">
     <li><a href="index.html"><span>🏠</span>Home</a></li>
-      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-  <!-- Dropdown -->
+    <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+    <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
     <li class="sidebar-dropdown">
       <button class="sidebar-dropdown-toggle">
         <span>📁</span>
@@ -1152,12 +1288,30 @@
         <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
       </ul>
     </li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-      <li><a href="forum.html"><span>💬</span> Forum</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+    <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
+    <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+    <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+    <li><a href="forum.html"><span>💬</span> Forum</a></li>
+    <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
   </ul>
+
+  <!-- User info per mobile nella sidebar -->
+  <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+    <div class="mobile-user-header">
+      <div class="user-avatar" id="mobileUserAvatar"></div>
+      <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
+    </div>
+    <div class="mobile-user-display">
+      <span class="mobile-user-name" id="mobileUserName"></span>
+      <span class="mobile-user-badge" id="mobileUserBadge"></span>
+    </div>
+    <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Logout</span>
+    </button>
+  </div>
 </aside>
 
   <!-- Overlay per sidebar -->
@@ -1189,576 +1343,664 @@
 
   <footer>&copy; 2025 Daze For Future. Tutti i diritti riservati.</footer>
 
-<script>
-  // Attendi che il DOM sia completamente caricato
-  document.addEventListener('DOMContentLoaded', function() {
-    // Verifica se l'utente è già loggato
-    function checkIfAlreadyLogged() {
-      const utente = localStorage.getItem('utente');
-      if (utente) {
-        document.getElementById('currentUserEmail').innerText = utente;
-        document.getElementById('alreadyLoggedPopup').classList.add('show');
-        return true;
+  <script src="theme.js"></script>
+  <script src="css/sidebar/sidebar.js"></script>
+  <script src="css/userbar/userbar.js"></script>
+  
+  <script>
+    // Funzione per evidenziare la pagina corrente
+    function highlightCurrentPage() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('nav a');
+      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      
+      // Rimuovi la classe active da tutti i link
+      navLinks.forEach(link => link.classList.remove('active'));
+      sidebarLinks.forEach(link => link.classList.remove('active'));
+      
+      // Aggiungi la classe active al link corrente
+      navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      sidebarLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Gestione speciale per la home page
+      if (currentPage === '' || currentPage === 'index.html') {
+        document.querySelector('nav a[href="index.html"]').classList.add('active');
+        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
       }
-      return false;
     }
 
-    // Funzioni per gestire il popup utente già loggato
-    function logoutFromPopup() {
+    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    function getNameFromEmail(email) {
+      return email.split('@')[0];
+    }
+
+    // Funzione per generare l'iniziale dall'email
+    function getInitialFromEmail(email) {
+      return email.charAt(0).toUpperCase();
+    }
+
+    // Funzione per ottenere il testo del badge in base al ruolo
+    function getBadgeText(role) {
+      return role === 'admin' ? 'Admin' : 'User';
+    }
+
+    // Funzione per ottenere la classe CSS del badge in base al ruolo
+    function getBadgeClass(role) {
+      return role === 'admin' ? 'badge-admin' : 'badge-user';
+    }
+
+    // Mostra la barra utente se loggato
+    document.addEventListener('DOMContentLoaded', function() {
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
+      
+      if(utente) {
+        // Nascondi link login
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('sidebarLoginLink').style.display = 'none';
+        
+        // Imposta nome utente e badge nella sidebar mobile
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+        if (mobileUserInfo) {
+          mobileUserInfo.style.display = 'block';
+          document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+          document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+          document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+          document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+        }
+      }
+      
+      // Evidenzia la pagina corrente
+      highlightCurrentPage();
+    });
+
+    function logout() {
       localStorage.removeItem('utente');
       localStorage.removeItem('utente_ruolo');
-      closeAlreadyLoggedPopup();
+      window.location.href = "login.html";
     }
 
-    function closeAlreadyLoggedPopup() {
-      document.getElementById('alreadyLoggedPopup').classList.remove('show');
-      window.location.href = "index.html";
-    }
-
-    // Verifica se l'utente è già loggato al caricamento della pagina
-    if (checkIfAlreadyLogged()) {
-      return; // Non procedere con il resto del codice se l'utente è già loggato
-    }
-
-    // Costruzione email come in login
-    function buildEmail() {
-      const prefix = document.getElementById('emailPrefix').value.trim();
-      const domain = document.getElementById('emailDomain').value;
-      return prefix + domain;
-    }
-
-    // Funzione per validare email
-    function validateEmail(email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    }
-
-    // Funzione per validare nome/cognome
-    function validateName(name) {
-      const nameRegex = /^[a-zA-ZÀ-ÿ\s]{2,}$/;
-      return nameRegex.test(name);
-    }
-
-    // Funzione per valutare la forza della password
-    function checkPasswordStrength(password) {
-      let strength = 0;
-      const strengthMeter = document.getElementById('passwordStrength');
-      
-      if (password.length >= 8) strength++;
-      if (/[a-z]/.test(password)) strength++;
-      if (/[A-Z]/.test(password)) strength++;
-      if (/[0-9]/.test(password)) strength++;
-      if (/[^a-zA-Z0-9]/.test(password)) strength++;
-      
-      // Aggiorna l'indicatore visivo
-      strengthMeter.className = 'password-strength-meter';
-      if (password.length > 0) {
-        if (strength <= 2) {
-          strengthMeter.classList.add('weak');
-        } else if (strength === 3) {
-          strengthMeter.classList.add('fair');
-        } else if (strength === 4) {
-          strengthMeter.classList.add('good');
-        } else {
-          strengthMeter.classList.add('strong');
+    // Attendi che il DOM sia completamente caricato
+    document.addEventListener('DOMContentLoaded', function() {
+      // Verifica se l'utente è già loggato
+      function checkIfAlreadyLogged() {
+        const utente = localStorage.getItem('utente');
+        if (utente) {
+          document.getElementById('currentUserEmail').innerText = utente;
+          document.getElementById('alreadyLoggedPopup').classList.add('show');
+          return true;
         }
+        return false;
       }
-      
-      return strength >= 4; // Considera "buona" se ha almeno 4 punti
-    }
 
-    // Funzione per validare la password
-    function validatePassword(password) {
-      return password.length >= 8 && 
-             /[a-z]/.test(password) && 
-             /[A-Z]/.test(password) && 
-             /[0-9]/.test(password);
-    }
+      // Funzioni per gestire il popup utente già loggato
+      window.logoutFromPopup = function() {
+        localStorage.removeItem('utente');
+        localStorage.removeItem('utente_ruolo');
+        closeAlreadyLoggedPopup();
+      }
 
-    // Funzione per mostrare/nascondere password con SVG
-    function setupPasswordToggle(passwordId, toggleId) {
-      const passwordInput = document.getElementById(passwordId);
-      const toggleButton = document.getElementById(toggleId);
-      
-      toggleButton.addEventListener('click', function() {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
+      window.closeAlreadyLoggedPopup = function() {
+        document.getElementById('alreadyLoggedPopup').classList.remove('show');
+        window.location.href = "index.html";
+      }
+
+      // Verifica se l'utente è già loggato al caricamento della pagina
+      if (checkIfAlreadyLogged()) {
+        return; // Non procedere con il resto del codice se l'utente è già loggato
+      }
+
+      // Costruzione email come in login
+      function buildEmail() {
+        const prefix = document.getElementById('emailPrefix').value.trim();
+        const domain = document.getElementById('emailDomain').value;
+        return prefix + domain;
+      }
+
+      // Funzione per validare email
+      function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      // Funzione per validare nome/cognome
+      function validateName(name) {
+        const nameRegex = /^[a-zA-ZÀ-ÿ\s]{2,}$/;
+        return nameRegex.test(name);
+      }
+
+      // Funzione per valutare la forza della password
+      function checkPasswordStrength(password) {
+        let strength = 0;
+        const strengthMeter = document.getElementById('passwordStrength');
         
-        // Cambia l'icona SVG
-        if (type === 'password') {
-          toggleButton.innerHTML = `
-            <svg class="eye-icon" viewBox="0 0 24 24">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          `;
-        } else {
-          toggleButton.innerHTML = `
-            <svg class="eye-slash-icon" viewBox="0 0 24 24">
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-              <line x1="1" y1="1" x2="23" y2="23"></line>
-            </svg>
-          `;
+        if (password.length >= 8) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^a-zA-Z0-9]/.test(password)) strength++;
+        
+        // Aggiorna l'indicatore visivo
+        strengthMeter.className = 'password-strength-meter';
+        if (password.length > 0) {
+          if (strength <= 2) {
+            strengthMeter.classList.add('weak');
+          } else if (strength === 3) {
+            strengthMeter.classList.add('fair');
+          } else if (strength === 4) {
+            strengthMeter.classList.add('good');
+          } else {
+            strengthMeter.classList.add('strong');
+          }
         }
-      });
-    }
-
-    // Inizializza i toggle password
-    setupPasswordToggle('password', 'togglePassword');
-    setupPasswordToggle('adminPassword', 'toggleAdminPassword');
-
-    // Aggiorna email nascosta
-    document.getElementById('emailPrefix').addEventListener('input', () => {
-      const email = buildEmail();
-      document.getElementById('email').value = email;
-      
-      // Validazione in tempo reale
-      const emailError = document.getElementById('emailError');
-      if (email && !validateEmail(email)) {
-        emailError.classList.add('show');
-        document.getElementById('emailPrefix').classList.add('invalid');
-      } else {
-        emailError.classList.remove('show');
-        document.getElementById('emailPrefix').classList.remove('invalid');
+        
+        return strength >= 4; // Considera "buona" se ha almeno 4 punti
       }
-    });
 
-    document.getElementById('emailDomain').addEventListener('change', () => {
-      document.getElementById('email').value = buildEmail();
-    });
-
-    // Validazione in tempo reale per nome
-    document.getElementById('nome').addEventListener('input', function() {
-      const error = document.getElementById('nomeError');
-      if (this.value && !validateName(this.value)) {
-        error.classList.add('show');
-        this.classList.add('invalid');
-      } else {
-        error.classList.remove('show');
-        this.classList.remove('invalid');
+      // Funzione per validare la password
+      function validatePassword(password) {
+        return password.length >= 8 && 
+               /[a-z]/.test(password) && 
+               /[A-Z]/.test(password) && 
+               /[0-9]/.test(password);
       }
-    });
 
-    // Validazione in tempo reale per cognome
-    document.getElementById('cognome').addEventListener('input', function() {
-      const error = document.getElementById('cognomeError');
-      if (this.value && !validateName(this.value)) {
-        error.classList.add('show');
-        this.classList.add('invalid');
-      } else {
-        error.classList.remove('show');
-        this.classList.remove('invalid');
+      // Funzione per mostrare/nascondere password con SVG
+      function setupPasswordToggle(passwordId, toggleId) {
+        const passwordInput = document.getElementById(passwordId);
+        const toggleButton = document.getElementById(toggleId);
+        
+        toggleButton.addEventListener('click', function() {
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+          
+          // Cambia l'icona SVG
+          if (type === 'password') {
+            toggleButton.innerHTML = `
+              <svg class="eye-icon" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            `;
+          } else {
+            toggleButton.innerHTML = `
+              <svg class="eye-slash-icon" viewBox="0 0 24 24">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            `;
+          }
+        });
       }
-    });
 
-    // Validazione in tempo reale per password
-    document.getElementById('password').addEventListener('input', function() {
-      const error = document.getElementById('passwordError');
-      const isValid = validatePassword(this.value);
-      checkPasswordStrength(this.value);
-      
-      if (this.value && !isValid) {
-        error.classList.add('show');
-        this.classList.add('invalid');
-      } else {
-        error.classList.remove('show');
-        this.classList.remove('invalid');
-        if (isValid) this.classList.add('valid');
-      }
-    });
+      // Inizializza i toggle password
+      setupPasswordToggle('password', 'togglePassword');
+      setupPasswordToggle('adminPassword', 'toggleAdminPassword');
 
-    // Validazione in tempo reale per motivazione
-    document.getElementById('motivazione').addEventListener('input', function() {
-      const error = document.getElementById('motivazioneError');
-      if (this.value.length > 500) {
-        error.classList.add('show');
-        this.classList.add('invalid');
-      } else {
-        error.classList.remove('show');
-        this.classList.remove('invalid');
-        if (this.value.length > 0) this.classList.add('valid');
-      }
-    });
-
-    // Gestione campi studente
-    const ruoloSelect = document.getElementById("ruolo");
-    const studenteFields = document.getElementById("studenteFields");
-    const sezioneSelect = document.getElementById("sezione");
-    const annoInput = document.getElementById("anno");
-    const form = document.getElementById("registrationForm");
-    const sezioniOptions = [...sezioneSelect.options];
-
-    // Mostra/nasconde campi studenti con animazione
-    ruoloSelect.addEventListener("change", () => {
-      const isStudente = ruoloSelect.value === "studente";
-      
-      if (isStudente) {
-        studenteFields.style.display = "block";
-        setTimeout(() => {
-          studenteFields.classList.add('fade-in');
-        }, 10);
-      } else {
-        studenteFields.classList.remove('fade-in');
-        setTimeout(() => {
-          studenteFields.style.display = "none";
-        }, 300);
-      }
-    });
-
-    // Filtra sezioni disponibili in base all'anno (25-26)
-    annoInput.addEventListener("input", () => {
-      const anno = parseInt(annoInput.value, 10);
-      const error = document.getElementById('annoError');
-      
-      // Validazione anno
-      if (anno && (anno < 1 || anno > 5)) {
-        error.classList.add('show');
-        annoInput.classList.add('invalid');
-      } else {
-        error.classList.remove('show');
-        annoInput.classList.remove('invalid');
-        if (anno) annoInput.classList.add('valid');
-      }
-      
-      // Filtra sezioni
-      sezioniOptions.forEach(option => {
-        if (option.value === "") return;
-
-        if (option.value === "H") {
-          option.disabled = !(anno === 4);
-          return;
-        }
-        if (option.value === "G") {
-          option.disabled = !(anno === 4);
-          return;
-        }
-
-        if (["AS","BS","CS"].includes(option.value)) {
-          option.disabled = anno > 2;
-          return;
-        }
-
-        const maxAnno = parseInt(option.dataset.max, 10);
-        option.disabled = anno > maxAnno;
-      });
-
-      // Se la sezione selezionata diventa disabilitata, svuotala
-      if (sezioneSelect.value) {
-        const selectedOption = [...sezioniOptions].find(o => o.value === sezioneSelect.value);
-        if (selectedOption && selectedOption.disabled) {
-          sezioneSelect.value = "";
-        }
-      }
-      
-      // Validazione sezione
-      validateSezione();
-    });
-    
-    // Validazione sezione
-    sezioneSelect.addEventListener("change", validateSezione);
-    
-    function validateSezione() {
-      const error = document.getElementById('sezioneError');
-      const anno = parseInt(annoInput.value, 10);
-      const sezione = sezioneSelect.value;
-      
-      if (sezione && anno) {
-        const selectedOption = [...sezioniOptions].find(o => o.value === sezione);
-        if (selectedOption && selectedOption.disabled) {
+      // Validazione per la checkbox privacy
+      document.getElementById('privacyCheckbox').addEventListener('change', function() {
+        const error = document.getElementById('privacyError');
+        if (!this.checked) {
           error.classList.add('show');
-          sezioneSelect.classList.add('invalid');
+          this.classList.add('invalid');
         } else {
           error.classList.remove('show');
-          sezioneSelect.classList.remove('invalid');
-          sezioneSelect.classList.add('valid');
+          this.classList.remove('invalid');
+          this.classList.add('valid');
         }
-      } else {
-        error.classList.remove('show');
-      }
-    }
-    
-    // Funzione per mostrare popup
-    function mostraPopup(messaggio, tipo) {
-      const popup = document.getElementById('popup');
-      popup.textContent = messaggio;
-      popup.className = "popup " + tipo;
-      popup.classList.add("show");
+      });
 
-      // Nasconde il popup dopo 3 secondi
-      setTimeout(() => {
-        popup.classList.remove("show");
-      }, 3000);
-    }
+      // Aggiorna email nascosta
+      document.getElementById('emailPrefix').addEventListener('input', () => {
+        const email = buildEmail();
+        document.getElementById('email').value = email;
+        
+        // Validazione in tempo reale
+        const emailError = document.getElementById('emailError');
+        if (email && !validateEmail(email)) {
+          emailError.classList.add('show');
+          document.getElementById('emailPrefix').classList.add('invalid');
+        } else {
+          emailError.classList.remove('show');
+          document.getElementById('emailPrefix').classList.remove('invalid');
+        }
+      });
 
-    // Inizializza email nascosta
-    document.getElementById('email').value = buildEmail();
-    
-    // Gestione mostra/nascondi password admin
-    const isAdminCheckbox = document.getElementById('isAdmin');
-    const adminPasswordContainer = document.getElementById('adminPasswordContainer');
+      document.getElementById('emailDomain').addEventListener('change', () => {
+        document.getElementById('email').value = buildEmail();
+      });
 
-    isAdminCheckbox.addEventListener('change', function() {
-      if (this.checked) {
-        adminPasswordContainer.style.display = 'block';
-        setTimeout(() => {
-          adminPasswordContainer.classList.add('slide-down');
-        }, 10);
-      } else {
-        adminPasswordContainer.classList.remove('slide-down');
-        setTimeout(() => {
-          adminPasswordContainer.style.display = 'none';
-        }, 300);
-      }
-    });
+      // Validazione in tempo reale per nome
+      document.getElementById('nome').addEventListener('input', function() {
+        const error = document.getElementById('nomeError');
+        if (this.value && !validateName(this.value)) {
+          error.classList.add('show');
+          this.classList.add('invalid');
+        } else {
+          error.classList.remove('show');
+          this.classList.remove('invalid');
+        }
+      });
 
-    // Submit del form
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      
-      // Disabilita il pulsante di invio per evitare invii multipli
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Registrazione in corso...';
+      // Validazione in tempo reale per cognome
+      document.getElementById('cognome').addEventListener('input', function() {
+        const error = document.getElementById('cognomeError');
+        if (this.value && !validateName(this.value)) {
+          error.classList.add('show');
+          this.classList.add('invalid');
+        } else {
+          error.classList.remove('show');
+          this.classList.remove('invalid');
+        }
+      });
 
-      // Validazione finale
-      let isValid = true;
-      
-      // Validazione nome
-      if (!validateName(document.getElementById('nome').value)) {
-        document.getElementById('nomeError').classList.add('show');
-        document.getElementById('nome').classList.add('invalid');
-        isValid = false;
-      }
-      
-      // Validazione cognome
-      if (!validateName(document.getElementById('cognome').value)) {
-        document.getElementById('cognomeError').classList.add('show');
-        document.getElementById('cognome').classList.add('invalid');
-        isValid = false;
-      }
-      
-      // Validazione email
-      const email = document.getElementById('email').value;
-      if (!validateEmail(email)) {
-        document.getElementById('emailError').classList.add('show');
-        document.getElementById('emailPrefix').classList.add('invalid');
-        isValid = false;
-      }
-      
-      // Validazione password
-      if (!validatePassword(document.getElementById('password').value)) {
-        document.getElementById('passwordError').classList.add('show');
-        document.getElementById('password').classList.add('invalid');
-        isValid = false;
-      }
-      
-      // Validazione ruolo
-      if (!document.getElementById('ruolo').value) {
-        document.getElementById('ruoloError').classList.add('show');
-        document.getElementById('ruolo').classList.add('invalid');
-        isValid = false;
-      }
-      
-      // Validazione admin password se richiesta
-      if (isAdminCheckbox.checked && !document.getElementById('adminPassword').value) {
-        document.getElementById('adminPasswordError').classList.add('show');
-        document.getElementById('adminPassword').classList.add('invalid');
-        isValid = false;
-      }
-      
-      // Validazione campi studente se applicabile
-      const ruolo = ruoloSelect.value;
-      let anno = null;
-      let sezione = null;
+      // Validazione in tempo reale per password
+      document.getElementById('password').addEventListener('input', function() {
+        const error = document.getElementById('passwordError');
+        const isValid = validatePassword(this.value);
+        checkPasswordStrength(this.value);
+        
+        if (this.value && !isValid) {
+          error.classList.add('show');
+          this.classList.add('invalid');
+        } else {
+          error.classList.remove('show');
+          this.classList.remove('invalid');
+          if (isValid) this.classList.add('valid');
+        }
+      });
 
-      if (ruolo === "studente") {
-        anno = parseInt(annoInput.value, 10);
-        sezione = sezioneSelect.value ? sezioneSelect.value.toUpperCase() : "";
+      // Validazione in tempo reale per motivazione
+      document.getElementById('motivazione').addEventListener('input', function() {
+        const error = document.getElementById('motivazioneError');
+        if (this.value.length > 500) {
+          error.classList.add('show');
+          this.classList.add('invalid');
+        } else {
+          error.classList.remove('show');
+          this.classList.remove('invalid');
+          if (this.value.length > 0) this.classList.add('valid');
+        }
+      });
 
+      // Gestione campi studente
+      const ruoloSelect = document.getElementById("ruolo");
+      const studenteFields = document.getElementById("studenteFields");
+      const sezioneSelect = document.getElementById("sezione");
+      const annoInput = document.getElementById("anno");
+      const form = document.getElementById("registrationForm");
+      const sezioniOptions = [...sezioneSelect.options];
+
+      // Mostra/nasconde campi studenti con animazione
+      ruoloSelect.addEventListener("change", () => {
+        const isStudente = ruoloSelect.value === "studente";
+        
+        if (isStudente) {
+          studenteFields.style.display = "block";
+          setTimeout(() => {
+            studenteFields.classList.add('fade-in');
+          }, 10);
+        } else {
+          studenteFields.classList.remove('fade-in');
+          setTimeout(() => {
+            studenteFields.style.display = "none";
+          }, 300);
+        }
+      });
+
+      // Filtra sezioni disponibili in base all'anno (25-26)
+      annoInput.addEventListener("input", () => {
+        const anno = parseInt(annoInput.value, 10);
+        const error = document.getElementById('annoError');
+        
         // Validazione anno
-        if (!anno || anno < 1 || anno > 5) {
-          document.getElementById('annoError').classList.add('show');
+        if (anno && (anno < 1 || anno > 5)) {
+          error.classList.add('show');
           annoInput.classList.add('invalid');
-          isValid = false;
+        } else {
+          error.classList.remove('show');
+          annoInput.classList.remove('invalid');
+          if (anno) annoInput.classList.add('valid');
+        }
+        
+        // Filtra sezioni
+        sezioniOptions.forEach(option => {
+          if (option.value === "") return;
+
+          if (option.value === "H") {
+            option.disabled = !(anno === 4);
+            return;
+          }
+          if (option.value === "G") {
+            option.disabled = !(anno === 4);
+            return;
+          }
+
+          if (["AS","BS","CS"].includes(option.value)) {
+            option.disabled = anno > 2;
+            return;
+          }
+
+          const maxAnno = parseInt(option.dataset.max, 10);
+          option.disabled = anno > maxAnno;
+        });
+
+        // Se la sezione selezionata diventa disabilitata, svuotala
+        if (sezioneSelect.value) {
+          const selectedOption = [...sezioniOptions].find(o => o.value === sezioneSelect.value);
+          if (selectedOption && selectedOption.disabled) {
+            sezioneSelect.value = "";
+          }
         }
         
         // Validazione sezione
-        if (!sezione) {
-          document.getElementById('sezioneError').classList.add('show');
-          sezioneSelect.classList.add('invalid');
-          isValid = false;
+        validateSezione();
+      });
+      
+      // Validazione sezione
+      sezioneSelect.addEventListener("change", validateSezione);
+      
+      function validateSezione() {
+        const error = document.getElementById('sezioneError');
+        const anno = parseInt(annoInput.value, 10);
+        const sezione = sezioneSelect.value;
+        
+        if (sezione && anno) {
+          const selectedOption = [...sezioniOptions].find(o => o.value === sezione);
+          if (selectedOption && selectedOption.disabled) {
+            error.classList.add('show');
+            sezioneSelect.classList.add('invalid');
+          } else {
+            error.classList.remove('show');
+            sezioneSelect.classList.remove('invalid');
+            sezioneSelect.classList.add('valid');
+          }
         } else {
-          // Validazione sezione/anno
-          if (sezione) {
-            if ((anno === 4 && sezione !== "H") ||
-                (anno === 5 && sezione !== "G") ||
-                (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
-              mostraPopup(`La sezione "${sezione}" non esiste per l'anno ${anno}.`, "error");
-              isValid = false;
+          error.classList.remove('show');
+        }
+      }
+      
+      // Funzione per mostrare popup
+      function mostraPopup(messaggio, tipo) {
+        const popup = document.getElementById('popup');
+        popup.textContent = messaggio;
+        popup.className = "popup " + tipo;
+        popup.classList.add("show");
+
+        // Nasconde il popup dopo 3 secondi
+        setTimeout(() => {
+          popup.classList.remove("show");
+        }, 3000);
+      }
+
+      // Inizializza email nascosta
+      document.getElementById('email').value = buildEmail();
+      
+      // Gestione mostra/nascondi password admin
+      const isAdminCheckbox = document.getElementById('isAdmin');
+      const adminPasswordContainer = document.getElementById('adminPasswordContainer');
+
+      isAdminCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          adminPasswordContainer.style.display = 'block';
+          setTimeout(() => {
+            adminPasswordContainer.classList.add('slide-down');
+          }, 10);
+        } else {
+          adminPasswordContainer.classList.remove('slide-down');
+          setTimeout(() => {
+            adminPasswordContainer.style.display = 'none';
+          }, 300);
+        }
+      });
+
+      // Submit del form
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        // Disabilita il pulsante di invio per evitare invii multipli
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Registrazione in corso...';
+
+        // Validazione finale
+        let isValid = true;
+        
+        // Validazione nome
+        if (!validateName(document.getElementById('nome').value)) {
+          document.getElementById('nomeError').classList.add('show');
+          document.getElementById('nome').classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione cognome
+        if (!validateName(document.getElementById('cognome').value)) {
+          document.getElementById('cognomeError').classList.add('show');
+          document.getElementById('cognome').classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione email
+        const email = document.getElementById('email').value;
+        if (!validateEmail(email)) {
+          document.getElementById('emailError').classList.add('show');
+          document.getElementById('emailPrefix').classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione password
+        if (!validatePassword(document.getElementById('password').value)) {
+          document.getElementById('passwordError').classList.add('show');
+          document.getElementById('password').classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione ruolo
+        if (!document.getElementById('ruolo').value) {
+          document.getElementById('ruoloError').classList.add('show');
+          document.getElementById('ruolo').classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione admin password se richiesta
+        if (isAdminCheckbox.checked && !document.getElementById('adminPassword').value) {
+          document.getElementById('adminPasswordError').classList.add('show');
+          document.getElementById('adminPassword').classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione privacy policy
+        if (!document.getElementById('privacyCheckbox').checked) {
+          document.getElementById('privacyError').classList.add('show');
+          document.getElementById('privacyCheckbox').classList.add('invalid');
+          isValid = false;
+        }
+        
+        // Validazione campi studente se applicabile
+        const ruolo = ruoloSelect.value;
+        let anno = null;
+        let sezione = null;
+
+        if (ruolo === "studente") {
+          anno = parseInt(annoInput.value, 10);
+          sezione = sezioneSelect.value ? sezioneSelect.value.toUpperCase() : "";
+
+          // Validazione anno
+          if (!anno || anno < 1 || anno > 5) {
+            document.getElementById('annoError').classList.add('show');
+            annoInput.classList.add('invalid');
+            isValid = false;
+          }
+          
+          // Validazione sezione
+          if (!sezione) {
+            document.getElementById('sezioneError').classList.add('show');
+            sezioneSelect.classList.add('invalid');
+            isValid = false;
+          } else {
+            // Validazione sezione/anno
+            if (sezione) {
+              if ((anno === 4 && sezione !== "H") ||
+                  (anno === 5 && sezione !== "G") ||
+                  (anno !== 4 && anno !== 5 && (sezione === "H" || sezione === "G"))) {
+                mostraPopup(`La sezione "${sezione}" non esiste per l'anno ${anno}.`, "error");
+                isValid = false;
+              }
             }
           }
         }
-      }
 
-      if (!isValid) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Registrati';
-        mostraPopup("Correggi gli errori nel modulo prima di procedere", "error");
-        return;
-      }
+        if (!isValid) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Registrati';
+          mostraPopup("Correggi gli errori nel modulo prima di procedere", "error");
+          return;
+        }
 
-      const dati = {
-        nome: document.getElementById('nome').value,
-        cognome: document.getElementById('cognome').value,
-        email: document.getElementById('email').value,
-        ruolo: ruolo,
-        motivazione: document.getElementById('motivazione').value,
-        password: document.getElementById('password').value,
-        anno: anno,
-        sezione: sezione,
-        is_admin: isAdminCheckbox.checked,
-        admin_password: isAdminCheckbox.checked ? document.getElementById('adminPassword').value : ""
-      };
+        const dati = {
+          nome: document.getElementById('nome').value,
+          cognome: document.getElementById('cognome').value,
+          email: document.getElementById('email').value,
+          ruolo: ruolo,
+          motivazione: document.getElementById('motivazione').value,
+          password: document.getElementById('password').value,
+          anno: anno,
+          sezione: sezione,
+          is_admin: isAdminCheckbox.checked,
+          admin_password: isAdminCheckbox.checked ? document.getElementById('adminPassword').value : "",
+          privacy_accepted: true
+        };
 
-      try {
-        const response = await fetch('/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(dati)
-        });
+        try {
+          const response = await fetch('/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dati)
+          });
 
-        const result = await response.json();
+          const result = await response.json();
 
-        if(result.success) {
-          mostraPopup("Registrazione completata con successo!", "success");
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 1500);
-        } else {
-          mostraPopup(result.message || "Registrazione fallita", "error");
+          if(result.success) {
+            mostraPopup("Registrazione completata con successo!", "success");
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 1500);
+          } else {
+            mostraPopup(result.message || "Registrazione fallita", "error");
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Registrati';
+          }
+        } catch (error) {
+          console.error('Errore durante la registrazione:', error);
+          mostraPopup("Errore di connessione. Riprova più tardi.", "error");
           submitBtn.disabled = false;
           submitBtn.textContent = 'Registrati';
         }
-      } catch (error) {
-        console.error('Errore durante la registrazione:', error);
-        mostraPopup("Errore di connessione. Riprova più tardi.", "error");
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Registrati';
-      }
-    });
-
-    // Theme functionality
-    const fab = document.getElementById('theme-fab');
-    const popup = document.getElementById('theme-popup');
-
-    fab.addEventListener('click', () => {
-      fab.classList.add('animate');
-      fab.addEventListener('animationend', () => {
-        fab.classList.remove('animate');
-      }, { once: true });
-      
-      if (popup.classList.contains('show')) {
-        popup.classList.remove('show');
-        setTimeout(() => popup.style.display = 'none', 250);
-      } else {
-        popup.style.display = 'flex';
-        requestAnimationFrame(() => popup.classList.add('show'));
-      }
-    });
-
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!fab.contains(e.target) && !popup.contains(e.target)) {
-        if (popup.classList.contains('show')) {
-          popup.classList.remove('show');
-          setTimeout(() => popup.style.display = 'none', 250);
-        }
-      }
-    });
-
-    // Apply theme and highlight selection
-    document.querySelectorAll('.theme-option').forEach(button => {
-      button.addEventListener('click', () => {
-        const theme = button.dataset.theme;
-        localStorage.setItem('theme-preference', theme);
-        applyTheme(theme);
-
-        // Highlight active button
-        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        popup.classList.remove('show');
-        setTimeout(() => popup.style.display = 'none', 250);
       });
-    });
 
-    function applyTheme(theme) {
-      if (theme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-    }
-
-    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
-    const savedTheme = localStorage.getItem('theme-preference');
-    if (savedTheme) {
-      applyTheme(savedTheme);
-      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
-      if (btn) btn.classList.add('active');
-    } else {
-      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
-      applyTheme('auto');
-      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
-      if (autoBtn) autoBtn.classList.add('active');
-    }
-
-    // Mostra FAB con animazione al caricamento
-    window.addEventListener('DOMContentLoaded', () => {
+      // Theme functionality
       const fab = document.getElementById('theme-fab');
-      fab.classList.add('show');
-      
-      // Animazioni per le card
-      const cards = document.querySelectorAll('.fade-in-up');
-      cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-      });
-    });
+      const popupTheme = document.getElementById('theme-popup');
 
-    // Scroll animations
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
-      if (window.scrollY > 50) {
-        header.style.background = 'var(--header-bg)';
-        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-      } else {
-        header.style.background = 'var(--header-bg)';
-        header.style.boxShadow = 'none';
-      }
-    });
-
-    // Intersection Observer for animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in-up');
+      fab.addEventListener('click', () => {
+        fab.classList.add('animate');
+        fab.addEventListener('animationend', () => {
+          fab.classList.remove('animate');
+        }, { once: true });
+        
+        if (popupTheme.classList.contains('show')) {
+          popupTheme.classList.remove('show');
+          setTimeout(() => popupTheme.style.display = 'none', 250);
+        } else {
+          popupTheme.style.display = 'flex';
+          requestAnimationFrame(() => popupTheme.classList.add('show'));
         }
       });
-    }, observerOptions);
 
-    // Observe all cards for animation
-    document.querySelectorAll('.card').forEach(card => {
-      observer.observe(card);
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!fab.contains(e.target) && !popupTheme.contains(e.target)) {
+          if (popupTheme.classList.contains('show')) {
+            popupTheme.classList.remove('show');
+            setTimeout(() => popupTheme.style.display = 'none', 250);
+          }
+        }
+      });
+
+      // Apply theme and highlight selection
+      document.querySelectorAll('.theme-option').forEach(button => {
+        button.addEventListener('click', () => {
+          const theme = button.dataset.theme;
+          localStorage.setItem('theme-preference', theme);
+          applyTheme(theme);
+
+          // Highlight active button
+          document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+
+          popupTheme.classList.remove('show');
+          setTimeout(() => popupTheme.style.display = 'none', 250);
+        });
+      });
+
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        } else if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      }
+
+      // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+      const savedTheme = localStorage.getItem('theme-preference');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+        const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+        if (btn) btn.classList.add('active');
+      } else {
+        // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
+        applyTheme('auto');
+        const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+        if (autoBtn) autoBtn.classList.add('active');
+      }
+
+      // Mostra FAB con animazione al caricamento
+      window.addEventListener('DOMContentLoaded', () => {
+        const fab = document.getElementById('theme-fab');
+        fab.classList.add('show');
+        
+        // Animazioni per le card
+        const cards = document.querySelectorAll('.fade-in-up');
+        cards.forEach((card, index) => {
+          card.style.animationDelay = `${index * 0.1}s`;
+        });
+      });
+
+      // Scroll animations
+      window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+          header.style.background = 'var(--header-bg)';
+          header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+        } else {
+          header.style.background = 'var(--header-bg)';
+          header.style.boxShadow = 'none';
+        }
+      });
     });
-  });
-</script>
-<div id="popup" class="popup"></div>
+  </script>
 </body>
 </html>

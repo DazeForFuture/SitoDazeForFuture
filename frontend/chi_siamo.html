@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
-  <title>Chi siamo - Daze for Future</title>
+  <title>Chi siamo - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/sidebar/sidebar.css" />
@@ -35,6 +35,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff; /* Colore per il link attivo */
     }
 
     @media (prefers-color-scheme: dark) {
@@ -58,6 +59,7 @@
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
       }
     }
 
@@ -81,6 +83,7 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
     }
 
     :root[data-theme="light"] {
@@ -103,6 +106,40 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff; /* Colore per il link attivo in light mode */
+    }
+
+    /* Stili per evidenziare la pagina attiva */
+    nav > a.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    nav > a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: var(--active-link);
+      transition: width 0.3s;
+    }
+
+    .dropdown-toggle.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    .dropdown-toggle.active::after {
+      color: var(--active-link);
+    }
+
+    /* Per la sidebar */
+    .sidebar-menu a.active {
+      color: var(--active-link) !important;
+      font-weight: 600;
+      background: var(--hover-bg);
     }
 
     :root[data-theme="dark"] header {
@@ -925,7 +962,8 @@
         font-size: 16px !important;
       }
     }
-            /* Stili per il dropdown menu */
+
+    /* Stili per il dropdown menu */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -1028,6 +1066,7 @@
     .team-card .class-badge {
       margin-top: 4px;
     }
+    
     /* Stili per la preview della pagina centrale meteorologica */
     .page-preview {
       position: absolute;
@@ -1177,15 +1216,16 @@
   <header>
     <div class="logo" id="toggleSidebar">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
-      Daze for Future
+      Daze For Future
     </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
-      <a href="index.html">Home</a>
+      <a href="/">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
-      
+      <a href="chi_siamo.html" class="active">Chi siamo</a>
+      <a href="contatti.html">Contatti</a>
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
@@ -1195,18 +1235,48 @@
           <a href="centrale_meteo.html" class="dropdown-item">
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
+            <!-- Preview della pagina centrale meteorologica -->
+            <div class="page-preview">
+              <div class="page-preview-content">
+                <div class="page-preview-hero">
+                  <h2>Centrale Meteorologica</h2>
+                  <p>Monitoraggio in tempo reale di temperatura e qualità dell'aria</p>
+                </div>
+                <div class="page-preview-cards">
+                  <div class="page-preview-card">
+                    <h3>🌡 Temperatura</h3>
+                    <div class="page-preview-value" id="previewTempValue">23.5 °C</div>
+                  </div>
+                  <div class="page-preview-card">
+                    <h3>💨 Qualità Aria</h3>
+                    <div class="page-preview-value" id="previewAirValue">18.2 µg/m³</div>
+                  </div>
+                </div>
+                <div class="page-preview-chart">
+                  <div class="page-preview-chart-line"></div>
+                  <!-- Punti del grafico -->
+                  <div class="page-preview-chart-point" style="left: 10%; top: 30%"></div>
+                  <div class="page-preview-chart-point" style="left: 30%; top: 50%"></div>
+                  <div class="page-preview-chart-point" style="left: 50%; top: 40%"></div>
+                  <div class="page-preview-chart-point" style="left: 70%; top: 60%"></div>
+                  <div class="page-preview-chart-point" style="left: 90%; top: 45%"></div>
+                </div>
+                <div class="page-preview-footer">
+                  <p>Dati aggiornati in tempo reale</p>
+                </div>
+              </div>
+            </div>
           </a>
-   <!--     <div class="dropdown-divider"></div>
+          <!--     <div class="dropdown-divider"></div>
           <a href="altroprogetto.html" class="dropdown-item">
             <i class="fas fa-lock" style="margin-right: 8px;"></i>
             ///
           </a> -->
         </div>
       </div>
-      
-      <a href="contatti.html">Contatti</a>
+ 
+
       <a href="documenti.html">Documenti</a>
-      <a href="forum.html">Forum</a>
 
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
@@ -1232,7 +1302,7 @@
     <section class="hero">
       <div class="hero-content">
         <h1>Chi siamo</h1>
-        <p>Conosci il team di studenti appassionati che guidano Daze for Future</p>
+        <p>Conosci il team di studenti appassionati che guidano Daze For Future</p>
       </div>
     </section>
 
@@ -1388,9 +1458,11 @@
   
   <ul class="sidebar-menu">
     <li><a href="index.html"><span>🏠</span>Home</a></li>
-      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-  <!-- Dropdown -->
+    <li><a href="missione.html"><span>🌱</span> Missione</a></li>
+    <li><a href="chi_siamo.html" class="active"><span>👥</span> Chi siamo</a></li>
+    <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
+    <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
+    <!-- Dropdown -->
     <li class="sidebar-dropdown">
       <button class="sidebar-dropdown-toggle">
         <span>📁</span>
@@ -1401,31 +1473,29 @@
         <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
       </ul>
     </li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-      <li><a href="forum.html"><span>💬</span> Forum</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
+    <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
+    <li><a href="forum.html"><span>💬</span> Forum</a></li>
+    <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
   </ul>
   
   <!-- User info per mobile nella sidebar -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-      <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar"></div>
-        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-      </div>
-      <div class="mobile-user-display">
-        <span class="mobile-user-name" id="mobileUserName"></span>
-        <span class="mobile-user-badge" id="mobileUserBadge"></span>
-      </div>
-      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Logout</span>
-      </button>
+  <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
+    <div class="mobile-user-header">
+      <div class="user-avatar" id="mobileUserAvatar"></div>
+      <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
     </div>
-  </aside>
+    <div class="mobile-user-display">
+      <span class="mobile-user-name" id="mobileUserName"></span>
+      <span class="mobile-user-badge" id="mobileUserBadge"></span>
+    </div>
+    <button class="logout-btn" onclick="logout()" style="justify-content: center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Logout</span>
+    </button>
+  </div>
+</aside>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
@@ -1444,6 +1514,43 @@
   </footer>
 
 <script>
+    // Funzione per evidenziare la pagina corrente
+    function highlightCurrentPage() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('nav a');
+      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      
+      // Rimuovi la classe active da tutti i link
+      navLinks.forEach(link => link.classList.remove('active'));
+      sidebarLinks.forEach(link => link.classList.remove('active'));
+      
+      // Aggiungi la classe active al link corrente
+      navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      sidebarLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Gestione speciale per la home page
+      if (currentPage === '' || currentPage === 'index.html') {
+        document.querySelector('nav a[href="index.html"]').classList.add('active');
+        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
+      }
+      
+      // Gestione speciale per le pagine nei dropdown
+      if (currentPage === 'centrale_meteo.html') {
+        document.querySelector('.dropdown-toggle').classList.add('active');
+      }
+    }
+
     // Theme functionality
     const fab = document.getElementById('theme-fab');
     const popup = document.getElementById('theme-popup');
@@ -1522,6 +1629,26 @@
       cards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
       });
+      
+      // Evidenzia la pagina corrente
+      highlightCurrentPage();
+      
+      // Funzione per aggiornare la preview della centrale meteorologica
+      function aggiornaPreviewMeteo() {
+        setInterval(() => {
+          const temp = (20 + Math.random() * 5).toFixed(1);
+          const air = (10 + Math.random() * 30).toFixed(1);
+          
+          const tempElement = document.getElementById('previewTempValue');
+          const airElement = document.getElementById('previewAirValue');
+          
+          if (tempElement) tempElement.textContent = temp + " °C";
+          if (airElement) airElement.textContent = air + " µg/m³";
+        }, 2000);
+      }
+      
+      // Avvia l'aggiornamento della preview
+      aggiornaPreviewMeteo();
     });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
