@@ -37,6 +37,9 @@
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --not-available: #8e8e93;
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -61,6 +64,9 @@
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         --not-available: #636366;
+        --success: #30d158;
+        --error: #ff453a;
+        --warning: #ff9f0a;
       }
     }
 
@@ -85,6 +91,9 @@
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       --not-available: #636366;
+      --success: #30d158;
+      --error: #ff453a;
+      --warning: #ff9f0a;
     }
 
     :root[data-theme="light"] {
@@ -108,6 +117,9 @@
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --not-available: #8e8e93;
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ff9500;
     }
 
     :root[data-theme="dark"] header {
@@ -138,7 +150,6 @@
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
-      /* background-attachment: fixed; */ /* Rimosso per compatibilità iOS */
     }
 
     /* Overlay dinamico che si adatta al tema - FIX per iOS */
@@ -585,6 +596,187 @@
     .status-connecting { color: #ffcc00; }
     .status-error { color: #ff3b30; }
 
+    /* Sistema popup avanzato per errori e notifiche - STILE LOGIN */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      color: var(--text);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.4s ease;
+      z-index: 2000;
+      font-weight: 600;
+      max-width: 300px;
+      border-left: 6px solid transparent;
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .popup.success {
+      border-left-color: var(--success);
+    }
+
+    .popup.error {
+      border-left-color: var(--error);
+    }
+
+    .popup.info {
+      border-left-color: var(--accent);
+    }
+
+    .popup.warning {
+      border-left-color: var(--warning);
+    }
+
+    /* Modal overlay per popup importanti */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      transform: scale(0.9);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-overlay.show .modal {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+      transform: rotate(90deg);
+    }
+
+    .modal-content {
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    .modal-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 100px;
+    }
+
+    .modal-btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .modal-btn-primary:hover {
+      background: var(--btn-hover-bg);
+      transform: translateY(-2px);
+    }
+
+    .modal-btn-secondary {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+
+    .modal-btn-secondary:hover {
+      background: var(--hover-bg);
+      opacity: 0.8;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.05);
+    }
+
+    .status-indicator.connecting {
+      color: #ff9500;
+    }
+
+    .status-indicator.connected {
+      color: #34c759;
+    }
+
+    .status-indicator.error {
+      color: #ff3b30;
+    }
+
     /* MIGLIORAMENTI MOBILE COMPLETI */
     @media (max-width: 768px) {
       header {
@@ -688,6 +880,28 @@
 
       body {
         background-attachment: scroll;
+      }
+
+      /* Responsive per popup */
+      .popup {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+        width: calc(100% - 40px);
+      }
+      
+      .modal {
+        width: 95%;
+        padding: 1.5rem;
+      }
+      
+      .modal-title {
+        font-size: 1.3rem;
+      }
+      
+      .modal-btn {
+        min-width: unset;
+        flex: 1;
       }
     }
 
@@ -818,7 +1032,6 @@
     <section class="hero">
       <h1>Dati dalla Centrale Meteorologica</h1>
       <p>Monitoraggio in tempo reale di temperatura, umidità e qualità dell'aria</p>
-      <p id="connectionStatus" class="status-connecting">🔄 Connessione al backend in corso...</p>
     </section>
 
     <section class="cards">
@@ -892,6 +1105,18 @@
     </div>
   </aside>
 
+  <!-- Modal per errori importanti -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle"></h3>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-content" id="modalContent"></div>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
     🎨
@@ -910,7 +1135,7 @@
 
   <script>
     // Configurazione backend
-    const BACKEND_URL = 'http://localhost:5005'; // Modifica se necessario
+    const BACKEND_URL = 'http://dffserver:5005'; // Modifica se necessario
 
     // Stato della connessione
     let isConnected = false;
@@ -1027,13 +1252,6 @@
       sensorChart.update();
     }
 
-    // Funzioni per gestire la connessione al backend
-    function updateConnectionStatus(status, message) {
-      const statusElement = document.getElementById('connectionStatus');
-      statusElement.textContent = message;
-      statusElement.className = 'status-' + status;
-    }
-
     // Funzione per formattare la data/ora
     function formatTimestamp(timestamp) {
       try {
@@ -1074,10 +1292,8 @@
       document.getElementById('tempValue').textContent = reading.temperature.toFixed(1) + " °C";
       document.getElementById('humValue').textContent = reading.humidity.toFixed(1) + " %";
       
-      // Mostra la fonte dei dati
-      const sourceText = method === 'wifi' ? '📡 WiFi' : 
-                        method === 'usb' ? '🔌 USB' : 
-                        '💾 DB Storico';
+      const sourceText = method === 'sse' ? 'Aggiornamento in tempo reale' : 
+                        method === 'mock' ? 'Dati di esempio' : 'Ultima lettura';
       
       document.getElementById('tempSource').textContent = sourceText;
       document.getElementById('humSource').textContent = sourceText;
@@ -1087,8 +1303,126 @@
       document.getElementById('airValue').className = "value not-available";
     }
 
+    // ===== SISTEMA DI GESTIONE POPUP (STILE LOGIN) =====
+    function mostraPopup(messaggio, tipo = 'info', durata = 3000) {
+      // Crea o recupera il popup
+      let popup = document.getElementById('popup');
+      if (!popup) {
+        popup = document.createElement('div');
+        popup.id = 'popup';
+        popup.className = 'popup';
+        document.body.appendChild(popup);
+      }
+      
+      popup.textContent = messaggio;
+      popup.className = "popup " + tipo;
+      popup.classList.add("show");
+
+      // Nasconde il popup dopo la durata
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, durata);
+    }
+
+    // Mostra un modal importante (bloccante)
+    function mostraModal(titolo, messaggio, bottoni = []) {
+      const modalOverlay = document.getElementById('modalOverlay');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalContent = document.getElementById('modalContent');
+      const modalActions = document.getElementById('modalActions');
+      
+      modalTitle.innerHTML = titolo;
+      modalContent.innerHTML = messaggio;
+      
+      // Pulisci e aggiungi bottoni
+      modalActions.innerHTML = '';
+      bottoni.forEach(btn => {
+        const button = document.createElement('button');
+        button.className = `modal-btn modal-btn-${btn.tipo}`;
+        button.textContent = btn.testo;
+        button.onclick = btn.azione;
+        modalActions.appendChild(button);
+      });
+      
+      // Mostra il modal
+      modalOverlay.classList.add('show');
+      
+      // Gestione chiusura
+      const chiudiModal = function() {
+        modalOverlay.classList.remove('show');
+      };
+      
+      document.getElementById('modalClose').onclick = chiudiModal;
+      modalOverlay.onclick = function(e) {
+        if (e.target === modalOverlay) {
+          chiudiModal();
+        }
+      };
+    }
+
+    // Verifica compatibilità browser
+    function verificaCompatibilitaBrowser() {
+      const problemi = [];
+      
+      // Verifica EventSource (SSE)
+      if (!('EventSource' in window)) {
+        problemi.push({
+          tipo: 'errore',
+          titolo: 'Browser non supportato',
+          messaggio: 'Il tuo browser non supporta gli aggiornamenti in tempo reale. Aggiorna il browser o usa Chrome/Firefox/Edge moderni.',
+          azione: () => {
+            window.open('https://www.google.com/chrome/', '_blank');
+          }
+        });
+      }
+      
+      // Verifica fetch API
+      if (!('fetch' in window)) {
+        problemi.push({
+          tipo: 'errore',
+          titolo: 'API Fetch non disponibile',
+          messaggio: 'Il tuo browser è troppo vecchio per funzionalità moderne. Aggiornalo per un\'esperienza completa.',
+          azione: null
+        });
+      }
+      
+      // Mostra tutti i problemi trovati
+      problemi.forEach(problema => {
+        if (problema.tipo === 'errore') {
+          mostraModal(
+            problema.titolo,
+            problema.messaggio,
+            problema.azione ? [
+              { tipo: 'secondary', testo: 'Ignora', azione: () => document.getElementById('modalOverlay').classList.remove('show') },
+              { tipo: 'primary', testo: 'Aggiorna Browser', azione: problema.azione }
+            ] : [
+              { tipo: 'primary', testo: 'OK', azione: () => document.getElementById('modalOverlay').classList.remove('show') }
+            ]
+          );
+        } else {
+          mostraPopup(problema.titolo + ': ' + problema.messaggio, 'warning', 8000);
+        }
+      });
+      
+      return problemi.length === 0;
+    }
+
+    // Gestore errori di rete globale
+    function gestisciErroreRete(errore) {
+      console.error('Errore di rete:', errore);
+      
+      mostraModal(
+        'Errore di rete',
+        'Impossibile raggiungere il server dei dati meteorologici. Verifica la connessione internet.',
+        [
+          { tipo: 'secondary', testo: 'Ignora', azione: () => document.getElementById('modalOverlay').classList.remove('show') },
+          { tipo: 'primary', testo: 'Riprova', azione: () => location.reload() }
+        ]
+      );
+    }
+
     // Carica i dati storici all'inizio
-    async function loadHistoricalData() {
+    async function caricaDatiStorici() {
       try {
         const response = await fetch(`${BACKEND_URL}/history?limit=50`);
         if (!response.ok) throw new Error('Errore nel caricamento dati storici');
@@ -1109,14 +1443,18 @@
           // Aggiorna con l'ultima lettura
           const latestReading = data.readings[0];
           updateCardValues(latestReading, latestReading.source || 'db');
+          
+          // Mostra popup di successo
+          mostraPopup('Dati storici caricati con successo', 'success', 3000);
         }
       } catch (error) {
         console.error('Errore nel caricamento dati storici:', error);
+        mostraPopup('Errore nel caricamento dati storici', 'error', 4000);
       }
     }
 
     // Ottieni i dati del sensore corrente
-    async function fetchCurrentSensorData() {
+    async function ottieniDatiSensoreCorrente() {
       try {
         const response = await fetch(`${BACKEND_URL}/sensor`);
         if (!response.ok) throw new Error('Errore nel fetch dati sensore');
@@ -1125,32 +1463,43 @@
         if (data.reading) {
           updateCardValues(data.reading, data.method);
           updateChartData(data.reading);
-          updateConnectionStatus('connected', '✅ Connesso al backend');
           isConnected = true;
+          
+          // Mostra popup di connessione riuscita
+          mostraPopup('Dati aggiornati con successo', 'success', 2000);
         }
       } catch (error) {
         console.error('Errore nel fetch dati sensore:', error);
-        updateConnectionStatus('error', '❌ Errore di connessione al backend');
         isConnected = false;
         
+        // Mostra popup per errore temporaneo
+        mostraPopup('Errore nel caricamento dati', 'warning', 3000);
+        
         // Riprova dopo 5 secondi
-        setTimeout(fetchCurrentSensorData, 5000);
+        setTimeout(ottieniDatiSensoreCorrente, 5000);
       }
     }
 
     // Inizializza la connessione SSE per aggiornamenti in tempo reale
-    function initSSEConnection() {
+    function inizializzaConnessioneSSE() {
       if (eventSource) {
         eventSource.close();
       }
       
       try {
+        // Verifica se il browser supporta EventSource
+        if (!('EventSource' in window)) {
+          throw new Error('EventSource non supportato');
+        }
+        
         eventSource = new EventSource(`${BACKEND_URL}/stream`);
         
         eventSource.onopen = () => {
           console.log('Connessione SSE stabilita');
-          updateConnectionStatus('connected', '✅ Connesso in tempo reale');
           isConnected = true;
+          
+          // Mostra popup di connessione riuscita
+          mostraPopup('Connesso in tempo reale al backend', 'success', 3000);
         };
         
         eventSource.onmessage = (event) => {
@@ -1159,6 +1508,11 @@
             if (data.type === 'reading') {
               updateCardValues(data.payload, data.payload.source || 'sse');
               updateChartData(data.payload);
+              
+              // Mostra popup per nuovi dati (solo occasionalmente)
+              if (Math.random() < 0.05) { // Solo il 5% delle volte
+                mostraPopup(`Nuovi dati ricevuti: ${data.payload.temperature.toFixed(1)}°C`, 'info', 2000);
+              }
             }
           } catch (e) {
             console.error('Errore nel parsing dati SSE:', e);
@@ -1167,33 +1521,61 @@
         
         eventSource.onerror = (error) => {
           console.error('Errore connessione SSE:', error);
-          updateConnectionStatus('error', '❌ Errore connessione in tempo reale');
           isConnected = false;
           
+          // Mostra popup di errore con opzione per riprovare
+          mostraModal(
+            'Errore di connessione in tempo reale',
+            'Impossibile connettersi al backend in tempo reale. I dati verranno aggiornati ogni 30 secondi.',
+            [
+              { tipo: 'secondary', testo: 'Ignora', azione: () => document.getElementById('modalOverlay').classList.remove('show') },
+              { tipo: 'primary', testo: 'Riprova', azione: () => {
+                document.getElementById('modalOverlay').classList.remove('show');
+                inizializzaConnessioneSSE();
+              }}
+            ]
+          );
+          
           // Riprova dopo 3 secondi
-          setTimeout(initSSEConnection, 3000);
+          setTimeout(inizializzaConnessioneSSE, 3000);
         };
       } catch (error) {
         console.error('Impossibile inizializzare SSE:', error);
-        updateConnectionStatus('error', '❌ Browser non supporta aggiornamenti in tempo reale');
+        
+        // Mostra modal di errore per browser non supportato
+        mostraModal(
+          'Funzionalità limitata',
+          'Il tuo browser non supporta gli aggiornamenti in tempo reale (EventSource).<br><br>I dati verranno aggiornati manualmente ogni 30 secondi.<br><br>Per un\'esperienza completa, aggiorna il browser o usa Chrome/Firefox/Edge.',
+          [
+            { tipo: 'secondary', testo: 'Continua comunque', azione: () => document.getElementById('modalOverlay').classList.remove('show') },
+            { tipo: 'primary', testo: 'Aggiorna Browser', azione: () => {
+              window.open('https://www.google.com/chrome/', '_blank');
+              document.getElementById('modalOverlay').classList.remove('show');
+            }}
+          ]
+        );
       }
     }
 
     // Inizializza il grafico e i dati
-    async function initializeApp() {
-      updateConnectionStatus('connecting', '🔄 Connessione al backend in corso...');
+    async function inizializzaApp() {
+      // Verifica compatibilità browser
+      verificaCompatibilitaBrowser();
+      
+      // Mostra popup di avvio
+      mostraPopup('Avvio centrale meteorologica...', 'info', 2000);
       
       // Carica dati storici
-      await loadHistoricalData();
+      await caricaDatiStorici();
       
       // Ottieni dati correnti
-      await fetchCurrentSensorData();
+      await ottieniDatiSensoreCorrente();
       
       // Avvia connessione SSE per aggiornamenti in tempo reale
-      initSSEConnection();
+      inizializzaConnessioneSSE();
       
       // Aggiorna periodicamente i dati correnti (fallback se SSE non funziona)
-      setInterval(fetchCurrentSensorData, 30000); // Ogni 30 secondi
+      setInterval(ottieniDatiSensoreCorrente, 30000); // Ogni 30 secondi
     }
 
     // Aggiorna il grafico al ridimensionamento della finestra
@@ -1288,7 +1670,14 @@
       });
       
       // Inizializza l'app
-      initializeApp();
+      inizializzaApp();
+      
+      // Aggiungi gestore errori globali
+      window.addEventListener('error', function(event) {
+        if (event.error && event.error.message && event.error.message.includes('fetch')) {
+          gestisciErroreRete(event.error);
+        }
+      });
     });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
