@@ -35,10 +35,11 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-      --active-link: #007aff; /* Colore per il link attivo */
+      --active-link: #007aff;
       --error: #ff3b30;
       --success: #34c759;
       --warning: #ff9500;
+      --info: #007aff;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -62,10 +63,11 @@
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+        --active-link: #0a84ff;
         --error: #ff453a;
         --success: #30d158;
         --warning: #ff9f0a;
+        --info: #0a84ff;
       }
     }
 
@@ -89,10 +91,11 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+      --active-link: #0a84ff;
       --error: #ff453a;
       --success: #30d158;
       --warning: #ff9f0a;
+      --info: #0a84ff;
     }
 
     :root[data-theme="light"] {
@@ -115,10 +118,11 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-      --active-link: #007aff; /* Colore per il link attivo in light mode */
+      --active-link: #007aff;
       --error: #ff3b30;
       --success: #34c759;
       --warning: #ff9500;
+      --info: #007aff;
     }
 
     /* Stili per evidenziare la pagina attiva */
@@ -192,7 +196,6 @@
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
-      /* background-attachment: fixed; */ /* Rimosso per compatibilità iOS */
     }
 
     /* Overlay dinamico che si adatta al tema - FIX per iOS */
@@ -397,104 +400,6 @@
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Stili per sezione eventi con backend */
-    .events-container {
-      display: grid;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    
-    .event-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .event-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-    
-    .event-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    
-    .event-content {
-      padding: 1.5rem;
-    }
-    
-    .event-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--text);
-    }
-    
-    .event-meta {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      flex-wrap: wrap;
-    }
-    
-    .event-description {
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-    
-    .no-events {
-      text-align: center;
-      padding: 3rem;
-      color: var(--muted);
-      font-size: 1.1rem;
-    }
-    
-    /* Stili per il calendario */
-    .calendar-section {
-      margin-top: 4rem;
-    }
-    
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    
-    .calendar-day {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 1.5rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: var(--card-shadow);
-    }
-    
-    .calendar-day:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    .calendar-day h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: var(--accent);
     }
 
     /* Animations */
@@ -978,308 +883,6 @@
       margin: 0.25rem 0;
     }
     
-    /* Stili per la preview della pagina centrale meteorologica */
-    .page-preview {
-      position: absolute;
-      left: -460px; /* Spostata a sinistra per essere completamente visibile */
-      top: 0;
-      width: 450px;
-      height: 320px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(-20px) scale(0.95);
-      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-      z-index: 1002;
-      border: 1px solid var(--sidebar-border);
-      backdrop-filter: blur(10px);
-    }
-
-    .dropdown-item:hover .page-preview {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0) scale(1);
-    }
-
-    .page-preview-content {
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      background: var(--card-bg);
-      color: var(--text);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .page-preview-hero {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-hero h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 5px;
-      background: linear-gradient(90deg, #007aff, #00c6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .page-preview-hero p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .page-preview-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-card {
-      background: var(--bg);
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border: 1px solid var(--sidebar-border);
-      transition: transform 0.2s ease;
-    }
-
-    .page-preview-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .page-preview-card h3 {
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .page-preview-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .page-preview-chart {
-      height: 80px;
-      background: var(--bg);
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--sidebar-border);
-      padding: 10px;
-    }
-
-    .page-preview-chart-line {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    .page-preview-chart-point {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    .page-preview-footer {
-      text-align: center;
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px solid var(--sidebar-border);
-    }
-
-    .page-preview-footer p {
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    @media (max-width: 768px) {
-      .page-preview {
-        display: none;
-      }
-    }
-
-    /* Stili per il pulsante aggiungi evento per admin */
-    #addPostBtn {
-      display: none;
-      margin-left: 1rem;
-      font-size: 1.5rem;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      align-items: center;
-      justify-content: center;
-    }
-
-    #addPostBtn:hover {
-      transform: scale(1.1);
-      background: #0056cc;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-    }
-
-    #addPostBtn:active {
-      transform: scale(0.95);
-    }
-
-    /* Stili migliorati per il popup */
-    #postFormContainer {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.7);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(5px);
-    }
-
-    #postForm {
-      background: var(--card-bg);
-      padding: 2.5rem;
-      border-radius: 20px;
-      max-width: 600px;
-      width: 90vw;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    #postForm h2 {
-      margin-bottom: 1.5rem;
-      color: var(--text);
-      font-size: 1.8rem;
-      text-align: center;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 480px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: var(--text);
-      font-size: 0.9rem;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 2px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 0.5rem;
-      border-radius: 50%;
-      transition: all 0.3s ease;
-    }
-
-    .close-btn:hover {
-      background: var(--hover-bg);
-      color: var(--text);
-    }
-
-    .form-section {
-      margin-bottom: 2rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .form-section-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .optional-badge {
-      font-size: 0.7rem;
-      background: var(--muted);
-      color: var(--bg);
-      padding: 0.2rem 0.5rem;
-      border-radius: 10px;
-      font-weight: 400;
-    }
-
     /* Aggiungi questo div per spingere la navigazione verso destra */
     .header-spacer {
       flex: 1;
@@ -1328,7 +931,7 @@
       font-size: 1.2rem;
     }
 
-    /* AGGIUNTA: Stili per il popup di conferma eliminazione */
+    /* AGGIUNTA: Stili per il popup di conferma eliminazione - STILE MIGLIORATO */
     .confirm-popup {
       position: fixed;
       top: 0;
@@ -1354,15 +957,42 @@
     .confirm-content {
       background: var(--card-bg);
       border-radius: 16px;
-      padding: 2rem;
+      padding: 2.5rem;
       max-width: 450px;
       width: 90%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       text-align: center;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .confirm-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .confirm-close:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+
+    .confirm-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--error);
     }
 
     .confirm-title {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--text);
@@ -1370,8 +1000,9 @@
 
     .confirm-message {
       color: var(--muted);
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      font-size: 1.05rem;
     }
 
     .confirm-buttons {
@@ -1384,25 +1015,36 @@
       flex: 1;
       max-width: 150px;
       margin-bottom: 0;
+      padding: 0.9rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 12px;
+      transition: all 0.3s ease;
     }
 
     .confirm-buttons .secondary-btn {
       background: transparent;
       color: var(--text);
-      border: 1px solid var(--muted);
+      border: 2px solid var(--muted);
     }
 
     .confirm-buttons .secondary-btn:hover {
       background: var(--hover-bg);
+      border-color: var(--text);
+      transform: translateY(-2px);
     }
-    
+
     .confirm-buttons .delete-btn {
       background: var(--error) !important;
       color: white !important;
+      border: 2px solid var(--error);
     }
     
     .confirm-buttons .delete-btn:hover {
       background: #d70015 !important;
+      border-color: #d70015;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
     }
 
     /* AGGIUNTA: Stili per il loading indicator */
@@ -1562,6 +1204,358 @@
     .sidebar-dropdown-item:hover {
       background: var(--hover-bg);
     }
+
+    /* ========== STILI PER EVENTI (aggiornati con stile documenti) ========== */
+    .events-container {
+      display: grid;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .event-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .event-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .event-content {
+      padding: 1.5rem;
+    }
+    
+    .event-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .event-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .event-id {
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: var(--hover-bg);
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+    }
+    
+    .event-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .event-meta i {
+      margin-right: 0.3rem;
+    }
+    
+    .event-description {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    .event-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .event-address {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+    .event-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .event-admin-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .no-events {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    
+    /* Stili per il calendario */
+    .calendar-section {
+      margin-top: 4rem;
+    }
+    
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .calendar-day {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .calendar-day:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .calendar-date {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .calendar-weekday {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    
+    .calendar-daynum {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    
+    .calendar-month {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+    
+    .calendar-event-item {
+      margin-bottom: 0.75rem;
+      padding: 0.75rem;
+      background: var(--hover-bg);
+      border-radius: 8px;
+    }
+    
+    .calendar-event-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .calendar-event-item strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: var(--text);
+    }
+    
+    .calendar-event-details {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    
+    /* Stili per il pulsante aggiungi evento per admin */
+    #addPostBtn {
+      display: none;
+      margin-left: 1rem;
+      font-size: 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #addPostBtn:hover {
+      transform: scale(1.1);
+      background: #0056cc;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    #addPostBtn:active {
+      transform: scale(0.95);
+    }
+
+    /* Stili migliorati per il popup di creazione evento */
+    #postFormContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #postForm {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    #postForm h2 {
+      margin-bottom: 1.5rem;
+      color: var(--text);
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .form-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .optional-badge {
+      font-size: 0.7rem;
+      background: var(--muted);
+      color: var(--bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 10px;
+      font-weight: 400;
+    }
   </style>
 </head>
 <body>
@@ -1583,7 +1577,6 @@
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       
-      
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
@@ -1593,37 +1586,6 @@
           <a href="centrale_meteo.html" class="dropdown-item">
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
-            <!-- Preview della pagina centrale meteorologica -->
-            <div class="page-preview">
-              <div class="page-preview-content">
-                <div class="page-preview-hero">
-                  <h2>Centrale Meteorologica</h2>
-                  <p>Monitoraggio in tempo reale di temperatura e qualità dell'aria</p>
-                </div>
-                <div class="page-preview-cards">
-                  <div class="page-preview-card">
-                    <h3>🌡 Temperatura</h3>
-                    <div class="page-preview-value" id="previewTempValue">23.5 °C</div>
-                  </div>
-                  <div class="page-preview-card">
-                    <h3>💨 Qualità Aria</h3>
-                    <div class="page-preview-value" id="previewAirValue">18.2 µg/m³</div>
-                  </div>
-                </div>
-                <div class="page-preview-chart">
-                  <div class="page-preview-chart-line"></div>
-                  <!-- Punti del grafico -->
-                  <div class="page-preview-chart-point" style="left: 10%; top: 30%"></div>
-                  <div class="page-preview-chart-point" style="left: 30%; top: 50%"></div>
-                  <div class="page-preview-chart-point" style="left: 50%; top: 40%"></div>
-                  <div class="page-preview-chart-point" style="left: 70%; top: 60%"></div>
-                  <div class="page-preview-chart-point" style="left: 90%; top: 45%"></div>
-                </div>
-                <div class="page-preview-footer">
-                  <p>Dati aggiornati in tempo reale</p>
-                </div>
-              </div>
-            </div>
           </a>
         </div>
       </div>
@@ -1763,11 +1725,13 @@
   <!-- AGGIUNTA: Popup di notifica -->
   <div id="notificationPopup" class="popup"></div>
 
-  <!-- AGGIUNTA: Popup di conferma eliminazione -->
+  <!-- AGGIUNTA: Popup di conferma eliminazione MIGLIORATO -->
   <div id="confirmDeletePopup" class="confirm-popup">
     <div class="confirm-content">
+      <button class="confirm-close" id="closeConfirmDelete">&times;</button>
+      <div class="confirm-icon">🗑️</div>
       <h2 class="confirm-title">Conferma eliminazione</h2>
-      <p class="confirm-message">Sei sicuro di voler eliminare questo evento? Questa azione non può essere annullata.</p>
+      <p class="confirm-message">Sei sicuro di voler eliminare questo evento? Questa azione non può essere annullata e il dato verrà rimosso permanentemente dal sistema.</p>
       <div class="confirm-buttons">
         <button class="secondary-btn" id="cancelDeleteBtn">Annulla</button>
         <button class="delete-btn" id="confirmDeleteBtn">Elimina</button>
@@ -1856,148 +1820,198 @@
 <script>
     // ===== CONFIGURAZIONE AUTO-RILEVAMENTO BACKEND =====
     (async function() {
-      // Hostname corrente
-      const currentHost = window.location.hostname;
-      
-      // Lista di endpoint da testare per gli eventi
-      const endpointsToTest = [
-        `http://${currentHost}:5002`,
-        'http://localhost:5002', 
-        'http://192.168.0.44:5002',
-        'http://192.168.0.137:5002'
-      ];
-      
-      // Funzione per testare la connettività
-      async function testEndpoint(url) {
-        try {
-          const response = await fetch(`${url}/api/post`, {
-            method: 'GET',
-            signal: AbortSignal.timeout(3000) // Timeout di 3 secondi
-          });
-          return response.ok ? url : null;
-        } catch (error) {
-          return null;
+        const currentHost = window.location.hostname;
+        const endpointsToTest = [
+            `http://${currentHost}:5002`,
+            'http://localhost:5002', 
+            'http://127.0.0.1:5002'
+        ];
+        
+        async function testEndpoint(url) {
+            try {
+                const response = await fetch(`${url}/api/health`, {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(3000)
+                });
+                return response.ok ? url : null;
+            } catch (error) {
+                return null;
+            }
         }
-      }
-      
-      // Prova ogni endpoint
-      for (const endpoint of endpointsToTest) {
-        const workingEndpoint = await testEndpoint(endpoint);
-        if (workingEndpoint) {
-          window.API_BASE_URL = workingEndpoint;
-          console.log('✅ Server Eventi trovato:', window.API_BASE_URL);
-          break;
+        
+        for (const endpoint of endpointsToTest) {
+            const workingEndpoint = await testEndpoint(endpoint);
+            if (workingEndpoint) {
+                window.API_BASE_URL = workingEndpoint;
+                console.log('✅ Server Eventi trovato:', window.API_BASE_URL);
+                break;
+            }
         }
-      }
-      
-      // Fallback se nessun endpoint funziona
-      if (!window.API_BASE_URL) {
-        window.API_BASE_URL = endpointsToTest[0];
-        console.warn('⚠️ Usando endpoint di default:', window.API_BASE_URL);
-      }
-      
-      // Ora che abbiamo l'URL, possiamo caricare gli eventi
-      caricaEventi();
+        
+        if (!window.API_BASE_URL) {
+            window.API_BASE_URL = 'http://localhost:5002';
+            console.warn('⚠️ Usando endpoint di default:', window.API_BASE_URL);
+        }
+        
+        caricaEventi();
     })();
+
+    // ===== FUNZIONI DI AUTENTICAZIONE =====
+    function getAuthHeaders() {
+        const email = localStorage.getItem('utente');
+        const role = localStorage.getItem('utente_ruolo');
+        const token = localStorage.getItem('jwt_token');
+        
+        const headers = {
+            'Content-Type': 'application/json'
+        };
+        
+        // Priorità 1: JWT Token
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+            console.log('🔐 Usando JWT token per autenticazione');
+        }
+        // Priorità 2: Headers legacy (fallback)
+        else if (email && role) {
+            headers['X-User-Email'] = email;
+            headers['X-User-Role'] = role;
+            console.log('🔐 Usando headers legacy per autenticazione:', { email, role });
+        } else {
+            console.warn('⚠️ Nessuna informazione di autenticazione trovata');
+        }
+        
+        return headers;
+    }
 
     // ===== FUNZIONI PRINCIPALI EVENTI =====
     async function caricaEventi() {
-      try {
-          console.log('🔍 Tentativo di connessione a:', `${API_BASE_URL}/api/post`);
-          
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 10000);
-          
-          const response = await fetch(`${API_BASE_URL}/api/post`, {
-              method: 'GET',
-              signal: controller.signal
-          });
-          
-          clearTimeout(timeoutId);
-          
-          if (!response.ok) {
-              throw new Error(`Errore HTTP: ${response.status}`);
-          }
-          
-          const posts = await response.json();
+        try {
+            console.log('🔍 Caricamento eventi da:', `${API_BASE_URL}/api/post`);
             
-            console.log('📦 Dati ricevuti dal backend:', posts);
+            const response = await fetch(`${API_BASE_URL}/api/post`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Errore HTTP: ${response.status}`);
+            }
+            
+            const posts = await response.json();
+            console.log('📦 Dati ricevuti:', posts.length, 'eventi');
             
             const container = document.getElementById('eventsContainer');
             container.innerHTML = '';
             
             if (posts.length === 0) {
-                container.innerHTML = '<div class="no-events">Nessun evento programmato al momento. Torna presto per scoprire le nuove iniziative!</div>';
+                container.innerHTML = `
+                    <div class="no-events">
+                        <h3>📅 Nessun evento programmato</h3>
+                        <p class="text-muted">Al momento non ci sono eventi in programma. Torna presto per scoprire le nuove iniziative!</p>
+                    </div>
+                `;
                 return;
             }
             
-            // Ordina gli eventi per data (dal più recente al più lontano)
+            // Ordina eventi per data (dal più recente)
             posts.sort((a, b) => new Date(a.data) - new Date(b.data));
             
-            posts.forEach((post) => {
-                // Controlla se l'evento è passato
+            posts.forEach((post, index) => {
                 const oggi = new Date();
                 const dataEvento = new Date(post.data);
                 const isPastEvent = dataEvento < oggi;
                 
-                // Gestione dell'immagine
                 let imageHtml = '';
                 let imageClass = '';
                 if (post.immagine && post.immagine.trim() !== '' && post.immagine !== 'null') {
-                    imageHtml = `<img src="${post.immagine}" alt="${post.titolo || 'Evento'}" class="event-image" onerror="this.style.display='none';">`;
+                    imageHtml = `
+                        <img src="${post.immagine}" 
+                             alt="${post.titolo || 'Evento'}" 
+                             class="event-image" 
+                             onerror="this.style.display='none'; this.parentNode.classList.add('no-image');">
+                    `;
                 } else {
                     imageClass = 'no-image';
                 }
 
-                // Formatta la data
-                const dataFormattata = post.data ? new Date(post.data).toLocaleDateString('it-IT') : 'Data da definire';
+                const dataFormattata = post.data ? 
+                    new Date(post.data).toLocaleDateString('it-IT', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }) : 'Data da definire';
+                
                 const orarioEvento = post.orario || 'Orario da definire';
 
-                // Pulsanti admin
                 let adminBtns = '';
-                if (localStorage.getItem('utente_ruolo') === 'admin') {
+                const userRole = localStorage.getItem('utente_ruolo');
+                if (userRole === 'admin') {
                     adminBtns = `
-                    <button class="btn btn-edit" onclick="modificaPost(${post.id})">
-                        <i class="fas fa-edit"></i>
-                        Modifica
-                    </button>
-                    <button class="btn" style="background: var(--error);" onclick="confermaEliminaPost(${post.id})">
-                        <i class="fas fa-trash"></i>
-                        Elimina
-                    </button>
+                        <div class="event-admin-actions">
+                            <button class="btn btn-edit" onclick="modificaPost(${post.id})">
+                                <i class="fas fa-edit"></i>
+                                Modifica
+                            </button>
+                            <button class="btn btn-danger" onclick="confermaEliminaPost(${post.id}, '${escapeHTML(post.titolo || 'Evento')}')">
+                                <i class="fas fa-trash"></i>
+                                Elimina
+                            </button>
+                        </div>
                     `;
                 }
 
-                container.innerHTML += `
-                <article class="event-card fade-in-up ${imageClass} ${isPastEvent ? 'past-event' : ''}">
-                    ${imageHtml}
-                    <div class="event-content">
-                        <h3 class="event-title">${post.titolo || 'Titolo non disponibile'} ${isPastEvent ? '<span class="past-event-badge">Passato</span>' : ''}</h3>
-                        <div class="event-meta">
-                            <span>📅 ${dataFormattata}</span>
-                            <span>🕒 ${orarioEvento}</span>
-                            <span>📍 ${post.luogo || 'Luogo da definire'}</span>
+                const eventHtml = `
+                    <article class="event-card fade-in-up ${imageClass} ${isPastEvent ? 'past-event' : ''}" 
+                             style="animation-delay: ${index * 0.1}s">
+                        ${imageHtml}
+                        <div class="event-content">
+                            <div class="event-header">
+                                <h3 class="event-title">
+                                    ${post.titolo || 'Titolo non disponibile'}
+                                    ${isPastEvent ? '<span class="past-event-badge">Passato</span>' : ''}
+                                </h3>
+                                ${userRole === 'admin' ? 
+                                    `<span class="event-id">ID: ${post.id}</span>` : ''}
+                            </div>
+                            <div class="event-meta">
+                                <span><i class="far fa-calendar"></i> ${dataFormattata}</span>
+                                <span><i class="far fa-clock"></i> ${orarioEvento}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> ${post.luogo || 'Luogo da definire'}</span>
+                                ${post.durata ? `<span><i class="fas fa-hourglass-half"></i> ${post.durata} ore</span>` : ''}
+                            </div>
+                            <div class="event-description">
+                                ${post.contenuto || 'Descrizione non disponibile'}
+                            </div>
+                            <div class="event-footer">
+                                ${post.indirizzo ? `
+                                    <div class="event-address">
+                                        <i class="fas fa-location-dot"></i>
+                                        <span>${post.indirizzo}</span>
+                                    </div>
+                                ` : ''}
+                                <div class="event-actions">
+                                    ${adminBtns}
+                                </div>
+                            </div>
                         </div>
-                        <p class="event-description">${post.contenuto || 'Descrizione non disponibile'}</p>
-                        <div class="event-footer">
-                            ${post.link ? `<a href="${post.link}" target="_blank" class="btn">Maggiori informazioni</a>` : ''}
-                            ${adminBtns}
-                        </div>
-                    </div>
-                </article>
+                    </article>
                 `;
+                
+                container.innerHTML += eventHtml;
             });
             
-            // Aggiorna anche il calendario
             aggiornaCalendario(posts);
             
         } catch (error) {
             console.error('❌ Errore caricamento eventi:', error);
             document.getElementById('eventsContainer').innerHTML = `
-                <div class="no-events">
-                    <p style="color: var(--error);">Errore di connessione al server</p>
+                <div class="no-events error">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Errore di connessione</h3>
                     <p class="text-muted">Impossibile raggiungere il server degli eventi.</p>
-                    <p class="text-muted">Assicurati che il server sia in esecuzione su ${window.API_BASE_URL}</p>
+                    <p class="text-muted">Assicurati che il server eventi sia in esecuzione su ${window.API_BASE_URL}</p>
                     <button class="btn" onclick="caricaEventi()" style="margin-top: 1rem;">
                         <i class="fas fa-redo"></i>
                         Riprova
@@ -2012,11 +2026,13 @@
         const calendarGrid = document.getElementById('calendarGrid');
         calendarGrid.innerHTML = '';
 
-        // Filtra solo eventi futuri per il calendario
         const oggi = new Date();
-        const eventiFuturi = posts.filter(post => new Date(post.data) >= oggi);
+        const eventiFuturi = posts.filter(post => {
+            if (!post.data) return false;
+            const dataEvento = new Date(post.data);
+            return dataEvento >= oggi;
+        });
 
-        // Raggruppa eventi per data
         const eventsByDate = {};
         eventiFuturi.forEach(post => {
             if (!eventsByDate[post.data]) {
@@ -2025,93 +2041,132 @@
             eventsByDate[post.data].push(post);
         });
 
-        // Crea elementi calendario per ogni data con eventi
         Object.keys(eventsByDate).sort().forEach(data => {
             const events = eventsByDate[data];
             const dateObj = new Date(data);
             const giorno = dateObj.getDate();
-            const mese = dateObj.toLocaleDateString('it-IT', { month: 'short' });
+            const mese = dateObj.toLocaleDateString('it-IT', { month: 'short' }).toUpperCase();
+            const giornoSettimana = dateObj.toLocaleDateString('it-IT', { weekday: 'short' }).toUpperCase();
+            
             let eventiHtml = '';
             events.forEach(ev => {
-                eventiHtml += `<div style="margin-bottom: 0.5rem; color: var(--text); font-size: 1rem;">${ev.titolo || 'Evento'}<br><span style='color:var(--muted);font-size:0.9em;'>${ev.orario || ''} - ${ev.luogo || ''}</span></div>`;
+                eventiHtml += `
+                    <div class="calendar-event-item">
+                        <strong>${ev.titolo || 'Evento'}</strong>
+                        <div class="calendar-event-details">
+                            <span><i class="far fa-clock"></i> ${ev.orario || ''}</span>
+                            <span><i class="fas fa-map-marker-alt"></i> ${ev.luogo || ''}</span>
+                        </div>
+                    </div>
+                `;
             });
+            
             calendarGrid.innerHTML += `
-            <div class="calendar-day">
-                <h3>${giorno} ${mese}</h3>
-                ${eventiHtml}
-            </div>
+                <div class="calendar-day fade-in-up">
+                    <div class="calendar-date">
+                        <span class="calendar-weekday">${giornoSettimana}</span>
+                        <span class="calendar-daynum">${giorno}</span>
+                        <span class="calendar-month">${mese}</span>
+                    </div>
+                    <div class="calendar-events">
+                        ${eventiHtml}
+                    </div>
+                </div>
             `;
         });
 
         if (Object.keys(eventsByDate).length === 0) {
-            calendarGrid.innerHTML = '<div class="no-events">Nessun evento futuro in calendario</div>';
+            calendarGrid.innerHTML = `
+                <div class="no-events">
+                    <p><i class="far fa-calendar-times"></i> Nessun evento futuro in calendario</p>
+                </div>
+            `;
         }
     }
 
-    // ===== AGGIUNTA: Funzione per mostrare popup =====
-    function mostraPopup(messaggio, tipo) {
-      const popup = document.getElementById('notificationPopup');
-      
-      // Imposta l'icona in base al tipo
-      let icon = '';
-      switch(tipo) {
-        case 'success':
-          icon = '<i class="fas fa-check-circle popup-icon"></i>';
-          break;
-        case 'error':
-          icon = '<i class="fas fa-exclamation-circle popup-icon"></i>';
-          break;
-        case 'warning':
-          icon = '<i class="fas fa-exclamation-triangle popup-icon"></i>';
-          break;
-        default:
-          icon = '<i class="fas fa-info-circle popup-icon"></i>';
-      }
-      
-      popup.innerHTML = icon + messaggio;
-      popup.className = "popup " + tipo;
-      popup.classList.add("show");
+    // ===== FUNZIONI DI NOTIFICA =====
+    function mostraPopup(messaggio, tipo = 'info') {
+        const popup = document.getElementById('notificationPopup');
+        
+        let icon = '';
+        switch(tipo) {
+            case 'success':
+                icon = '<i class="fas fa-check-circle popup-icon"></i>';
+                break;
+            case 'error':
+                icon = '<i class="fas fa-exclamation-circle popup-icon"></i>';
+                break;
+            case 'warning':
+                icon = '<i class="fas fa-exclamation-triangle popup-icon"></i>';
+                break;
+            default:
+                icon = '<i class="fas fa-info-circle popup-icon"></i>';
+        }
+        
+        popup.innerHTML = icon + messaggio;
+        popup.className = `popup ${tipo}`;
+        popup.classList.add("show");
 
-      // Nasconde il popup after 3 secondi
-      setTimeout(() => {
-        popup.classList.remove("show");
-      }, 3000);
+        setTimeout(() => {
+            popup.classList.remove("show");
+        }, 3000);
     }
 
-    // ===== AGGIUNTA: Funzione per conferma eliminazione =====
+    // ===== FUNZIONI CRUD EVENTI =====
     let postDaEliminare = null;
 
-    function confermaEliminaPost(id) {
+    function confermaEliminaPost(id, titolo) {
         postDaEliminare = id;
-        document.getElementById('confirmDeletePopup').classList.add('show');
+        const popup = document.getElementById('confirmDeletePopup');
+        const messageElement = popup.querySelector('.confirm-message');
+        
+        if (titolo) {
+            messageElement.textContent = `Sei sicuro di voler eliminare l'evento "${titolo}"? Questa azione non può essere annullata e il dato verrà rimosso permanentemente dal sistema.`;
+        }
+        
+        popup.classList.add('show');
     }
 
-    // ===== AGGIUNTA: Funzione per modifica post =====
-    function modificaPost(id) {
-        // Per ora mostriamo un messaggio
-        mostraPopup("Funzionalità di modifica in sviluppo", "warning");
-    }
-
-    // Funzione elimina post
     async function eliminaPost(id) {
         try {
+            const headers = getAuthHeaders();
+            
             const response = await fetch(`${API_BASE_URL}/api/post/${id}`, {
-              method: 'DELETE',
-              credentials: 'include'
+                method: 'DELETE',
+                headers: headers,
+                credentials: 'include'
             });
+            
+            if (response.status === 401) {
+                mostraPopup("Sessione scaduta. Effettua di nuovo il login.", "error");
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
+                return;
+            }
+            
+            if (response.status === 403) {
+                mostraPopup("Permessi insufficienti. Solo gli amministratori possono eliminare eventi.", "error");
+                return;
+            }
+            
             const result = await response.json();
             if (result.success) {
                 mostraPopup("Evento eliminato con successo!", "success");
-                // Ricarica gli eventi dopo un breve ritardo
                 setTimeout(() => {
                     caricaEventi();
                 }, 1000);
             } else {
-                mostraPopup("Errore nell'eliminazione: " + result.message, "error");
+                mostraPopup("Errore: " + result.message, "error");
             }
         } catch (error) {
+            console.error('❌ Errore eliminazione:', error);
             mostraPopup("Errore di connessione: " + error.message, "error");
         }
+    }
+
+    function modificaPost(id) {
+        mostraPopup("Funzionalità di modifica in fase di sviluppo", "warning");
     }
 
     // ===== GESTIONE FORM EVENTO =====
@@ -2120,41 +2175,37 @@
         const addPostBtn = document.getElementById('addPostBtn');
         const mobileAddEventBtn = document.getElementById('mobileAddEventBtn');
         
+        // Mostra pulsanti per admin
         if (ruolo === 'admin') {
             if (addPostBtn) {
                 addPostBtn.style.display = 'flex';
-                
-                addPostBtn.addEventListener('click', () => {
-                    mostraFormEvento();
-                });
+                addPostBtn.addEventListener('click', mostraFormEvento);
             }
-            
             if (mobileAddEventBtn) {
-                mobileAddEventBtn.addEventListener('click', () => {
-                    mostraFormEvento();
-                });
+                mobileAddEventBtn.addEventListener('click', mostraFormEvento);
             }
         } else {
-            // Nascondi il pulsante mobile per gli utenti non admin
             if (mobileAddEventBtn) {
                 mobileAddEventBtn.style.display = 'none';
             }
         }
         
-        // Funzione per mostrare il form evento
+        // Funzione per mostrare il form
         function mostraFormEvento() {
             document.getElementById('postFormTitle').textContent = 'Crea Nuovo Evento';
             document.getElementById('submitPostForm').textContent = 'Crea Evento';
             document.getElementById('postForm').removeAttribute('data-edit-id');
             document.getElementById('postFormContainer').style.display = 'flex';
-            // Resetta il form
             document.getElementById('postForm').reset();
-            // Imposta la data minima a oggi
+            
             const oggi = new Date().toISOString().split('T')[0];
             document.getElementById('postData').min = oggi;
+            document.getElementById('postData').value = oggi;
+            
+            document.getElementById('postOra').value = '18:00';
         }
         
-        // Setup form
+        // Gestione chiusura form
         document.getElementById('closePostForm').addEventListener('click', () => {
             document.getElementById('postFormContainer').style.display = 'none';
         });
@@ -2163,7 +2214,12 @@
             document.getElementById('postFormContainer').style.display = 'none';
         });
         
-        // Setup conferma eliminazione
+        // Gestione conferma eliminazione MIGLIORATA
+        document.getElementById('closeConfirmDelete').addEventListener('click', () => {
+            document.getElementById('confirmDeletePopup').classList.remove('show');
+            postDaEliminare = null;
+        });
+        
         document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
             document.getElementById('confirmDeletePopup').classList.remove('show');
             postDaEliminare = null;
@@ -2177,8 +2233,18 @@
             }
         });
         
+        // Chiudi popup cliccando fuori
+        document.getElementById('confirmDeletePopup').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('confirmDeletePopup')) {
+                document.getElementById('confirmDeletePopup').classList.remove('show');
+                postDaEliminare = null;
+            }
+        });
+        
+        // Gestione submit form
         document.getElementById('postForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const formData = {
                 titolo: document.getElementById('postTitolo').value,
                 contenuto: document.getElementById('postContenuto').value,
@@ -2187,34 +2253,44 @@
                 durata: document.getElementById('postDurata').value,
                 luogo: document.getElementById('postLuogo').value,
                 indirizzo: document.getElementById('postIndirizzo').value,
-                immagine: document.getElementById('postImmagine').value,
-                link: document.getElementById('postLink').value
+                immagine: document.getElementById('postImmagine').value
             };
             
             const editId = document.getElementById('postForm').getAttribute('data-edit-id');
-            let url = `${window.API_BASE_URL}/api/post`;
-            let method = 'POST';
-            if (editId) {
-                url = `${window.API_BASE_URL}/api/post/${editId}`;
-                method = 'PUT';
-            }
+            const url = editId ? 
+                `${window.API_BASE_URL}/api/post/${editId}` : 
+                `${window.API_BASE_URL}/api/post`;
+            const method = editId ? 'PUT' : 'POST';
             
             try {
+                const headers = getAuthHeaders();
+                
                 const response = await fetch(url, {
-                    method,
-                    credentials: 'include',
-                    headers: {'Content-Type': 'application/json'},
+                    method: method,
+                    headers: headers,
                     body: JSON.stringify(formData)
                 });
+                
+                if (response.status === 401) {
+                    mostraPopup("Sessione scaduta. Effettua di nuovo il login.", "error");
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 2000);
+                    return;
+                }
+                
+                if (response.status === 403) {
+                    mostraPopup("Permessi insufficienti. Solo gli amministratori possono creare/modificare eventi.", "error");
+                    return;
+                }
+                
                 const result = await response.json();
                 if (result.success) {
-                    if (editId) {
-                        mostraPopup("Evento modificato con successo!", "success");
-                    } else {
-                        mostraPopup("Evento creato con successo!", "success");
-                    }
+                    mostraPopup(
+                        editId ? "Evento modificato con successo!" : "Evento creato con successo!",
+                        "success"
+                    );
                     document.getElementById('postFormContainer').style.display = 'none';
-                    // Ricarica gli eventi dopo un breve ritardo
                     setTimeout(() => {
                         caricaEventi();
                     }, 1000);
@@ -2222,241 +2298,228 @@
                     mostraPopup("Errore: " + result.message, "error");
                 }
             } catch (error) {
+                console.error('❌ Errore salvataggio evento:', error);
                 mostraPopup("Errore di connessione: " + error.message, "error");
             }
+            
             document.getElementById('postForm').removeAttribute('data-edit-id');
         });
+        
+        // Inizializza sidebar, tema e highlight pagina
+        highlightCurrentPage();
+        initSidebar();
+        initTheme();
     });
 
     // ===== GESTIONE UTENTE E TEMA =====
-    // Funzione per evidenziare la pagina corrente
     function highlightCurrentPage() {
-      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-      const navLinks = document.querySelectorAll('nav a');
-      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
-      
-      // Rimuovi la classe active da tutti i link
-      navLinks.forEach(link => link.classList.remove('active'));
-      sidebarLinks.forEach(link => link.classList.remove('active'));
-      
-      // Aggiungi la classe active al link corrente
-      navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
-          link.classList.add('active');
-        }
-      });
-      
-      sidebarLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
-          link.classList.add('active');
-        }
-      });
-      
-      // Gestione speciale per la home page
-      if (currentPage === '' || currentPage === 'index.html') {
-        document.querySelector('nav a[href="index.html"]').classList.add('active');
-        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
-      }
-      
-      // Gestione speciale per le pagine nei dropdown
-      if (currentPage === 'centrale_meteo.html') {
-        document.querySelector('.dropdown-toggle').classList.add('active');
-      }
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navLinks = document.querySelectorAll('nav a');
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+        
+        navLinks.forEach(link => link.classList.remove('active'));
+        sidebarLinks.forEach(link => link.classList.remove('active'));
+        
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+        
+        sidebarLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
     }
 
-    // Funzione per estrarre il nome dall'email (prima parte prima della @)
     function getNameFromEmail(email) {
-      return email.split('@')[0];
+        return email ? email.split('@')[0] : 'Utente';
     }
 
-    // Funzione per generare l'iniziale dall'email
     function getInitialFromEmail(email) {
-      return email.charAt(0).toUpperCase();
+        return email ? email.charAt(0).toUpperCase() : 'U';
     }
 
-    // Funzione per ottenere il testo del badge in base al ruolo
     function getBadgeText(role) {
-      return role === 'admin' ? 'Admin' : 'User';
+        return role === 'admin' ? 'Admin' : 'User';
     }
 
-    // Funzione per ottenere la classe CSS del badge in base al ruolo
     function getBadgeClass(role) {
-      return role === 'admin' ? 'badge-admin' : 'badge-user';
+        return role === 'admin' ? 'badge-admin' : 'badge-user';
     }
 
-    // Mostra la barra utente se loggato
     document.addEventListener('DOMContentLoaded', function() {
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
-      
-      if(utente) {
-        // Nascondi link login
-        document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
+        const utente = localStorage.getItem('utente');
+        const ruolo = localStorage.getItem('utente_ruolo') || 'user';
         
-        // Mostra userbar al posto di "Accedi"
-        const userbar = document.getElementById('userbar');
-        userbar.style.display = 'flex';
-        
-        // Imposta nome utente e badge
-        document.getElementById('userName').innerText = getNameFromEmail(utente);
-        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
-        
-        // Mostra user info mobile nella sidebar
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
-        
-        // Mostra pulsante aggiungi evento per admin
-        if (ruolo === 'admin') {
-          document.getElementById('addPostBtn').style.display = 'flex';
+        if(utente) {
+            // Nascondi link login
+            document.getElementById('loginLink').style.display = 'none';
+            document.getElementById('sidebarLoginLink').style.display = 'none';
+            
+            // Mostra userbar
+            const userbar = document.getElementById('userbar');
+            userbar.style.display = 'flex';
+            
+            // Imposta info utente
+            document.getElementById('userName').innerText = getNameFromEmail(utente);
+            document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+            document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+            document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+            
+            // Mostra info mobile
+            const mobileUserInfo = document.getElementById('mobileUserInfo');
+            mobileUserInfo.style.display = 'block';
+            document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
+            document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
+            document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
+            document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+            
+            // Mostra pulsanti admin
+            if (ruolo === 'admin') {
+                document.getElementById('addPostBtn').style.display = 'flex';
+                document.getElementById('mobileAddEventBtn').style.display = 'flex';
+            }
+        } else {
+            // Nascondi pulsanti admin
+            document.getElementById('mobileAddEventBtn').style.display = 'none';
         }
-      }
-      
-      // Evidenzia la pagina corrente
-      highlightCurrentPage();
     });
 
     function logout() {
-      localStorage.removeItem('utente');
-      localStorage.removeItem('utente_ruolo');
-      window.location.href = "login.html";
+        localStorage.removeItem('utente');
+        localStorage.removeItem('utente_ruolo');
+        localStorage.removeItem('jwt_token');
+        window.location.href = "login.html";
     }
 
-    // Scroll animations
+    // ===== ANIMAZIONI E TEMA =====
     window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
-      if (window.scrollY > 50) {
-        header.style.background = 'var(--header-bg)';
-        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-      } else {
-        header.style.background = 'var(--header-bg)';
-        header.style.boxShadow = 'none';
-      }
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+            header.style.background = 'var(--header-bg)';
+            header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+        } else {
+            header.style.background = 'var(--header-bg)';
+            header.style.boxShadow = 'none';
+        }
     });
 
-    // Intersection Observer for animations
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in-up');
-        }
-      });
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
+            }
+        });
     }, observerOptions);
 
-    // Observe all cards for animation
     document.querySelectorAll('.card, .event-card, .calendar-day').forEach(card => {
-      observer.observe(card);
+        observer.observe(card);
     });
 
-    // Theme functionality
+    // Gestione tema
     const fab = document.getElementById('theme-fab');
     const popup = document.getElementById('theme-popup');
 
     fab.addEventListener('click', () => {
-      fab.classList.add('animate');
-      fab.addEventListener('animationend', () => {
-        fab.classList.remove('animate');
-      }, { once: true });
-      
-      if (popup.classList.contains('show')) {
-        popup.classList.remove('show');
-        setTimeout(() => popup.style.display = 'none', 250);
-      } else {
-        popup.style.display = 'flex';
-        requestAnimationFrame(() => popup.classList.add('show'));
-      }
-    });
-
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!fab.contains(e.target) && !popup.contains(e.target)) {
+        fab.classList.add('animate');
+        fab.addEventListener('animationend', () => {
+            fab.classList.remove('animate');
+        }, { once: true });
+        
         if (popup.classList.contains('show')) {
-          popup.classList.remove('show');
-          setTimeout(() => popup.style.display = 'none', 250);
+            popup.classList.remove('show');
+            setTimeout(() => popup.style.display = 'none', 250);
+        } else {
+            popup.style.display = 'flex';
+            requestAnimationFrame(() => popup.classList.add('show'));
         }
-      }
     });
 
-    // Apply theme and highlight selection
+    document.addEventListener('click', (e) => {
+        if (!fab.contains(e.target) && !popup.contains(e.target)) {
+            if (popup.classList.contains('show')) {
+                popup.classList.remove('show');
+                setTimeout(() => popup.style.display = 'none', 250);
+            }
+        }
+    });
+
     document.querySelectorAll('.theme-option').forEach(button => {
-      button.addEventListener('click', () => {
-        const theme = button.dataset.theme;
-        localStorage.setItem('theme-preference', theme);
-        applyTheme(theme);
+        button.addEventListener('click', () => {
+            const theme = button.dataset.theme;
+            localStorage.setItem('theme-preference', theme);
+            applyTheme(theme);
 
-        // Highlight active button
-        document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+            document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
 
-        popup.classList.remove('show');
-        setTimeout(() => popup.style.display = 'none', 250);
-      });
+            popup.classList.remove('show');
+            setTimeout(() => popup.style.display = 'none', 250);
+        });
     });
 
     function applyTheme(theme) {
-      if (theme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
+        if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        } else if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
     }
 
-    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
     const savedTheme = localStorage.getItem('theme-preference');
     if (savedTheme) {
-      applyTheme(savedTheme);
-      const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
-      if (btn) btn.classList.add('active');
+        applyTheme(savedTheme);
+        const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+        if (btn) btn.classList.add('active');
     } else {
-      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
-      applyTheme('auto');
-      const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
-      if (autoBtn) autoBtn.classList.add('active');
+        applyTheme('auto');
+        const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+        if (autoBtn) autoBtn.classList.add('active');
     }
 
-    // Mostra FAB con animazione al caricamento
-    window.addEventListener('DOMContentLoaded', () => {
-      const fab = document.getElementById('theme-fab');
-      fab.classList.add('show');
-      
-      // Animazioni per le card
-      const cards = document.querySelectorAll('.fade-in-up');
-      cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-      });
-      
-      // Funzione per aggiornare la preview della centrale meteorologica
-      function aggiornaPreviewMeteo() {
-        setInterval(() => {
-          const temp = (20 + Math.random() * 5).toFixed(1);
-          const air = (10 + Math.random() * 30).toFixed(1);
-          
-          const tempElement = document.getElementById('previewTempValue');
-          const airElement = document.getElementById('previewAirValue');
-          
-          if (tempElement) tempElement.textContent = temp + " °C";
-          if (airElement) airElement.textContent = air + " µg/m³";
-        }, 2000);
-      }
-      
-      // Avvia l'aggiornamento della preview
-      aggiornaPreviewMeteo();
-    });
+    function initSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarClose = document.querySelector('.sidebar-close');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        
+        sidebarToggle.addEventListener('click', () => sidebar.classList.add('open'));
+        toggleSidebar.addEventListener('click', () => sidebar.classList.add('open'));
+        sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
+        
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && 
+                !toggleSidebar.contains(e.target) && sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+    }
+
+    function initTheme() {
+        // Mostra FAB con animazione al caricamento
+        fab.classList.add('show');
+        
+        const cards = document.querySelectorAll('.fade-in-up');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    }
+
+    // Funzione di escape HTML
+    function escapeHTML(str) {
+        return (str || "").replace(/[&<>"']/g, s => ({
+            '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+        }[s]));
+    }
 </script>
 <script src="css/sidebar/sidebar.js"></script>
 </body>

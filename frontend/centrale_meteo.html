@@ -334,6 +334,37 @@
       width: 100%;
     }
 
+    /* Nuovo: controlli per l'intervallo temporale */
+    .time-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .time-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--sidebar-border);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .time-btn:hover {
+      background: var(--hover-bg);
+      transform: translateY(-2px);
+    }
+
+    .time-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
     footer {
       text-align: center;
       padding: 2rem;
@@ -850,6 +881,19 @@
         height: 200px;
       }
       
+      .time-controls {
+        justify-content: center;
+        gap: 8px;
+      }
+      
+      .time-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        flex: 1;
+        min-width: 80px;
+        text-align: center;
+      }
+      
       nav > a {
         padding: 0.75rem 0.5rem;
         margin-left: 0.75rem;
@@ -941,6 +985,16 @@
       
       .chart-wrapper {
         height: 180px;
+      }
+      
+      .time-controls {
+        gap: 5px;
+      }
+      
+      .time-btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        min-width: 70px;
       }
       
       .btn {
@@ -1054,6 +1108,16 @@
 
     <section class="chart-container fade-in-up">
       <h2 style="margin-bottom: 1rem;">Andamento nel tempo</h2>
+      
+      <!-- Controlli per l'intervallo temporale -->
+      <div class="time-controls">
+        <button class="time-btn active" data-hours="24">24 ore</button>
+        <button class="time-btn" data-hours="12">12 ore</button>
+        <button class="time-btn" data-hours="6">6 ore</button>
+        <button class="time-btn" data-hours="1">1 ora</button>
+        <button class="time-btn" data-hours="0.5">30 min</button>
+      </div>
+      
       <div class="chart-wrapper">
         <canvas id="sensorChart"></canvas>
       </div>
@@ -1140,12 +1204,19 @@
     // Stato della connessione
     let isConnected = false;
     let eventSource = null;
+    let currentTimeRange = 24; // Impostazione predefinita: 24 ore
+    let isLoadingData = false;
 
     // Grafico sensori - OTTIMIZZATO PER MOBILE
     const ctx = document.getElementById('sensorChart').getContext('2d');
     
     function getMaxDataPoints() {
-      return window.innerWidth < 768 ? 8 : 12;
+      // Riduci drasticamente il numero di punti massimi
+      if (currentTimeRange <= 0.5) return 6;   // 30 min: max 6 punti
+      if (currentTimeRange <= 1) return 8;     // 1 ora: max 8 punti
+      if (currentTimeRange <= 6) return 12;    // 6 ore: max 12 punti
+      if (currentTimeRange <= 12) return 16;   // 12 ore: max 16 punti
+      return 24; // 24 ore: max 24 punti
     }
     
     function getChartHeight() {
@@ -1168,22 +1239,24 @@
           {
             label: 'Temperatura (°C)',
             borderColor: '#ff3b30',
-            backgroundColor: 'rgba(255,59,48,0.2)',
+            backgroundColor: 'rgba(255,59,48,0.1)',
             data: [],
-            tension: 0.3,
-            borderWidth: 3,
-            pointRadius: 3,
-            pointHoverRadius: 5
+            tension: 0.2,
+            borderWidth: 2,
+            pointRadius: 2,
+            pointHoverRadius: 4,
+            fill: true
           },
           {
             label: 'Umidità (%)',
             borderColor: '#007aff',
-            backgroundColor: 'rgba(0,122,255,0.2)',
+            backgroundColor: 'rgba(0,122,255,0.1)',
             data: [],
-            tension: 0.3,
-            borderWidth: 3,
-            pointRadius: 3,
-            pointHoverRadius: 5
+            tension: 0.2,
+            borderWidth: 2,
+            pointRadius: 2,
+            pointHoverRadius: 4,
+            fill: true
           }
         ]
       },
@@ -1193,14 +1266,43 @@
         scales: {
           x: { 
             ticks: {
-              maxTicksLimit: 6,
+              maxTicksLimit: 10, // Massimo 10 etichette sull'asse X
               maxRotation: 0,
               font: {
                 size: getAxisFontSize()
+              },
+              callback: function(value, index, values) {
+                // Formatta l'ora in base all'intervallo temporale
+                const label = this.getLabelForValue(value);
+                if (!label) return '';
+                
+                try {
+                  const date = new Date(label);
+                  if (currentTimeRange <= 1) {
+                    // Per intervalli brevi: mostra ore:minuti
+                    return date.toLocaleTimeString('it-IT', { 
+                      hour: '2-digit', 
+                      minute: '2-digit'
+                    });
+                  } else if (currentTimeRange <= 6) {
+                    // Per intervalli medi: mostra ore:minuti
+                    return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+                  } else {
+                    // Per intervalli lunghi: mostra data e ora
+                    return date.toLocaleDateString('it-IT', { 
+                      month: 'short',
+                      day: 'numeric',
+                      hour: '2-digit'
+                    });
+                  }
+                } catch (e) {
+                  return label;
+                }
               }
             },
             grid: {
-              display: false
+              display: true,
+              color: 'rgba(255,255,255,0.05)'
             }
           },
           y: { 
@@ -1212,7 +1314,7 @@
               }
             },
             grid: {
-              color: 'rgba(255,255,255,0.1)'
+              color: 'rgba(255,255,255,0.05)'
             }
           }
         },
@@ -1235,7 +1337,23 @@
             bodyFont: {
               size: 11
             },
-            padding: 10
+            padding: 10,
+            callbacks: {
+              title: function(tooltipItems) {
+                // Mostra data e ora completa nel tooltip
+                try {
+                  const date = new Date(tooltipItems[0].label);
+                  return date.toLocaleString('it-IT', {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  });
+                } catch (e) {
+                  return tooltipItems[0].label;
+                }
+              }
+            }
           }
         },
         interaction: {
@@ -1252,39 +1370,97 @@
       sensorChart.update();
     }
 
-    // Funzione per formattare la data/ora
-    function formatTimestamp(timestamp) {
-      try {
-        const date = new Date(timestamp);
-        return date.toLocaleTimeString('it-IT', { 
-          hour: '2-digit', 
-          minute: '2-digit',
-          second: '2-digit'
-        });
-      } catch (e) {
-        return new Date().toLocaleTimeString('it-IT', { 
-          hour: '2-digit', 
-          minute: '2-digit',
-          second: '2-digit'
-        });
+    // Funzione per filtrare i dati: prende un campione ottimizzato per il grafico
+    function filtraDatiPerIntervallo(dati, ore) {
+      if (!dati || dati.length === 0) return [];
+      
+      const datiOrdinati = [...dati].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+      
+      // Se abbiamo pochi dati, restituisci tutto
+      if (datiOrdinati.length <= getMaxDataPoints()) {
+        return datiOrdinati;
       }
+      
+      // Calcola il numero di punti che vogliamo mantenere
+      const puntiTarget = getMaxDataPoints();
+      const datiFiltrati = [];
+      const step = Math.ceil(datiOrdinati.length / puntiTarget);
+      
+      // Prendi un campione ogni "step" punti
+      for (let i = 0; i < datiOrdinati.length; i += step) {
+        datiFiltrati.push(datiOrdinati[i]);
+      }
+      
+      // Assicurati di avere sempre l'ultimo dato
+      if (datiOrdinati.length > 0 && datiFiltrati.length > 0) {
+        const ultimoOriginale = datiOrdinati[datiOrdinati.length - 1];
+        const ultimoFiltrato = datiFiltrati[datiFiltrati.length - 1];
+        
+        if (ultimoOriginale.timestamp !== ultimoFiltrato.timestamp) {
+          datiFiltrati.push(ultimoOriginale);
+        }
+      }
+      
+      return datiFiltrati;
     }
 
     // Funzione per aggiornare i dati nel grafico
     function updateChartData(reading) {
-      const timeLabel = formatTimestamp(reading.timestamp);
+      const timeLabel = reading.timestamp;
       
+      // Aggiungi il nuovo dato
       sensorChart.data.labels.push(timeLabel);
       sensorChart.data.datasets[0].data.push(reading.temperature);
       sensorChart.data.datasets[1].data.push(reading.humidity);
 
-      const maxPoints = getMaxDataPoints();
-      if (sensorChart.data.labels.length > maxPoints) {
-        sensorChart.data.labels.shift();
-        sensorChart.data.datasets.forEach(d => d.data.shift());
+      // Mantieni solo i dati delle ultime X ore
+      const cutoffTime = new Date(Date.now() - (currentTimeRange * 60 * 60 * 1000));
+      
+      // Filtra i dati più vecchi dell'intervallo corrente
+      let i = 0;
+      while (i < sensorChart.data.labels.length) {
+        const dataTime = new Date(sensorChart.data.labels[i]);
+        if (dataTime < cutoffTime) {
+          sensorChart.data.labels.splice(i, 1);
+          sensorChart.data.datasets[0].data.splice(i, 1);
+          sensorChart.data.datasets[1].data.splice(i, 1);
+        } else {
+          i++;
+        }
       }
 
-      sensorChart.update('none'); // 'none' per performance
+      // Limita il numero massimo di punti mostrati
+      const maxPoints = getMaxDataPoints();
+      if (sensorChart.data.labels.length > maxPoints) {
+        const labelsFiltrati = [];
+        const tempFiltrati = [];
+        const humFiltrati = [];
+        
+        // Prendi un campione uniforme dei dati
+        const step = Math.ceil(sensorChart.data.labels.length / maxPoints);
+        for (let i = 0; i < sensorChart.data.labels.length; i += step) {
+          labelsFiltrati.push(sensorChart.data.labels[i]);
+          tempFiltrati.push(sensorChart.data.datasets[0].data[i]);
+          humFiltrati.push(sensorChart.data.datasets[1].data[i]);
+        }
+        
+        // Assicurati di mantenere l'ultimo dato
+        if (sensorChart.data.labels.length > 0) {
+          const ultimoIndice = sensorChart.data.labels.length - 1;
+          if (labelsFiltrati[labelsFiltrati.length - 1] !== sensorChart.data.labels[ultimoIndice]) {
+            labelsFiltrati.push(sensorChart.data.labels[ultimoIndice]);
+            tempFiltrati.push(sensorChart.data.datasets[0].data[ultimoIndice]);
+            humFiltrati.push(sensorChart.data.datasets[1].data[ultimoIndice]);
+          }
+        }
+        
+        sensorChart.data.labels = labelsFiltrati;
+        sensorChart.data.datasets[0].data = tempFiltrati;
+        sensorChart.data.datasets[1].data = humFiltrati;
+      }
+
+      // Aggiorna il grafico con animazione leggera
+      sensorChart.update();
     }
 
     // Funzione per aggiornare i valori delle card
@@ -1297,14 +1473,13 @@
       
       document.getElementById('tempSource').textContent = sourceText;
       document.getElementById('humSource').textContent = sourceText;
-      
-      // Qualità dell'aria rimane "Non disponibile"
-      document.getElementById('airValue').textContent = "Non disponibile";
-      document.getElementById('airValue').className = "value not-available";
     }
 
-    // ===== SISTEMA DI GESTIONE POPUP (STILE LOGIN) =====
-    function mostraPopup(messaggio, tipo = 'info', durata = 3000) {
+    // ===== SISTEMA DI GESTIONE POPUP (SOLO PER ERRORI) =====
+    function mostraPopup(messaggio, tipo = 'error', durata = 5000) {
+      // Mostra solo popup di errore
+      if (tipo !== 'error') return;
+      
       // Crea o recupera il popup
       let popup = document.getElementById('popup');
       if (!popup) {
@@ -1324,7 +1499,7 @@
       }, durata);
     }
 
-    // Mostra un modal importante (bloccante)
+    // Mostra un modal importante (bloccante) - solo per errori gravi
     function mostraModal(titolo, messaggio, bottoni = []) {
       const modalOverlay = document.getElementById('modalOverlay');
       const modalTitle = document.getElementById('modalTitle');
@@ -1386,7 +1561,7 @@
         });
       }
       
-      // Mostra tutti i problemi trovati
+      // Mostra solo errori importanti
       problemi.forEach(problema => {
         if (problema.tipo === 'errore') {
           mostraModal(
@@ -1399,8 +1574,6 @@
               { tipo: 'primary', testo: 'OK', azione: () => document.getElementById('modalOverlay').classList.remove('show') }
             ]
           );
-        } else {
-          mostraPopup(problema.titolo + ': ' + problema.messaggio, 'warning', 8000);
         }
       });
       
@@ -1411,45 +1584,70 @@
     function gestisciErroreRete(errore) {
       console.error('Errore di rete:', errore);
       
-      mostraModal(
-        'Errore di rete',
-        'Impossibile raggiungere il server dei dati meteorologici. Verifica la connessione internet.',
-        [
-          { tipo: 'secondary', testo: 'Ignora', azione: () => document.getElementById('modalOverlay').classList.remove('show') },
-          { tipo: 'primary', testo: 'Riprova', azione: () => location.reload() }
-        ]
+      // Mostra popup di errore invece di modal per errori di rete
+      mostraPopup(
+        'Errore di rete: impossibile raggiungere il server dei dati meteorologici',
+        'error',
+        8000
       );
     }
 
-    // Carica i dati storici all'inizio
-    async function caricaDatiStorici() {
+    // Carica i dati delle ultime X ore (filtrati)
+    async function caricaDatiUltimeOre(ore) {
+      if (isLoadingData) return;
+      
+      isLoadingData = true;
       try {
-        const response = await fetch(`${BACKEND_URL}/history?limit=50`);
+        // Aggiorna stato di caricamento
+        const chartTitle = document.querySelector('.chart-container h2');
+        chartTitle.textContent = 'Caricamento dati...';
+        
+        // Chiedi più dati di quanti ne servano per avere un buon campionamento
+        const oreDaRichiedere = Math.min(ore * 2, 48); // Richiedi il doppio delle ore, max 48
+        const response = await fetch(`${BACKEND_URL}/history?hours=${oreDaRichiedere}`);
         if (!response.ok) throw new Error('Errore nel caricamento dati storici');
         
         const data = await response.json();
+        
+        // Pulisci il grafico
+        sensorChart.data.labels = [];
+        sensorChart.data.datasets[0].data = [];
+        sensorChart.data.datasets[1].data = [];
+        
         if (data.readings && data.readings.length > 0) {
-          // Pulisci il grafico
-          sensorChart.data.labels = [];
-          sensorChart.data.datasets[0].data = [];
-          sensorChart.data.datasets[1].data = [];
+          // Filtra i dati per avere un numero ottimale di punti
+          const datiFiltrati = filtraDatiPerIntervallo(data.readings, ore);
           
-          // Aggiungi i dati storici (in ordine cronologico inverso)
-          const reversedReadings = [...data.readings].reverse();
-          reversedReadings.forEach(reading => {
-            updateChartData(reading);
+          // Aggiungi i dati filtrati al grafico
+          datiFiltrati.forEach(reading => {
+            sensorChart.data.labels.push(reading.timestamp);
+            sensorChart.data.datasets[0].data.push(reading.temperature);
+            sensorChart.data.datasets[1].data.push(reading.humidity);
           });
           
           // Aggiorna con l'ultima lettura
-          const latestReading = data.readings[0];
-          updateCardValues(latestReading, latestReading.source || 'db');
+          const latestReading = data.readings[data.readings.length - 1];
+          updateCardValues(latestReading, 'db');
           
-          // Mostra popup di successo
-          mostraPopup('Dati storici caricati con successo', 'success', 3000);
+          // Aggiorna il titolo
+          chartTitle.textContent = `Andamento (${datiFiltrati.length} punti)`;
+        } else {
+          chartTitle.textContent = 'Andamento nel tempo';
+          mostraPopup('Nessun dato disponibile per l\'intervallo selezionato', 'warning', 3000);
         }
+        
+        // Aggiorna il grafico
+        sensorChart.update();
+        
       } catch (error) {
         console.error('Errore nel caricamento dati storici:', error);
         mostraPopup('Errore nel caricamento dati storici', 'error', 4000);
+        
+        // Ripristina titolo originale
+        const chartTitle = document.querySelector('.chart-container h2');
+        chartTitle.textContent = 'Andamento nel tempo';
+      } finally {
+        isLoadingData = false;
       }
     }
 
@@ -1464,19 +1662,13 @@
           updateCardValues(data.reading, data.method);
           updateChartData(data.reading);
           isConnected = true;
-          
-          // Mostra popup di connessione riuscita
-          mostraPopup('Dati aggiornati con successo', 'success', 2000);
         }
       } catch (error) {
         console.error('Errore nel fetch dati sensore:', error);
         isConnected = false;
         
-        // Mostra popup per errore temporaneo
-        mostraPopup('Errore nel caricamento dati', 'warning', 3000);
-        
-        // Riprova dopo 5 secondi
-        setTimeout(ottieniDatiSensoreCorrente, 5000);
+        // Riprova dopo 30 secondi
+        setTimeout(ottieniDatiSensoreCorrente, 30000);
       }
     }
 
@@ -1497,9 +1689,6 @@
         eventSource.onopen = () => {
           console.log('Connessione SSE stabilita');
           isConnected = true;
-          
-          // Mostra popup di connessione riuscita
-          mostraPopup('Connesso in tempo reale al backend', 'success', 3000);
         };
         
         eventSource.onmessage = (event) => {
@@ -1508,11 +1697,6 @@
             if (data.type === 'reading') {
               updateCardValues(data.payload, data.payload.source || 'sse');
               updateChartData(data.payload);
-              
-              // Mostra popup per nuovi dati (solo occasionalmente)
-              if (Math.random() < 0.05) { // Solo il 5% delle volte
-                mostraPopup(`Nuovi dati ricevuti: ${data.payload.temperature.toFixed(1)}°C`, 'info', 2000);
-              }
             }
           } catch (e) {
             console.error('Errore nel parsing dati SSE:', e);
@@ -1523,38 +1707,40 @@
           console.error('Errore connessione SSE:', error);
           isConnected = false;
           
-          // Mostra popup di errore con opzione per riprovare
-          mostraModal(
-            'Errore di connessione in tempo reale',
-            'Impossibile connettersi al backend in tempo reale. I dati verranno aggiornati ogni 30 secondi.',
-            [
-              { tipo: 'secondary', testo: 'Ignora', azione: () => document.getElementById('modalOverlay').classList.remove('show') },
-              { tipo: 'primary', testo: 'Riprova', azione: () => {
-                document.getElementById('modalOverlay').classList.remove('show');
-                inizializzaConnessioneSSE();
-              }}
-            ]
-          );
+          // Mostra errore solo se non c'è già un errore di rete
+          if (!navigator.onLine) {
+            mostraPopup('Connessione internet persa', 'error', 5000);
+          }
           
-          // Riprova dopo 3 secondi
-          setTimeout(inizializzaConnessioneSSE, 3000);
+          // Riprova dopo 5 secondi
+          setTimeout(inizializzaConnessioneSSE, 5000);
         };
       } catch (error) {
         console.error('Impossibile inizializzare SSE:', error);
-        
-        // Mostra modal di errore per browser non supportato
-        mostraModal(
-          'Funzionalità limitata',
-          'Il tuo browser non supporta gli aggiornamenti in tempo reale (EventSource).<br><br>I dati verranno aggiornati manualmente ogni 30 secondi.<br><br>Per un\'esperienza completa, aggiorna il browser o usa Chrome/Firefox/Edge.',
-          [
-            { tipo: 'secondary', testo: 'Continua comunque', azione: () => document.getElementById('modalOverlay').classList.remove('show') },
-            { tipo: 'primary', testo: 'Aggiorna Browser', azione: () => {
-              window.open('https://www.google.com/chrome/', '_blank');
-              document.getElementById('modalOverlay').classList.remove('show');
-            }}
-          ]
-        );
       }
+    }
+
+    // Inizializza i controlli del tempo
+    function inizializzaControlliTempo() {
+      const timeButtons = document.querySelectorAll('.time-btn');
+      timeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Rimuovi classe active da tutti i bottoni
+          timeButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Aggiungi classe active al bottone cliccato
+          this.classList.add('active');
+          
+          // Aggiorna l'intervallo temporale corrente
+          currentTimeRange = parseFloat(this.dataset.hours);
+          
+          // Carica i dati per il nuovo intervallo
+          caricaDatiUltimeOre(currentTimeRange);
+          
+          // Aggiorna le opzioni del grafico per l'intervallo temporale
+          sensorChart.update();
+        });
+      });
     }
 
     // Inizializza il grafico e i dati
@@ -1562,11 +1748,11 @@
       // Verifica compatibilità browser
       verificaCompatibilitaBrowser();
       
-      // Mostra popup di avvio
-      mostraPopup('Avvio centrale meteorologica...', 'info', 2000);
+      // Inizializza controlli del tempo
+      inizializzaControlliTempo();
       
-      // Carica dati storici
-      await caricaDatiStorici();
+      // Carica dati delle ultime 24 ore (default)
+      await caricaDatiUltimeOre(24);
       
       // Ottieni dati correnti
       await ottieniDatiSensoreCorrente();
@@ -1677,6 +1863,18 @@
         if (event.error && event.error.message && event.error.message.includes('fetch')) {
           gestisciErroreRete(event.error);
         }
+      });
+      
+      // Monitora lo stato della connessione
+      window.addEventListener('online', () => {
+        console.log('Connessione ripristinata');
+        // Ripristina la connessione SSE
+        inizializzaConnessioneSSE();
+      });
+      
+      window.addEventListener('offline', () => {
+        console.log('Connessione persa');
+        mostraPopup('Connessione internet persa', 'error', 5000);
       });
     });
 

@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 import jwt  # PyJWT
 from functools import wraps
 
-# SECURITY: logging config
+# SECURITY: logging config 
 logging.basicConfig(level=logging.INFO)
 
 # SECURITY: use env for secrets
@@ -20,7 +20,10 @@ if JWT_SECRET is None:
 
 app = Flask(__name__)
 cors_origins = os.environ.get('CORS_ORIGINS', '*')
-CORS(app, resources={r"/*": {"origins": cors_origins}})
+CORS(app,
+     resources={r"/*": {"origins": cors_origins}},
+     supports_credentials=True,
+     allow_headers=["Content-Type", "Authorization", "X-User-Email", "X-User-Role", "X-User-Ruolo"])
 # SECURITY: Flask secret key must come from environment
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.environ.get('SECRET_KEY', os.urandom(32)))
 
@@ -107,27 +110,40 @@ def decode_jwt(token: str):
 
 
 def get_current_user():
-    """Extract user from Authorization: Bearer <token>. If absent, attempt to fall back to headers (legacy)."""
+    """Extract user from Authorization: Bearer <token> or legacy headers (case-insensitive)."""
     auth = request.headers.get('Authorization', '')
-    if auth.startswith('Bearer '):
+    if auth and auth.startswith('Bearer '):
         token = auth.split(' ', 1)[1].strip()
         u = decode_jwt(token)
         if u:
-            return u
-    # fallback legacy headers (less secure) if token not present. Log a warning.
-    logging.warning('Using insecure header-based auth fallback; set up JWT on clients')
-    return {
-        'email': request.headers.get('X-User-Email', ''),
-        'role': request.headers.get('X-User-Role', 'user')
-    }
+            logging.info(f"Authenticated via JWT: {u}")
+            # ensure role key is normalized
+            return {'email': u.get('email', ''), 'role': (u.get('ruolo') or u.get('role') or '').strip().lower()}
+
+    # Legacy header fallback (case-insensitive)
+    headers = {k.lower(): v for k, v in request.headers.items()}
+    email = (headers.get('x-user-email') or '').strip()
+    role = (headers.get('x-user-ruolo') or headers.get('x-user-role') or '').strip().lower()
+
+    if email:
+        logging.info(f"Authenticated via legacy headers: email={email}, role={role}")
+        return {
+            'email': email,
+            'role': role if role in ['admin', 'user'] else 'user'
+        }
+
+    # Default unauthenticated user
+    return {'email': '', 'role': 'user'}
 
 
-def require_role(role: str):
+def require_role(required_role: str):
     def decorator(f):
         @wraps(f)
         def inner(*args, **kwargs):
             user = get_current_user()
-            if not user or user.get('role') != role:
+            user_role = (user.get('role') or '').strip().lower()
+            if user_role != (required_role or '').strip().lower():
+                logging.warning(f"Access denied: user={user}, required={required_role}")
                 return jsonify({'success': False, 'message': 'Accesso negato'}), 403
             return f(*args, **kwargs)
         return inner
@@ -182,13 +198,10 @@ def get_articles():
         return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/articles', methods=['POST'])
+@require_role('admin')
 def create_article():
     """Crea un nuovo articolo (solo admin)"""
     try:
-        user = get_current_user()
-        if not user or user.get('role') != 'admin':
-            return jsonify({'success': False, 'message': 'Solo gli admin possono creare articoli'}), 403
-        
         data = request.get_json() or {}
         required = ['title', 'author', 'publication_date', 'drive_link']
         
@@ -233,13 +246,10 @@ def create_article():
         return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/articles/<int:article_id>/publish', methods=['POST'])
+@require_role('admin')
 def toggle_publish(article_id):
     """Pubblica o mette in revisione un articolo (solo admin) e sposta il file se presente"""
     try:
-        user = get_current_user()
-        if not user or user.get('role') != 'admin':
-            return jsonify({'success': False, 'message': 'Solo gli admin possono pubblicare articoli'}), 403
-        
         data = request.get_json() or {}
         is_published = bool(data.get('is_published', True))
         
@@ -295,7 +305,10 @@ def delete_article(article_id):
     """Elimina un articolo (solo admin) e il relativo file se presente"""
     try:
         user = get_current_user()
+        logging.info(f"Delete attempt by user: {user}")
+        
         if not user or user.get('role') != 'admin':
+            logging.warning(f"Delete denied for user: {user}")
             return jsonify({'success': False, 'message': 'Solo gli admin possono eliminare articoli'}), 403
         
         db = get_db()
@@ -311,8 +324,9 @@ def delete_article(article_id):
             try:
                 if os.path.isfile(file_path):
                     os.remove(file_path)
+                    logging.info(f"File deleted: {file_path}")
                 else:
-                    logging.debug(f"File da eliminare non trovato: {file_path}")
+                    logging.warning(f"File not found for deletion: {file_path}")
             except Exception as e:
                 logging.exception('Error deleting file')
                 return jsonify({'success': False, 'message': 'Errore eliminazione file'}), 500
@@ -320,6 +334,7 @@ def delete_article(article_id):
         db.execute('DELETE FROM articles WHERE id = ?', (article_id,))
         db.commit()
         
+        logging.info(f"Article {article_id} deleted successfully")
         return jsonify({'success': True, 'message': 'Articolo eliminato con successo'})
         
     except Exception as e:
@@ -588,12 +603,10 @@ def api_download(article_id):
         return jsonify({'success': False, 'message': 'Internal server error'}), 500
 
 @app.route('/api/review_draft/<int:article_id>', methods=['POST'])
+@require_role('admin')
 def api_review_draft(article_id):
     """Approva o rifiuta una bozza (admin)"""
     try:
-        user = get_current_user()
-        if not user or user.get('role') != 'admin':
-            return jsonify({'success': False, 'message': 'Solo admin può rivedere bozze'}), 403
         data = request.get_json() or {}
         action = data.get('action')
         review_notes = data.get('review_notes', '')
@@ -645,5 +658,4 @@ def api_delete_draft(article_id):
 if __name__ == '__main__':
     with app.app_context():
         init_db()
-    # SECURITY: disable debug and use env PORT
     app.run(debug=False, host='0.0.0.0',port=5001)
