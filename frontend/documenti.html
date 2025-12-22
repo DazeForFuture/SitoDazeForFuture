@@ -1917,18 +1917,15 @@
 
   <script>
   // Imposta un fallback sincrono immediato per evitare ReferenceError
-  window.API_BASE_URL = window.API_BASE_URL || `http://${window.location.hostname}:5001`;
+  window.API_BASE_URL = 'http://localhost:5001';
 
   // ===== CONFIGURAZIONE =====
   (async function() {
-    // Hostname corrente
-    const currentHost = window.location.hostname;
-    
-    // Lista di endpoint da testare
+    // Lista di endpoint da testare - priorita all'IP locale e localhost
     const endpointsToTest = [
-      `http://${currentHost}:5001`,
-      'http://localhost:5001', 
-      'http://192.168.0.92:5001'
+      'http://192.168.0.92:5001',  // IP locale
+      'http://localhost:5001',
+      'http://127.0.0.1:5001'
     ];
     
     // Funzione per testare la connettività
