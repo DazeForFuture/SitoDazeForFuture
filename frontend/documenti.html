@@ -1921,9 +1921,8 @@
 
   // ===== CONFIGURAZIONE =====
   (async function() {
-    // Lista di endpoint da testare - priorita all'IP locale e localhost
+    // Lista di endpoint da testare - usa localhost per server dinamico
     const endpointsToTest = [
-      'http://192.168.0.92:5001',  // IP locale
       'http://localhost:5001',
       'http://127.0.0.1:5001'
     ];
