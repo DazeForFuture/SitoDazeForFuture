@@ -1150,6 +1150,10 @@
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
           </a>
+          <a href="mappa.html" class="dropdown-item">
+            <i class="fas fa-map-marked-alt" style="margin-right: 8px;"></i>
+            Mappa Meteo
+          </a>
    <!--     <div class="dropdown-divider"></div>
           <a href="altroprogetto.html" class="dropdown-item">
             <i class="fas fa-lock" style="margin-right: 8px;"></i>
@@ -1275,6 +1279,7 @@
       </button>
       <ul class="sidebar-dropdown-menu">
         <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
+        <li><a href="mappa.html"><span>📄</span>Meteo mappa</a></li>
       </ul>
     </li>
       <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
@@ -1394,7 +1399,7 @@
       }
       
       // Gestione speciale per le pagine nei dropdown
-      if (currentPage === 'centrale_meteo.html') {
+      if (currentPage === 'centrale_meteo.html' || currentPage === 'mappa.html') {
         document.querySelector('.dropdown-toggle').classList.add('active');
       }
     }
