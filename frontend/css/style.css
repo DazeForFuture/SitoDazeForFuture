@@ -324,3 +324,13 @@ nav a {
     font-size: 0.95em;
   }
 }
+
+header nav .dropdown-toggle,
+header nav .dropdown-toggle.active {
+  color: #ffffff !important; /* testo bianco */
+}
+
+header nav .dropdown-toggle::after {
+  color: var(--active-link) !important; /* solo la freccina azzurra */
+  -webkit-text-fill-color: var(--active-link) !important; /* fallback per alcuni browser */
+}
