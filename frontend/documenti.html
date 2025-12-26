@@ -1917,8 +1917,10 @@
 
 <script>
   // 1. CONFIGURAZIONE DINAMICA IP
-  // usa lo stesso origin della pagina (host + porta) — evita hardcoding della porta
-  window.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+  // usa il backend sulla porta 5001 (come prima). Se il backend è su porta diversa, cambia qui.
+  const currentHost = window.location.hostname;
+  const API_PORT = '5001';
+  window.API_BASE_URL = window.location.protocol + '//' + currentHost + ':' + API_PORT;
   console.log('🔗 Connessione dinamica stabilita su:', window.API_BASE_URL);
 
   // 2. HELPERS
