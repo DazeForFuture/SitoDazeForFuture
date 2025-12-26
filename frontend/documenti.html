@@ -1917,9 +1917,8 @@
 
 <script>
   // 1. CONFIGURAZIONE DINAMICA IP
-  const currentHost = window.location.hostname;
-  const PORT = '5001';
-  window.API_BASE_URL = `http://${currentHost}:${PORT}`;
+  // usa lo stesso origin della pagina (host + porta) — evita hardcoding della porta
+  window.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
   console.log('🔗 Connessione dinamica stabilita su:', window.API_BASE_URL);
 
   // 2. HELPERS
@@ -2093,9 +2092,10 @@
     const viewerTitle = document.getElementById('viewerTitle');
     const viewerBody = document.getElementById('viewerBody');
 
+    const fileUrl = `${window.API_BASE_URL}/files/${encodeURIComponent(fileName || '')}`;
+    
     viewerTitle.textContent = title || 'Documento';
     // mostra descrizione + link per aprire/scaricare
-    const fileUrl = `${window.API_BASE_URL}/files/${encodeURIComponent(fileName || '')}`;
     viewerBody.innerHTML = `
       <div class="file-preview">
         ${description ? `<p style="color:var(--muted); margin-bottom: 1rem;">${escapeHTML(description)}</p>` : ''}
@@ -2104,6 +2104,9 @@
         </p>
       </div>
     `;
+    // imposta handler per il pulsante Scarica nel modal
+    const downloadBtn = document.getElementById('downloadFromViewer');
+    if (downloadBtn) downloadBtn.onclick = () => window.open(fileUrl, '_blank');
     viewer.style.display = 'flex';
   }
 
@@ -2136,6 +2139,55 @@
     }
   }
   // --- end: helper per visualizzare / eliminare documenti ---
+
+  // --- submit handler per creazione pubblicazione (upload file) ---
+  (function initPublicationForm(){
+    const pubForm = document.getElementById('publicationForm');
+    if (!pubForm) return;
+    pubForm.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const title = document.getElementById('publicationTitle').value.trim();
+      const description = document.getElementById('publicationDescription').value.trim();
+      const type = document.getElementById('publicationType').value || 'altro';
+      const fileInput = document.getElementById('publicationFile');
+      if (!title || !description || !fileInput || !fileInput.files.length) {
+        mostraPopup('Compila tutti i campi e seleziona un file', 'error');
+        return;
+      }
+      const fd = new FormData();
+      fd.append('title', title);
+      fd.append('description', description);
+      fd.append('type', type);
+      fd.append('file', fileInput.files[0]);
+
+      try {
+        const res = await fetch(`${window.API_BASE_URL}/api/documents`, {
+          method: 'POST',
+          headers: authHeaders(), // non impostare Content-Type, leave browser set multipart boundary
+          body: fd
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          mostraPopup('Bozza creata', 'success');
+          document.getElementById('publicationModal').style.display = 'none';
+          pubForm.reset();
+          // aggiungi in cima alla lista appropriata se server ritorna l'oggetto
+          if (data.document) {
+            const list = document.getElementById('myDraftsList') || document.getElementById('documentList');
+            if (list) {
+              list.insertBefore(createDocumentElement(data.document), list.firstChild);
+              document.getElementById('emptyState')?.style.display = 'none';
+            }
+          }
+        } else {
+          mostraPopup(data.message || 'Errore creazione bozza', 'error');
+        }
+      } catch (err) {
+        console.error('upload error', err);
+        mostraPopup('Errore di rete durante l\'upload', 'error');
+      }
+    });
+  })();
 
   // 5. INIZIALIZZAZIONE
   document.addEventListener('DOMContentLoaded', function() {
