@@ -2010,7 +2010,6 @@
     } catch (e) { console.error("Errore loadAllPub:", e); }
   }
 
-  // 4. CREAZIONE ELEMENTI DOM (Risolve i ReferenceError dei bottoni)
   function createDocumentElement(doc) {
     const item = document.createElement('div');
     item.className = 'document-item';
@@ -2028,6 +2027,50 @@
         </button>
       </div>`;
     return item;
+  }
+  async function deleteDocument(id) {
+    if (!confirm('Sei sicuro di voler eliminare definitivamente questo documento pubblicato?')) return;
+    
+    try {
+      const res = await fetch(`${window.API_BASE_URL}/api/delete/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders()
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        mostraPopup('Documento eliminato con successo!', 'success');
+        loadDocuments(); // Ricarica la lista principale
+        loadAllPublications(); // Aggiorna la vista admin
+      } else {
+        mostraPopup('Errore: ' + data.message, 'error');
+      }
+    } catch (error) {
+      mostraPopup('Errore di connessione durante l\'eliminazione', 'error');
+    }
+  }
+
+  async function deleteDraft(id) {
+    if (!confirm('Sei sicuro di voler eliminare questa bozza?')) return;
+    
+    try {
+      const res = await fetch(`${window.API_BASE_URL}/api/delete_draft/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders()
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        mostraPopup('Bozza eliminata con successo!', 'success');
+        loadDraftsForReview();
+        loadMyDrafts();
+        loadAllPublications();
+      } else {
+        mostraPopup('Errore: ' + data.message, 'error');
+      }
+    } catch (error) {
+      mostraPopup('Errore di connessione', 'error');
+    }
   }
 
   // Funzione Visualizza (Chiamata dai bottoni)
