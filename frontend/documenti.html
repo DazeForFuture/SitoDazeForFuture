@@ -2178,7 +2178,8 @@
             const list = document.getElementById('myDraftsList') || document.getElementById('documentList');
             if (list) {
               list.insertBefore(createDocumentElement(data.document), list.firstChild);
-              document.getElementById('emptyState')?.style.display = 'none';
+              const _emptyState = document.getElementById('emptyState');
+              if (_emptyState) _emptyState.style.display = 'none';
             }
           }
         } else {
