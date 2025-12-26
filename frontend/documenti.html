@@ -1916,233 +1916,181 @@
 
 
 <script>
-const currentHost = window.location.hostname; 
-const PORT = '5001';
+  // 1. CONFIGURAZIONE DINAMICA IP
+  const currentHost = window.location.hostname;
+  const PORT = '5001';
+  window.API_BASE_URL = `http://${currentHost}:${PORT}`;
+  console.log('🔗 Connessione dinamica stabilita su:', window.API_BASE_URL);
 
-// Se sei su localhost, usa localhost. Se sei su un IP (VPN o WiFi), usa quell'IP.
-window.API_BASE_URL = `http://${currentHost}:${PORT}`;
+  // 2. HELPERS
+  function authHeaders() {
+    const email = localStorage.getItem('utente') || '';
+    const role = localStorage.getItem('utente_ruolo') || 'user';
+    return { 'X-User-Email': email, 'X-User-Ruolo': role };
+  }
 
-console.log('🔗 Connessione dinamica stabilita su:', window.API_BASE_URL);
-
-// 2. HELPERS
-function authHeaders() {
-  const email = localStorage.getItem('utente') || '';
-  const role = localStorage.getItem('utente_ruolo') || 'user';
-  return { 'X-User-Email': email, 'X-User-Ruolo': role };
+  function mostraPopup(messaggio, tipo) {
+    let popup = document.getElementById('popup');
+    if (!popup) {
+      popup = document.createElement('div');
+      popup.id = 'popup';
+      popup.className = 'popup';
+      document.body.appendChild(popup);
     }
+    popup.textContent = messaggio;
+    popup.className = "popup " + tipo;
+    popup.classList.add("show");
+    setTimeout(() => popup.classList.remove("show"), 3000);
+  }
 
-    function mostraPopup(messaggio, tipo) {
-      let popup = document.getElementById('popup');
-      if (!popup) {
-        popup = document.createElement('div');
-        popup.id = 'popup';
-        popup.className = 'popup';
-        document.body.appendChild(popup);
+  function escapeHTML(str) {
+    return (str || "").replace(/[&<>"']/g, s => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[s]));
+  }
+
+  function getFileIcon(fileType) {
+    const icons = {
+      'pdf': '📕', 'doc': '📘', 'docx': '📘', 'xls': '📗', 'xlsx': '📗',
+      'txt': '📄', 'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️'
+    };
+    return icons[fileType?.toLowerCase()] || '📄';
+  }
+
+  // 3. FUNZIONI DI CARICAMENTO DATI
+  async function loadDocuments() {
+    try {
+      const res = await fetch(`${window.API_BASE_URL}/api/documents`);
+      const data = await res.json();
+      const container = document.getElementById('documentList');
+      if (data.success && data.documents?.length > 0) {
+        document.getElementById('emptyState').style.display = 'none';
+        container.innerHTML = '';
+        data.documents.forEach(doc => container.appendChild(createDocumentElement(doc)));
       }
-      popup.textContent = messaggio;
-      popup.className = "popup " + tipo;
-      popup.classList.add("show");
-      setTimeout(() => popup.classList.remove("show"), 3000);
-    }
+    } catch (e) { console.error("Errore loadDocuments:", e); }
+  }
 
-    // 3. INIZIALIZZAZIONE AL CARICAMENTO
-    document.addEventListener('DOMContentLoaded', function() {
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
-      
-      if(utente) {
-        document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
-        
-        const userbar = document.getElementById('userbar');
-        if (userbar) {
-          userbar.style.display = 'flex';
-          document.getElementById('userName').innerText = utente.split('@')[0];
-          document.getElementById('userBadge').innerText = ruolo === 'admin' ? 'Admin' : 'User';
-          document.getElementById('userBadge').className = `user-badge ${ruolo === 'admin' ? 'badge-admin' : 'badge-user'}`;
-          document.getElementById('userAvatar').innerText = utente.charAt(0).toUpperCase();
-        }
-
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        if (mobileUserInfo) {
-          mobileUserInfo.style.display = 'block';
-          document.getElementById('mobileUserName').innerText = utente.split('@')[0];
-          document.getElementById('mobileUserBadge').innerText = ruolo === 'admin' ? 'Admin' : 'User';
-          document.getElementById('mobileUserBadge').className = `mobile-user-badge ${ruolo === 'admin' ? 'badge-admin' : 'badge-user'}`;
-          document.getElementById('mobileUserAvatar').innerText = utente.charAt(0).toUpperCase();
-        }
-
-        if (ruolo === 'admin') {
-          document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
-        } else {
-          document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
-        }
-        
-        document.getElementById('addDocumentBtn').style.display = 'block';
+  async function loadDraftsForReview() {
+    try {
+      const res = await fetch(`${window.API_BASE_URL}/api/drafts`, { headers: authHeaders() });
+      const data = await res.json();
+      const container = document.getElementById('draftList');
+      if (container && data.success && data.drafts?.length > 0) {
+        document.getElementById('emptyDrafts').style.display = 'none';
+        container.innerHTML = '';
+        data.drafts.forEach(draft => container.appendChild(createDraftElement(draft)));
       }
+    } catch (e) { console.error("Errore loadDrafts:", e); }
+  }
+
+  async function loadMyDrafts() {
+    try {
+      const res = await fetch(`${window.API_BASE_URL}/api/my_drafts`, { headers: authHeaders() });
+      const data = await res.json();
+      const container = document.getElementById('myDraftsList');
+      if (container && data.success && data.drafts?.length > 0) {
+        document.getElementById('emptyMyDrafts').style.display = 'none';
+        container.innerHTML = '';
+        data.drafts.forEach(draft => container.appendChild(createMyDraftElement(draft)));
+      }
+    } catch (e) { console.error("Errore loadMyDrafts:", e); }
+  }
+
+  async function loadAllPublications() {
+    try {
+      const res = await fetch(`${window.API_BASE_URL}/api/all_publications`, { headers: authHeaders() });
+      const data = await res.json();
+      const container = document.getElementById('allPublicationsList');
+      if (container && data.success && data.publications?.length > 0) {
+        document.getElementById('emptyAllPublications').style.display = 'none';
+        container.innerHTML = '';
+        data.publications.forEach(pub => container.appendChild(createPublicationElement(pub)));
+      }
+    } catch (e) { console.error("Errore loadAllPub:", e); }
+  }
+
+  // 4. CREAZIONE ELEMENTI DOM (Risolve i ReferenceError dei bottoni)
+  function createDocumentElement(doc) {
+    const item = document.createElement('div');
+    item.className = 'document-item';
+    item.innerHTML = `
+      <div class="document-info">
+        <div class="document-icon">${getFileIcon(doc.file_type)}</div>
+        <div class="document-details">
+          <h3>${doc.title} <span class="status-badge status-published">Pubblicato</span></h3>
+          <p>${doc.description || ''} • ${doc.author} • ${new Date(doc.publication_date).toLocaleDateString('it-IT')}</p>
+        </div>
+      </div>
+      <div class="document-actions">
+        <button class="action-btn view-btn" onclick="viewDocument(${doc.id}, '${doc.file_name}', '${escapeHTML(doc.title)}', '${escapeHTML(doc.description)}')" title="Visualizza">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>`;
+    return item;
+  }
+
+  // Funzione Visualizza (Chiamata dai bottoni)
+  async function viewDocument(id, fileName, title, description) {
+    const viewerModal = document.getElementById('viewerModal');
+    document.getElementById('viewerTitle').textContent = title;
+    viewerModal.style.display = 'flex';
+    viewerModal.setAttribute('data-doc-id', id);
+    
+    const viewerBody = document.getElementById('viewerBody');
+    viewerBody.innerHTML = '<p>Caricamento anteprima...</p>';
+
+    try {
+      const res = await fetch(`${window.API_BASE_URL}/api/download/${id}`);
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      if (blob.type.startsWith('image/')) {
+        viewerBody.innerHTML = `<img src="${url}" style="max-width:100%">`;
+      } else if (blob.type === 'application/pdf') {
+        viewerBody.innerHTML = `<iframe src="${url}" style="width:100%; height:500px;" frameborder="0"></iframe>`;
+      } else {
+        viewerBody.innerHTML = `<p>Anteprima non disponibile. <a href="${url}" download="${fileName}">Scarica file</a></p>`;
+      }
+    } catch (e) { viewerBody.innerHTML = '<p>Errore nel caricamento.</p>'; }
+  }
+
+  // 5. INIZIALIZZAZIONE
+  document.addEventListener('DOMContentLoaded', function() {
+    const utente = localStorage.getItem('utente');
+    const ruolo = localStorage.getItem('utente_ruolo') || 'user';
+
+    if(utente) {
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('userbar').style.display = 'flex';
+      document.getElementById('userName').innerText = utente.split('@')[0];
+      document.getElementById('userBadge').innerText = ruolo.toUpperCase();
+      document.getElementById('addDocumentBtn').style.display = 'block';
       
-      // Caricamento dati
-      loadDocuments();
-      if (utente && ruolo === 'admin') {
+      if (ruolo === 'admin') {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
         loadDraftsForReview();
         loadAllPublications();
+      } else {
+        document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
       }
-      if (utente) {
-        loadMyDrafts();
-      }
-      
-      // Inizializzazione componenti UI
-      initSidebar();
-      initTheme();
-      initFilters();
-      initDocumentTypeSelector();
-      initViewerModal();
-      initPublicationModal();
-      initRejectionModal();
-      highlightCurrentPage();
-    });
-
-    function logout() {
-      localStorage.removeItem('utente');
-      localStorage.removeItem('utente_ruolo');
-      window.location.href = "login.html";
+      loadMyDrafts();
     }
+    loadDocuments();
 
-    // 4. FUNZIONI API (DOCUMENTI)
-    async function loadDocuments() {
-      try {
-        const res = await fetch(`${window.API_BASE_URL}/api/documents`);
-        if (!res.ok) throw new Error(`Errore HTTP: ${res.status}`);
-        
-        const data = await res.json();
-        const container = document.getElementById('documentList');
-        
-        if (data.success && data.documents && data.documents.length > 0) {
-          document.getElementById('emptyState').style.display = 'none';
-          container.innerHTML = '';
-          data.documents.forEach(doc => {
-            container.appendChild(createDocumentElement(doc));
-          });
-        } else {
-          document.getElementById('emptyState').style.display = 'block';
-        }
-      } catch (error) {
-        console.error('Errore:', error);
-        document.getElementById('documentList').innerHTML = `<p style="color:red; text-align:center; padding:20px;">Impossibile connettersi al server (${window.API_BASE_URL})</p>`;
-      }
-    }
-
-    function createDocumentElement(doc) {
-      const item = document.createElement('div');
-      item.className = 'document-item';
-      const isAdmin = localStorage.getItem('utente_ruolo') === 'admin';
-      
-      item.innerHTML = `
-          <div class="document-info">
-              <div class="document-icon">${getFileIcon(doc.file_type)}</div>
-              <div class="document-details">
-                  <h3>${doc.title} <span class="status-badge status-published">Pubblicato</span></h3>
-                  <p>${doc.description || ''} • ${doc.author} • ${new Date(doc.publication_date).toLocaleDateString('it-IT')}</p>
-              </div>
-          </div>
-          <div class="document-actions">
-              <button class="action-btn view-btn" onclick="viewDocument(${doc.id}, '${doc.file_name}', '${escapeHTML(doc.title)}')" title="Visualizza">
-                  <i class="fas fa-eye"></i>
-              </button>
-              ${isAdmin ? `<button class="action-btn delete-btn" onclick="deleteDocument(${doc.id})"><i class="fas fa-trash"></i></button>` : ''}
-          </div>
-      `;
-      return item;
-    }
-
-    // --- Inserisci qui le altre funzioni (loadDraftsForReview, loadMyDrafts, etc.) mantenendo window.API_BASE_URL ---
-    // (Le funzioni createPublication, deleteDocument, reviewDraft ecc. rimangono identiche a prima, 
-    // assicurati solo che usino `${window.API_BASE_URL}`)
-
-    async function createPublication() {
-      const title = document.getElementById('publicationTitle').value;
-      const description = document.getElementById('publicationDescription').value;
-      const type = document.getElementById('publicationType').value;
-      const fileInput = document.getElementById('publicationFile');
-      
-      if (!title || !fileInput.files[0]) return mostraPopup('Campi obbligatori mancanti', 'error');
-
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('type', type);
-      formData.append('file', fileInput.files[0]);
-
-      try {
-        const res = await fetch(`${window.API_BASE_URL}/api/create_publication`, {
-          method: 'POST',
-          body: formData,
-          headers: authHeaders()
-        });
-        const data = await res.json();
-        if(data.success) {
-          mostraPopup('Operazione completata', 'success');
-          location.reload();
-        }
-      } catch (e) { mostraPopup('Errore invio', 'error'); }
-    }
-
-    // Helper per le icone
-    function getFileIcon(type) {
-      const icons = { 'pdf': '📕', 'doc': '📘', 'docx': '📘', 'xls': '📗', 'txt': '📄' };
-      return icons[type?.toLowerCase()] || '📄';
-    }
-
-    function escapeHTML(str) {
-      return str.replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-    }
-
-    // Inizializzatori UI (Sidebar, Theme, Modals)
-    function initSidebar() {
-      const sb = document.querySelector('.sidebar');
-      document.getElementById('sidebarToggle').onclick = () => sb.classList.add('open');
-      document.querySelector('.sidebar-close').onclick = () => sb.classList.remove('open');
-    }
-
-    function initTheme() {
-      const theme = localStorage.getItem('theme-preference') || 'auto';
-      if(theme !== 'auto') document.documentElement.setAttribute('data-theme', theme);
-      document.getElementById('theme-fab').onclick = () => {
-        const pop = document.getElementById('theme-popup');
-        pop.classList.toggle('show');
-        pop.style.display = pop.classList.contains('show') ? 'flex' : 'none';
-      };
-      document.querySelectorAll('.theme-option').forEach(btn => {
-        btn.onclick = () => {
-          const t = btn.dataset.theme;
-          localStorage.setItem('theme-preference', t);
-          location.reload();
-        };
-      });
-    }
-
-    // Altri inizializzatori necessari per i pulsanti (Modal e filtri)
-    function initFilters() { /* ... logica filtri ... */ }
-    function initDocumentTypeSelector() {
-       document.querySelectorAll('.document-type-option').forEach(opt => {
-         opt.onclick = () => {
-           document.querySelectorAll('.document-type-option').forEach(o => o.classList.remove('selected'));
-           opt.classList.add('selected');
-           document.getElementById('publicationType').value = opt.dataset.type;
-         };
-       });
-    }
-    function initPublicationModal() {
-      document.getElementById('closeModal').onclick = () => document.getElementById('publicationModal').style.display = 'none';
-      document.getElementById('publicationForm').onsubmit = (e) => { e.preventDefault(); createPublication(); };
-    }
-    function initViewerModal() {
-      document.getElementById('closeViewer').onclick = () => document.getElementById('viewerModal').style.display = 'none';
-    }
-    function initRejectionModal() { /* ... */ }
-    function highlightCurrentPage() { /* ... */ }
+    // Inizializza i componenti grafici
+    if(typeof initSidebar === "function") initSidebar();
+    if(typeof initTheme === "function") initTheme();
     
-  </script>
+    // Gestione chiusura viewer
+    document.getElementById('closeViewer').onclick = () => document.getElementById('viewerModal').style.display = 'none';
+    document.getElementById('closeViewerBtn').onclick = () => document.getElementById('viewerModal').style.display = 'none';
+  });
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+</script>
   <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>
