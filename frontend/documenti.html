@@ -2038,74 +2038,54 @@
       </div>`;
     return item;
   }
-  async function deleteDocument(id) {
-    if (!confirm('Sei sicuro di voler eliminare definitivamente questo documento pubblicato?')) return;
-    
-    try {
-      const res = await fetch(`${window.API_BASE_URL}/api/delete/${id}`, {
-        method: 'DELETE',
-        headers: authHeaders()
-      });
-      const data = await res.json();
-      
-      if (data.success) {
-        mostraPopup('Documento eliminato con successo!', 'success');
-        loadDocuments(); // Ricarica la lista principale
-        loadAllPublications(); // Aggiorna la vista admin
-      } else {
-        mostraPopup('Errore: ' + data.message, 'error');
-      }
-    } catch (error) {
-      mostraPopup('Errore di connessione durante l\'eliminazione', 'error');
-    }
+  // Nuova: crea elemento per le "allPublications" (evita ReferenceError)
+  function createPublicationElement(pub) {
+    const role = localStorage.getItem('utente_ruolo') || 'user';
+    const item = document.createElement('div');
+    item.className = 'document-item';
+
+    const deleteBtnHtml = role === 'admin'
+      ? `<button class="action-btn delete-btn" onclick="deleteDocument(${pub.id})" title="Elimina">
+           <i class="fas fa-trash"></i>
+         </button>`
+      : '';
+
+    const statusBadge = pub.status ? `<span class="status-badge status-${pub.status}">${capitalize(pub.status)}</span>` : '';
+
+    item.innerHTML = `
+      <div class="document-info">
+        <div class="document-icon">${getFileIcon(pub.file_type)}</div>
+        <div class="document-details">
+          <h3>${pub.title} ${statusBadge}</h3>
+          <p>${pub.description || ''} • ${pub.author} • ${pub.publication_date ? new Date(pub.publication_date).toLocaleDateString('it-IT') : ''}</p>
+        </div>
+      </div>
+      <div class="document-actions">
+        <button class="action-btn view-btn" onclick="viewDocument(${pub.id}, '${pub.file_name}', '${escapeHTML(pub.title)}', '${escapeHTML(pub.description)}')" title="Visualizza">
+          <i class="fas fa-eye"></i>
+        </button>
+        ${deleteBtnHtml}
+      </div>`;
+    return item;
   }
 
-  async function deleteDraft(id) {
-    if (!confirm('Sei sicuro di voler eliminare questa bozza?')) return;
-    
-    try {
-      const res = await fetch(`${window.API_BASE_URL}/api/delete_draft/${id}`, {
-        method: 'DELETE',
-        headers: authHeaders()
-      });
-      const data = await res.json();
-      
-      if (data.success) {
-        mostraPopup('Bozza eliminata con successo!', 'success');
-        loadDraftsForReview();
-        loadMyDrafts();
-        loadAllPublications();
-      } else {
-        mostraPopup('Errore: ' + data.message, 'error');
-      }
-    } catch (error) {
-      mostraPopup('Errore di connessione', 'error');
-    }
+  // Utility piccolo
+  function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
+  // Apri modal creazione con il pulsante +
+  const _addBtn = document.getElementById('addDocumentBtn');
+  if (_addBtn) {
+    _addBtn.addEventListener('click', () => {
+      const modal = document.getElementById('publicationModal');
+      if (modal) modal.style.display = 'flex';
+    });
   }
 
-  // Funzione Visualizza (Chiamata dai bottoni)
-  async function viewDocument(id, fileName, title, description) {
-    const viewerModal = document.getElementById('viewerModal');
-    document.getElementById('viewerTitle').textContent = title;
-    viewerModal.style.display = 'flex';
-    viewerModal.setAttribute('data-doc-id', id);
-    
-    const viewerBody = document.getElementById('viewerBody');
-    viewerBody.innerHTML = '<p>Caricamento anteprima...</p>';
-
-    try {
-      const res = await fetch(`${window.API_BASE_URL}/api/download/${id}`);
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-      if (blob.type.startsWith('image/')) {
-        viewerBody.innerHTML = `<img src="${url}" style="max-width:100%">`;
-      } else if (blob.type === 'application/pdf') {
-        viewerBody.innerHTML = `<iframe src="${url}" style="width:100%; height:500px;" frameborder="0"></iframe>`;
-      } else {
-        viewerBody.innerHTML = `<p>Anteprima non disponibile. <a href="${url}" download="${fileName}">Scarica file</a></p>`;
-      }
-    } catch (e) { viewerBody.innerHTML = '<p>Errore nel caricamento.</p>'; }
-  }
+  // Chiudi modal (bottoni già presenti nel markup)
+  const _closeModal = document.getElementById('closeModal');
+  if (_closeModal) _closeModal.addEventListener('click', () => document.getElementById('publicationModal').style.display = 'none');
+  const _cancelPublication = document.getElementById('cancelPublication');
+  if (_cancelPublication) _cancelPublication.addEventListener('click', () => document.getElementById('publicationModal').style.display = 'none');
 
   // 5. INIZIALIZZAZIONE
   document.addEventListener('DOMContentLoaded', function() {
