@@ -2087,6 +2087,56 @@
   const _cancelPublication = document.getElementById('cancelPublication');
   if (_cancelPublication) _cancelPublication.addEventListener('click', () => document.getElementById('publicationModal').style.display = 'none');
 
+  // --- start: helper per visualizzare / eliminare documenti ---
+  function viewDocument(id, fileName, title, description) {
+    const viewer = document.getElementById('viewerModal');
+    const viewerTitle = document.getElementById('viewerTitle');
+    const viewerBody = document.getElementById('viewerBody');
+
+    viewerTitle.textContent = title || 'Documento';
+    // mostra descrizione + link per aprire/scaricare
+    const fileUrl = `${window.API_BASE_URL}/files/${encodeURIComponent(fileName || '')}`;
+    viewerBody.innerHTML = `
+      <div class="file-preview">
+        ${description ? `<p style="color:var(--muted); margin-bottom: 1rem;">${escapeHTML(description)}</p>` : ''}
+        <p style="text-align:center; margin-top:1rem;">
+          <a href="${fileUrl}" target="_blank" rel="noopener" class="btn">Apri / Scarica</a>
+        </p>
+      </div>
+    `;
+    viewer.style.display = 'flex';
+  }
+
+  async function deleteDocument(id) {
+    if (!confirm('Sei sicuro di voler eliminare questo documento?')) return;
+    try {
+      const res = await fetch(`${window.API_BASE_URL}/api/documents/${id}`, {
+        method: 'DELETE',
+        headers: Object.assign({ 'Content-Type': 'application/json' }, authHeaders())
+      });
+      const data = await res.json();
+      if (data && data.success) {
+        mostraPopup('Documento eliminato', 'success');
+        // rimuovi elemento dalla lista se presente
+        const items = Array.from(document.querySelectorAll('.document-item'));
+        for (const it of items) {
+          // cerca pulsante delete con onclick che contiene l'id
+          const btn = it.querySelector(`button.delete-btn[onclick*="deleteDocument(${id})"]`);
+          if (btn) {
+            it.remove();
+            break;
+          }
+        }
+      } else {
+        mostraPopup(data.message || 'Errore durante l\'eliminazione', 'error');
+      }
+    } catch (e) {
+      console.error("Errore deleteDocument:", e);
+      mostraPopup('Errore di rete o server', 'error');
+    }
+  }
+  // --- end: helper per visualizzare / eliminare documenti ---
+
   // 5. INIZIALIZZAZIONE
   document.addEventListener('DOMContentLoaded', function() {
     const utente = localStorage.getItem('utente');
