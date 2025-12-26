@@ -2011,8 +2011,17 @@
   }
 
   function createDocumentElement(doc) {
+    const role = localStorage.getItem('utente_ruolo') || 'user';
     const item = document.createElement('div');
     item.className = 'document-item';
+
+    // bottone elimina visibile solo per admin
+    const deleteBtnHtml = role === 'admin' 
+      ? `<button class="action-btn delete-btn" onclick="deleteDocument(${doc.id})" title="Elimina">
+           <i class="fas fa-trash"></i>
+         </button>`
+      : '';
+
     item.innerHTML = `
       <div class="document-info">
         <div class="document-icon">${getFileIcon(doc.file_type)}</div>
@@ -2025,6 +2034,7 @@
         <button class="action-btn view-btn" onclick="viewDocument(${doc.id}, '${doc.file_name}', '${escapeHTML(doc.title)}', '${escapeHTML(doc.description)}')" title="Visualizza">
           <i class="fas fa-eye"></i>
         </button>
+        ${deleteBtnHtml}
       </div>`;
     return item;
   }
