@@ -1071,17 +1071,6 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* AGGIUNTA: Stili per il pulsante modifica evento */
-    .btn-edit {
-      background: var(--warning) !important;
-      color: white !important;
-      margin-right: 8px;
-    }
-
-    .btn-edit:hover {
-      background: #e68a00 !important;
-    }
-
     /* AGGIUNTA: Miglioramenti per eventi senza immagine */
     .event-card.no-image .event-content {
       padding-top: 2rem;
@@ -1577,7 +1566,7 @@
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       
-      <!-- Menu a tendina Progetti -->
+  <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
           Progetti
@@ -1587,8 +1576,12 @@
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
           </a>
+          <a href="mappa.html" class="dropdown-item">
+            <i class="fas fa-map-marked-alt" style="margin-right: 8px;"></i>
+            Mappa Meteo
+          </a>
         </div>
-      </div>
+      </div>      
       <a href="documenti.html">Documenti</a>
 
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
@@ -1951,10 +1944,6 @@
                 if (userRole === 'admin') {
                     adminBtns = `
                         <div class="event-admin-actions">
-                            <button class="btn btn-edit" onclick="modificaPost(${post.id})">
-                                <i class="fas fa-edit"></i>
-                                Modifica
-                            </button>
                             <button class="btn btn-danger" onclick="confermaEliminaPost(${post.id}, '${escapeHTML(post.titolo || 'Evento')}')">
                                 <i class="fas fa-trash"></i>
                                 Elimina
@@ -2163,10 +2152,6 @@
             console.error('❌ Errore eliminazione:', error);
             mostraPopup("Errore di connessione: " + error.message, "error");
         }
-    }
-
-    function modificaPost(id) {
-        mostraPopup("Funzionalità di modifica in fase di sviluppo", "warning");
     }
 
     // ===== GESTIONE FORM EVENTO =====

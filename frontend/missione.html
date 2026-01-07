@@ -837,146 +837,6 @@
       background: var(--sidebar-border);
       margin: 0.25rem 0;
     }
-        /* Stili per la preview della pagina centrale meteorologica */
-    .page-preview {
-      position: absolute;
-      left: -460px; /* Spostata a sinistra per essere completamente visibile */
-      top: 0;
-      width: 450px;
-      height: 320px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(-20px) scale(0.95);
-      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-      z-index: 1002;
-      border: 1px solid var(--sidebar-border);
-      backdrop-filter: blur(10px);
-    }
-
-    .dropdown-item:hover .page-preview {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0) scale(1);
-    }
-
-    .page-preview-content {
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      background: var(--card-bg);
-      color: var(--text);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .page-preview-hero {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-hero h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 5px;
-      background: linear-gradient(90deg, #007aff, #00c6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .page-preview-hero p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .page-preview-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-card {
-      background: var(--bg);
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border: 1px solid var(--sidebar-border);
-      transition: transform 0.2s ease;
-    }
-
-    .page-preview-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .page-preview-card h3 {
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .page-preview-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .page-preview-chart {
-      height: 80px;
-      background: var(--bg);
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--sidebar-border);
-      padding: 10px;
-    }
-
-    .page-preview-chart-line {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    .page-preview-chart-point {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    .page-preview-footer {
-      text-align: center;
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px solid var(--sidebar-border);
-    }
-
-    .page-preview-footer p {
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    @media (max-width: 768px) {
-      .page-preview {
-        display: none;
-      }
-    }
-
   </style>
 </head>
 <body>
@@ -1008,43 +868,11 @@
           <a href="centrale_meteo.html" class="dropdown-item">
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
-            <!-- Preview della pagina centrale meteorologica -->
-            <div class="page-preview">
-              <div class="page-preview-content">
-                <div class="page-preview-hero">
-                  <h2>Centrale Meteorologica</h2>
-                  <p>Monitoraggio in tempo reale di temperatura e qualità dell'aria</p>
-                </div>
-                <div class="page-preview-cards">
-                  <div class="page-preview-card">
-                    <h3>🌡 Temperatura</h3>
-                    <div class="page-preview-value" id="previewTempValue">23.5 °C</div>
-                  </div>
-                  <div class="page-preview-card">
-                    <h3>💨 Qualità Aria</h3>
-                    <div class="page-preview-value" id="previewAirValue">18.2 µg/m³</div>
-                  </div>
-                </div>
-                <div class="page-preview-chart">
-                  <div class="page-preview-chart-line"></div>
-                  <!-- Punti del grafico -->
-                  <div class="page-preview-chart-point" style="left: 10%; top: 30%"></div>
-                  <div class="page-preview-chart-point" style="left: 30%; top: 50%"></div>
-                  <div class="page-preview-chart-point" style="left: 50%; top: 40%"></div>
-                  <div class="page-preview-chart-point" style="left: 70%; top: 60%"></div>
-                  <div class="page-preview-chart-point" style="left: 90%; top: 45%"></div>
-                </div>
-                <div class="page-preview-footer">
-                  <p>Dati aggiornati in tempo reale</p>
-                </div>
-              </div>
-            </div>
           </a>
-          <!--     <div class="dropdown-divider"></div>
-          <a href="altroprogetto.html" class="dropdown-item">
-            <i class="fas fa-lock" style="margin-right: 8px;"></i>
-            ///
-          </a> -->
+          <a href="mappa.html" class="dropdown-item">
+            <i class="fas fa-map-marked-alt" style="margin-right: 8px;"></i>
+            Mappa Meteo
+          </a>
         </div>
       </div>      
       <a href="documenti.html">Documenti</a>
@@ -1313,20 +1141,6 @@
       // Evidenzia la pagina corrente
       highlightCurrentPage();
     });
-    
-    // Funzione per aggiornare la preview della centrale meteorologica
-    function aggiornaPreviewMeteo() {
-      setInterval(() => {
-        const temp = (20 + Math.random() * 5).toFixed(1);
-        const air = (10 + Math.random() * 30).toFixed(1);
-        
-        const tempElement = document.getElementById('previewTempValue');
-        const airElement = document.getElementById('previewAirValue');
-        
-        if (tempElement) tempElement.textContent = temp + " °C";
-        if (airElement) airElement.textContent = air + " µg/m³";
-      }, 2000);
-    }
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
     function getNameFromEmail(email) {
