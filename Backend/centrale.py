@@ -1,331 +1,198 @@
-# backend.py
-import serial
-import serial.tools.list_ports
-import time
-import threading
-import json
-import sqlite3
-import re
-from datetime import datetime
-from flask import Flask, Response, jsonify, request
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
-import queue
+import json
+import time
+from datetime import datetime, timedelta
+import random
 
 app = Flask(__name__)
-CORS(app)  # Abilita CORS per tutte le rotte
+CORS(app)  # Permette richieste dal frontend
 
-# Configurazione
-SERIAL_PORT = None
-BAUD_RATE = 9600
-ser = None
-data_queue = queue.Queue()
-latest_data = {"temperature": None, "humidity": None, "timestamp": None, "source": "usb"}
-db_lock = threading.Lock()
-arduino_connected = False
+# Database in memoria per i dati storici
+sensor_readings = []
+ultima_temperatura = 22.5  # Valore iniziale
+ultima_umidita = 65.0  # Valore iniziale
 
-# Database per memorizzare le letture
-def init_db():
-    with db_lock:
-        conn = sqlite3.connect('../../database/sensor_data.db')
-        c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS readings
-                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                      temperature REAL,
-                      humidity REAL,
-                      source TEXT,
-                      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
-        conn.commit()
-        conn.close()
-
-def save_to_db(temp, hum, source="usb"):
-    with db_lock:
-        conn = sqlite3.connect('../../database/sensor_data.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO readings (temperature, humidity, source) VALUES (?, ?, ?)",
-                  (temp, hum, source))
-        conn.commit()
-        conn.close()
-
-def get_recent_readings(limit=50):
-    with db_lock:
-        conn = sqlite3.connect('../../database/sensor_data.db')
-        conn.row_factory = sqlite3.Row
-        c = conn.cursor()
-        c.execute("SELECT temperature, humidity, source, timestamp FROM readings ORDER BY timestamp DESC LIMIT ?", (limit,))
-        rows = c.fetchall()
-        conn.close()
-        
-        readings = []
-        for row in rows:
-            readings.append({
-                "temperature": row["temperature"],
-                "humidity": row["humidity"],
-                "source": row["source"],
-                "timestamp": row["timestamp"]
-            })
-        return readings[::-1]
-
-# Funzione per trovare Arduino
-def find_arduino():
-    ports = serial.tools.list_ports.comports()
-    for port in ports:
-        if ("Arduino" in port.description or 
-            "ttyACM" in port.device or 
-            "ttyUSB" in port.device or
-            "CH340" in port.description or
-            "USB Serial" in port.description):
-            print(f"Trovata porta: {port.device} - {port.description}")
-            return port.device
-    return None
-
-# Funzione per processare la linea ricevuta
-def process_serial_line(line):
-    """Processa una linea ricevuta dalla seriale e estrae temperatura e umidità."""
-    line = line.strip()
-    
-    # Se è un messaggio di stato, ignoralo ma stampalo
-    if "Connesso" in line or "connesso" in line.lower():
-        print(f"Messaggio Arduino: {line}")
-        return None, None, line
-    
-    # Se è un messaggio di errore
-    if "errore" in line.lower():
-        print(f"Errore Arduino: {line}")
-        return None, None, line
-    
-    # Prova a estrarre numeri dalla stringa usando regex
-    # Cerca pattern come: 22.5,45.0 oppure Temp:22.5,Hum:45.0
-    numbers = re.findall(r'[-+]?\d*\.\d+|\d+', line)
-    
-    if len(numbers) >= 2:
-        try:
-            temp = float(numbers[0])
-            hum = float(numbers[1])
-            return temp, hum, None
-        except ValueError:
-            print(f"Non posso convertire i numeri: {numbers}")
-            return None, None, line
-    else:
-        print(f"Stringa non riconosciuta: {line}")
-        return None, None, line
-
-# Funzione per leggere dalla seriale
-def read_serial():
-    global ser, latest_data, arduino_connected
-    
-    while True:
-        try:
-            if ser and ser.is_open:
-                line = ser.readline().decode('utf-8', errors='ignore')
-                if line:
-                    # Processa la linea
-                    temp, hum, message = process_serial_line(line)
-                    
-                    if temp is not None and hum is not None:
-                        # Dati validi ricevuti
-                        latest_data = {
-                            "temperature": temp,
-                            "humidity": hum,
-                            "timestamp": datetime.now().isoformat(),
-                            "source": "usb"
-                        }
-                        
-                        # Salva nel database
-                        save_to_db(temp, hum, "usb")
-                        
-                        # Metti in coda per gli eventi SSE
-                        data_queue.put({
-                            "type": "reading",
-                            "payload": latest_data
-                        })
-                        
-                        print(f"Dati ricevuti: Temperatura: {temp}°C, Umidità: {hum}%")
-                    
-                    elif message:
-                        # Messaggio di stato o errore
-                        if "errore" in message.lower():
-                            data_queue.put({
-                                "type": "error",
-                                "payload": {"message": message}
-                            })
-                        else:
-                            # Invia anche i messaggi di stato via SSE
-                            data_queue.put({
-                                "type": "status",
-                                "payload": {"message": message}
-                            })
-            else:
-                time.sleep(5)
-                try_connect_arduino()
-                
-        except serial.SerialException as e:
-            print(f"Errore di comunicazione seriale: {e}")
-            arduino_connected = False
-            if ser:
-                try:
-                    ser.close()
-                except:
-                    pass
-            time.sleep(5)
-            try_connect_arduino()
-            
-        except Exception as e:
-            print(f"Errore generico nella lettura seriale: {e}")
-            time.sleep(2)
-
-# Funzione per connettersi ad Arduino
-def try_connect_arduino():
-    global ser, SERIAL_PORT, arduino_connected
-    
-    if not SERIAL_PORT:
-        SERIAL_PORT = find_arduino()
-    
-    if SERIAL_PORT:
-        try:
-            ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
-            time.sleep(2)
-            arduino_connected = True
-            
-            # Pulisci il buffer seriale
-            ser.reset_input_buffer()
-            
-            print(f"✓ Connesso a Arduino su porta: {SERIAL_PORT}")
-            
-            data_queue.put({
-                "type": "connection",
-                "payload": {"connected": True, "port": SERIAL_PORT, "message": "Arduino connesso"}
-            })
-            
-            return True
-        except Exception as e:
-            print(f"✗ Errore connessione: {e}")
-            arduino_connected = False
-            data_queue.put({
-                "type": "connection",
-                "payload": {"connected": False, "message": f"Errore: {e}"}
-            })
-            return False
-    else:
-        print("✗ Arduino non trovato")
-        arduino_connected = False
-        return False
-
-# Funzione per gestire eventi SSE
-def event_stream():
-    while True:
-        try:
-            try:
-                data = data_queue.get(timeout=30)
-                yield f"data: {json.dumps(data)}\n\n"
-            except queue.Empty:
-                yield ": keepalive\n\n"
-        except Exception as e:
-            print(f"Errore SSE: {e}")
-            time.sleep(1)
-
-# API endpoints
-@app.route('/sensor')
+@app.route('/sensor', methods=['GET'])
 def get_sensor_data():
-    if latest_data["temperature"] is not None:
-        return jsonify({
-            "reading": latest_data,
-            "method": "usb",
-            "arduino_connected": arduino_connected,
-            "status": "ok"
-        })
-    else:
-        recent = get_recent_readings(limit=1)
-        if recent:
-            return jsonify({
-                "reading": recent[0],
-                "method": "db",
-                "arduino_connected": arduino_connected,
-                "status": "historical"
-            })
-        return jsonify({
-            "error": "In attesa di dati dal sensore...",
-            "arduino_connected": arduino_connected,
-            "status": "waiting"
-        })
-
-@app.route('/history')
-def get_history():
-    limit = request.args.get('limit', default=50, type=int)
-    readings = get_recent_readings(limit)
+    """Restituisce l'ultima lettura del sensore"""
     return jsonify({
-        "readings": readings,
-        "arduino_connected": arduino_connected,
-        "count": len(readings)
+        "reading": {
+            "temperature": ultima_temperatura,
+            "humidity": ultima_umidita,
+            "timestamp": datetime.now().isoformat()
+        },
+        "method": "latest"
     })
+
+@app.route('/update', methods=['GET'])
+def update_sensor():
+    """Endpoint per ricevere dati dal sensore fisico"""
+    global ultima_temperatura, ultima_umidita
+
+    # Legge i parametri GET
+    temp = request.args.get('temp')
+    hum = request.args.get('hum')
+
+    if temp is None or hum is None:
+        return "Parametri mancanti", 400
+
+    try:
+        # Salva valori globali
+        ultima_temperatura = float(temp)
+        ultima_umidita = float(hum)
+
+        # Aggiungi alla cronologia
+        reading = {
+            "temperature": ultima_temperatura,
+            "humidity": ultima_umidita,
+            "timestamp": datetime.now().isoformat()
+        }
+        sensor_readings.append(reading)
+
+        # Mantieni solo le ultime 1000 letture
+        if len(sensor_readings) > 1000:
+            sensor_readings.pop(0)
+
+        # Stampa sul terminale
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] Temperatura: {ultima_temperatura} °C | Umidità: {ultima_umidita} %")
+
+        return "Dati ricevuti", 200
+    except ValueError:
+        return "Valori non validi", 400
+
+@app.route('/history', methods=['GET'])
+def get_history():
+    """Restituisce i dati storici per un certo periodo"""
+    try:
+        hours = int(request.args.get('hours', 24))
+        
+        # Calcola la data limite
+        cutoff_time = datetime.now() - timedelta(hours=hours)
+        
+        # Filtra le letture recenti
+        recent_readings = [
+            reading for reading in sensor_readings
+            if datetime.fromisoformat(reading['timestamp']) >= cutoff_time
+        ]
+        
+        # Se non ci sono letture reali, genera dati di esempio
+        if not recent_readings:
+            recent_readings = generate_mock_data(hours)
+        
+        return jsonify({
+            "readings": recent_readings,
+            "count": len(recent_readings)
+        })
+    except Exception as e:
+        print(f"Errore in /history: {e}")
+        return jsonify({"readings": [], "count": 0})
+
+def generate_mock_data(hours=24):
+    """Genera dati di esempio per il grafico"""
+    data = []
+    now = datetime.now()
+    
+    for i in range(hours * 2):  # Un punto ogni 30 minuti
+        timestamp = now - timedelta(hours=hours) + timedelta(minutes=30 * i)
+        
+        # Variazioni realistiche di temperatura e umidità
+        base_temp = 22.0 + random.uniform(-1, 1)
+        base_hum = 65.0 + random.uniform(-5, 5)
+        
+        # Simula variazioni giornaliere
+        hour = timestamp.hour
+        if 14 <= hour <= 16:  # Pomeriggio più caldo
+            temp_variation = random.uniform(2, 4)
+            hum_variation = random.uniform(-10, -5)
+        elif 2 <= hour <= 4:  # Notte più fresca
+            temp_variation = random.uniform(-3, -1)
+            hum_variation = random.uniform(5, 10)
+        else:
+            temp_variation = random.uniform(-1, 1)
+            hum_variation = random.uniform(-2, 2)
+        
+        data.append({
+            "temperature": round(base_temp + temp_variation, 1),
+            "humidity": round(base_hum + hum_variation, 1),
+            "timestamp": timestamp.isoformat()
+        })
+    
+    return data
 
 @app.route('/stream')
 def stream():
+    """Server-Sent Events per aggiornamenti in tempo reale"""
+    def event_stream():
+        last_id = 0
+        while True:
+            # Invia dati ogni 30 secondi
+            time.sleep(30)
+            
+            # Crea evento SSE
+            data = {
+                "id": last_id,
+                "type": "reading",
+                "payload": {
+                    "temperature": ultima_temperatura,
+                    "humidity": ultima_umidita,
+                    "timestamp": datetime.now().isoformat(),
+                    "source": "sse"
+                }
+            }
+            
+            yield f"data: {json.dumps(data)}\n\n"
+            last_id += 1
+    
     return Response(
         event_stream(),
         mimetype="text/event-stream",
         headers={
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
-            'X-Accel-Buffering': 'no'
         }
     )
 
-@app.route('/status')
-def system_status():
-    status = {
-        "arduino_connected": arduino_connected,
-        "serial_port": SERIAL_PORT if arduino_connected else None,
-        "latest_data": latest_data,
-        "queue_size": data_queue.qsize(),
-        "timestamp": datetime.now().isoformat(),
-        "status": "connected" if arduino_connected else "disconnected"
-    }
-    return jsonify(status)
-
 @app.route('/')
 def index():
+    """Pagina principale dell'API"""
     return jsonify({
-        "name": "Centrale Meteorologica Backend",
+        "name": "Centrale Meteorologica API",
         "version": "1.0",
         "endpoints": {
-            "/sensor": "Dati correnti sensore",
-            "/history": "Dati storici (?limit=N)",
-            "/stream": "Stream in tempo reale (SSE)",
-            "/status": "Stato sistema"
+            "/sensor": "Ultima lettura",
+            "/update": "Ricevi nuovi dati (GET con param temp, hum)",
+            "/history": "Dati storici (param hours)",
+            "/stream": "Streaming dati in tempo reale (SSE)"
         },
-        "arduino_connected": arduino_connected
+        "status": {
+            "temperature": ultima_temperatura,
+            "humidity": ultima_umidita,
+            "last_update": datetime.now().isoformat() if sensor_readings else None,
+            "readings_count": len(sensor_readings)
+        }
+    })
+
+@app.route('/status', methods=['GET'])
+def status():
+    """Compatibilità con vecchio endpoint"""
+    return jsonify({
+        "temperatura": ultima_temperatura,
+        "umidita": ultima_umidita
     })
 
 if __name__ == '__main__':
-    # Inizializzazione
-    print("="*60)
-    print("BACKEND CENTRALE METEOROLOGICA")
-    print("="*60)
+    print("=" * 50)
+    print("Centrale Meteorologica API")
+    print("=" * 50)
+    print(f"Server in esecuzione su: http://localhost:8888")
+    print(f"Endpoint disponibili:")
+    print(f"  GET /                - Informazioni API")
+    print(f"  GET /sensor          - Ultima lettura")
+    print(f"  GET /update?temp=X&hum=Y - Invia nuovi dati")
+    print(f"  GET /history?hours=N - Dati storici")
+    print(f"  GET /stream          - Streaming live (SSE)")
+    print(f"  GET /status          - Status compatibilità")
+    print("=" * 50)
     
-    init_db()
-    
-    recent = get_recent_readings(limit=1)
-    if recent:
-        latest_data.update(recent[0])
-        print(f"Caricati dati storici: {latest_data}")
-    
-    print("\nRicerca Arduino...")
-    if try_connect_arduino():
-        serial_thread = threading.Thread(target=read_serial, daemon=True)
-        serial_thread.start()
-        print("✓ Lettura seriale attiva")
-    else:
-        print("⚠  Arduino non trovato - Modalità solo storico")
-    
-    print("\n" + "="*60)
-    print("SERVER IN ASCOLTO SU http://localhost:5005")
-    print(f"Arduino: {'✓ CONNESSO' if arduino_connected else '✗ NON CONNESSO'}")
-    print(f"Porta: {SERIAL_PORT or 'N/A'}")
-    print("="*60 + "\n")
-    
-    try:
-        app.run(host='0.0.0.0', port=5005, debug=False, threaded=True)
-    except KeyboardInterrupt:
-        print("\nChiusura in corso...")
-        if ser and ser.is_open:
-            ser.close()
+    app.run(host='0.0.0.0', port=8888, debug=True)
