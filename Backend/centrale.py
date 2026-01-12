@@ -3,19 +3,24 @@ from flask_cors import CORS
 import json
 import time
 from datetime import datetime, timedelta
-import random
 
 app = Flask(__name__)
 CORS(app)  # Permette richieste dal frontend
 
 # Database in memoria per i dati storici
 sensor_readings = []
-ultima_temperatura = 22.5  # Valore iniziale
-ultima_umidita = 65.0  # Valore iniziale
+ultima_temperatura = None  # Nessun valore iniziale
+ultima_umidita = None
 
 @app.route('/sensor', methods=['GET'])
 def get_sensor_data():
     """Restituisce l'ultima lettura del sensore"""
+    if ultima_temperatura is None or ultima_umidita is None:
+        return jsonify({
+            "error": "Nessun dato disponibile",
+            "method": "none"
+        }), 404
+    
     return jsonify({
         "reading": {
             "temperature": ultima_temperatura,
@@ -76,9 +81,9 @@ def get_history():
             if datetime.fromisoformat(reading['timestamp']) >= cutoff_time
         ]
         
-        # Se non ci sono letture reali, genera dati di esempio
+        # Se non ci sono letture, restituisci array vuoto
         if not recent_readings:
-            recent_readings = generate_mock_data(hours)
+            print(f"Nessun dato disponibile per le ultime {hours} ore")
         
         return jsonify({
             "readings": recent_readings,
@@ -88,61 +93,31 @@ def get_history():
         print(f"Errore in /history: {e}")
         return jsonify({"readings": [], "count": 0})
 
-def generate_mock_data(hours=24):
-    """Genera dati di esempio per il grafico"""
-    data = []
-    now = datetime.now()
-    
-    for i in range(hours * 2):  # Un punto ogni 30 minuti
-        timestamp = now - timedelta(hours=hours) + timedelta(minutes=30 * i)
-        
-        # Variazioni realistiche di temperatura e umidità
-        base_temp = 22.0 + random.uniform(-1, 1)
-        base_hum = 65.0 + random.uniform(-5, 5)
-        
-        # Simula variazioni giornaliere
-        hour = timestamp.hour
-        if 14 <= hour <= 16:  # Pomeriggio più caldo
-            temp_variation = random.uniform(2, 4)
-            hum_variation = random.uniform(-10, -5)
-        elif 2 <= hour <= 4:  # Notte più fresca
-            temp_variation = random.uniform(-3, -1)
-            hum_variation = random.uniform(5, 10)
-        else:
-            temp_variation = random.uniform(-1, 1)
-            hum_variation = random.uniform(-2, 2)
-        
-        data.append({
-            "temperature": round(base_temp + temp_variation, 1),
-            "humidity": round(base_hum + hum_variation, 1),
-            "timestamp": timestamp.isoformat()
-        })
-    
-    return data
-
 @app.route('/stream')
 def stream():
     """Server-Sent Events per aggiornamenti in tempo reale"""
     def event_stream():
         last_id = 0
         while True:
-            # Invia dati ogni 30 secondi
-            time.sleep(30)
-            
-            # Crea evento SSE
-            data = {
-                "id": last_id,
-                "type": "reading",
-                "payload": {
-                    "temperature": ultima_temperatura,
-                    "humidity": ultima_umidita,
-                    "timestamp": datetime.now().isoformat(),
-                    "source": "sse"
+            # Invia dati solo se disponibili
+            if ultima_temperatura is not None and ultima_umidita is not None:
+                # Crea evento SSE
+                data = {
+                    "id": last_id,
+                    "type": "reading",
+                    "payload": {
+                        "temperature": ultima_temperatura,
+                        "humidity": ultima_umidita,
+                        "timestamp": datetime.now().isoformat(),
+                        "source": "sse"
+                    }
                 }
-            }
+                
+                yield f"data: {json.dumps(data)}\n\n"
+                last_id += 1
             
-            yield f"data: {json.dumps(data)}\n\n"
-            last_id += 1
+            # Aspetta 30 secondi prima del prossimo invio
+            time.sleep(30)
     
     return Response(
         event_stream(),
@@ -166,16 +141,22 @@ def index():
             "/stream": "Streaming dati in tempo reale (SSE)"
         },
         "status": {
+            "has_data": ultima_temperatura is not None and ultima_umidita is not None,
             "temperature": ultima_temperatura,
             "humidity": ultima_umidita,
-            "last_update": datetime.now().isoformat() if sensor_readings else None,
-            "readings_count": len(sensor_readings)
+            "last_update": sensor_readings[-1]['timestamp'] if sensor_readings else None,
+            "total_readings": len(sensor_readings)
         }
     })
 
 @app.route('/status', methods=['GET'])
 def status():
     """Compatibilità con vecchio endpoint"""
+    if ultima_temperatura is None or ultima_umidita is None:
+        return jsonify({
+            "error": "Nessun dato ricevuto ancora"
+        }), 404
+    
     return jsonify({
         "temperatura": ultima_temperatura,
         "umidita": ultima_umidita
@@ -185,14 +166,16 @@ if __name__ == '__main__':
     print("=" * 50)
     print("Centrale Meteorologica API")
     print("=" * 50)
-    print(f"Server in esecuzione su: http://localhost:8888")
-    print(f"Endpoint disponibili:")
-    print(f"  GET /                - Informazioni API")
-    print(f"  GET /sensor          - Ultima lettura")
-    print(f"  GET /update?temp=X&hum=Y - Invia nuovi dati")
-    print(f"  GET /history?hours=N - Dati storici")
-    print(f"  GET /stream          - Streaming live (SSE)")
-    print(f"  GET /status          - Status compatibilità")
+    print("Server in esecuzione su: http://localhost:8888")
+    print("Endpoint disponibili:")
+    print("  GET /                - Informazioni API")
+    print("  GET /sensor          - Ultima lettura")
+    print("  GET /update?temp=X&hum=Y - Invia nuovi dati")
+    print("  GET /history?hours=N - Dati storici")
+    print("  GET /stream          - Streaming live (SSE)")
+    print("  GET /status          - Status compatibilità")
+    print("=" * 50)
+    print("NOTA: Nessun dato mock generato. Aspettando dati dal sensore...")
     print("=" * 50)
     
     app.run(host='0.0.0.0', port=8888, debug=True)
