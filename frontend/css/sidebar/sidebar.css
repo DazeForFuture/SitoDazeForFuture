@@ -1,37 +1,31 @@
-/* Stili migliorati per la sidebar mobile - FIXED FOR SAFARI */
-.sidebar {
+/* TOPBAR MOBILE - NASCOSTA DI DEFAULT */
+.mobile-topbar {
   position: fixed;
   top: 0;
-  left: -100%;
-  width: 85%;
-  max-width: 320px;
-  height: 100vh;
-  height: -webkit-fill-available; /* Per Safari iOS */
-  background: var(--sidebar-bg, rgba(255, 255, 255, 0.98));
+  left: 0;
+  width: 100%;
+  background: var(--topbar-bg, rgba(255, 255, 255, 0.98));
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-right: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.1));
-  box-shadow: var(--sidebar-shadow, 0 0 40px rgba(0, 0, 0, 0.15));
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--topbar-shadow, 0 2px 30px rgba(0, 0, 0, 0.1));
   z-index: 1200;
-  padding: 1rem 0.75rem;
-  overflow-y: auto;
-  display: flex;
+  display: none;
   flex-direction: column;
-  -webkit-overflow-scrolling: touch;
-  /* Fix per Safari - evita rendering problematico */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 
-/* Quando la sidebar è attiva - USIAMO TRANSFORM INVECE DI LEFT */
-.sidebar.active {
-  transform: translateX(100%);
-  left: 0;
+.mobile-topbar.active {
+  transform: translateY(0);
+  opacity: 1;
 }
 
-/* Overlay per chiudere la sidebar toccando fuori */
-.sidebar-overlay {
+/* Overlay per chiudere la topbar toccando fuori */
+.mobile-topbar-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -45,179 +39,162 @@
   transition: all 0.3s ease;
 }
 
-.sidebar-overlay.active {
+.mobile-topbar-overlay.active {
   opacity: 1;
   visibility: visible;
 }
 
-.sidebar h2 {
-  font-size: 1.35rem;
-  margin: 0.5rem 0 1.5rem;
-  font-weight: 700;
-  color: var(--text);
-  text-align: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--sidebar-border);
-  position: relative;
+.topbar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--hover-bg, rgba(0, 0, 0, 0.05));
 }
 
-.sidebar-close {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.topbar-logo-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.topbar-logo:hover .topbar-logo-img {
+  transform: scale(1.05);
+}
+
+.topbar-close {
   background: var(--hover-bg, rgba(0, 0, 0, 0.05));
   border: none;
-  font-size: 1.75rem;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
   -webkit-tap-highlight-color: transparent;
-  /* Fix per Safari */
   -webkit-appearance: none;
   appearance: none;
 }
 
-.sidebar-close:hover,
-.sidebar-close:focus {
-  color: var(--text);
-  background: var(--hover-bg, rgba(0, 0, 0, 0.1));
+.topbar-close:hover,
+.topbar-close:focus {
+  background: var(--accent);
+  color: white;
+  transform: rotate(90deg);
   outline: none;
 }
 
-.sidebar-close:active {
-  transform: scale(0.95);
+.topbar-close:active {
+  transform: scale(0.95) rotate(90deg);
 }
 
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.topbar-menu {
+  padding: 0.5rem 0;
+  max-height: 70vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   flex: 1;
 }
 
-.sidebar-menu li {
-  margin-bottom: 0.4rem;
-}
-
-.sidebar-menu a {
+.topbar-menu a {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  padding: 0.85rem 0.9rem;
+  gap: 12px;
+  padding: 1rem 1.5rem;
   text-decoration: none;
-  font-weight: 600;
   color: var(--text);
-  border-radius: 10px;
-  transition: all 0.25s ease;
-  font-size: 0.95rem;
-  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
   -webkit-tap-highlight-color: transparent;
   position: relative;
   overflow: hidden;
-  /* Fix per Safari */
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
 }
 
-.sidebar-menu a span {
-  font-size: 1.15rem;
-  width: 22px;
+.topbar-menu a i {
+  width: 20px;
   text-align: center;
+  font-size: 1.1rem;
   transition: transform 0.2s ease;
 }
 
-.sidebar-menu a:hover span,
-.sidebar-menu a:focus span {
+.topbar-menu a:hover i,
+.topbar-menu a:focus i {
   transform: scale(1.1);
 }
 
-.sidebar-menu a:hover,
-.sidebar-menu a:focus,
-.sidebar-menu a.active {
+.topbar-menu a:hover,
+.topbar-menu a:focus,
+.topbar-menu a.active {
   background: var(--hover-bg, rgba(0, 0, 0, 0.05));
-  transform: translateX(5px);
+  border-left-color: var(--accent);
+  padding-left: 2rem;
   outline: none;
 }
 
-.sidebar-menu a.active {
+.topbar-menu a.active {
   background: rgba(0, 122, 255, 0.12);
-  color: var(--accent, #007AFF);
-  border-left: 3px solid var(--accent, #007AFF);
+  color: var(--accent);
+  font-weight: 700;
 }
 
-/* Stili per i dropdown nella sidebar - FIXED FOR SAFARI */
-.sidebar-dropdown {
-  margin-bottom: 0.4rem;
+/* Dropdown nella topbar */
+.topbar-dropdown {
+  border-left: 3px solid transparent;
 }
 
-.sidebar-dropdown-toggle {
+.topbar-dropdown-toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.85rem 0.9rem;
+  padding: 1rem 1.5rem;
   text-decoration: none;
-  font-weight: 600;
   color: var(--text);
-  border-radius: 10px;
-  transition: all 0.25s ease;
-  font-size: 0.95rem;
-  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
   background: none;
   border: none;
   cursor: pointer;
-  gap: 0.85rem;
+  transition: all 0.3s ease;
+  gap: 12px;
   -webkit-tap-highlight-color: transparent;
-  /* Fix per Safari */
   -webkit-appearance: none;
   appearance: none;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
 }
 
-.sidebar-dropdown-toggle:hover,
-.sidebar-dropdown-toggle:focus {
-  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
-  transform: translateX(5px);
-  outline: none;
-}
-
-.sidebar-dropdown-toggle.active {
-  background: rgba(0, 122, 255, 0.12);
-  color: var(--accent, #007AFF);
-  border-left: 3px solid var(--accent, #007AFF);
-}
-
-.sidebar-dropdown-toggle .dropdown-icon {
-  font-size: 1.15rem;
-  width: 22px;
+.topbar-dropdown-toggle i {
+  width: 20px;
   text-align: center;
+  font-size: 1.1rem;
   transition: transform 0.2s ease;
 }
 
-.sidebar-dropdown-toggle:hover .dropdown-icon,
-.sidebar-dropdown-toggle:focus .dropdown-icon {
+.topbar-dropdown-toggle:hover i,
+.topbar-dropdown-toggle:focus i {
   transform: scale(1.1);
 }
 
-.sidebar-dropdown-toggle .dropdown-text {
-  flex: 1;
-  text-align: left;
-  font-size: 0.95rem;
-  font-weight: 600;
-  font-family: inherit;
-}
-
-.sidebar-dropdown-toggle .dropdown-arrow {
-  font-size: 0.85rem;
-  width: 16px;
+.topbar-dropdown-toggle .arrow {
+  font-size: 0.8rem;
   transition: transform 0.3s ease;
   color: var(--muted);
   display: flex;
@@ -225,315 +202,327 @@
   justify-content: center;
 }
 
-.sidebar-dropdown-toggle.active .dropdown-arrow {
+.topbar-dropdown.active .topbar-dropdown-toggle .arrow {
   transform: rotate(180deg);
-  color: var(--accent, #007AFF);
+  color: var(--accent);
 }
 
-/* Menu dropdown */
-.sidebar-dropdown-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--dropdown-bg, rgba(0, 0, 0, 0.02));
-  border-radius: 8px;
-  margin-top: 0.2rem;
-  border: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.05));
-  /* Fix per Safari */
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-}
-
-.sidebar-dropdown-menu.active {
-  max-height: 500px;
-  padding: 0.4rem 0;
-}
-
-.sidebar-dropdown-menu li {
-  margin: 0;
-}
-
-.sidebar-dropdown-menu a {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.75rem 0.9rem 0.75rem 2.3rem;
-  text-decoration: none;
-  font-weight: 600;
-  color: var(--text);
-  border-radius: 0;
-  transition: all 0.25s ease;
-  font-size: 0.9rem;
-  font-family: inherit;
-  border-left: 2px solid transparent;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.sidebar-dropdown-menu a span {
-  font-size: 1.1rem;
-  width: 20px;
-  text-align: center;
-}
-
-.sidebar-dropdown-menu a:hover,
-.sidebar-dropdown-menu a:focus {
+.topbar-dropdown-toggle:hover,
+.topbar-dropdown-toggle:focus {
   background: var(--hover-bg, rgba(0, 0, 0, 0.05));
-  color: var(--accent, #007AFF);
-  border-left-color: var(--accent, #007AFF);
-  transform: translateX(5px);
+  padding-left: 2rem;
+  border-left-color: var(--accent);
   outline: none;
 }
 
-.sidebar-dropdown-menu a.active {
-  background: rgba(0, 122, 255, 0.08);
-  color: var(--accent, #007AFF);
-  border-left: 3px solid var(--accent, #007AFF);
-  font-weight: 600;
+.topbar-dropdown-toggle.active {
+  background: rgba(0, 122, 255, 0.12);
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 700;
 }
 
-/* Stili migliorati per la sezione utente mobile */
-.mobile-user-info {
-  background: var(--card-bg, rgba(255, 255, 255, 0.7));
-  border-radius: 14px;
-  padding: 1.25rem;
-  margin-top: 1.5rem;
-  border: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.1));
-  box-shadow: var(--card-shadow, 0 4px 12px rgba(0, 0, 0, 0.05));
-  position: relative;
+.topbar-dropdown-menu {
+  max-height: 0;
   overflow: hidden;
-  /* Fix per Safari */
+  background: var(--dropdown-bg, rgba(0, 0, 0, 0.03));
+  transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 
-.mobile-user-info::before {
+.topbar-dropdown.active .topbar-dropdown-menu {
+  max-height: 300px;
+}
+
+.topbar-dropdown-menu a {
+  padding-left: 3rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+  border-left: 2px solid transparent;
+}
+
+.topbar-dropdown-menu a:hover,
+.topbar-dropdown-menu a:focus {
+  color: var(--text);
+  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+  border-left-color: var(--accent);
+}
+
+.topbar-dropdown-menu a.active {
+  background: rgba(0, 122, 255, 0.08);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+  font-weight: 600;
+}
+
+/* Sezione utente nella topbar */
+.topbar-user-section {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--hover-bg);
+  display: none;
+  background: var(--card-bg, rgba(255, 255, 255, 0.7));
+  position: relative;
+  overflow: hidden;
+}
+
+.topbar-user-section::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent, #007AFF), #00c6ff);
+  background: linear-gradient(90deg, var(--accent), #00c6ff);
 }
 
-.mobile-user-header {
+.topbar-user-info {
   display: flex;
   align-items: center;
-  margin-bottom: 0.85rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.1));
+  gap: 12px;
+  margin-bottom: 1rem;
 }
 
-.mobile-user-header span {
-  font-weight: 700;
-  color: var(--text);
-  font-size: 0.95rem;
-}
-
-.mobile-user-display {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.85rem;
-}
-
-.mobile-user-name {
-  font-weight: 600;
-  color: var(--text);
-  font-size: 1rem;
-}
-
-.mobile-user-badge {
-  padding: 0.2rem 0.65rem;
-  border-radius: 16px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.mobile-user-badge.badge-admin {
-  background: var(--admin-badge, linear-gradient(135deg, #FF2D95 0%, #C50067 100%));
-  color: white;
-}
-
-.mobile-user-badge.badge-user {
-  background: var(--user-badge, linear-gradient(135deg, #007AFF 0%, #0040FF 100%));
-  color: white;
-}
-
-/* Avatar migliorato */
-.user-avatar {
-  width: 44px;
-  height: 44px;
+.topbar-user-avatar {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent, #007AFF), #00c6ff);
+  background: linear-gradient(135deg, var(--accent), #00c6ff);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.25);
   transition: transform 0.3s ease;
 }
 
-.user-avatar:active {
+.topbar-user-avatar:active {
   transform: scale(0.95);
 }
 
-/* Bottone logout migliorato */
-.mobile-user-info .logout-btn {
-  width: 100%;
-  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
-  border: 1px solid var(--sidebar-border, rgba(0, 0, 0, 0.1));
+.topbar-user-details {
+  flex: 1;
+}
+
+.topbar-user-name {
+  font-weight: 600;
+  font-size: 0.95rem;
   color: var(--text);
-  padding: 0.75rem 1rem;
+}
+
+.topbar-user-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.topbar-user-badge.badge-admin {
+  background: var(--admin-badge, linear-gradient(135deg, #FF2D95 0%, #C50067 100%));
+  color: white;
+}
+
+.topbar-user-badge.badge-user {
+  background: var(--user-badge, linear-gradient(135deg, #007AFF 0%, #0040FF 100%));
+  color: white;
+}
+
+.topbar-logout-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  color: #ff3b30;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 8px;
+  transition: all 0.3s ease;
   font-size: 0.85rem;
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
-  /* Fix per Safari */
   -webkit-appearance: none;
   appearance: none;
 }
 
-.mobile-user-info .logout-btn:hover,
-.mobile-user-info .logout-btn:focus {
+.topbar-logout-btn:hover,
+.topbar-logout-btn:focus {
   background: rgba(255, 59, 48, 0.1);
-  color: #ff3b30;
-  border-color: rgba(255, 59, 48, 0.3);
   transform: translateY(-2px);
   outline: none;
 }
 
-.mobile-user-info .logout-btn:active {
+.topbar-logout-btn:active {
   transform: translateY(0);
 }
 
-/* Media query per mobile - FIXED FOR SAFARI */
+/* BOTTONE HAMBURGER MOBILE */
+.mobile-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--header-text);
+  padding: 0.5rem;
+  z-index: 1001;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mobile-hamburger:hover,
+.mobile-hamburger:focus {
+  color: var(--accent);
+  outline: none;
+}
+
+/* Media query per mobile */
 @media (max-width: 768px) {
-  .sidebar {
-    width: 85%;
-    max-width: 320px;
-    padding: 1rem 0.75rem;
-    /* Usiamo transform per l'animazione invece di left */
-    transform: translateX(-100%);
-    left: 0;
+  .mobile-topbar {
+    display: flex;
+    height: 100vh;
+    height: -webkit-fill-available;
   }
   
-  .sidebar.active {
-    transform: translateX(0);
+  .mobile-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
-  .sidebar-menu a {
-    padding: 0.75rem 0.8rem;
+  .topbar-menu a {
+    padding: 0.9rem 1.25rem;
+  }
+  
+  .topbar-dropdown-toggle {
+    padding: 0.9rem 1.25rem;
+  }
+  
+  .topbar-user-section {
+    padding: 1rem;
+  }
+  
+  .topbar-user-avatar {
+    width: 36px;
+    height: 36px;
     font-size: 0.9rem;
-    gap: 0.75rem;
   }
   
-  .sidebar-dropdown-toggle {
-    padding: 0.75rem 0.8rem;
-    font-size: 0.9rem;
-    gap: 0.75rem;
-  }
-  
-  .sidebar-dropdown-toggle .dropdown-text {
+  .topbar-user-name {
     font-size: 0.9rem;
   }
   
-  .sidebar-dropdown-toggle .dropdown-icon {
-    font-size: 1.05rem;
-  }
-  
-  .sidebar-dropdown-menu a {
-    padding: 0.65rem 0.8rem 0.65rem 2rem;
-    font-size: 0.85rem;
-    gap: 0.75rem;
-  }
-  
-  .sidebar-dropdown-menu a span {
-    font-size: 1rem;
-  }
-  
-  .mobile-user-info {
-    padding: 1.1rem;
-    margin-top: 1.25rem;
-  }
-  
-  .user-avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-  }
-  
-  .mobile-user-name {
-    font-size: 0.95rem;
-  }
-  
-  .mobile-user-badge {
+  .topbar-user-badge {
     font-size: 0.65rem;
-    padding: 0.18rem 0.6rem;
+    padding: 0.18rem 0.5rem;
   }
   
   /* Alternative al backdrop-filter per browser che non lo supportano bene */
   @supports not (backdrop-filter: blur(20px)) {
-    .sidebar {
-      background: var(--sidebar-bg, rgba(255, 255, 255, 0.95));
+    .mobile-topbar {
+      background: var(--topbar-bg-fallback, rgba(255, 255, 255, 0.95));
     }
   }
   
   /* Supporto per dispositivi con notch */
   @supports (padding: max(0px)) {
-    .sidebar {
-      padding-left: max(0.75rem, env(safe-area-inset-left));
-      padding-right: max(0.75rem, env(safe-area-inset-right));
-      padding-top: max(1rem, env(safe-area-inset-top));
+    .mobile-topbar {
+      padding-left: max(0px, env(safe-area-inset-left));
+      padding-right: max(0px, env(safe-area-inset-right));
+      padding-top: max(0px, env(safe-area-inset-top));
       height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     }
+    
+    .topbar-header {
+      padding-left: max(1rem, env(safe-area-inset-left));
+      padding-right: max(1rem, env(safe-area-inset-right));
+      padding-top: max(0.8rem, env(safe-area-inset-top));
+    }
+  }
+}
+
+/* Per schermi molto piccoli */
+@media (max-width: 480px) {
+  .topbar-menu a {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .topbar-dropdown-toggle {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .topbar-dropdown-menu a {
+    padding-left: 2.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .topbar-logo {
+    font-size: 1rem;
+  }
+  
+  .topbar-logo-img {
+    width: 28px;
+    height: 28px;
   }
 }
 
 /* Fallback per browser che non supportano backdrop-filter */
 @supports not (backdrop-filter: blur(20px)) {
-  .sidebar {
-    background: var(--sidebar-bg-fallback, rgba(255, 255, 255, 0.95));
+  .mobile-topbar {
+    background: var(--topbar-bg-fallback, rgba(255, 255, 255, 0.95));
   }
 }
 
 /* Miglioramenti per l'accessibilità */
 @media (prefers-reduced-motion: reduce) {
-  .sidebar,
-  .sidebar-menu a,
-  .sidebar-dropdown-toggle,
-  .sidebar-dropdown-menu,
-  .sidebar-close,
-  .logout-btn {
+  .mobile-topbar,
+  .mobile-topbar-overlay,
+  .topbar-menu a,
+  .topbar-dropdown-toggle,
+  .topbar-dropdown-menu,
+  .topbar-close,
+  .topbar-logout-btn,
+  .mobile-hamburger {
     transition-duration: 0.1s;
   }
 }
 
 /* Supporto per modalità scura */
 @media (prefers-color-scheme: dark) {
-  .sidebar {
-    --sidebar-bg: rgba(30, 30, 30, 0.95);
-    --sidebar-border: rgba(255, 255, 255, 0.1);
-    --text: rgba(255, 255, 255, 0.9);
-    --muted: rgba(255, 255, 255, 0.6);
-    --hover-bg: rgba(255, 255, 255, 0.08);
-    --card-bg: rgba(40, 40, 40, 0.7);
-    --dropdown-bg: rgba(255, 255, 255, 0.05);
-    --sidebar-bg-fallback: rgba(30, 30, 30, 0.98);
+  .mobile-topbar {
+    --topbar-bg: rgba(30, 30, 30, 0.98);
+    --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
+    --topbar-bg-fallback: rgba(30, 30, 30, 0.98);
   }
+  
+  .topbar-dropdown-menu {
+    --dropdown-bg: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Tema scuro esplicito */
+:root[data-theme="dark"] .mobile-topbar {
+  --topbar-bg: rgba(30, 30, 30, 0.98);
+  --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
+  --topbar-bg-fallback: rgba(30, 30, 30, 0.98);
+}
+
+/* Tema chiaro esplicito */
+:root[data-theme="light"] .mobile-topbar {
+  --topbar-bg: rgba(255, 255, 255, 0.98);
+  --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+  --topbar-bg-fallback: rgba(255, 255, 255, 0.98);
 }
