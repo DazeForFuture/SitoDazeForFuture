@@ -161,6 +161,38 @@ def status():
         "temperatura": ultima_temperatura,
         "umidita": ultima_umidita
     })
+@app.route('/export', methods=['GET'])
+def export_data():
+    """Esporta i dati storici in un file TXT separato da virgole"""
+    try:
+        # Prepara il contenuto del file
+        lines = ["timestamp,temperatura,umidita"]
+        
+        for reading in sensor_readings:
+            timestamp = reading['timestamp']
+            temperatura = reading['temperature']
+            umidita = reading['humidity']
+            lines.append(f"{timestamp},{temperatura},{umidita}")
+        
+        # Crea il contenuto del file
+        content = "\n".join(lines)
+        
+        # Genera nome file con data e ora
+        filename = f"centrale_dati_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        
+        # Restituisci il file come download
+        return Response(
+            content,
+            mimetype="text/plain",
+            headers={
+                "Content-Disposition": f"attachment; filename={filename}",
+                "Content-Type": "text/plain; charset=utf-8"
+            }
+        )
+    except Exception as e:
+        print(f"Errore in /export: {e}")
+        return jsonify({"error": "Errore durante l'esportazione"}), 500 
+
 
 if __name__ == '__main__':
     print("=" * 50)
