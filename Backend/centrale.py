@@ -161,37 +161,80 @@ def status():
         "temperatura": ultima_temperatura,
         "umidita": ultima_umidita
     })
-@app.route('/export', methods=['GET'])
-def export_data():
-    """Esporta i dati storici in un file TXT separato da virgole"""
+@app.route('/visualizza', methods=['GET'])
+def visualizza_dati():
+    """Visualizza i dati storici in formato testo nel browser"""
     try:
         # Prepara il contenuto del file
-        lines = ["timestamp,temperatura,umidita"]
+        lines = ["=== DATI CENTRALE METEOROLOGICA ===\n"]
+        lines.append(f"Totale letture: {len(sensor_readings)}")
+        lines.append(f"Ultimo aggiornamento: {sensor_readings[-1]['timestamp'] if sensor_readings else 'Nessun dato'}\n")
+        lines.append("-" * 50)
+        lines.append(f"{'TIMESTAMP':<25} {'TEMPERATURA':<12} {'UMIDITA':<10}")
+        lines.append("-" * 50)
         
         for reading in sensor_readings:
             timestamp = reading['timestamp']
-            temperatura = reading['temperature']
-            umidita = reading['humidity']
-            lines.append(f"{timestamp},{temperatura},{umidita}")
+            temperatura = f"{reading['temperature']} °C"
+            umidita = f"{reading['humidity']} %"
+            lines.append(f"{timestamp:<25} {temperatura:<12} {umidita:<10}")
+        
+        lines.append("-" * 50)
+        lines.append(f"Fine report - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         
         # Crea il contenuto del file
         content = "\n".join(lines)
         
-        # Genera nome file con data e ora
-        filename = f"centrale_dati_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-        
-        # Restituisci il file come download
+        # Restituisci come testo semplice nel browser
         return Response(
             content,
             mimetype="text/plain",
             headers={
-                "Content-Disposition": f"attachment; filename={filename}",
                 "Content-Type": "text/plain; charset=utf-8"
             }
         )
     except Exception as e:
-        print(f"Errore in /export: {e}")
-        return jsonify({"error": "Errore durante l'esportazione"}), 500 
+        print(f"Errore in /visualizza: {e}")
+        return f"Errore durante la visualizzazione dei dati: {str(e)}", 500
+@app.route('/salva', methods=['GET'])
+def salva_dati():
+    """Salva i dati storici in un file centrale.dat e li visualizza"""
+    try:
+        # Prepara il contenuto del file
+        lines = ["=== DATI CENTRALE METEOROLOGICA ===\n"]
+        lines.append(f"Totale letture: {len(sensor_readings)}")
+        lines.append(f"Ultimo aggiornamento: {sensor_readings[-1]['timestamp'] if sensor_readings else 'Nessun dato'}\n")
+        lines.append("-" * 50)
+        lines.append(f"{'TIMESTAMP':<25} {'TEMPERATURA':<12} {'UMIDITA':<10}")
+        lines.append("-" * 50)
+        
+        for reading in sensor_readings:
+            timestamp = reading['timestamp']
+            temperatura = f"{reading['temperature']} °C"
+            umidita = f"{reading['humidity']} %"
+            lines.append(f"{timestamp:<25} {temperatura:<12} {umidita:<10}")
+        
+        lines.append("-" * 50)
+        lines.append(f"Fine report - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+        
+        # Crea il contenuto del file
+        content = "\n".join(lines)
+        
+        # Salva il file centrale.dat
+        with open('centrale.dat', 'w', encoding='utf-8') as f:
+            f.write(content)
+        
+        # Restituisci conferma e visualizzazione
+        return Response(
+            f"File centrale.dat salvato con successo!\n\n{content}",
+            mimetype="text/plain",
+            headers={
+                "Content-Type": "text/plain; charset=utf-8"
+            }
+        )
+    except Exception as e:
+        print(f"Errore in /salva: {e}")
+        return f"Errore durante il salvataggio del file: {str(e)}", 500
 
 
 if __name__ == '__main__':
