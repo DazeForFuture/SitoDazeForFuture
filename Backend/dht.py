@@ -17,4 +17,4 @@ if __name__ == '__main__':
     print("=== MONITORAGGIO TRAFFICO ARDUINO ===")
     print("In ascolto su http://0.0.0.0:8888 ...")
     print("Premi CTRL+C per fermare.")
-    app.run(host='0.0.0.0', port=8888)
+    #app.run(host='0.0.0.0', port=8888)
