@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 CORS(app)  
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type"]}})
 
 sensor_readings = []
 ultima_temperatura = None  
