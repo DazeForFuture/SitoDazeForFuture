@@ -8,6 +8,8 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 CORS(app)  
 
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 sensor_readings = []
 ultima_temperatura = None  
 ultima_umidita = None
