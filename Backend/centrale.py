@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import json
 import time
+import os
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
@@ -198,9 +199,16 @@ def visualizza_dati():
         return f"Errore durante la visualizzazione dei dati: {str(e)}", 500
 @app.route('/salva', methods=['GET'])
 def salva_dati():
-    """Salva i dati storici in un file centrale.dat e li visualizza"""
+    """Salva i dati storici in un file centrale.dat dentro la cartella database"""
     try:
-        # Prepara il contenuto del file
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        target_dir = os.path.join(base_dir, '..', '..', 'database')
+
+        if not os.path.exists(target_dir):
+            os.makedirs(target_dir)
+            
+        file_path = os.path.join(target_dir, 'centrale.dat')
+
         lines = ["=== DATI CENTRALE METEOROLOGICA ===\n"]
         lines.append(f"Totale letture: {len(sensor_readings)}")
         lines.append(f"Ultimo aggiornamento: {sensor_readings[-1]['timestamp'] if sensor_readings else 'Nessun dato'}\n")
@@ -217,24 +225,18 @@ def salva_dati():
         lines.append("-" * 50)
         lines.append(f"Fine report - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         
-        # Crea il contenuto del file
         content = "\n".join(lines)
         
-        # Salva il file centrale.dat
-        with open('centrale.dat', 'w', encoding='utf-8') as f:
+        with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
         
-        # Restituisci conferma e visualizzazione
         return Response(
-            f"File centrale.dat salvato con successo!\n\n{content}",
-            mimetype="text/plain",
-            headers={
-                "Content-Type": "text/plain; charset=utf-8"
-            }
+            f"File salvato con successo in: {file_path}\n\n{content}",
+            mimetype="text/plain"
         )
     except Exception as e:
         print(f"Errore in /salva: {e}")
-        return f"Errore durante il salvataggio del file: {str(e)}", 500
+        return f"Errore durante il salvataggio: {str(e)}", 500
 
 
 if __name__ == '__main__':
