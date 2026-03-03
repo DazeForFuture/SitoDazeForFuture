@@ -4,6 +4,7 @@ import json
 import time
 import os
 from datetime import datetime, timedelta
+import threading
 
 app = Flask(__name__)
 CORS(app)
@@ -26,6 +27,33 @@ def aggiorna_file():
             temperatura = reading.get('temperature', '')
             umidita = reading.get('humidity', '')
             f.write(f"{timestamp} {temperatura} {umidita}\n")
+
+def append_to_centrale_file(timestamp: str, temperatura, umidita):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    target_dir = os.path.join(base_dir, '..', '..', 'database')
+    os.makedirs(target_dir, exist_ok=True)
+    file_path = os.path.join(target_dir, 'centrale.dat')
+    with open(file_path, 'a', encoding='utf-8') as f:
+        f.write(f"{timestamp} {temperatura} {umidita}\n")
+
+def _next_5min_boundary(now: datetime):
+    minute = (now.minute // 5 + 1) * 5
+    base = now.replace(second=0, microsecond=0)
+    if minute >= 60:
+        return (base.replace(minute=0) + timedelta(hours=1))
+    return base.replace(minute=minute)
+
+def periodic_save_loop():
+    while True:
+        now = datetime.now()
+        next_time = _next_5min_boundary(now)
+        sleep_seconds = (next_time - now).total_seconds()
+        if sleep_seconds > 0:
+            time.sleep(sleep_seconds)
+
+        if ultima_temperatura is not None and ultima_umidita is not None:
+            ts = next_time.strftime('%Y-%m-%d %H:%M:%S')
+            append_to_centrale_file(ts, f"{ultima_temperatura:.1f}", f"{ultima_umidita:.1f}")
 
 @app.route('/sensor', methods=['GET'])
 def get_sensor_data():
@@ -67,7 +95,8 @@ def update_sensor():
     if len(sensor_readings) > 1000:
         sensor_readings.pop(0)
 
-    aggiorna_file()
+    ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    append_to_centrale_file(ts, f"{ultima_temperatura:.1f}", f"{ultima_umidita:.1f}")
 
     print(f"[{datetime.now().strftime('%H:%M:%S')}] Temperatura: {ultima_temperatura} °C | Umidità: {ultima_umidita} %")
 
@@ -185,4 +214,6 @@ def salva_dati():
     return Response("File aggiornato", mimetype="text/plain")
 
 if __name__ == '__main__':
+    t = threading.Thread(target=periodic_save_loop, daemon=True)
+    t.start()
     app.run(host='0.0.0.0', port=8888, debug=True)
