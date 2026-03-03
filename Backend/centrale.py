@@ -9,8 +9,6 @@ import threading
 app = Flask(__name__)
 CORS(app)
 
-CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type"]}})
-
 sensor_readings = []
 ultima_temperatura = None  
 ultima_umidita = None
@@ -21,20 +19,22 @@ def aggiorna_file():
     os.makedirs(target_dir, exist_ok=True)
     file_path = os.path.join(target_dir, 'centrale.dat')
 
-    with open(file_path, 'w', encoding='utf-8') as f:
-        for reading in sensor_readings:
-            timestamp = reading.get('timestamp', '')
-            temperatura = reading.get('temperature', '')
-            umidita = reading.get('humidity', '')
-            f.write(f"{timestamp} {temperatura} {umidita}\n")
+    f = open(file_path, 'w', encoding='utf-8')
+    for reading in sensor_readings:
+        timestamp = reading.get('timestamp', '')
+        temperatura = reading.get('temperature', '')
+        umidita = reading.get('humidity', '')
+        f.write(f"{timestamp} {temperatura} {umidita}\n")
+    f.close()
 
 def append_to_centrale_file(timestamp: str, temperatura, umidita):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     target_dir = os.path.join(base_dir, '..', '..', 'database')
     os.makedirs(target_dir, exist_ok=True)
     file_path = os.path.join(target_dir, 'centrale.dat')
-    with open(file_path, 'a', encoding='utf-8') as f:
-        f.write(f"{timestamp} {temperatura} {umidita}\n")
+    f = open(file_path, 'a', encoding='utf-8')
+    f.write(f"{timestamp} {temperatura} {umidita}\n")
+    f.close()
 
 def _next_5min_boundary(now: datetime):
     minute = (now.minute // 5 + 1) * 5
@@ -94,9 +94,6 @@ def update_sensor():
 
     if len(sensor_readings) > 1000:
         sensor_readings.pop(0)
-
-    ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    append_to_centrale_file(ts, f"{ultima_temperatura:.1f}", f"{ultima_umidita:.1f}")
 
     print(f"[{datetime.now().strftime('%H:%M:%S')}] Temperatura: {ultima_temperatura} °C | Umidità: {ultima_umidita} %")
 
