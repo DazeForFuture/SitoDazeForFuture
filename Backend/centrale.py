@@ -19,27 +19,13 @@ def aggiorna_file():
     target_dir = os.path.join(base_dir, '..', '..', 'database')
     os.makedirs(target_dir, exist_ok=True)
     file_path = os.path.join(target_dir, 'centrale.dat')
-    
-    lines = ["=== DATI CENTRALE METEOROLOGICA ===\n"]
-    lines.append(f"Totale letture: {len(sensor_readings)}")
-    lines.append(f"Ultimo aggiornamento: {sensor_readings[-1]['timestamp'] if sensor_readings else 'Nessun dato'}\n")
-    lines.append("-" * 50)
-    lines.append(f"{'TIMESTAMP':<25} {'TEMPERATURA':<12} {'UMIDITA':<10}")
-    lines.append("-" * 50)
-    
-    for reading in sensor_readings:
-        timestamp = reading['timestamp']
-        temperatura = f"{reading['temperature']} °C"
-        umidita = f"{reading['humidity']} %"
-        lines.append(f"{timestamp:<25} {temperatura:<12} {umidita:<10}")
-    
-    lines.append("-" * 50)
-    lines.append(f"Fine report - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
-    
-    content = "\n".join(lines)
-    f = open(file_path, 'w', encoding='utf-8')
-    f.write(content)
-    f.close()
+
+    with open(file_path, 'w', encoding='utf-8') as f:
+        for reading in sensor_readings:
+            timestamp = reading.get('timestamp', '')
+            temperatura = reading.get('temperature', '')
+            umidita = reading.get('humidity', '')
+            f.write(f"{timestamp} {temperatura} {umidita}\n")
 
 @app.route('/sensor', methods=['GET'])
 def get_sensor_data():
