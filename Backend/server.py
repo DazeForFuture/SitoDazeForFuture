@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import logging
+import json
 from datetime import datetime, timedelta
 from flask import Flask, send_from_directory, request, jsonify, redirect, session
 from flask_cors import CORS
@@ -26,6 +27,7 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.environ.get('SECRET_KEY',
 logging.basicConfig(level=logging.INFO)
 
 db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/utenti.db'))
+centrale_dat_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../database/centrale.dat'))
 
 # Inizializzazione JWT
 if JWT_SECRET is None:
@@ -81,6 +83,23 @@ def init_db():
     
     conn.commit()
     conn.close()
+
+def read_centrale_data():
+    """Legge i dati della centrale dal file centrale.dat"""
+    try:
+        if not os.path.exists(centrale_dat_path):
+            logging.error(f"File centrale.dat non trovato: {centrale_dat_path}")
+            return None
+        
+        with open(centrale_dat_path, 'r') as f:
+            data = json.load(f)
+            return data
+    except json.JSONDecodeError as e:
+        logging.error(f"Errore nel parsing del file centrale.dat: {e}")
+        return None
+    except Exception as e:
+        logging.error(f"Errore nella lettura del file centrale.dat: {e}")
+        return None
 
 # --- Gestione errori ---
 @app.errorhandler(403)
@@ -251,6 +270,71 @@ def verify_token():
             
     except Exception as e:
         logging.error(f"❌ Errore nella verifica del token: {e}")
+        return jsonify({
+            'success': False, 
+            'message': f'Errore interno del server: {str(e)}'
+        }), 500
+
+# --- API Centrale ---
+@app.route('/api/centrale', methods=['GET'])
+def get_centrale_data():
+    """Restituisce i dati della centrale dal file centrale.dat"""
+    try:
+        # Verifica token (opzionale - puoi decidere se richiedere autenticazione)
+        auth = request.headers.get('Authorization', '')
+        if auth.startswith('Bearer '):
+            token = auth.split(' ', 1)[1]
+            try:
+                jwt.decode(token, JWT_SECRET, algorithms=['HS256'])
+            except:
+                # Token non valido ma procediamo comunque con i dati pubblici
+                pass
+        
+        data = read_centrale_data()
+        
+        if data is None:
+            return jsonify({
+                'success': False,
+                'message': 'Dati della centrale non disponibili'
+            }), 404
+        
+        return jsonify({
+            'success': True,
+            'data': data
+        })
+        
+    except Exception as e:
+        logging.error(f"❌ Errore nel recupero dati centrale: {e}")
+        return jsonify({
+            'success': False, 
+            'message': f'Errore interno del server: {str(e)}'
+        }), 500
+
+@app.route('/api/centrale/storico', methods=['GET'])
+def get_centrale_storico():
+    """Endpoint per compatibilità con eventuali richieste di storico"""
+    try:
+        data = read_centrale_data()
+        
+        if data is None:
+            return jsonify({
+                'success': False,
+                'message': 'Dati della centrale non disponibili'
+            }), 404
+        
+        # Se il file contiene uno storico, lo restituiamo, altrimenti restituiamo solo i dati correnti
+        if isinstance(data, list):
+            storico = data
+        else:
+            storico = [data]
+        
+        return jsonify({
+            'success': True,
+            'storico': storico
+        })
+        
+    except Exception as e:
+        logging.error(f"❌ Errore nel recupero storico centrale: {e}")
         return jsonify({
             'success': False, 
             'message': f'Errore interno del server: {str(e)}'
@@ -582,11 +666,15 @@ def health_check():
         
         conn.close()
         
+        # Verifica anche il file centrale.dat
+        centrale_status = 'present' if os.path.exists(centrale_dat_path) else 'missing'
+        
         return jsonify({
             'status': 'healthy', 
             'service': 'main_server',
             'database': 'connected',
             'total_users': count,
+            'centrale_file': centrale_status,
             'timestamp': datetime.now().isoformat()
         })
     except Exception as e:
@@ -625,6 +713,7 @@ if __name__ == '__main__':
     logging.info(f"📡 Porta: 5000")
     logging.info(f"🌐 Frontend: {frontend_dir}")
     logging.info(f"🗄️ Database utenti: {db_path}")
+    logging.info(f"📁 File centrale: {centrale_dat_path}")
     logging.info(f"🔐 Google OAuth: {'Abilitato' if GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET else 'Disabilitato'}")
     logging.info("=" * 50)
     
