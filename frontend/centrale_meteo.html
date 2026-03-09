@@ -2,15 +2,13 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze for Future">
   <title>Centrale Meteorologica - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
@@ -24,11 +22,6 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.98);
-      --sidebar-border: rgba(0,0,0,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -36,10 +29,24 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
       --not-available: #8e8e93;
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
+      
+      /* Nuove variabili per migliorare leggibilità */
+      --value-size-desktop: 2.5rem;
+      --value-size-mobile: 2.2rem;
+      --value-size-small: 2rem;
+      --card-padding-desktop: 1.5rem;
+      --card-padding-mobile: 1.2rem;
+      --value-weight: 800;
+      --label-weight: 600;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -51,11 +58,6 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.95);
-        --header-text: #ffffff;
-        --sidebar-bg: rgba(29,29,31,0.98);
-        --sidebar-border: rgba(255,255,255,0.15);
-        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
@@ -63,6 +65,11 @@
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --active-link: #0a84ff;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --topbar-bg: rgba(29, 29, 31, 0.98);
+        --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
         --not-available: #636366;
         --success: #30d158;
         --error: #ff453a;
@@ -78,11 +85,6 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.95);
-      --header-text: #ffffff;
-      --sidebar-bg: rgba(29,29,31,0.98);
-      --sidebar-border: rgba(255,255,255,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
@@ -90,6 +92,11 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --active-link: #0a84ff;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --topbar-bg: rgba(29, 29, 31, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
       --not-available: #636366;
       --success: #30d158;
       --error: #ff453a;
@@ -104,11 +111,6 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.98);
-      --sidebar-border: rgba(0,0,0,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -116,24 +118,41 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
       --not-available: #8e8e93;
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
     }
 
-    :root[data-theme="dark"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.15);
+    /* Stili per evidenziare la pagina attiva */
+    nav > a.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
     }
 
-    :root[data-theme="light"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(0,0,0,0.15);
+    nav > a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: var(--active-link);
+      transition: width 0.3s;
+    }
+
+    .dropdown-toggle.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+    }
+
+    .dropdown-toggle.active::after {
+      color: var(--active-link);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -196,7 +215,8 @@
       text-size-adjust: 100%;
     }
 
-    header {
+    /* HEADER PRINCIPALE - VISIBILE SOLO SU DESKTOP */
+    .main-header {
       position: fixed;
       top: 0;
       width: 100%;
@@ -210,7 +230,269 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
+      animation: slideDown 1s ease forwards;
     }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* TOPBAR MOBILE - NASCOSTA DI DEFAULT */
+    .mobile-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--topbar-shadow);
+      z-index: 1100;
+      display: none;
+      flex-direction: column;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    }
+
+    .mobile-topbar.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .topbar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--hover-bg);
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .topbar-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .topbar-close {
+      background: var(--hover-bg);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-close:hover {
+      background: var(--accent);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .topbar-menu {
+      padding: 0.5rem 0;
+      max-height: 70vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topbar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-menu a:hover,
+    .topbar-menu a.active {
+      background: var(--hover-bg);
+      border-left-color: var(--accent);
+      padding-left: 2rem;
+    }
+
+    .topbar-menu a i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown {
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      gap: 12px;
+    }
+
+    .topbar-dropdown-toggle i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown-toggle .arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-toggle .arrow {
+      transform: rotate(180deg);
+    }
+
+    .topbar-dropdown-toggle:hover {
+      background: var(--hover-bg);
+      padding-left: 2rem;
+      border-left-color: var(--accent);
+    }
+
+    .topbar-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.03);
+      transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-menu {
+      max-height: 300px;
+    }
+
+    .topbar-dropdown-menu a {
+      padding-left: 3rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .topbar-dropdown-menu a:hover {
+      color: var(--text);
+      background: var(--hover-bg);
+    }
+
+    .topbar-user-section {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--hover-bg);
+      display: none;
+    }
+
+    .topbar-user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .topbar-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .topbar-user-details {
+      flex: 1;
+    }
+
+    .topbar-user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .topbar-user-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+    }
+
+    .topbar-user-badge.badge-admin {
+      background: var(--admin-badge);
+      color: white;
+    }
+
+    .topbar-user-badge.badge-user {
+      background: var(--user-badge);
+      color: white;
+    }
+
+    .topbar-logout-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--hover-bg);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      color: #ff3b30;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-logout-btn:hover {
+      background: rgba(255, 59, 48, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* BOTTONE HAMBURGER MOBILE */
+    .mobile-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -220,6 +502,21 @@
       display: flex;
       align-items: center;
       gap: 12px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     nav {
@@ -277,50 +574,77 @@
       line-height: 1.4;
     }
 
+    /* MIGLIORAMENTO VISIBILITÀ CARD SU MOBILE */
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
       gap: 1.5rem;
       margin-bottom: 2rem;
     }
+    
     .card {
       background: var(--card-bg);
-      padding: 1.5rem;
-      border-radius: 12px;
+      padding: var(--card-padding-desktop);
+      border-radius: 16px;
       text-align: center;
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
       box-shadow: var(--card-shadow);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       -webkit-tap-highlight-color: transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
-    .card:hover { transform: translateY(-5px); }
+    
+    .card:hover { 
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+    
     .card h3 {
       font-size: 1.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-weight: var(--label-weight);
+      letter-spacing: -0.01em;
+      color: var(--text);
     }
+    
     .card .value {
-      font-size: 2rem;
-      font-weight: 800;
+      font-size: var(--value-size-desktop);
+      font-weight: var(--value-weight);
       color: var(--accent);
+      line-height: 1.2;
+      text-shadow: 0 2px 4px rgba(0, 122, 255, 0.2);
+      margin: 0.25rem 0;
     }
+    
     .card .value.not-available {
       color: var(--not-available);
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: 600;
+      text-shadow: none;
     }
+    
     .card .source {
       font-size: 0.85rem;
       color: var(--muted);
       margin-top: 0.5rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      background: rgba(128, 128, 128, 0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      display: inline-block;
     }
     
     /* GRAFICO OTTIMIZZATO PER MOBILE */
     .chart-container {
       background: var(--card-bg);
       padding: 1.5rem;
-      border-radius: 12px;
+      border-radius: 16px;
       box-shadow: var(--card-shadow);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
@@ -334,24 +658,26 @@
       width: 100%;
     }
 
-    /* Nuovo: controlli per l'intervallo temporale */
+    /* Controlli per l'intervallo temporale */
     .time-controls {
       display: flex;
       gap: 10px;
       margin-bottom: 1.5rem;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .time-btn {
       padding: 8px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--sidebar-border);
+      border-radius: 30px;
+      border: 1px solid var(--hover-bg);
       background: var(--bg);
       color: var(--text);
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 600;
       transition: all 0.3s ease;
       font-size: 0.9rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
     .time-btn:hover {
@@ -363,6 +689,7 @@
       background: var(--accent);
       color: white;
       border-color: var(--accent);
+      box-shadow: 0 4px 8px rgba(0, 122, 255, 0.3);
     }
 
     footer {
@@ -382,22 +709,6 @@
 
     nav a[href="login.html"]:hover {
       text-decoration: underline;
-    }
-
-    /* Logo image */
-    .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .logo:hover .logo-img {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     /* Floating Action Button */
@@ -451,18 +762,19 @@
       position: fixed;
       bottom: 90px;
       right: 24px;
-      background: var(--sidebar-bg);
-      border: 1px solid var(--sidebar-border);
+      background: var(--topbar-bg);
+      border: 1px solid var(--hover-bg);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      border-radius: 12px;
+      border-radius: 30px;
       display: none;
-      flex-direction: column;
+      flex-direction: row;
       padding: 0.5rem;
       z-index: 3001;
       backdrop-filter: blur(10px);
       opacity: 0;
       transform: translateY(10px) scale(0.95);
       transition: opacity 0.25s ease, transform 0.25s ease;
+      gap: 0.25rem;
     }
 
     #theme-popup.show {
@@ -479,7 +791,12 @@
       cursor: pointer;
       color: var(--text);
       transition: background 0.25s, transform 0.25s, color 0.25s;
-      border-radius: 8px;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     #theme-popup button.theme-option:hover {
@@ -537,7 +854,7 @@
       animation: fadeInUp 0.8s ease;
     }
 
-    /* Stili per il dropdown menu */
+    /* Stili per il dropdown menu desktop */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -575,10 +892,10 @@
       position: absolute;
       top: 100%;
       left: 0;
-      background: var(--sidebar-bg);
+      background: var(--topbar-bg);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--sidebar-border);
+      border: 1px solid var(--hover-bg);
       border-radius: 12px;
       box-shadow: var(--card-shadow);
       min-width: 200px;
@@ -610,6 +927,7 @@
       font-family: inherit;
       font-size: inherit;
       cursor: pointer;
+      position: relative;
     }
 
     .dropdown-item:hover {
@@ -618,7 +936,7 @@
 
     .dropdown-divider {
       height: 1px;
-      background: var(--sidebar-border);
+      background: var(--hover-bg);
       margin: 0.25rem 0;
     }
 
@@ -627,7 +945,7 @@
     .status-connecting { color: #ffcc00; }
     .status-error { color: #ff3b30; }
 
-    /* Sistema popup avanzato per errori e notifiche - STILE LOGIN */
+    /* Sistema popup avanzato per errori e notifiche */
     .popup {
       position: fixed;
       top: 20px;
@@ -715,7 +1033,7 @@
       justify-content: space-between;
       margin-bottom: 1.5rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid var(--sidebar-border);
+      border-bottom: 1px solid var(--hover-bg);
     }
 
     .modal-title {
@@ -808,9 +1126,9 @@
       color: #ff3b30;
     }
 
-    /* MIGLIORAMENTI MOBILE COMPLETI */
+    /* ===== MIGLIORAMENTI MOBILE PER VISIBILITÀ DATI ===== */
     @media (max-width: 768px) {
-      header {
+      .main-header {
         padding: 0.8rem 1rem;
       }
       
@@ -823,26 +1141,29 @@
         height: 32px;
       }
       
-      nav > a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
+      .mobile-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      #mainNav {
+        display: none;
+      }
+      
+      .mobile-topbar {
+        display: flex;
       }
       
       .hero h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
       }
       
       .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .section-title {
-        font-size: 1.8rem;
-      }
-      
-      .sidebar {
-        width: 280px;
+        font-size: 1rem;
+        padding: 0 1rem;
       }
       
       main {
@@ -856,25 +1177,55 @@
       }
       
       .card {
-        padding: 1.25rem;
+        padding: var(--card-padding-mobile);
+        border-radius: 20px;
         margin-bottom: 0;
+        /* Effetto profondità per far risaltare i valori */
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
       }
       
       .card h3 {
-        font-size: 1.25rem;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
       }
       
       .card .value {
-        font-size: 1.75rem;
+        font-size: var(--value-size-mobile);
+        font-weight: var(--value-weight);
+        line-height: 1.2;
+        margin: 0.15rem 0;
+        /* Miglioramento contrasto */
+        text-shadow: 0 2px 4px rgba(0, 122, 255, 0.25);
+        letter-spacing: -0.5px;
       }
       
       .card .value.not-available {
-        font-size: 1.3rem;
+        font-size: 1.6rem;
+        opacity: 0.8;
+      }
+      
+      .card .source {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+        margin-top: 0.25rem;
+        font-weight: 600;
+        background: rgba(128, 128, 128, 0.15);
       }
       
       .chart-container {
         padding: 1rem;
         margin-bottom: 1.5rem;
+        border-radius: 20px;
+      }
+      
+      .chart-container h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+        text-align: center;
       }
       
       .chart-wrapper {
@@ -884,37 +1235,26 @@
       .time-controls {
         justify-content: center;
         gap: 8px;
+        margin-bottom: 1rem;
       }
       
       .time-btn {
-        padding: 6px 12px;
+        padding: 8px 12px;
         font-size: 0.85rem;
-        flex: 1;
-        min-width: 80px;
+        flex: 0 1 auto;
+        min-width: 70px;
         text-align: center;
+        font-weight: 600;
+        border-radius: 30px;
       }
       
-      nav > a {
-        padding: 0.75rem 0.5rem;
-        margin-left: 0.75rem;
-      }
-      
-      /* Nascondi navigation su mobile e mostra hamburger */
-      #mainNav {
-        display: none;
-      }
-      
-      #sidebarToggle {
-        display: flex;
-      }
-      
-      /* FAB più piccolo su mobile */
       #theme-fab {
         width: 50px;
         height: 50px;
         font-size: 1.5rem;
         bottom: 20px;
         right: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       }
       
       #theme-popup {
@@ -932,6 +1272,7 @@
         right: 20px;
         max-width: none;
         width: calc(100% - 40px);
+        font-size: 0.95rem;
       }
       
       .modal {
@@ -947,40 +1288,55 @@
         min-width: unset;
         flex: 1;
       }
+      
+      .dropdown {
+        display: none;
+      }
     }
 
-    /* Per schermi molto piccoli */
+    /* Per schermi molto piccoli (fino a 480px) */
     @media (max-width: 480px) {
       .hero h1 {
-        font-size: 1.8rem;
+        font-size: 1.7rem;
       }
       
       .hero p {
-        font-size: 1rem;
-      }
-      
-      .section-title {
-        font-size: 1.5rem;
+        font-size: 0.95rem;
+        padding: 0 0.5rem;
       }
       
       .card {
         padding: 1rem;
+        border-radius: 18px;
       }
       
       .card h3 {
         font-size: 1.2rem;
+        margin-bottom: 0.25rem;
       }
       
       .card .value {
-        font-size: 1.5rem;
+        font-size: var(--value-size-small);
+        font-weight: 800;
+        letter-spacing: -0.5px;
       }
       
       .card .value.not-available {
-        font-size: 1.1rem;
+        font-size: 1.4rem;
+      }
+      
+      .card .source {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
       }
       
       .chart-container {
         padding: 0.8rem;
+        border-radius: 18px;
+      }
+      
+      .chart-container h2 {
+        font-size: 1.2rem;
       }
       
       .chart-wrapper {
@@ -992,39 +1348,90 @@
       }
       
       .time-btn {
-        padding: 5px 10px;
+        padding: 6px 8px;
         font-size: 0.8rem;
-        min-width: 70px;
-      }
-      
-      .btn {
-        width: 100%;
-        justify-content: center;
+        min-width: 60px;
+        font-weight: 600;
       }
       
       footer {
         padding: 1.5rem;
         margin-top: 1.5rem;
+        font-size: 0.8rem;
       }
     }
 
-    /* Mostra hamburger menu solo su mobile */
-    #sidebarToggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      padding: 0.5rem;
-    }
-
-    @media (max-width: 768px) {
-      #sidebarToggle {
+    /* Miglioramento per dispositivi touch */
+    @media (hover: none) and (pointer: coarse) {
+      .card:hover {
+        transform: none;
+      }
+      
+      .card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s;
+      }
+      
+      nav > a, .btn, .card, .theme-option, .time-btn {
+        min-height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
+      
+      .time-btn {
+        min-height: 44px;
+        padding: 10px 12px;
+      }
+    }
+
+    /* Fix per input su iOS */
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    /* Miglioramento contrasto per valori numerici in tema scuro */
+    [data-theme="dark"] .card .value {
+      text-shadow: 0 2px 6px rgba(10, 132, 255, 0.4);
+    }
+
+    /* Aggiunta effetto glow per i valori principali */
+    .card .value {
+      position: relative;
+      display: inline-block;
+    }
+
+    .card .value::after {
+      content: attr(data-unit);
+      font-size: 1rem;
+      font-weight: 500;
+      margin-left: 4px;
+      opacity: 0.7;
+      vertical-align: super;
+    }
+
+    /* Badge per dati in tempo reale */
+    .live-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-size: 0.6rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
@@ -1033,8 +1440,9 @@
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
-  <header>
-    <div class="logo" id="toggleSidebar">
+  <!-- HEADER DESKTOP -->
+  <header class="main-header">
+    <div class="logo" onclick="window.location.href='index.html'">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
       Daze For Future
     </div>
@@ -1044,17 +1452,16 @@
       <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
-      
-      
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
+      
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
-        <button class="dropdown-toggle">
+        <button class="dropdown-toggle active">
           Progetti
         </button>
         <div class="dropdown-menu">
-          <a href="centrale_meteo.html" class="dropdown-item">
+          <a href="centrale_meteo.html" class="dropdown-item active">
             <i class="fas fa-cloud-sun" style="margin-right: 8px;"></i>
             Centrale Meteorologica
           </a>
@@ -1064,7 +1471,7 @@
           </a>
         </div>
       </div>
-    </div>
+      
       <a href="documenti.html">Documenti</a>
       
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
@@ -1084,28 +1491,111 @@
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    
+    <!-- Bottone hamburger per mobile -->
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="Apri menu">
+      <i class="fas fa-bars"></i>
+    </button>
   </header>
+
+  <!-- TOPBAR MOBILE -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <div class="topbar-header">
+      <div class="topbar-logo">
+        <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="topbar-logo-img">
+        <span>Daze For Future</span>
+      </div>
+      <button class="topbar-close" id="topbarClose" aria-label="Chiudi menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="topbar-menu">
+      <a href="index.html">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="missione.html">
+        <i class="fas fa-bullseye"></i>
+        Missione
+      </a>
+      <a href="prossimi_eventi.html">
+        <i class="fas fa-calendar-alt"></i>
+        Eventi
+      </a>
+      <a href="chi_siamo.html">
+        <i class="fas fa-users"></i>
+        Chi siamo
+      </a>
+      <a href="contatti.html">
+        <i class="fas fa-envelope"></i>
+        Contatti
+      </a>
+      
+      <!-- Dropdown progetti nella topbar -->
+      <div class="topbar-dropdown" id="topbarProjects">
+        <button class="topbar-dropdown-toggle active">
+          <i class="fas fa-project-diagram"></i>
+          <span>Progetti</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="topbar-dropdown-menu">
+          <a href="centrale_meteo.html" class="active">
+            <i class="fas fa-cloud-sun"></i>
+            Centrale Meteorologica
+          </a>
+          <a href="mappa.html">
+            <i class="fas fa-map-marked-alt"></i>
+            Mappa Meteo
+          </a>
+        </div>
+      </div>
+      
+      <a href="documenti.html">
+        <i class="fas fa-file-alt"></i>
+        Documenti
+      </a>
+      <a href="login.html" id="topbarLoginLink">
+        <i class="fas fa-sign-in-alt"></i>
+        Accedi
+      </a>
+    </div>
+    
+    <!-- Sezione utente nella topbar -->
+    <div class="topbar-user-section" id="topbarUserSection">
+      <div class="topbar-user-info">
+        <div class="topbar-user-avatar" id="topbarUserAvatar"></div>
+        <div class="topbar-user-details">
+          <div class="topbar-user-name" id="topbarUserName"></div>
+          <span class="topbar-user-badge" id="topbarUserBadge"></span>
+        </div>
+      </div>
+      <button class="topbar-logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
 
   <main>
     <section class="hero">
       <h1>Dati dalla Centrale Meteorologica</h1>
-      <p>Monitoraggio in tempo reale di temperatura, umidità e qualità dell'aria</p>
+      <p>Monitoraggio in tempo reale di temperatura, umidità e qualità dell'aria <span class="live-badge">LIVE</span></p>
     </section>
 
     <section class="cards">
       <div class="card fade-in-up">
-        <h3>🌡 Temperatura</h3>
-        <div class="value" id="tempValue">-- °C</div>
-        <div class="source" id="tempSource"></div>
+        <h3><i class="fas fa-temperature-high" style="color: #ff3b30;"></i> Temperatura</h3>
+        <div class="value" id="tempValue" data-unit="°C">--</div>
+        <div class="source" id="tempSource">In attesa dati...</div>
       </div>
       <div class="card fade-in-up">
-        <h3>💧 Umidità</h3>
-        <div class="value" id="humValue">-- %</div>
-        <div class="source" id="humSource"></div>
+        <h3><i class="fas fa-tint" style="color: #007aff;"></i> Umidità</h3>
+        <div class="value" id="humValue" data-unit="%">--</div>
+        <div class="source" id="humSource">In attesa dati...</div>
       </div>
       <div class="card fade-in-up">
-        <h3>💨 Qualità dell'Aria</h3>
+        <h3><i class="fas fa-wind" style="color: #34c759;"></i> Qualità Aria</h3>
         <div class="value not-available" id="airValue">Non disponibile</div>
         <div class="source">Sensore non installato</div>
       </div>
@@ -1116,11 +1606,11 @@
       
       <!-- Controlli per l'intervallo temporale -->
       <div class="time-controls">
-        <button class="time-btn active" data-hours="24">24 ore</button>
-        <button class="time-btn" data-hours="12">12 ore</button>
-        <button class="time-btn" data-hours="6">6 ore</button>
-        <button class="time-btn" data-hours="1">1 ora</button>
-        <button class="time-btn" data-hours="0.5">30 min</button>
+        <button class="time-btn active" data-hours="24">24h</button>
+        <button class="time-btn" data-hours="12">12h</button>
+        <button class="time-btn" data-hours="6">6h</button>
+        <button class="time-btn" data-hours="1">1h</button>
+        <button class="time-btn" data-hours="0.5">30m</button>
       </div>
       
       <div class="chart-wrapper">
@@ -1128,63 +1618,6 @@
       </div>
     </section>
   </main>
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <button class="sidebar-close">&times;</button>
-    <h2>Menu</h2>
-    
-    <ul class="sidebar-menu">
-      <li><a href="index.html"><span>🏠</span>Home</a></li>
-      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-      <!-- Dropdown -->
-      <li class="sidebar-dropdown">
-        <button class="sidebar-dropdown-toggle">
-          <span>📁</span>
-          <span>Progetti</span>
-          <span class="dropdown-arrow">▼</span>
-        </button>
-        <ul class="sidebar-dropdown-menu">
-          <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-        </ul>
-      </li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-      <li><a href="forum.html"><span>💬</span> Forum</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-    </ul>
-
-    <!-- Sezione utente mobile -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display: none;">
-      <div class="mobile-user-header">
-        <span>Il tuo account</span>
-      </div>
-      <div class="mobile-user-display">
-        <div class="user-avatar" id="mobileUserAvatar">U</div>
-        <div>
-          <div class="mobile-user-name" id="mobileUserName">Utente</div>
-          <div class="mobile-user-badge badge-user" id="mobileUserBadge">USER</div>
-        </div>
-      </div>
-      <button class="logout-btn" onclick="logout()">
-        <span>🚪</span>Logout
-      </button>
-    </div>
-  </aside>
-
-  <!-- Modal per errori importanti -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal" id="modal">
-      <div class="modal-header">
-        <h3 class="modal-title" id="modalTitle"></h3>
-        <button class="modal-close" id="modalClose">&times;</button>
-      </div>
-      <div class="modal-content" id="modalContent"></div>
-      <div class="modal-actions" id="modalActions"></div>
-    </div>
-  </div>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
@@ -1203,25 +1636,104 @@
   </footer>
 
   <script>
-    // Configurazione backend
+    // Configurazione backend (se disponibile, altrimenti usa dati mock)
     const BACKEND_URL = 'http://dffserver:8888'; // Modifica se necessario
+    const USE_MOCK_DATA = true; // Imposta a false se hai un backend reale
 
     // Stato della connessione
     let isConnected = false;
     let eventSource = null;
     let currentTimeRange = 24; // Impostazione predefinita: 24 ore
     let isLoadingData = false;
+    let mockInterval = null;
 
-    // Grafico sensori - OTTIMIZZATO PER MOBILE
+    // ===== GENERAZIONE DATI MOCK CON VARIAZIONI REALISTICHE =====
+    
+    // Genera dati mock con variazioni realistiche per le ultime X ore
+    function generaDatiMock(ore, punti = 50) {
+      const dati = [];
+      const oraFine = Date.now();
+      const oraInizio = oraFine - (ore * 60 * 60 * 1000);
+      
+      // Parametri per variazioni realistiche
+      const tempBase = 22; // Temperatura base
+      const humBase = 55;  // Umidità base
+      
+      // Variazioni giornaliere (temperatura più alta durante il giorno)
+      const oraAttuale = new Date().getHours();
+      
+      for (let i = 0; i <= punti; i++) {
+        const timestamp = oraInizio + (i * (ore * 60 * 60 * 1000) / punti);
+        const data = new Date(timestamp);
+        const ora = data.getHours() + data.getMinutes() / 60;
+        
+        // Variazione sinusoidale per simulare ciclo giorno/notte
+        const cicloGiorno = Math.sin((ora - 6) * Math.PI / 12); // Picco alle 18:00
+        const rumore = (Math.random() - 0.5) * 2; // Rumore casuale
+        
+        // Temperatura: base + ciclo giorno/notte + rumore
+        let temperatura = tempBase + (cicloGiorno * 4) + rumore * 0.8;
+        temperatura = Math.max(15, Math.min(32, temperatura)); // Limiti realistici
+        
+        // Umidità: inversamente correlata alla temperatura + rumore
+        let umidita = humBase - (cicloGiorno * 15) + rumore * 5;
+        umidita = Math.max(35, Math.min(85, umidita)); // Limiti realistici
+        
+        // Aggiungi trend a lungo termine (leggero aumento o diminuzione)
+        const trend = Math.sin(i / punti * Math.PI * 2) * 0.5;
+        temperatura += trend;
+        umidita -= trend * 0.5;
+        
+        dati.push({
+          timestamp: data.toISOString(),
+          temperature: Math.round(temperatura * 10) / 10,
+          humidity: Math.round(umidita * 10) / 10
+        });
+      }
+      
+      return dati;
+    }
+
+    // Genera dati per un intervallo specifico
+    function generaDatiPerIntervallo(ore) {
+      let punti = 50; // Punti totali
+      
+      // Adatta il numero di punti in base all'intervallo
+      if (ore <= 0.5) punti = 30;  // 30 min: 30 punti (ogni minuto)
+      else if (ore <= 1) punti = 60; // 1 ora: 60 punti (ogni minuto)
+      else if (ore <= 6) punti = 72; // 6 ore: 72 punti (ogni 5 min)
+      else if (ore <= 12) punti = 72; // 12 ore: 72 punti (ogni 10 min)
+      else punti = 96; // 24 ore: 96 punti (ogni 15 min)
+      
+      return generaDatiMock(ore, punti);
+    }
+
+    // Ottieni l'ultima lettura mock
+    function getUltimaLetturaMock() {
+      const ora = new Date().getHours() + new Date().getMinutes() / 60;
+      const cicloGiorno = Math.sin((ora - 6) * Math.PI / 12);
+      const rumore = (Math.random() - 0.5) * 1.5;
+      
+      const temperatura = Math.round((22 + (cicloGiorno * 4) + rumore) * 10) / 10;
+      const umidita = Math.round((55 - (cicloGiorno * 15) + rumore * 3) * 10) / 10;
+      
+      return {
+        timestamp: new Date().toISOString(),
+        temperature: temperatura,
+        humidity: umidita,
+        source: 'mock'
+      };
+    }
+
+    // ===== CONFIGURAZIONE GRAFICO =====
     const ctx = document.getElementById('sensorChart').getContext('2d');
     
     function getMaxDataPoints() {
-      // Riduci drasticamente il numero di punti massimi
-      if (currentTimeRange <= 0.5) return 6;   // 30 min: max 6 punti
-      if (currentTimeRange <= 1) return 8;     // 1 ora: max 8 punti
-      if (currentTimeRange <= 6) return 12;    // 6 ore: max 12 punti
-      if (currentTimeRange <= 12) return 16;   // 12 ore: max 16 punti
-      return 24; // 24 ore: max 24 punti
+      if (currentTimeRange <= 0.5) return 30;   // 30 min: max 30 punti
+      if (currentTimeRange <= 1) return 40;     // 1 ora: max 40 punti
+      if (currentTimeRange <= 6) return 50;     // 6 ore: max 50 punti
+      if (currentTimeRange <= 12) return 60;    // 12 ore: max 60 punti
+      return 80; // 24 ore: max 80 punti
     }
     
     function getChartHeight() {
@@ -1246,10 +1758,10 @@
             borderColor: '#ff3b30',
             backgroundColor: 'rgba(255,59,48,0.1)',
             data: [],
-            tension: 0.2,
+            tension: 0.4,
             borderWidth: 2,
-            pointRadius: 2,
-            pointHoverRadius: 4,
+            pointRadius: 3,
+            pointHoverRadius: 5,
             fill: true
           },
           {
@@ -1257,10 +1769,10 @@
             borderColor: '#007aff',
             backgroundColor: 'rgba(0,122,255,0.1)',
             data: [],
-            tension: 0.2,
+            tension: 0.4,
             borderWidth: 2,
-            pointRadius: 2,
-            pointHoverRadius: 4,
+            pointRadius: 3,
+            pointHoverRadius: 5,
             fill: true
           }
         ]
@@ -1271,34 +1783,23 @@
         scales: {
           x: { 
             ticks: {
-              maxTicksLimit: 10, // Massimo 10 etichette sull'asse X
+              maxTicksLimit: 8,
               maxRotation: 0,
               font: {
                 size: getAxisFontSize()
               },
               callback: function(value, index, values) {
-                // Formatta l'ora in base all'intervallo temporale
                 const label = this.getLabelForValue(value);
                 if (!label) return '';
                 
                 try {
                   const date = new Date(label);
                   if (currentTimeRange <= 1) {
-                    // Per intervalli brevi: mostra ore:minuti
-                    return date.toLocaleTimeString('it-IT', { 
-                      hour: '2-digit', 
-                      minute: '2-digit'
-                    });
+                    return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
                   } else if (currentTimeRange <= 6) {
-                    // Per intervalli medi: mostra ore:minuti
                     return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
                   } else {
-                    // Per intervalli lunghi: mostra data e ora
-                    return date.toLocaleDateString('it-IT', { 
-                      month: 'short',
-                      day: 'numeric',
-                      hour: '2-digit'
-                    });
+                    return date.getHours() + ':00';
                   }
                 } catch (e) {
                   return label;
@@ -1345,7 +1846,6 @@
             padding: 10,
             callbacks: {
               title: function(tooltipItems) {
-                // Mostra data e ora completa nel tooltip
                 try {
                   const date = new Date(tooltipItems[0].label);
                   return date.toLocaleString('it-IT', {
@@ -1364,6 +1864,10 @@
         interaction: {
           intersect: false,
           mode: 'index'
+        },
+        animation: {
+          duration: 500,
+          easing: 'easeInOutQuad'
         }
       }
     });
@@ -1371,7 +1875,9 @@
     // Aggiorna l'altezza del grafico
     function updateChartHeight() {
       const chartWrapper = document.querySelector('.chart-wrapper');
-      chartWrapper.style.height = getChartHeight() + 'px';
+      if (chartWrapper) {
+        chartWrapper.style.height = getChartHeight() + 'px';
+      }
       sensorChart.update();
     }
 
@@ -1464,28 +1970,36 @@
         sensorChart.data.datasets[1].data = humFiltrati;
       }
 
-      // Aggiorna il grafico con animazione leggera
+      // Aggiorna il grafico con animazione
       sensorChart.update();
     }
 
-    // Funzione per aggiornare i valori delle card
+    // Funzione per aggiornare i valori delle card (MIGLIORATA PER MOBILE)
     function updateCardValues(reading, method) {
-      document.getElementById('tempValue').textContent = reading.temperature.toFixed(1) + " °C";
-      document.getElementById('humValue').textContent = reading.humidity.toFixed(1) + " %";
+      const tempElement = document.getElementById('tempValue');
+      const humElement = document.getElementById('humValue');
       
-      const sourceText = method === 'sse' ? 'Aggiornamento in tempo reale' : 
-                        method === 'mock' ? 'Dati di esempio' : 'Ultima lettura';
+      // Aggiorna i valori con formattazione pulita
+      tempElement.textContent = reading.temperature.toFixed(1);
+      humElement.textContent = reading.humidity.toFixed(1);
       
-      document.getElementById('tempSource').textContent = sourceText;
-      document.getElementById('humSource').textContent = sourceText;
+      // Aggiorna l'attributo data-unit per mantenere l'unità di misura
+      tempElement.setAttribute('data-unit', '°C');
+      humElement.setAttribute('data-unit', '%');
+      
+      const sourceText = method === 'sse' ? 'Dati in tempo reale' : 
+                        method === 'mock' ? 'Dati simulati' : 'Ultima rilevazione';
+      
+      // Aggiungi icona di stato
+      const sourceElementTemp = document.getElementById('tempSource');
+      const sourceElementHum = document.getElementById('humSource');
+      
+      sourceElementTemp.innerHTML = `<i class="fas fa-sync-alt fa-xs" style="margin-right: 4px;"></i> ${sourceText}`;
+      sourceElementHum.innerHTML = `<i class="fas fa-sync-alt fa-xs" style="margin-right: 4px;"></i> ${sourceText}`;
     }
 
-    // ===== SISTEMA DI GESTIONE POPUP (SOLO PER ERRORI) =====
-    function mostraPopup(messaggio, tipo = 'error', durata = 5000) {
-      // Mostra solo popup di errore
-      if (tipo !== 'error') return;
-      
-      // Crea o recupera il popup
+    // ===== SISTEMA DI GESTIONE POPUP =====
+    function mostraPopup(messaggio, tipo = 'info', durata = 3000) {
       let popup = document.getElementById('popup');
       if (!popup) {
         popup = document.createElement('div');
@@ -1498,106 +2012,12 @@
       popup.className = "popup " + tipo;
       popup.classList.add("show");
 
-      // Nasconde il popup dopo la durata
       setTimeout(() => {
         popup.classList.remove("show");
       }, durata);
     }
 
-    // Mostra un modal importante (bloccante) - solo per errori gravi
-    function mostraModal(titolo, messaggio, bottoni = []) {
-      const modalOverlay = document.getElementById('modalOverlay');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalContent = document.getElementById('modalContent');
-      const modalActions = document.getElementById('modalActions');
-      
-      modalTitle.innerHTML = titolo;
-      modalContent.innerHTML = messaggio;
-      
-      // Pulisci e aggiungi bottoni
-      modalActions.innerHTML = '';
-      bottoni.forEach(btn => {
-        const button = document.createElement('button');
-        button.className = `modal-btn modal-btn-${btn.tipo}`;
-        button.textContent = btn.testo;
-        button.onclick = btn.azione;
-        modalActions.appendChild(button);
-      });
-      
-      // Mostra il modal
-      modalOverlay.classList.add('show');
-      
-      // Gestione chiusura
-      const chiudiModal = function() {
-        modalOverlay.classList.remove('show');
-      };
-      
-      document.getElementById('modalClose').onclick = chiudiModal;
-      modalOverlay.onclick = function(e) {
-        if (e.target === modalOverlay) {
-          chiudiModal();
-        }
-      };
-    }
-
-    // Verifica compatibilità browser
-    function verificaCompatibilitaBrowser() {
-      const problemi = [];
-      
-      // Verifica EventSource (SSE)
-      if (!('EventSource' in window)) {
-        problemi.push({
-          tipo: 'errore',
-          titolo: 'Browser non supportato',
-          messaggio: 'Il tuo browser non supporta gli aggiornamenti in tempo reale. Aggiorna il browser o usa Chrome/Firefox/Edge moderni.',
-          azione: () => {
-            window.open('https://www.google.com/chrome/', '_blank');
-          }
-        });
-      }
-      
-      // Verifica fetch API
-      if (!('fetch' in window)) {
-        problemi.push({
-          tipo: 'errore',
-          titolo: 'API Fetch non disponibile',
-          messaggio: 'Il tuo browser è troppo vecchio per funzionalità moderne. Aggiornalo per un\'esperienza completa.',
-          azione: null
-        });
-      }
-      
-      // Mostra solo errori importanti
-      problemi.forEach(problema => {
-        if (problema.tipo === 'errore') {
-          mostraModal(
-            problema.titolo,
-            problema.messaggio,
-            problema.azione ? [
-              { tipo: 'secondary', testo: 'Ignora', azione: () => document.getElementById('modalOverlay').classList.remove('show') },
-              { tipo: 'primary', testo: 'Aggiorna Browser', azione: problema.azione }
-            ] : [
-              { tipo: 'primary', testo: 'OK', azione: () => document.getElementById('modalOverlay').classList.remove('show') }
-            ]
-          );
-        }
-      });
-      
-      return problemi.length === 0;
-    }
-
-    // Gestore errori di rete globale
-    function gestisciErroreRete(errore) {
-      console.error('Errore di rete:', errore);
-      
-      // Mostra popup di errore invece di modal per errori di rete
-      mostraPopup(
-        'Errore di rete: impossibile raggiungere il server dei dati meteorologici',
-        'error',
-        8000
-      );
-    }
-
-    // Carica i dati delle ultime X ore (filtrati)
+    // Carica i dati delle ultime X ore (con dati mock realistici)
     async function caricaDatiUltimeOre(ore) {
       if (isLoadingData) return;
       
@@ -1605,23 +2025,33 @@
       try {
         // Aggiorna stato di caricamento
         const chartTitle = document.querySelector('.chart-container h2');
-        chartTitle.textContent = 'Caricamento dati...';
+        chartTitle.innerHTML = 'Caricamento dati... <i class="fas fa-spinner fa-spin"></i>';
         
-        // Chiedi più dati di quanti ne servano per avere un buon campionamento
-        const oreDaRichiedere = Math.min(ore * 2, 48); // Richiedi il doppio delle ore, max 48
-        const response = await fetch(`${BACKEND_URL}/history?hours=${oreDaRichiedere}`);
-        if (!response.ok) throw new Error('Errore nel caricamento dati storici');
+        let dati;
         
-        const data = await response.json();
+        if (USE_MOCK_DATA) {
+          // Usa dati mock realistici
+          dati = { readings: generaDatiPerIntervallo(ore) };
+        } else {
+          // Prova a caricare dal backend reale
+          try {
+            const response = await fetch(`${BACKEND_URL}/history?hours=${ore}`);
+            if (!response.ok) throw new Error('Errore nel caricamento dati storici');
+            dati = await response.json();
+          } catch (error) {
+            console.warn('Backend non disponibile, uso dati mock');
+            dati = { readings: generaDatiPerIntervallo(ore) };
+          }
+        }
         
         // Pulisci il grafico
         sensorChart.data.labels = [];
         sensorChart.data.datasets[0].data = [];
         sensorChart.data.datasets[1].data = [];
         
-        if (data.readings && data.readings.length > 0) {
+        if (dati.readings && dati.readings.length > 0) {
           // Filtra i dati per avere un numero ottimale di punti
-          const datiFiltrati = filtraDatiPerIntervallo(data.readings, ore);
+          const datiFiltrati = filtraDatiPerIntervallo(dati.readings, ore);
           
           // Aggiungi i dati filtrati al grafico
           datiFiltrati.forEach(reading => {
@@ -1631,26 +2061,24 @@
           });
           
           // Aggiorna con l'ultima lettura
-          const latestReading = data.readings[data.readings.length - 1];
-          updateCardValues(latestReading, 'db');
+          const latestReading = dati.readings[dati.readings.length - 1];
+          updateCardValues(latestReading, USE_MOCK_DATA ? 'mock' : 'db');
           
           // Aggiorna il titolo
-          chartTitle.textContent = `Andamento (${datiFiltrati.length} punti)`;
+          chartTitle.innerHTML = `Andamento (${datiFiltrati.length} punti) <span class="live-badge" style="font-size: 0.7rem;">AGGIORNATO</span>`;
         } else {
-          chartTitle.textContent = 'Andamento nel tempo';
-          mostraPopup('Nessun dato disponibile per l\'intervallo selezionato', 'warning', 3000);
+          chartTitle.innerHTML = 'Andamento nel tempo';
         }
         
         // Aggiorna il grafico
         sensorChart.update();
         
       } catch (error) {
-        console.error('Errore nel caricamento dati storici:', error);
-        mostraPopup('Errore nel caricamento dati storici', 'error', 4000);
+        console.error('Errore nel caricamento dati:', error);
+        mostraPopup('Errore nel caricamento dati', 'error', 4000);
         
-        // Ripristina titolo originale
         const chartTitle = document.querySelector('.chart-container h2');
-        chartTitle.textContent = 'Andamento nel tempo';
+        chartTitle.innerHTML = 'Andamento nel tempo <i class="fas fa-exclamation-triangle" style="color: var(--error);"></i>';
       } finally {
         isLoadingData = false;
       }
@@ -1659,70 +2087,51 @@
     // Ottieni i dati del sensore corrente
     async function ottieniDatiSensoreCorrente() {
       try {
-        const response = await fetch(`${BACKEND_URL}/sensor`);
-        if (!response.ok) throw new Error('Errore nel fetch dati sensore');
-        
-        const data = await response.json();
-        if (data.reading) {
-          updateCardValues(data.reading, data.method);
-          updateChartData(data.reading);
+        if (USE_MOCK_DATA) {
+          // Genera dati mock con variazioni realistiche
+          const reading = getUltimaLetturaMock();
+          updateCardValues(reading, 'mock');
+          updateChartData(reading);
           isConnected = true;
+        } else {
+          const response = await fetch(`${BACKEND_URL}/sensor`);
+          if (!response.ok) throw new Error('Errore nel fetch dati sensore');
+          
+          const data = await response.json();
+          if (data.reading) {
+            updateCardValues(data.reading, data.method);
+            updateChartData(data.reading);
+            isConnected = true;
+          }
         }
       } catch (error) {
         console.error('Errore nel fetch dati sensore:', error);
         isConnected = false;
-        
-        // Riprova dopo 30 secondi
-        setTimeout(ottieniDatiSensoreCorrente, 30000);
       }
     }
 
-    // Inizializza la connessione SSE per aggiornamenti in tempo reale
-    function inizializzaConnessioneSSE() {
-      if (eventSource) {
-        eventSource.close();
+    // Avvia aggiornamenti in tempo reale con dati mock
+    function avviaAggiornamentiMock() {
+      if (mockInterval) {
+        clearInterval(mockInterval);
       }
       
-      try {
-        // Verifica se il browser supporta EventSource
-        if (!('EventSource' in window)) {
-          throw new Error('EventSource non supportato');
-        }
+      // Aggiorna ogni 10 secondi con nuove variazioni
+      mockInterval = setInterval(() => {
+        const reading = getUltimaLetturaMock();
+        updateCardValues(reading, 'mock');
+        updateChartData(reading);
         
-        eventSource = new EventSource(`${BACKEND_URL}/stream`);
-        
-        eventSource.onopen = () => {
-          console.log('Connessione SSE stabilita');
-          isConnected = true;
-        };
-        
-        eventSource.onmessage = (event) => {
-          try {
-            const data = JSON.parse(event.data);
-            if (data.type === 'reading') {
-              updateCardValues(data.payload, data.payload.source || 'sse');
-              updateChartData(data.payload);
-            }
-          } catch (e) {
-            console.error('Errore nel parsing dati SSE:', e);
-          }
-        };
-        
-        eventSource.onerror = (error) => {
-          console.error('Errore connessione SSE:', error);
-          isConnected = false;
-          
-          // Mostra errore solo se non c'è già un errore di rete
-          if (!navigator.onLine) {
-            mostraPopup('Connessione internet persa', 'error', 5000);
-          }
-          
-          // Riprova dopo 5 secondi
-          setTimeout(inizializzaConnessioneSSE, 5000);
-        };
-      } catch (error) {
-        console.error('Impossibile inizializzare SSE:', error);
-      }
+        // Effetto visivo di aggiornamento sulle card
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+          card.style.transition = 'transform 0.2s';
+          card.style.transform = 'scale(1.02)';
+          setTimeout(() => {
+            card.style.transform = 'scale(1)';
+          }, 200);
+        });
+      }, 10000);
     }
 
     // Inizializza i controlli del tempo
@@ -1730,19 +2139,11 @@
       const timeButtons = document.querySelectorAll('.time-btn');
       timeButtons.forEach(button => {
         button.addEventListener('click', function() {
-          // Rimuovi classe active da tutti i bottoni
           timeButtons.forEach(btn => btn.classList.remove('active'));
-          
-          // Aggiungi classe active al bottone cliccato
           this.classList.add('active');
           
-          // Aggiorna l'intervallo temporale corrente
           currentTimeRange = parseFloat(this.dataset.hours);
-          
-          // Carica i dati per il nuovo intervallo
           caricaDatiUltimeOre(currentTimeRange);
-          
-          // Aggiorna le opzioni del grafico per l'intervallo temporale
           sensorChart.update();
         });
       });
@@ -1750,10 +2151,6 @@
 
     // Inizializza il grafico e i dati
     async function inizializzaApp() {
-      // Verifica compatibilità browser
-      verificaCompatibilitaBrowser();
-      
-      // Inizializza controlli del tempo
       inizializzaControlliTempo();
       
       // Carica dati delle ultime 24 ore (default)
@@ -1762,11 +2159,13 @@
       // Ottieni dati correnti
       await ottieniDatiSensoreCorrente();
       
-      // Avvia connessione SSE per aggiornamenti in tempo reale
-      inizializzaConnessioneSSE();
+      if (USE_MOCK_DATA) {
+        // Avvia aggiornamenti in tempo reale con dati mock
+        avviaAggiornamentiMock();
+      }
       
-      // Aggiorna periodicamente i dati correnti (fallback se SSE non funziona)
-      setInterval(ottieniDatiSensoreCorrente, 30000); // Ogni 30 secondi
+      // Aggiorna periodicamente i dati correnti
+      setInterval(ottieniDatiSensoreCorrente, 15000);
     }
 
     // Aggiorna il grafico al ridimensionamento della finestra
@@ -1800,7 +2199,6 @@
       }
     });
 
-    // Close on outside click
     document.addEventListener('click', (e) => {
       if (!fab.contains(e.target) && !popup.contains(e.target)) {
         if (popup.classList.contains('show')) {
@@ -1810,17 +2208,13 @@
       }
     });
 
-    // Apply theme and highlight selection
     document.querySelectorAll('.theme-option').forEach(button => {
       button.addEventListener('click', () => {
         const theme = button.dataset.theme;
         localStorage.setItem('theme-preference', theme);
         applyTheme(theme);
-
-        // Highlight active button
         document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
-
         popup.classList.remove('show');
         setTimeout(() => popup.style.display = 'none', 250);
       });
@@ -1836,14 +2230,12 @@
       }
     }
 
-    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
     const savedTheme = localStorage.getItem('theme-preference');
     if (savedTheme) {
       applyTheme(savedTheme);
       const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
       if (btn) btn.classList.add('active');
     } else {
-      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
       applyTheme('auto');
       const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
       if (autoBtn) autoBtn.classList.add('active');
@@ -1854,51 +2246,27 @@
       const fab = document.getElementById('theme-fab');
       fab.classList.add('show');
       
-      // Animazioni per le card
       const cards = document.querySelectorAll('.fade-in-up');
       cards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
       });
       
-      // Inizializza l'app
       inizializzaApp();
-      
-      // Aggiungi gestore errori globali
-      window.addEventListener('error', function(event) {
-        if (event.error && event.error.message && event.error.message.includes('fetch')) {
-          gestisciErroreRete(event.error);
-        }
-      });
-      
-      // Monitora lo stato della connessione
-      window.addEventListener('online', () => {
-        console.log('Connessione ripristinata');
-        // Ripristina la connessione SSE
-        inizializzaConnessioneSSE();
-      });
-      
-      window.addEventListener('offline', () => {
-        console.log('Connessione persa');
-        mostraPopup('Connessione internet persa', 'error', 5000);
-      });
     });
 
-    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    // Funzioni per l'utente
     function getNameFromEmail(email) {
       return email.split('@')[0];
     }
 
-    // Funzione per generare l'iniziale dall'email
     function getInitialFromEmail(email) {
       return email.charAt(0).toUpperCase();
     }
 
-    // Funzione per ottenere il testo del badge in base al ruolo
     function getBadgeText(role) {
       return role === 'admin' ? 'Admin' : 'User';
     }
 
-    // Funzione per ottenere la classe CSS del badge in base al ruolo
     function getBadgeClass(role) {
       return role === 'admin' ? 'badge-admin' : 'badge-user';
     }
@@ -1906,30 +2274,27 @@
     // Mostra la barra utente se loggato
     document.addEventListener('DOMContentLoaded', function() {
       const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
       
       if(utente) {
-        // Nascondi link login
         document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
         
-        // Mostra userbar al posto di "Accedi"
         const userbar = document.getElementById('userbar');
         userbar.style.display = 'flex';
         
-        // Imposta nome utente e badge
         document.getElementById('userName').innerText = getNameFromEmail(utente);
         document.getElementById('userBadge').innerText = getBadgeText(ruolo);
         document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
         
-        // Mostra user info mobile nella sidebar
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+        document.getElementById('topbarLoginLink').style.display = 'none';
+        const topbarUserSection = document.getElementById('topbarUserSection');
+        topbarUserSection.style.display = 'block';
+        
+        document.getElementById('topbarUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('topbarUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('topbarUserBadge').className = `topbar-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('topbarUserAvatar').innerText = getInitialFromEmail(utente);
       }
     });
 
@@ -1941,7 +2306,7 @@
 
     // Scroll animations
     window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
+      const header = document.querySelector('.main-header');
       if (window.scrollY > 50) {
         header.style.background = 'var(--header-bg)';
         header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
@@ -1965,12 +2330,56 @@
       });
     }, observerOptions);
 
-    // Observe all cards for animation
     document.querySelectorAll('.card, .chart-container').forEach(card => {
       observer.observe(card);
     });
+
+    // Gestione topbar mobile
+    const mobileHamburger = document.getElementById('mobileHamburger');
+    const mobileTopbar = document.getElementById('mobileTopbar');
+    const topbarClose = document.getElementById('topbarClose');
+    const topbarProjects = document.getElementById('topbarProjects');
+
+    if (mobileHamburger) {
+      mobileHamburger.addEventListener('click', () => {
+        mobileTopbar.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    if (topbarClose) {
+      topbarClose.addEventListener('click', () => {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+
+    document.querySelectorAll('.topbar-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    if (topbarProjects) {
+      topbarProjects.addEventListener('click', (e) => {
+        if (e.target.classList.contains('topbar-dropdown-toggle') || 
+            e.target.closest('.topbar-dropdown-toggle')) {
+          topbarProjects.classList.toggle('active');
+        }
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          mobileTopbar.classList.contains('active') &&
+          !mobileTopbar.contains(e.target) && 
+          !mobileHamburger.contains(e.target)) {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
   </script>
   <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>

@@ -2,17 +2,16 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Daze For Future">
   <title>Contatti - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+
   <style>
     :root {
       --bg: #fff;
@@ -22,11 +21,6 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.98);
-      --sidebar-border: rgba(0,0,0,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -34,7 +28,11 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-      --active-link: #007aff; /* Colore per il link attivo */
+      --active-link: #007aff;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -46,11 +44,6 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.95);
-        --header-text: #ffffff;
-        --sidebar-bg: rgba(29,29,31,0.98);
-        --sidebar-border: rgba(255,255,255,0.15);
-        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
@@ -58,7 +51,11 @@
         --overlay-dark: rgba(29, 29, 31, 0.8);
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+        --active-link: #0a84ff;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --topbar-bg: rgba(29, 29, 31, 0.98);
+        --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -70,11 +67,6 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.95);
-      --header-text: #ffffff;
-      --sidebar-bg: rgba(29,29,31,0.98);
-      --sidebar-border: rgba(255,255,255,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
@@ -82,7 +74,11 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+      --active-link: #0a84ff;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --topbar-bg: rgba(29, 29, 31, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
     }
 
     :root[data-theme="light"] {
@@ -93,11 +89,6 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95);
-      --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.98);
-      --sidebar-border: rgba(0,0,0,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -105,7 +96,11 @@
       --overlay-dark: rgba(29, 29, 31, 0.8);
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-      --active-link: #007aff; /* Colore per il link attivo in light mode */
+      --active-link: #007aff;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     /* Stili per evidenziare la pagina attiva */
@@ -134,27 +129,6 @@
       color: var(--active-link);
     }
 
-    /* Per la sidebar */
-    .sidebar-menu a.active {
-      color: var(--active-link) !important;
-      font-weight: 600;
-      background: var(--hover-bg);
-    }
-
-    :root[data-theme="dark"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-
-    :root[data-theme="light"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(0,0,0,0.15);
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     
@@ -169,7 +143,6 @@
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
-      /* background-attachment: fixed; */ /* Rimosso per compatibilità iOS */
     }
 
     /* Overlay dinamico che si adatta al tema - FIX per iOS */
@@ -212,9 +185,11 @@
       line-height: 1.5;
       position: relative;
       min-height: 100vh;
+      font-size: 15px;
     }
 
-    header {
+    /* HEADER PRINCIPALE - VISIBILE SOLO SU DESKTOP */
+    .main-header {
       position: fixed;
       top: 0;
       width: 100%;
@@ -228,7 +203,269 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
+      animation: slideDown 1s ease forwards;
     }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* TOPBAR MOBILE - NASCOSTA DI DEFAULT (ANIMAZIONE DALL'ALTO) */
+    .mobile-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--topbar-shadow);
+      z-index: 1100;
+      display: none;
+      flex-direction: column;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    }
+
+    .mobile-topbar.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .topbar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--hover-bg);
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .topbar-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .topbar-close {
+      background: var(--hover-bg);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-close:hover {
+      background: var(--accent);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .topbar-menu {
+      padding: 0.5rem 0;
+      max-height: 70vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topbar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-menu a:hover,
+    .topbar-menu a.active {
+      background: var(--hover-bg);
+      border-left-color: var(--accent);
+      padding-left: 2rem;
+    }
+
+    .topbar-menu a i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown {
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      gap: 12px;
+    }
+
+    .topbar-dropdown-toggle i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown-toggle .arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-toggle .arrow {
+      transform: rotate(180deg);
+    }
+
+    .topbar-dropdown-toggle:hover {
+      background: var(--hover-bg);
+      padding-left: 2rem;
+      border-left-color: var(--accent);
+    }
+
+    .topbar-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.03);
+      transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-menu {
+      max-height: 300px;
+    }
+
+    .topbar-dropdown-menu a {
+      padding-left: 3rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .topbar-dropdown-menu a:hover {
+      color: var(--text);
+      background: var(--hover-bg);
+    }
+
+    .topbar-user-section {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--hover-bg);
+      display: none;
+    }
+
+    .topbar-user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .topbar-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .topbar-user-details {
+      flex: 1;
+    }
+
+    .topbar-user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .topbar-user-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+    }
+
+    .topbar-user-badge.badge-admin {
+      background: var(--admin-badge);
+      color: white;
+    }
+
+    .topbar-user-badge.badge-user {
+      background: var(--user-badge);
+      color: white;
+    }
+
+    .topbar-logout-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--hover-bg);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      color: #ff3b30;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-logout-btn:hover {
+      background: rgba(255, 59, 48, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* BOTTONE HAMBURGER MOBILE */
+    .mobile-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -238,6 +475,21 @@
       display: flex;
       align-items: center;
       gap: 12px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     nav {
@@ -368,405 +620,6 @@
       z-index: 1;
     }
 
-    /* MIGLIORAMENTI MOBILE COMPLETI E AGGIORNATI */
-    @media (max-width: 768px) {
-      header {
-        padding: 0.8rem 1rem;
-      }
-      
-      .logo {
-        font-size: 1.2rem;
-      }
-      
-      .logo-img {
-        width: 32px;
-        height: 32px;
-      }
-      
-      nav > a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
-      }
-      
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-      
-      .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .section-title {
-        font-size: 1.8rem;
-      }
-      
-      .sidebar {
-        width: 280px;
-      }
-      
-      section {
-        padding: 120px 1rem 80px;
-      }
-      
-      .hero {
-        padding-top: 160px;
-      }
-      
-      .card {
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      .card-image {
-        height: 160px;
-      }
-      
-      .btn {
-        padding: 0.7rem 1.2rem;
-        font-size: 0.9rem;
-      }
-      
-      /* Miglioramenti specifici per contatti su mobile */
-      .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      
-      .contact-card {
-        padding: 1.5rem;
-      }
-      
-      /* Nascondi navigation su mobile e mostra hamburger */
-      #mainNav {
-        display: none;
-      }
-      
-      #sidebarToggle {
-        display: flex;
-      }
-      
-      /* FAB più piccolo su mobile */
-      #theme-fab {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-        bottom: 20px;
-        right: 20px;
-      }
-      
-      #theme-popup {
-        bottom: 80px;
-        right: 20px;
-      }
-      
-      /* NUOVI MIGLIORAMENTI PER MOBILE */
-      
-      /* Miglioramenti per la sezione hero su mobile */
-      .hero h1 {
-        font-size: 2rem;
-        line-height: 1.2;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-        line-height: 1.5;
-      }
-      
-      /* Miglioramenti per le card di contatto */
-      .contact-card h3 {
-        font-size: 1.3rem;
-      }
-      
-      .contact-item {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem 0;
-        margin-bottom: 0.5rem;
-      }
-      
-      .contact-item svg {
-        margin-right: 0;
-        margin-bottom: 0.5rem;
-      }
-      
-      .contact-item a, .contact-item span {
-        font-size: 0.95rem;
-        line-height: 1.4;
-      }
-      
-      /* Miglioramenti per i social links */
-      .social-links {
-        justify-content: center;
-        margin-top: 1.5rem;
-      }
-      
-      /* Miglioramenti per la navigazione header */
-      .logo span {
-        display: none; /* Nascondi il testo del logo su mobile molto piccolo */
-      }
-      
-      /* Miglioramenti per il testo multilinea */
-      .contact-item span br {
-        display: none; /* Nascondi i br su mobile per evitare spaziature eccessive */
-      }
-      
-      .contact-item span {
-        display: block;
-      }
-      
-      /* Miglioramenti per la leggibilità */
-      .text-muted {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-      
-      /* Miglioramenti per il footer */
-      footer {
-        padding: 1.5rem 1rem;
-        font-size: 0.85rem;
-      }
-    }
-
-    /* Per schermi molto piccoli */
-    @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-      }
-      
-      .section-title {
-        font-size: 1.5rem;
-      }
-      
-      .card {
-        padding: 1rem;
-      }
-      
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .contact-card {
-        padding: 1rem;
-      }
-      
-      /* Miglioramenti specifici per schermi molto piccoli */
-      .hero {
-        padding-top: 140px;
-      }
-      
-      section {
-        padding: 100px 1rem 60px;
-      }
-      
-      .contact-grid {
-        gap: 1rem;
-      }
-      
-      .contact-card h3 {
-        font-size: 1.2rem;
-      }
-      
-      .contact-info {
-        margin-top: 1rem;
-      }
-      
-      /* Riduci ulteriormente il padding delle card */
-      .card {
-        padding: 1.2rem;
-      }
-      
-      /* Miglioramenti per la userbar su mobile */
-      .user-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-      
-      .user-display {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      /* Miglioramenti per il logo su schermi piccolissimi */
-      .logo {
-        font-size: 1rem;
-      }
-      
-      .logo-img {
-        width: 28px;
-        height: 28px;
-      }
-    }
-
-    /* Per dispositivi in orientamento orizzontale */
-    @media (max-width: 768px) and (orientation: landscape) {
-      .hero {
-        padding-top: 120px;
-      }
-      
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      
-      .hero p {
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
-      }
-      
-      section {
-        padding: 100px 1rem 60px;
-      }
-    }
-
-    /* Mostra hamburger menu solo su mobile */
-    #sidebarToggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      padding: 0.5rem;
-    }
-
-    @media (max-width: 768px) {
-      #sidebarToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-
-    nav a[href="login.html"],
-    nav a[href="login.html"]:visited {
-      color: var(--accent) !important;
-      font-weight: 700;
-    }
-
-    nav a[href="login.html"]:hover {
-      text-decoration: underline;
-    }
-
-    /* Floating Action Button */
-    #theme-fab {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--accent);
-      color: white;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      font-size: 1.7rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-      z-index: 3000;
-      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    #theme-fab:hover {
-      background: var(--btn-hover-bg);
-      transform: scale(1.1);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-    }
-
-    #theme-fab:active {
-      transform: scale(0.92) rotate(15deg);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    #theme-fab.show {
-      animation: fabPopIn 0.4s ease forwards;
-    }
-
-    @keyframes fabPopIn {
-      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
-    }
-
-    #theme-popup {
-      position: fixed;
-      bottom: 90px;
-      right: 24px;
-      background: var(--sidebar-bg);
-      border: 1px solid var(--sidebar-border);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      border-radius: 12px;
-      display: none;
-      flex-direction: column;
-      padding: 0.5rem;
-      z-index: 3001;
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: translateY(10px) scale(0.95);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-    }
-
-    #theme-popup.show {
-      display: flex;
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    #theme-popup button.theme-option {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      padding: 0.6rem;
-      cursor: pointer;
-      color: var(--text);
-      transition: background 0.25s, transform 0.25s, color 0.25s;
-      border-radius: 8px;
-    }
-
-    #theme-popup button.theme-option:hover {
-      background: var(--hover-bg);
-      transform: scale(1.2) rotate(8deg);
-    }
-
-    #theme-popup button.theme-option:active {
-      transform: scale(0.9) rotate(-8deg);
-    }
-
-    #theme-popup button.theme-option.active {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.15);
-    }
-
-    @keyframes fabClick {
-      0%   { transform: scale(1) rotate(0deg); }
-      30%  { transform: scale(0.8) rotate(-10deg); }
-      60%  { transform: scale(1.2) rotate(10deg); }
-      100% { transform: scale(1) rotate(0deg); }
-    }
-
-    #theme-fab.animate {
-      animation: fabClick 0.4s ease forwards;
-    }
-
-    section .btn {
-      display: inline-flex;
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
     /* Card Styles */
     .card {
       background: var(--card-bg);
@@ -792,51 +645,6 @@
       margin-bottom: 1.5rem;
     }
 
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    .fade-in {
-      animation: fadeIn 1s ease;
-    }
-
-    .fade-in-up {
-      animation: fadeInUp 0.8s ease;
-    }
-
-    /* Logo image */
-    .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .logo:hover .logo-img {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    
     /* Stili per la sezione contatti */
     .contact-grid {
       display: grid;
@@ -895,10 +703,15 @@
       color: var(--text);
       text-decoration: none;
       transition: color 0.3s;
+      word-break: break-word;
     }
 
     .contact-item a:hover {
       color: var(--accent);
+    }
+
+    .contact-item span {
+      word-break: break-word;
     }
 
     .social-links {
@@ -930,7 +743,8 @@
       width: 20px;
       height: 20px;
     }
-  /* Stili per il dropdown menu */
+
+    /* Stili per il dropdown menu desktop */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -968,10 +782,10 @@
       position: absolute;
       top: 100%;
       left: 0;
-      background: var(--sidebar-bg);
+      background: var(--topbar-bg);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--sidebar-border);
+      border: 1px solid var(--hover-bg);
       border-radius: 12px;
       box-shadow: var(--card-shadow);
       min-width: 200px;
@@ -1003,6 +817,7 @@
       font-family: inherit;
       font-size: inherit;
       cursor: pointer;
+      position: relative;
     }
 
     .dropdown-item:hover {
@@ -1011,146 +826,313 @@
 
     .dropdown-divider {
       height: 1px;
-      background: var(--sidebar-border);
+      background: var(--hover-bg);
       margin: 0.25rem 0;
     }
-        /* Stili per la preview della pagina centrale meteorologica */
-    .page-preview {
-      position: absolute;
-      left: -460px; /* Spostata a sinistra per essere completamente visibile */
-      top: 0;
-      width: 450px;
-      height: 320px;
-      background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(-20px) scale(0.95);
-      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-      z-index: 1002;
-      border: 1px solid var(--sidebar-border);
-      backdrop-filter: blur(10px);
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .dropdown-item:hover .page-preview {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0) scale(1);
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
-    .page-preview-content {
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      background: var(--card-bg);
-      color: var(--text);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+    .fade-in {
+      animation: fadeIn 1s ease;
     }
 
-    .page-preview-hero {
-      text-align: center;
-      margin-bottom: 10px;
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
     }
 
-    .page-preview-hero h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 5px;
-      background: linear-gradient(90deg, #007aff, #00c6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .page-preview-hero p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .page-preview-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .page-preview-card {
-      background: var(--bg);
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border: 1px solid var(--sidebar-border);
-      transition: transform 0.2s ease;
-    }
-
-    .page-preview-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .page-preview-card h3 {
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .page-preview-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .page-preview-chart {
-      height: 80px;
-      background: var(--bg);
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--sidebar-border);
-      padding: 10px;
-    }
-
-    .page-preview-chart-line {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    .page-preview-chart-point {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
+    /* Floating Action Button */
+    #theme-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
       background: var(--accent);
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 8px var(--accent);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
     }
 
-    .page-preview-footer {
-      text-align: center;
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px solid var(--sidebar-border);
+    #theme-fab:hover {
+      background: var(--btn-hover-bg);
+      transform: scale(1.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
     }
 
-    .page-preview-footer p {
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-style: italic;
+    #theme-fab:active {
+      transform: scale(0.92) rotate(15deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
+    #theme-fab.show {
+      animation: fabPopIn 0.4s ease forwards;
+    }
+
+    @keyframes fabPopIn {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    #theme-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--topbar-bg);
+      border: 1px solid var(--hover-bg);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem;
+      z-index: 3001;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #theme-popup.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #theme-popup button.theme-option {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.25s, transform 0.25s, color 0.25s;
+      border-radius: 8px;
+    }
+
+    #theme-popup button.theme-option:hover {
+      background: var(--hover-bg);
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    #theme-popup button.theme-option:active {
+      transform: scale(0.9) rotate(-8deg);
+    }
+
+    #theme-popup button.theme-option.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.15);
+    }
+
+    @keyframes fabClick {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(0.8) rotate(-10deg); }
+      60%  { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    #theme-fab.animate {
+      animation: fabClick 0.4s ease forwards;
+    }
+
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
+    }
+
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== MIGLIORAMENTI MOBILE COMPLETI ========== */
     @media (max-width: 768px) {
-      .page-preview {
+      .main-header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      .mobile-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      #mainNav {
         display: none;
+      }
+      
+      .mobile-topbar {
+        display: flex;
+      }
+      
+      .hero {
+        padding-top: 120px;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      section {
+        padding: 100px 1rem 60px;
+      }
+      
+      .card {
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .section-title {
+        font-size: 1.6rem;
+      }
+      
+      .text-muted {
+        font-size: 1rem;
+      }
+      
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin-top: 2rem;
+      }
+      
+      .contact-card {
+        padding: 1.2rem;
+      }
+      
+      .contact-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .contact-item {
+        flex-direction: row;
+        align-items: center;
+        padding: 0.8rem 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .contact-item svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 1rem;
+        margin-bottom: 0;
+      }
+      
+      .contact-item a, .contact-item span {
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+      
+      .social-links {
+        justify-content: center;
+        margin-top: 1.5rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+      }
+      
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+        bottom: 16px;
+        right: 16px;
+      }
+      
+      #theme-popup {
+        bottom: 76px;
+        right: 16px;
+      }
+      
+      body {
+        font-size: 15px;
+      }
+      
+      * {
+        animation-duration: 0.5s !important;
+      }
+      
+      .dropdown {
+        display: none;
+      }
+    }
+
+    @media (max-width: 375px) {
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+      
+      .contact-item a, .contact-item span {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .btn:hover, .contact-card:hover {
+        transform: none;
+      }
+      
+      nav > a, .btn, .contact-card, .theme-option {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
       }
     }
   </style>
@@ -1160,19 +1142,21 @@
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
-  <header>
-    <div class="logo" id="toggleSidebar">
+  <!-- HEADER DESKTOP -->
+  <header class="main-header">
+    <div class="logo" onclick="window.location.href='index.html'">
       <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
       Daze For Future
     </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
-      <a href="/">Home</a>
+      <a href="index.html">Home</a>
       <a href="missione.html">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
-      <a href="chi_siamo.html" class="active">Chi siamo</a>
-      <a href="contatti.html">Contatti</a>
+      <a href="chi_siamo.html">Chi siamo</a>
+      <a href="contatti.html" class="active">Contatti</a>
+      
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
@@ -1188,8 +1172,9 @@
             Mappa Meteo
           </a>
         </div>
-      </div>            <a href="documenti.html">Documenti</a>
       </div>
+      
+      <a href="documenti.html">Documenti</a>
 
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
       <div id="userbar" class="user-info" style="display:none;">
@@ -1208,8 +1193,92 @@
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    
+    <!-- Bottone hamburger per mobile -->
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="Apri menu">
+      <i class="fas fa-bars"></i>
+    </button>
   </header>
+
+  <!-- TOPBAR MOBILE (ANIMAZIONE DALL'ALTO COME IN CHI SIAMO) -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <div class="topbar-header">
+      <div class="topbar-logo">
+        <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="topbar-logo-img">
+        <span>Daze For Future</span>
+      </div>
+      <button class="topbar-close" id="topbarClose" aria-label="Chiudi menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="topbar-menu">
+      <a href="index.html">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="missione.html">
+        <i class="fas fa-bullseye"></i>
+        Missione
+      </a>
+      <a href="prossimi_eventi.html">
+        <i class="fas fa-calendar-alt"></i>
+        Eventi
+      </a>
+      <a href="chi_siamo.html">
+        <i class="fas fa-users"></i>
+        Chi siamo
+      </a>
+      <a href="contatti.html" class="active">
+        <i class="fas fa-envelope"></i>
+        Contatti
+      </a>
+      
+      <!-- Dropdown progetti nella topbar -->
+      <div class="topbar-dropdown" id="topbarProjects">
+        <button class="topbar-dropdown-toggle">
+          <i class="fas fa-project-diagram"></i>
+          <span>Progetti</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="topbar-dropdown-menu">
+          <a href="centrale_meteo.html">
+            <i class="fas fa-cloud-sun"></i>
+            Centrale Meteorologica
+          </a>
+          <a href="mappa.html">
+            <i class="fas fa-map-marked-alt"></i>
+            Mappa Meteo
+          </a>
+        </div>
+      </div>
+      
+      <a href="documenti.html">
+        <i class="fas fa-file-alt"></i>
+        Documenti
+      </a>
+      <a href="login.html" id="topbarLoginLink">
+        <i class="fas fa-sign-in-alt"></i>
+        Accedi
+      </a>
+    </div>
+    
+    <!-- Sezione utente nella topbar -->
+    <div class="topbar-user-section" id="topbarUserSection">
+      <div class="topbar-user-info">
+        <div class="topbar-user-avatar" id="topbarUserAvatar"></div>
+        <div class="topbar-user-details">
+          <div class="topbar-user-name" id="topbarUserName"></div>
+          <span class="topbar-user-badge" id="topbarUserBadge"></span>
+        </div>
+      </div>
+      <button class="topbar-logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+
   <main>
     <section class="hero">
       <div class="hero-content">
@@ -1288,52 +1357,6 @@
       </div>
     </section>
   </main>
-  
-<!-- Sidebar -->
-<aside class="sidebar">
-  <button class="sidebar-close">&times;</button>
-  <h2>Menu</h2>
-  
-  <ul class="sidebar-menu">
-    <li><a href="index.html"><span>🏠</span>Home</a></li>
-      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-  <!-- Dropdown -->
-    <li class="sidebar-dropdown">
-      <button class="sidebar-dropdown-toggle">
-        <span>📁</span>
-        <span>Progetti</span>
-        <span class="dropdown-arrow">▼</span>
-      </button>
-      <ul class="sidebar-dropdown-menu">
-        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-      </ul>
-    </li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html" class="active"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-      <li><a href="forum.html"><span>💬</span> Forum</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-  </ul>
-  
-  <!-- User info per mobile nella sidebar -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-      <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar"></div>
-        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-      </div>
-      <div class="mobile-user-display">
-        <span class="mobile-user-name" id="mobileUserName"></span>
-        <span class="mobile-user-badge" id="mobileUserBadge"></span>
-      </div>
-      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Logout</span>
-      </button>
-    </div>
-  </aside>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
@@ -1351,19 +1374,16 @@
     &copy; 2026 Daze For Future. Tutti i diritti riservati.
   </footer>
 
-
 <script>
     // Funzione per evidenziare la pagina corrente
     function highlightCurrentPage() {
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
       const navLinks = document.querySelectorAll('nav a');
-      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      const topbarLinks = document.querySelectorAll('.topbar-menu a');
       
-      // Rimuovi la classe active da tutti i link
       navLinks.forEach(link => link.classList.remove('active'));
-      sidebarLinks.forEach(link => link.classList.remove('active'));
+      topbarLinks.forEach(link => link.classList.remove('active'));
       
-      // Aggiungi la classe active al link corrente
       navLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
         if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
@@ -1371,22 +1391,20 @@
         }
       });
       
-      sidebarLinks.forEach(link => {
+      topbarLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
         if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
           link.classList.add('active');
         }
       });
       
-      // Gestione speciale per la home page
       if (currentPage === '' || currentPage === 'index.html') {
-        document.querySelector('nav a[href="index.html"]').classList.add('active');
-        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
+        document.querySelector('nav a[href="index.html"]')?.classList.add('active');
+        document.querySelector('.topbar-menu a[href="index.html"]')?.classList.add('active');
       }
       
-      // Gestione speciale per le pagine nei dropdown
-      if (currentPage === 'centrale_meteo.html') {
-        document.querySelector('.dropdown-toggle').classList.add('active');
+      if (currentPage === 'centrale_meteo.html' || currentPage === 'mappa.html') {
+        document.querySelector('.dropdown-toggle')?.classList.add('active');
       }
     }
 
@@ -1445,35 +1463,19 @@
       }
     }
 
-    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+    // On load - Se non c'è tema salvato, usa "auto" come default
     const savedTheme = localStorage.getItem('theme-preference');
     if (savedTheme) {
       applyTheme(savedTheme);
       const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
       if (btn) btn.classList.add('active');
     } else {
-      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
       applyTheme('auto');
       const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
       if (autoBtn) autoBtn.classList.add('active');
     }
 
-    // Mostra FAB con animazione al caricamento
-    window.addEventListener('DOMContentLoaded', () => {
-      const fab = document.getElementById('theme-fab');
-      fab.classList.add('show');
-      
-      // Animazioni per le card
-      const cards = document.querySelectorAll('.fade-in-up');
-      cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-      });
-      
-      // Evidenzia la pagina corrente
-      highlightCurrentPage();
-    });
-
-    // Funzione per estrarre il nome dall'email (prima parte prima della @)
+    // Funzione per estrarre il nome dall'email
     function getNameFromEmail(email) {
       return email.split('@')[0];
     }
@@ -1496,31 +1498,46 @@
     // Mostra la barra utente se loggato
     document.addEventListener('DOMContentLoaded', function() {
       const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
       
       if(utente) {
-        // Nascondi link login
+        // Nascondi link login desktop
         document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
         
-        // Mostra userbar al posto di "Accedi"
+        // Mostra userbar desktop
         const userbar = document.getElementById('userbar');
         userbar.style.display = 'flex';
         
-        // Imposta nome utente e badge
+        // Imposta nome utente e badge desktop
         document.getElementById('userName').innerText = getNameFromEmail(utente);
         document.getElementById('userBadge').innerText = getBadgeText(ruolo);
         document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
         
-        // Mostra user info mobile nella sidebar
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+        // Nascondi link login topbar e mostra sezione utente
+        document.getElementById('topbarLoginLink').style.display = 'none';
+        const topbarUserSection = document.getElementById('topbarUserSection');
+        topbarUserSection.style.display = 'block';
+        
+        // Imposta nome utente e badge topbar
+        document.getElementById('topbarUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('topbarUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('topbarUserBadge').className = `topbar-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('topbarUserAvatar').innerText = getInitialFromEmail(utente);
       }
+      
+      // Mostra FAB con animazione al caricamento
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+      
+      // Evidenzia la pagina corrente
+      highlightCurrentPage();
     });
 
     function logout() {
@@ -1531,7 +1548,7 @@
 
     // Scroll animations
     window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
+      const header = document.querySelector('.main-header');
       if (window.scrollY > 50) {
         header.style.background = 'var(--header-bg)';
         header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
@@ -1559,8 +1576,56 @@
     document.querySelectorAll('.card, .contact-card').forEach(card => {
       observer.observe(card);
     });
+
+    // Gestione topbar mobile (ANIMAZIONE DALL'ALTO COME IN CHI SIAMO)
+    const mobileHamburger = document.getElementById('mobileHamburger');
+    const mobileTopbar = document.getElementById('mobileTopbar');
+    const topbarClose = document.getElementById('topbarClose');
+    const topbarProjects = document.getElementById('topbarProjects');
+
+    if (mobileHamburger) {
+      mobileHamburger.addEventListener('click', () => {
+        mobileTopbar.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    if (topbarClose) {
+      topbarClose.addEventListener('click', () => {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+
+    // Chiudi topbar cliccando su un link
+    document.querySelectorAll('.topbar-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Toggle dropdown progetti nella topbar
+    if (topbarProjects) {
+      topbarProjects.addEventListener('click', (e) => {
+        if (e.target.classList.contains('topbar-dropdown-toggle') || 
+            e.target.closest('.topbar-dropdown-toggle')) {
+          topbarProjects.classList.toggle('active');
+        }
+      });
+    }
+
+    // Chiudi topbar cliccando fuori (solo su mobile)
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          mobileTopbar.classList.contains('active') &&
+          !mobileTopbar.contains(e.target) && 
+          !mobileHamburger.contains(e.target)) {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
 </script>
   <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>

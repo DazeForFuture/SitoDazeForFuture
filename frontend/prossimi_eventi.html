@@ -9,8 +9,6 @@
   <title>Prossimi Eventi - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
 
@@ -25,9 +23,6 @@
       --btn-hover-bg: #333;
       --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.98);
-      --sidebar-border: rgba(0,0,0,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -36,10 +31,8 @@
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --active-link: #007aff;
-      --error: #ff3b30;
-      --success: #34c759;
-      --warning: #ff9500;
-      --info: #007aff;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -53,9 +46,6 @@
         --btn-hover-bg: #ddd;
         --header-bg: rgba(29,29,31,0.95);
         --header-text: #ffffff;
-        --sidebar-bg: rgba(29,29,31,0.98);
-        --sidebar-border: rgba(255,255,255,0.15);
-        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
@@ -64,10 +54,8 @@
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         --active-link: #0a84ff;
-        --error: #ff453a;
-        --success: #30d158;
-        --warning: #ff9f0a;
-        --info: #0a84ff;
+        --topbar-bg: rgba(29, 29, 31, 0.98);
+        --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -81,9 +69,6 @@
       --btn-hover-bg: #ddd;
       --header-bg: rgba(29,29,31,0.95);
       --header-text: #ffffff;
-      --sidebar-bg: rgba(29,29,31,0.98);
-      --sidebar-border: rgba(255,255,255,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
@@ -92,10 +77,8 @@
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       --active-link: #0a84ff;
-      --error: #ff453a;
-      --success: #30d158;
-      --warning: #ff9f0a;
-      --info: #0a84ff;
+      --topbar-bg: rgba(29, 29, 31, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
     }
 
     :root[data-theme="light"] {
@@ -108,9 +91,6 @@
       --btn-hover-bg: #333;
       --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.98);
-      --sidebar-border: rgba(0,0,0,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -119,10 +99,8 @@
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --active-link: #007aff;
-      --error: #ff3b30;
-      --success: #34c759;
-      --warning: #ff9500;
-      --info: #007aff;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     /* Stili per evidenziare la pagina attiva */
@@ -151,40 +129,9 @@
       color: var(--active-link);
     }
 
-    /* Per la sidebar */
-    .sidebar-menu a.active {
-      color: var(--active-link) !important;
-      font-weight: 600;
-      background: var(--hover-bg);
-    }
-
-    :root[data-theme="dark"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-
-    :root[data-theme="light"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(0,0,0,0.15);
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.5;
-      position: relative;
-      min-height: 100vh;
-      font-size: 15px;
-    }
-
+    
     /* FIX PER IPHONE: Sfondo fisso con approccio compatibile */
     .background-container {
       position: fixed;
@@ -230,7 +177,19 @@
       }
     }
 
-    header {
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      position: relative;
+      min-height: 100vh;
+      font-size: 15px;
+    }
+
+    /* HEADER PRINCIPALE - VISIBILE SOLO SU DESKTOP */
+    .main-header {
       position: fixed;
       top: 0;
       width: 100%;
@@ -246,6 +205,397 @@
       background: var(--header-bg);
       transition: all 0.3s ease;
     }
+
+    /* TOPBAR MOBILE - NASCOSTA DI DEFAULT */
+    .mobile-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--topbar-bg, rgba(255, 255, 255, 0.98));
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--topbar-shadow, 0 2px 30px rgba(0, 0, 0, 0.1));
+      z-index: 1200;
+      display: none;
+      flex-direction: column;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+
+    .mobile-topbar.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Overlay per chiudere la topbar toccando fuori */
+    .mobile-topbar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      height: -webkit-fill-available;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1199;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-topbar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .topbar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--hover-bg, rgba(0, 0, 0, 0.05));
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .topbar-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .topbar-logo:hover .topbar-logo-img {
+      transform: scale(1.05);
+    }
+
+    .topbar-close {
+      background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .topbar-close:hover,
+    .topbar-close:focus {
+      background: var(--accent);
+      color: white;
+      transform: rotate(90deg);
+      outline: none;
+    }
+
+    .topbar-close:active {
+      transform: scale(0.95) rotate(90deg);
+    }
+
+    .topbar-menu {
+      padding: 0.5rem 0;
+      max-height: 70vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+    }
+
+    .topbar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .topbar-menu a i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .topbar-menu a:hover i,
+    .topbar-menu a:focus i {
+      transform: scale(1.1);
+    }
+
+    .topbar-menu a:hover,
+    .topbar-menu a:focus,
+    .topbar-menu a.active {
+      background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+      border-left-color: var(--accent);
+      padding-left: 2rem;
+      outline: none;
+    }
+
+    .topbar-menu a.active {
+      background: rgba(0, 122, 255, 0.12);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Dropdown nella topbar */
+    .topbar-dropdown {
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      gap: 12px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .topbar-dropdown-toggle i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .topbar-dropdown-toggle:hover i,
+    .topbar-dropdown-toggle:focus i {
+      transform: scale(1.1);
+    }
+
+    .topbar-dropdown-toggle .arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-toggle .arrow {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .topbar-dropdown-toggle:hover,
+    .topbar-dropdown-toggle:focus {
+      background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+      padding-left: 2rem;
+      border-left-color: var(--accent);
+      outline: none;
+    }
+
+    .topbar-dropdown-toggle.active {
+      background: rgba(0, 122, 255, 0.12);
+      color: var(--accent);
+      border-left-color: var(--accent);
+      font-weight: 700;
+    }
+
+    .topbar-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      background: var(--dropdown-bg, rgba(0, 0, 0, 0.03));
+      transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-menu {
+      max-height: 300px;
+    }
+
+    .topbar-dropdown-menu a {
+      padding-left: 3rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      border-left: 2px solid transparent;
+    }
+
+    .topbar-dropdown-menu a:hover,
+    .topbar-dropdown-menu a:focus {
+      color: var(--text);
+      background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+      border-left-color: var(--accent);
+    }
+
+    .topbar-dropdown-menu a.active {
+      background: rgba(0, 122, 255, 0.08);
+      color: var(--accent);
+      border-left: 3px solid var(--accent);
+      font-weight: 600;
+    }
+
+    /* Sezione utente nella topbar */
+    .topbar-user-section {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--hover-bg);
+      display: none;
+      background: var(--card-bg, rgba(255, 255, 255, 0.7));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .topbar-user-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), #00c6ff);
+    }
+
+    .topbar-user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .topbar-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .topbar-user-avatar:active {
+      transform: scale(0.95);
+    }
+
+    .topbar-user-details {
+      flex: 1;
+    }
+
+    .topbar-user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .topbar-user-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .topbar-user-badge.badge-admin {
+      background: var(--admin-badge, linear-gradient(135deg, #FF2D95 0%, #C50067 100%));
+      color: white;
+    }
+
+    .topbar-user-badge.badge-user {
+      background: var(--user-badge, linear-gradient(135deg, #007AFF 0%, #0040FF 100%));
+      color: white;
+    }
+
+    .topbar-logout-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      color: #ff3b30;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .topbar-logout-btn:hover,
+    .topbar-logout-btn:focus {
+      background: rgba(255, 59, 48, 0.1);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .topbar-logout-btn:active {
+      transform: translateY(0);
+    }
+
+    /* BOTTONE HAMBURGER MOBILE */
+    .mobile-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+      z-index: 1001;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .mobile-hamburger:hover,
+    .mobile-hamburger:focus {
+      color: var(--accent);
+      outline: none;
+    }
+
+    /* Logo desktop */
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -257,6 +607,22 @@
       gap: 12px;
     }
 
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Navigation desktop */
     nav {
       display: flex;
       align-items: center;
@@ -431,22 +797,6 @@
       animation: fadeInUp 0.8s ease;
     }
 
-    /* Logo image */
-    .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .logo:hover .logo-img {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
     /* Floating Action Button */
     #theme-fab {
       position: fixed;
@@ -498,8 +848,8 @@
       position: fixed;
       bottom: 90px;
       right: 24px;
-      background: var(--sidebar-bg);
-      border: 1px solid var(--sidebar-border);
+      background: var(--topbar-bg);
+      border: 1px solid var(--hover-bg);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       border-radius: 12px;
       display: none;
@@ -555,17 +905,6 @@
       animation: fabClick 0.4s ease forwards;
     }
 
-    /* Mostra hamburger menu solo su mobile */
-    #sidebarToggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      padding: 0.5rem;
-    }
-
     nav a[href="login.html"],
     nav a[href="login.html"]:visited {
       color: var(--accent) !important;
@@ -576,229 +915,7 @@
       text-decoration: underline;
     }
 
-    /* ========== MIGLIORAMENTI MOBILE COMPLETI ========== */
-    @media (max-width: 768px) {
-      /* Header più compatto */
-      header {
-        padding: 0.6rem 1rem;
-        height: 60px;
-      }
-      
-      .logo {
-        font-size: 1.1rem;
-        gap: 8px;
-      }
-      
-      .logo-img {
-        width: 28px;
-        height: 28px;
-      }
-      
-      nav > a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
-      }
-      
-      /* Hero section più compatta */
-      .hero {
-        padding-top: 120px;
-        min-height: auto;
-      }
-      
-      .hero h1 {
-        font-size: 1.8rem;
-        margin-bottom: 0.8rem;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      /* Sezioni più compatte */
-      section {
-        padding: 100px 1rem 60px;
-      }
-      
-      .card {
-        padding: 1.2rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      .section-title {
-        font-size: 1.6rem;
-        margin-bottom: 0.8rem;
-      }
-      
-      .text-muted {
-        font-size: 1rem;
-        line-height: 1.5;
-      }
-      
-      /* Event cards su una colonna con layout migliorato */
-      .events-container {
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-        margin-top: 1.5rem;
-      }
-      
-      .event-card {
-        padding: 0;
-      }
-      
-      .event-image {
-        height: 160px;
-      }
-      
-      .event-content {
-        padding: 1.2rem;
-      }
-      
-      .event-title {
-        font-size: 1.3rem;
-      }
-      
-      .event-meta {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      
-      .calendar-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-      
-      /* Bottoni più adatti al mobile */
-      .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 0.8rem 1.2rem;
-        font-size: 0.9rem;
-        margin-top: 1rem;
-      }
-      
-      /* FAB più piccolo e posizionato meglio */
-      #theme-fab {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-        bottom: 16px;
-        right: 16px;
-      }
-      
-      #theme-popup {
-        bottom: 76px;
-        right: 16px;
-      }
-      
-      /* Pulsante aggiungi evento per mobile */
-      #addPostBtn {
-        width: 44px;
-        height: 44px;
-        font-size: 1.3rem;
-        margin-left: 0.5rem;
-      }
-      
-      .mobile-add-event-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 100%;
-        margin: 1rem 0;
-        padding: 1rem;
-      }
-      
-      /* Miglioramenti alla leggibilità */
-      body {
-        font-size: 15px;
-        line-height: 1.5;
-      }
-      
-      /* Riduci animazioni su mobile per prestazioni */
-      * {
-        animation-duration: 0.5s !important;
-      }
-      
-      /* Nascondi navigation su mobile e mostra hamburger */
-      #mainNav {
-        display: none;
-      }
-      
-      #sidebarToggle {
-        display: flex;
-      }
-    }
-
-    /* Per schermi molto piccoli (iPhone SE, etc) */
-    @media (max-width: 375px) {
-      header {
-        padding: 0.5rem 0.8rem;
-      }
-      
-      .logo {
-        font-size: 1rem;
-      }
-      
-      .hero {
-        padding-top: 100px;
-      }
-      
-      .hero h1 {
-        font-size: 1.6rem;
-      }
-      
-      section {
-        padding: 90px 0.8rem 50px;
-      }
-      
-      .card {
-        padding: 1rem;
-        border-radius: 12px;
-      }
-      
-      .event-content {
-        padding: 1rem;
-      }
-      
-      .calendar-day {
-        padding: 1rem;
-      }
-    }
-
-    /* Miglioramenti touch per dispositivi mobili */
-    @media (hover: none) and (pointer: coarse) {
-      .btn:hover,
-      .event-card:hover,
-      .calendar-day:hover {
-        transform: none;
-      }
-      
-      /* Migliora l'area toccabile */
-      nav > a, 
-      .btn, 
-      .event-footer .btn,
-      .theme-option {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-      }
-      
-      #theme-fab,
-      #addPostBtn {
-        min-height: 50px;
-      }
-    }
-
-    /* Prevenire zoom su input per iOS */
-    @media screen and (max-width: 768px) {
-      input, select, textarea {
-        font-size: 16px !important;
-      }
-    }
-
-    /* Stili per il dropdown menu */
+    /* Stili per il dropdown menu desktop */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -836,10 +953,10 @@
       position: absolute;
       top: 100%;
       left: 0;
-      background: var(--sidebar-bg);
+      background: var(--topbar-bg);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--sidebar-border);
+      border: 1px solid var(--hover-bg);
       border-radius: 12px;
       box-shadow: var(--card-shadow);
       min-width: 200px;
@@ -871,6 +988,7 @@
       font-family: inherit;
       font-size: inherit;
       cursor: pointer;
+      position: relative;
     }
 
     .dropdown-item:hover {
@@ -879,10 +997,10 @@
 
     .dropdown-divider {
       height: 1px;
-      background: var(--sidebar-border);
+      background: var(--hover-bg);
       margin: 0.25rem 0;
     }
-    
+
     /* Aggiungi questo div per spingere la navigazione verso destra */
     .header-spacer {
       flex: 1;
@@ -931,7 +1049,7 @@
       font-size: 1.2rem;
     }
 
-    /* AGGIUNTA: Stili per il popup di conferma eliminazione - STILE MIGLIORATO */
+    /* AGGIUNTA: Stili per il popup di conferma eliminazione */
     .confirm-popup {
       position: fixed;
       top: 0;
@@ -1090,14 +1208,6 @@
       }
     }
 
-    /* AGGIUNTA: Header controls per mobile */
-    .header-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-left: auto;
-    }
-
     /* AGGIUNTA: Stili per eventi passati */
     .past-event {
       opacity: 0.7;
@@ -1148,53 +1258,7 @@
       }
     }
 
-    /* AGGIUNTA: Stili per la sidebar dropdown */
-    .sidebar-dropdown {
-      position: relative;
-    }
-
-    .sidebar-dropdown-toggle {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-family: inherit;
-      font-size: inherit;
-      padding: 0.75rem 1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .sidebar-dropdown-menu {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      background: var(--hover-bg);
-      border-radius: 8px;
-      margin: 0.25rem 0.5rem;
-    }
-
-    .sidebar-dropdown.active .sidebar-dropdown-menu {
-      max-height: 200px;
-    }
-
-    .sidebar-dropdown-item {
-      display: block;
-      padding: 0.6rem 1.5rem;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-      transition: background 0.3s ease;
-    }
-
-    .sidebar-dropdown-item:hover {
-      background: var(--hover-bg);
-    }
-
-    /* ========== STILI PER EVENTI (aggiornati con stile documenti) ========== */
+    /* ========== STILI PER EVENTI ========== */
     .events-container {
       display: grid;
       gap: 2rem;
@@ -1545,6 +1609,320 @@
       border-radius: 10px;
       font-weight: 400;
     }
+
+    /* ========== MIGLIORAMENTI MOBILE ========== */
+    @media (max-width: 768px) {
+      /* Header più compatto */
+      .main-header {
+        padding: 0.8rem 1rem;
+        height: 60px;
+      }
+      
+      .logo {
+        font-size: 1.1rem;
+        gap: 8px;
+      }
+      
+      .logo-img {
+        width: 28px;
+        height: 28px;
+      }
+      
+      nav > a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+      }
+      
+      /* Hero section più compatta */
+      .hero {
+        padding-top: 120px;
+        min-height: auto;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      /* Sezioni più compatte */
+      section {
+        padding: 100px 1rem 60px;
+      }
+      
+      .card {
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .text-muted {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      
+      /* Event cards su una colonna con layout migliorato */
+      .events-container {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin-top: 1.5rem;
+      }
+      
+      .event-card {
+        padding: 0;
+      }
+      
+      .event-image {
+        height: 160px;
+      }
+      
+      .event-content {
+        padding: 1.2rem;
+      }
+      
+      .event-title {
+        font-size: 1.3rem;
+      }
+      
+      .event-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .calendar-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      /* Bottoni più adatti al mobile */
+      .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+      }
+      
+      /* FAB più piccolo e posizionato meglio */
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+        bottom: 16px;
+        right: 16px;
+      }
+      
+      #theme-popup {
+        bottom: 76px;
+        right: 16px;
+      }
+      
+      /* Pulsante aggiungi evento per mobile */
+      #addPostBtn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+        margin-left: 0.5rem;
+      }
+      
+      .mobile-add-event-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        margin: 1rem 0;
+        padding: 1rem;
+      }
+      
+      /* Nascondi navigation su mobile e mostra hamburger */
+      #mainNav {
+        display: none;
+      }
+      
+      .mobile-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .mobile-topbar {
+        display: flex;
+        height: 100vh;
+        height: -webkit-fill-available;
+      }
+      
+      /* Alternative al backdrop-filter per browser che non lo supportano bene */
+      @supports not (backdrop-filter: blur(20px)) {
+        .mobile-topbar {
+          background: var(--topbar-bg-fallback, rgba(255, 255, 255, 0.95));
+        }
+      }
+      
+      /* Supporto per dispositivi con notch */
+      @supports (padding: max(0px)) {
+        .mobile-topbar {
+          padding-left: max(0px, env(safe-area-inset-left));
+          padding-right: max(0px, env(safe-area-inset-right));
+          padding-top: max(0px, env(safe-area-inset-top));
+          height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        }
+        
+        .topbar-header {
+          padding-left: max(1rem, env(safe-area-inset-left));
+          padding-right: max(1rem, env(safe-area-inset-right));
+          padding-top: max(0.8rem, env(safe-area-inset-top));
+        }
+      }
+    }
+
+    /* Per schermi molto piccoli (iPhone SE, etc) */
+    @media (max-width: 375px) {
+      .main-header {
+        padding: 0.5rem 0.8rem;
+      }
+      
+      .logo {
+        font-size: 1rem;
+      }
+      
+      .hero {
+        padding-top: 100px;
+      }
+      
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+      
+      section {
+        padding: 90px 0.8rem 50px;
+      }
+      
+      .card {
+        padding: 1rem;
+        border-radius: 12px;
+      }
+      
+      .event-content {
+        padding: 1rem;
+      }
+      
+      .calendar-day {
+        padding: 1rem;
+      }
+      
+      .topbar-menu a {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .topbar-dropdown-toggle {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .topbar-dropdown-menu a {
+        padding-left: 2.5rem;
+        font-size: 0.85rem;
+      }
+      
+      .topbar-logo {
+        font-size: 1rem;
+      }
+      
+      .topbar-logo-img {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    /* Miglioramenti touch per dispositivi mobili */
+    @media (hover: none) and (pointer: coarse) {
+      .btn:hover,
+      .event-card:hover,
+      .calendar-day:hover {
+        transform: none;
+      }
+      
+      /* Migliora l'area toccabile */
+      nav > a, 
+      .btn, 
+      .event-footer .btn,
+      .theme-option {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      
+      #theme-fab,
+      #addPostBtn {
+        min-height: 50px;
+      }
+    }
+
+    /* Prevenire zoom su input per iOS */
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    /* Fallback per browser che non supportano backdrop-filter */
+    @supports not (backdrop-filter: blur(20px)) {
+      .mobile-topbar {
+        background: var(--topbar-bg-fallback, rgba(255, 255, 255, 0.95));
+      }
+    }
+
+    /* Miglioramenti per l'accessibilità */
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-topbar,
+      .mobile-topbar-overlay,
+      .topbar-menu a,
+      .topbar-dropdown-toggle,
+      .topbar-dropdown-menu,
+      .topbar-close,
+      .topbar-logout-btn,
+      .mobile-hamburger {
+        transition-duration: 0.1s;
+      }
+    }
+
+    /* Supporto per modalità scura */
+    @media (prefers-color-scheme: dark) {
+      .mobile-topbar {
+        --topbar-bg: rgba(30, 30, 30, 0.98);
+        --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
+        --topbar-bg-fallback: rgba(30, 30, 30, 0.98);
+      }
+      
+      .topbar-dropdown-menu {
+        --dropdown-bg: rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    /* Tema scuro esplicito */
+    :root[data-theme="dark"] .mobile-topbar {
+      --topbar-bg: rgba(30, 30, 30, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
+      --topbar-bg-fallback: rgba(30, 30, 30, 0.98);
+    }
+
+    /* Tema chiaro esplicito */
+    :root[data-theme="light"] .mobile-topbar {
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+      --topbar-bg-fallback: rgba(255, 255, 255, 0.98);
+    }
   </style>
 </head>
 <body>
@@ -1552,9 +1930,10 @@
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
-  <header>
-    <div class="logo" id="toggleSidebar">
-      <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
+  <!-- HEADER DESKTOP -->
+  <header class="main-header">
+    <div class="logo" onclick="window.location.href='index.html'">
+      <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
       Daze For Future
     </div>
     <div class="header-spacer"></div>
@@ -1566,7 +1945,7 @@
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
       
-  <!-- Menu a tendina Progetti -->
+      <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
           Progetti
@@ -1581,7 +1960,8 @@
             Mappa Meteo
           </a>
         </div>
-      </div>      
+      </div>
+      
       <a href="documenti.html">Documenti</a>
 
       <!-- Userbar che sostituisce "Accedi" quando loggato -->
@@ -1598,6 +1978,7 @@
           </svg>
         </button>
       </div>
+      
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
       
@@ -1605,12 +1986,97 @@
       <button id="addPostBtn" style="display:none;">+</button>
     </nav>
     
-    <!-- CONTROLLI HEADER PER MOBILE -->
-    <div class="header-controls">
-      <!-- SINGOLO hamburger menu -->
-      <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
-    </div>
+    <!-- Bottone hamburger per mobile -->
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="Apri menu">
+      <i class="fas fa-bars"></i>
+    </button>
   </header>
+
+  <!-- TOPBAR MOBILE -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <div class="topbar-header">
+      <div class="topbar-logo" onclick="window.location.href='index.html'">
+        <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="topbar-logo-img">
+        <span>Daze For Future</span>
+      </div>
+      <button class="topbar-close" id="topbarClose" aria-label="Chiudi menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="topbar-menu">
+      <a href="index.html">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="missione.html">
+        <i class="fas fa-bullseye"></i>
+        Missione
+      </a>
+      <a href="prossimi_eventi.html" class="active">
+        <i class="fas fa-calendar-alt"></i>
+        Eventi
+      </a>
+      <a href="chi_siamo.html">
+        <i class="fas fa-users"></i>
+        Chi siamo
+      </a>
+      <a href="contatti.html">
+        <i class="fas fa-envelope"></i>
+        Contatti
+      </a>
+      
+      <!-- Dropdown progetti nella topbar -->
+      <div class="topbar-dropdown" id="topbarProjects">
+        <button class="topbar-dropdown-toggle">
+          <i class="fas fa-project-diagram"></i>
+          <span>Progetti</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="topbar-dropdown-menu">
+          <a href="centrale_meteo.html">
+            <i class="fas fa-cloud-sun"></i>
+            Centrale Meteorologica
+          </a>
+          <a href="mappa.html">
+            <i class="fas fa-map-marked-alt"></i>
+            Mappa Meteo
+          </a>
+        </div>
+      </div>
+      
+      <a href="documenti.html">
+        <i class="fas fa-file-alt"></i>
+        Documenti
+      </a>
+      <a href="forum.html">
+        <i class="fas fa-comments"></i>
+        Forum
+      </a>
+      <a href="login.html" id="topbarLoginLink">
+        <i class="fas fa-sign-in-alt"></i>
+        Accedi
+      </a>
+    </div>
+    
+    <!-- Sezione utente nella topbar -->
+    <div class="topbar-user-section" id="topbarUserSection">
+      <div class="topbar-user-info">
+        <div class="topbar-user-avatar" id="topbarUserAvatar"></div>
+        <div class="topbar-user-details">
+          <div class="topbar-user-name" id="topbarUserName"></div>
+          <span class="topbar-user-badge" id="topbarUserBadge"></span>
+        </div>
+      </div>
+      <button class="topbar-logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay per chiudere la topbar toccando fuori -->
+  <div class="mobile-topbar-overlay" id="mobileTopbarOverlay"></div>
 
   <main>
     <section class="hero">
@@ -1649,55 +2115,6 @@
       </div>
     </section>
   </main>
-  
-<!-- Sidebar -->
-<aside class="sidebar">
-  <button class="sidebar-close">&times;</button>
-  <h2>Menu</h2>
-  
-  <ul class="sidebar-menu">
-    <li><a href="index.html"><span>🏠</span>Home</a></li>
-    <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-    <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-    <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-    <li><a href="prossimi_eventi.html" class="active"><span>📅</span> Eventi</a></li>
-    <!-- Dropdown -->
-    <li class="sidebar-dropdown">
-      <button class="sidebar-dropdown-toggle">
-        <span>📁</span>
-        <span>Progetti</span>
-        <span class="dropdown-arrow">▼</span>
-      </button>
-      <ul class="sidebar-dropdown-menu">
-        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-      </ul>
-    </li>
-    <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-    <li><a href="forum.html"><span>💬</span> Forum</a></li>
-    <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-  </ul>
-  
-  <!-- User info per mobile nella sidebar -->
-  <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-    <div class="mobile-user-header">
-      <div class="user-avatar" id="mobileUserAvatar"></div>
-      <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-    </div>
-    <div class="mobile-user-display">
-      <span class="mobile-user-name" id="mobileUserName"></span>
-      <span class="mobile-user-badge" id="mobileUserBadge"></span>
-    </div>
-    <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span>Logout</span>
-    </button>
-  </div>
-</aside>
-
-  <!-- Overlay per sidebar -->
-  <div class="overlay" id="overlay"></div>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
@@ -1718,7 +2135,7 @@
   <!-- AGGIUNTA: Popup di notifica -->
   <div id="notificationPopup" class="popup"></div>
 
-  <!-- AGGIUNTA: Popup di conferma eliminazione MIGLIORATO -->
+  <!-- AGGIUNTA: Popup di conferma eliminazione -->
   <div id="confirmDeletePopup" class="confirm-popup">
     <div class="confirm-content">
       <button class="confirm-close" id="closeConfirmDelete">&times;</button>
@@ -2199,7 +2616,7 @@
             document.getElementById('postFormContainer').style.display = 'none';
         });
         
-        // Gestione conferma eliminazione MIGLIORATA
+        // Gestione conferma eliminazione
         document.getElementById('closeConfirmDelete').addEventListener('click', () => {
             document.getElementById('confirmDeletePopup').classList.remove('show');
             postDaEliminare = null;
@@ -2290,9 +2707,9 @@
             document.getElementById('postForm').removeAttribute('data-edit-id');
         });
         
-        // Inizializza sidebar, tema e highlight pagina
+        // Inizializza topbar, tema e highlight pagina
         highlightCurrentPage();
-        initSidebar();
+        initTopbar();
         initTheme();
     });
 
@@ -2300,10 +2717,10 @@
     function highlightCurrentPage() {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
         const navLinks = document.querySelectorAll('nav a');
-        const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+        const topbarLinks = document.querySelectorAll('.topbar-menu a');
         
         navLinks.forEach(link => link.classList.remove('active'));
-        sidebarLinks.forEach(link => link.classList.remove('active'));
+        topbarLinks.forEach(link => link.classList.remove('active'));
         
         navLinks.forEach(link => {
             if (link.getAttribute('href') === currentPage) {
@@ -2311,11 +2728,17 @@
             }
         });
         
-        sidebarLinks.forEach(link => {
+        topbarLinks.forEach(link => {
             if (link.getAttribute('href') === currentPage) {
                 link.classList.add('active');
             }
         });
+        
+        // Evidenzia dropdown se attivo
+        if (currentPage === 'centrale_meteo.html' || currentPage === 'mappa.html') {
+            document.querySelector('.dropdown-toggle').classList.add('active');
+            document.querySelector('.topbar-dropdown-toggle').classList.add('active');
+        }
     }
 
     function getNameFromEmail(email) {
@@ -2341,9 +2764,8 @@
         if(utente) {
             // Nascondi link login
             document.getElementById('loginLink').style.display = 'none';
-            document.getElementById('sidebarLoginLink').style.display = 'none';
             
-            // Mostra userbar
+            // Mostra userbar desktop
             const userbar = document.getElementById('userbar');
             userbar.style.display = 'flex';
             
@@ -2353,13 +2775,16 @@
             document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
             document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
             
-            // Mostra info mobile
-            const mobileUserInfo = document.getElementById('mobileUserInfo');
-            mobileUserInfo.style.display = 'block';
-            document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-            document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-            document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-            document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+            // Nascondi link login topbar e mostra sezione utente
+            document.getElementById('topbarLoginLink').style.display = 'none';
+            const topbarUserSection = document.getElementById('topbarUserSection');
+            topbarUserSection.style.display = 'block';
+            
+            // Imposta nome utente e badge topbar
+            document.getElementById('topbarUserName').innerText = getNameFromEmail(utente);
+            document.getElementById('topbarUserBadge').innerText = getBadgeText(ruolo);
+            document.getElementById('topbarUserBadge').className = `topbar-user-badge ${getBadgeClass(ruolo)}`;
+            document.getElementById('topbarUserAvatar').innerText = getInitialFromEmail(utente);
             
             // Mostra pulsanti admin
             if (ruolo === 'admin') {
@@ -2381,7 +2806,7 @@
 
     // ===== ANIMAZIONI E TEMA =====
     window.addEventListener('scroll', () => {
-        const header = document.querySelector('header');
+        const header = document.querySelector('.main-header');
         if (window.scrollY > 50) {
             header.style.background = 'var(--header-bg)';
             header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
@@ -2471,20 +2896,56 @@
         if (autoBtn) autoBtn.classList.add('active');
     }
 
-    function initSidebar() {
-        const sidebar = document.querySelector('.sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebarClose = document.querySelector('.sidebar-close');
-        const toggleSidebar = document.getElementById('toggleSidebar');
-        
-        sidebarToggle.addEventListener('click', () => sidebar.classList.add('open'));
-        toggleSidebar.addEventListener('click', () => sidebar.classList.add('open'));
-        sidebarClose.addEventListener('click', () => sidebar.classList.remove('open'));
-        
+    // ===== GESTIONE TOPBAR =====
+    function initTopbar() {
+        const mobileHamburger = document.getElementById('mobileHamburger');
+        const mobileTopbar = document.getElementById('mobileTopbar');
+        const topbarClose = document.getElementById('topbarClose');
+        const topbarProjects = document.getElementById('topbarProjects');
+        const mobileTopbarOverlay = document.getElementById('mobileTopbarOverlay');
+
+        mobileHamburger.addEventListener('click', () => {
+            mobileTopbar.classList.add('active');
+            mobileTopbarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        topbarClose.addEventListener('click', () => {
+            mobileTopbar.classList.remove('active');
+            mobileTopbarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Chiudi topbar cliccando sull'overlay
+        mobileTopbarOverlay.addEventListener('click', () => {
+            mobileTopbar.classList.remove('active');
+            mobileTopbarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Chiudi topbar cliccando su un link
+        document.querySelectorAll('.topbar-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileTopbar.classList.remove('active');
+                mobileTopbarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Toggle dropdown progetti nella topbar
+        topbarProjects.addEventListener('click', (e) => {
+            if (e.target.classList.contains('topbar-dropdown-toggle') || 
+                e.target.closest('.topbar-dropdown-toggle')) {
+                topbarProjects.classList.toggle('active');
+            }
+        });
+
+        // Chiudi dropdown cliccando fuori (solo su mobile)
         document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && 
-                !toggleSidebar.contains(e.target) && sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
+            if (window.innerWidth <= 768 && 
+                topbarProjects.classList.contains('active') &&
+                !topbarProjects.contains(e.target)) {
+                topbarProjects.classList.remove('active');
             }
         });
     }
@@ -2506,6 +2967,5 @@
         }[s]));
     }
 </script>
-<script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>

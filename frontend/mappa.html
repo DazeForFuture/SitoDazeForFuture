@@ -16,8 +16,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- CSS del sito -->
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
 
@@ -32,9 +30,6 @@
       --btn-hover-bg: #333;
       --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.98);
-      --sidebar-border: rgba(0,0,0,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -43,6 +38,8 @@
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --active-link: #007aff;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -56,9 +53,6 @@
         --btn-hover-bg: #ddd;
         --header-bg: rgba(29,29,31,0.95);
         --header-text: #ffffff;
-        --sidebar-bg: rgba(29,29,31,0.98);
-        --sidebar-border: rgba(255,255,255,0.15);
-        --sidebar-shadow: rgba(0,0,0,0.4);
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
@@ -67,6 +61,8 @@
         --card-bg: rgba(29, 29, 31, 0.9);
         --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         --active-link: #0a84ff;
+        --topbar-bg: rgba(29, 29, 31, 0.98);
+        --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -80,9 +76,6 @@
       --btn-hover-bg: #ddd;
       --header-bg: rgba(29,29,31,0.95);
       --header-text: #ffffff;
-      --sidebar-bg: rgba(29,29,31,0.98);
-      --sidebar-border: rgba(255,255,255,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.4);
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
@@ -91,6 +84,8 @@
       --card-bg: rgba(29, 29, 31, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       --active-link: #0a84ff;
+      --topbar-bg: rgba(29, 29, 31, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
     }
 
     :root[data-theme="light"] {
@@ -103,9 +98,6 @@
       --btn-hover-bg: #333;
       --header-bg: rgba(255,255,255,0.95);
       --header-text: #1d1d1f;
-      --sidebar-bg: rgba(255,255,255,0.98);
-      --sidebar-border: rgba(0,0,0,0.15);
-      --sidebar-shadow: rgba(0,0,0,0.15);
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
@@ -114,6 +106,8 @@
       --card-bg: rgba(255, 255, 255, 0.9);
       --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
       --active-link: #007aff;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     /* Stili per evidenziare la pagina attiva */
@@ -142,10 +136,11 @@
       color: var(--active-link);
     }
 
-    .sidebar-menu a.active {
+    .topbar-menu a.active {
       color: var(--active-link) !important;
-      font-weight: 600;
+      font-weight: 700;
       background: var(--hover-bg);
+      border-left-color: var(--accent);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -203,7 +198,8 @@
       min-height: 100vh;
     }
 
-    header {
+    /* HEADER DESKTOP */
+    .main-header {
       position: fixed;
       top: 0;
       width: 100%;
@@ -217,7 +213,7 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
-      animation: slideDown 0.25s ease forwards;
+      animation: slideDown 1s ease forwards;
     }
 
     @keyframes slideDown {
@@ -234,6 +230,21 @@
       display: flex;
       align-items: center;
       gap: 12px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     nav {
@@ -263,6 +274,340 @@
 
     nav > a:hover::after {
       width: 100%;
+    }
+
+    /* Dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--hover-bg);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    /* TOPBAR MOBILE - NASCOSTA DI DEFAULT */
+    .mobile-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--topbar-shadow);
+      z-index: 1100;
+      display: none;
+      flex-direction: column;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    }
+
+    .mobile-topbar.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .topbar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--hover-bg);
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .topbar-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .topbar-close {
+      background: var(--hover-bg);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-close:hover {
+      background: var(--accent);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .topbar-menu {
+      padding: 0.5rem 0;
+      max-height: 70vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topbar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-menu a:hover,
+    .topbar-menu a.active {
+      background: var(--hover-bg);
+      border-left-color: var(--accent);
+      padding-left: 2rem;
+    }
+
+    .topbar-menu a i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown {
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      gap: 12px;
+    }
+
+    .topbar-dropdown-toggle i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown-toggle .arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-toggle .arrow {
+      transform: rotate(180deg);
+    }
+
+    .topbar-dropdown-toggle:hover {
+      background: var(--hover-bg);
+      padding-left: 2rem;
+      border-left-color: var(--accent);
+    }
+
+    .topbar-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.03);
+      transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-menu {
+      max-height: 300px;
+    }
+
+    .topbar-dropdown-menu a {
+      padding-left: 3rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .topbar-dropdown-menu a:hover {
+      color: var(--text);
+      background: var(--hover-bg);
+    }
+
+    .topbar-user-section {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--hover-bg);
+      display: none;
+    }
+
+    .topbar-user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .topbar-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .topbar-user-details {
+      flex: 1;
+    }
+
+    .topbar-user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .topbar-user-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+    }
+
+    .topbar-user-badge.badge-admin {
+      background: var(--admin-badge);
+      color: white;
+    }
+
+    .topbar-user-badge.badge-user {
+      background: var(--user-badge);
+      color: white;
+    }
+
+    .topbar-logout-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--hover-bg);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      color: #ff3b30;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-logout-btn:hover {
+      background: rgba(255, 59, 48, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* BOTTONE HAMBURGER MOBILE */
+    .mobile-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+      z-index: 1001;
     }
 
     /* Hero section */
@@ -449,101 +794,6 @@
       margin-top: 2rem;
     }
 
-    /* Dropdown menu */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-toggle {
-      margin-left: 2rem;
-      text-decoration: none;
-      color: var(--header-text, var(--text));
-      font-weight: 600;
-      position: relative;
-      padding: 0.5rem;
-      background: none;
-      border: none;
-      font-family: inherit;
-      font-size: inherit;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .dropdown-toggle::after {
-      content: "▼";
-      font-size: 0.7rem;
-      margin-left: 4px;
-      transition: transform 0.3s ease;
-    }
-
-    .dropdown:hover .dropdown-toggle::after {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: var(--sidebar-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      min-width: 200px;
-      padding: 0.5rem 0;
-      z-index: 1001;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-
-    .dropdown:hover .dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .dropdown-item {
-      display: block;
-      padding: 0.75rem 1.5rem;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-      transition: background 0.3s ease;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-      font-family: inherit;
-      font-size: inherit;
-      cursor: pointer;
-    }
-
-    .dropdown-item:hover {
-      background: var(--hover-bg);
-    }
-
-    /* Logo image */
-    .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .logo:hover .logo-img {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
     /* Floating Action Button */
     #theme-fab {
       position: fixed;
@@ -595,8 +845,8 @@
       position: fixed;
       bottom: 90px;
       right: 24px;
-      background: var(--sidebar-bg);
-      border: 1px solid var(--sidebar-border);
+      background: var(--topbar-bg);
+      border: 1px solid var(--hover-bg);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       border-radius: 12px;
       display: none;
@@ -670,7 +920,7 @@
 
     /* Miglioramenti mobile */
     @media (max-width: 768px) {
-      header {
+      .main-header {
         padding: 0.8rem 1rem;
       }
       
@@ -683,10 +933,18 @@
         height: 32px;
       }
       
-      nav > a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
+      .mobile-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      #mainNav {
+        display: none;
+      }
+      
+      .mobile-topbar {
+        display: flex;
       }
       
       .hero h1 {
@@ -710,15 +968,6 @@
         padding-bottom: 40px;
       }
       
-      /* Nascondi navigation su mobile e mostra hamburger */
-      #mainNav {
-        display: none;
-      }
-      
-      #sidebarToggle {
-        display: flex;
-      }
-      
       /* FAB più piccolo su mobile */
       #theme-fab {
         width: 50px;
@@ -733,10 +982,6 @@
         right: 20px;
       }
       
-      .dropdown {
-        display: none;
-      }
-      
       /* Controlli mappa su mobile */
       .map-controls {
         flex-direction: column;
@@ -749,6 +994,14 @@
       
       .brightness-slider-container {
         flex: 1;
+      }
+      
+      .topbar-menu a {
+        padding: 0.9rem 1.25rem;
+      }
+      
+      .topbar-dropdown-toggle {
+        padding: 0.9rem 1.25rem;
       }
     }
 
@@ -781,24 +1034,13 @@
       .brightness-slider-container {
         min-width: 140px;
       }
-    }
-
-    /* Mostra hamburger menu solo su mobile */
-    #sidebarToggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      padding: 0.5rem;
-    }
-
-    @media (max-width: 768px) {
-      #sidebarToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      
+      .topbar-menu a {
+        padding: 0.9rem 1rem;
+      }
+      
+      .topbar-dropdown-toggle {
+        padding: 0.9rem 1rem;
       }
     }
 
@@ -818,9 +1060,9 @@
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
-  <!-- Header -->
-  <header>
-    <div class="logo" id="toggleSidebar">
+  <!-- HEADER DESKTOP -->
+  <header class="main-header">
+    <div class="logo" onclick="window.location.href='index.html'">
       <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
       Daze For Future
     </div>
@@ -835,7 +1077,7 @@
 
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
-        <button class="dropdown-toggle">
+        <button class="dropdown-toggle active">
           Progetti
         </button>
         <div class="dropdown-menu">
@@ -869,8 +1111,91 @@
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    
+    <!-- Bottone hamburger per mobile -->
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="Apri menu">
+      <i class="fas fa-bars"></i>
+    </button>
   </header>
+
+  <!-- TOPBAR MOBILE -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <div class="topbar-header">
+      <div class="topbar-logo">
+        <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="topbar-logo-img">
+        <span>Daze For Future</span>
+      </div>
+      <button class="topbar-close" id="topbarClose" aria-label="Chiudi menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="topbar-menu">
+      <a href="index.html">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="missione.html">
+        <i class="fas fa-bullseye"></i>
+        Missione
+      </a>
+      <a href="prossimi_eventi.html">
+        <i class="fas fa-calendar-alt"></i>
+        Eventi
+      </a>
+      <a href="chi_siamo.html">
+        <i class="fas fa-users"></i>
+        Chi siamo
+      </a>
+      <a href="contatti.html">
+        <i class="fas fa-envelope"></i>
+        Contatti
+      </a>
+      
+      <!-- Dropdown progetti nella topbar -->
+      <div class="topbar-dropdown" id="topbarProjects">
+        <button class="topbar-dropdown-toggle">
+          <i class="fas fa-project-diagram"></i>
+          <span>Progetti</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="topbar-dropdown-menu">
+          <a href="centrale_meteo.html" class="active">
+            <i class="fas fa-cloud-sun"></i>
+            Centrale Meteorologica
+          </a>
+          <a href="mappa.html">
+            <i class="fas fa-map-marked-alt"></i>
+            Mappa Meteo
+          </a>
+        </div>
+      </div>
+      
+      <a href="documenti.html">
+        <i class="fas fa-file-alt"></i>
+        Documenti
+      </a>
+      <a href="login.html" id="topbarLoginLink">
+        <i class="fas fa-sign-in-alt"></i>
+        Accedi
+      </a>
+    </div>
+    
+    <!-- Sezione utente nella topbar -->
+    <div class="topbar-user-section" id="topbarUserSection">
+      <div class="topbar-user-info">
+        <div class="topbar-user-avatar" id="topbarUserAvatar"></div>
+        <div class="topbar-user-details">
+          <div class="topbar-user-name" id="topbarUserName"></div>
+          <span class="topbar-user-badge" id="topbarUserBadge"></span>
+        </div>
+      </div>
+      <button class="topbar-logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
 
   <main>
     <!-- Hero Section -->
@@ -917,53 +1242,6 @@
       </div>
     </section>
   </main>
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <button class="sidebar-close">&times;</button>
-    <h2>Menu</h2>
-    
-    <ul class="sidebar-menu">
-      <li><a href="index.html"><span>🏠</span>Home</a></li>
-      <li><a href="missione.html"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-      <!-- Dropdown -->
-      <li class="sidebar-dropdown">
-        <button class="sidebar-dropdown-toggle">
-          <span>📁</span>
-          <span>Progetti</span>
-          <span class="dropdown-arrow">▼</span>
-        </button>
-        <ul class="sidebar-dropdown-menu">
-          <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-          <li><a href="mappa.html"><span>📄</span>Mappa Meteo</a></li>
-        </ul>
-      </li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-      <li><a href="forum.html"><span>💬</span> Forum</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-    </ul>
-
-    <!-- Sezione utente mobile -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-      <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar"></div>
-        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-      </div>
-      <div class="mobile-user-display">
-        <span class="mobile-user-name" id="mobileUserName"></span>
-        <span class="mobile-user-badge" id="mobileUserBadge"></span>
-      </div>
-      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Logout</span>
-      </button>
-    </div>
-  </aside>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
@@ -1176,91 +1454,14 @@
       }
     }
 
-    // ===== INIZIALIZZAZIONE PAGINA =====
-    window.addEventListener('DOMContentLoaded', () => {
-      // Mostra FAB con animazione
-      const fab = document.getElementById('theme-fab');
-      fab.classList.add('show');
-      
-      // Carica tema
-      const savedTheme = localStorage.getItem('theme-preference');
-      if (savedTheme) {
-        applyTheme(savedTheme);
-        const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
-        if (btn) btn.classList.add('active');
-      } else {
-        applyTheme('auto');
-        const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
-        if (autoBtn) autoBtn.classList.add('active');
-      }
-      
-      // Evidenzia pagina corrente
-      highlightCurrentPage();
-      
-      // Gestione login
-      const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
-      
-      if(utente) {
-        // Nascondi link login
-        document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
-        
-        // Mostra userbar
-        const userbar = document.getElementById('userbar');
-        userbar.style.display = 'flex';
-        
-        // Imposta dati utente
-        document.getElementById('userName').innerText = getNameFromEmail(utente);
-        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
-        
-        // Mostra user info mobile
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
-      }
-      
-      // Carica il radar
-      loadRainViewer();
-      
-      // Aggiorna automaticamente ogni 5 minuti
-      setInterval(loadRainViewer, 300000);
-      
-      // Aggiungi controlli alla mappa
-      L.control.zoom({ position: 'topright' }).addTo(map);
-      
-      // Aggiungi scale alla mappa
-      L.control.scale().addTo(map);
-      
-      // Salva opacità iniziale nel localStorage
-      const savedOpacity = localStorage.getItem('radarOpacity');
-      if (savedOpacity) {
-        const slider = document.getElementById('brightnessSlider');
-        const value = Math.round(parseFloat(savedOpacity) * 100);
-        slider.value = value;
-        radarOpacity = parseFloat(savedOpacity);
-        updateBrightness();
-      }
-      
-      // Salva opacità quando lo slider cambia
-      document.getElementById('brightnessSlider').addEventListener('change', function() {
-        localStorage.setItem('radarOpacity', radarOpacity.toString());
-      });
-    });
-    
     // ===== FUNZIONI UTILITY =====
     function highlightCurrentPage() {
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
       const navLinks = document.querySelectorAll('nav a');
-      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      const topbarLinks = document.querySelectorAll('.topbar-menu a');
       
       navLinks.forEach(link => link.classList.remove('active'));
-      sidebarLinks.forEach(link => link.classList.remove('active'));
+      topbarLinks.forEach(link => link.classList.remove('active'));
       
       navLinks.forEach(link => {
         const href = link.getAttribute('href');
@@ -1269,7 +1470,7 @@
         }
       });
       
-      sidebarLinks.forEach(link => {
+      topbarLinks.forEach(link => {
         const href = link.getAttribute('href');
         if (href === currentPage || (currentPage === '' && href === 'index.html')) {
           link.classList.add('active');
@@ -1303,10 +1504,132 @@
       localStorage.removeItem('utente_ruolo');
       window.location.href = "login.html";
     }
+
+    // Gestione topbar mobile
+    const mobileHamburger = document.getElementById('mobileHamburger');
+    const mobileTopbar = document.getElementById('mobileTopbar');
+    const topbarClose = document.getElementById('topbarClose');
+    const topbarProjects = document.getElementById('topbarProjects');
+
+    mobileHamburger.addEventListener('click', () => {
+      mobileTopbar.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    topbarClose.addEventListener('click', () => {
+      mobileTopbar.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // Chiudi topbar cliccando su un link
+    document.querySelectorAll('.topbar-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Toggle dropdown progetti nella topbar
+    topbarProjects.addEventListener('click', (e) => {
+      if (e.target.classList.contains('topbar-dropdown-toggle') || 
+          e.target.closest('.topbar-dropdown-toggle')) {
+        topbarProjects.classList.toggle('active');
+      }
+    });
+
+    // Chiudi topbar cliccando fuori (solo su mobile)
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          mobileTopbar.classList.contains('active') &&
+          !mobileTopbar.contains(e.target) && 
+          !mobileHamburger.contains(e.target)) {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+    
+    // ===== INIZIALIZZAZIONE PAGINA =====
+    window.addEventListener('DOMContentLoaded', () => {
+      // Mostra FAB con animazione
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Carica tema
+      const savedTheme = localStorage.getItem('theme-preference');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+        const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
+        if (btn) btn.classList.add('active');
+      } else {
+        applyTheme('auto');
+        const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
+        if (autoBtn) autoBtn.classList.add('active');
+      }
+      
+      // Evidenzia pagina corrente
+      highlightCurrentPage();
+      
+      // Gestione login
+      const utente = localStorage.getItem('utente');
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
+      
+      if(utente) {
+        // Nascondi link login desktop
+        document.getElementById('loginLink').style.display = 'none';
+        
+        // Mostra userbar desktop
+        const userbar = document.getElementById('userbar');
+        userbar.style.display = 'flex';
+        
+        // Imposta dati utente desktop
+        document.getElementById('userName').innerText = getNameFromEmail(utente);
+        document.getElementById('userBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
+        
+        // Nascondi link login topbar e mostra sezione utente
+        document.getElementById('topbarLoginLink').style.display = 'none';
+        const topbarUserSection = document.getElementById('topbarUserSection');
+        topbarUserSection.style.display = 'block';
+        
+        // Imposta dati utente topbar
+        document.getElementById('topbarUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('topbarUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('topbarUserBadge').className = `topbar-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('topbarUserAvatar').innerText = getInitialFromEmail(utente);
+      }
+      
+      // Carica il radar
+      loadRainViewer();
+      
+      // Aggiorna automaticamente ogni 5 minuti
+      setInterval(loadRainViewer, 300000);
+      
+      // Aggiungi controlli alla mappa
+      L.control.zoom({ position: 'topright' }).addTo(map);
+      
+      // Aggiungi scale alla mappa
+      L.control.scale().addTo(map);
+      
+      // Salva opacità iniziale nel localStorage
+      const savedOpacity = localStorage.getItem('radarOpacity');
+      if (savedOpacity) {
+        const slider = document.getElementById('brightnessSlider');
+        const value = Math.round(parseFloat(savedOpacity) * 100);
+        slider.value = value;
+        radarOpacity = parseFloat(savedOpacity);
+        updateBrightness();
+      }
+      
+      // Salva opacità quando lo slider cambia
+      document.getElementById('brightnessSlider').addEventListener('change', function() {
+        localStorage.setItem('radarOpacity', radarOpacity.toString());
+      });
+    });
     
     // Animazioni scroll
     window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
+      const header = document.querySelector('.main-header');
       if (window.scrollY > 50) {
         header.style.background = 'var(--header-bg)';
         header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
@@ -1329,8 +1652,7 @@
     });
   </script>
   
-  <!-- Script temi e sidebar -->
+  <!-- Script tema -->
   <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>

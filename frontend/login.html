@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Daze for Future">
-  <title>Login - Daze for Future</title>
+  <meta name="apple-mobile-web-app-title" content="Daze For Future">
+  <title>Login - Daze For Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
 
@@ -39,7 +38,9 @@
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
-      --active-link: #007aff; /* Colore per il link attivo */
+      --active-link: #007aff;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -66,7 +67,9 @@
         --success: #30d158;
         --error: #ff453a;
         --warning: #ff9f0a;
-        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+        --active-link: #0a84ff;
+        --topbar-bg: rgba(29, 29, 31, 0.98);
+        --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -93,7 +96,9 @@
       --success: #30d158;
       --error: #ff453a;
       --warning: #ff9f0a;
-      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+      --active-link: #0a84ff;
+      --topbar-bg: rgba(29, 29, 31, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
     }
 
     :root[data-theme="light"] {
@@ -119,7 +124,9 @@
       --success: #34c759;
       --error: #ff3b30;
       --warning: #ff9500;
-      --active-link: #007aff; /* Colore per il link attivo in light mode */
+      --active-link: #007aff;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     /* Stili per evidenziare la pagina attiva */
@@ -137,6 +144,13 @@
       height: 2px;
       background: var(--active-link);
       transition: width 0.3s;
+    }
+
+    .topbar-menu a.active {
+      color: var(--active-link) !important;
+      font-weight: 700;
+      background: var(--hover-bg);
+      border-left-color: var(--accent);
     }
 
     /* Stile per il link Accedi evidenziato - sovrascrive lo stile attivo */
@@ -224,7 +238,7 @@
     }
 
     /* Animazione header come in index.html */
-    header {
+    .main-header {
       position: fixed;
       top: 0;
       width: 100%;
@@ -238,7 +252,7 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
-      animation: slideDown 1s ease forwards; /* ANIMAZIONE AGGIUNTA */
+      animation: slideDown 1s ease forwards;
     }
 
     @keyframes slideDown {
@@ -310,6 +324,276 @@
 
     nav a[href="login.html"]:hover {
       text-decoration: underline;
+    }
+
+    /* TOPBAR MOBILE - NASCOSTA DI DEFAULT */
+    .mobile-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--topbar-shadow);
+      z-index: 1100;
+      display: none;
+      flex-direction: column;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    }
+
+    .mobile-topbar.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .topbar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--hover-bg);
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .topbar-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .topbar-close {
+      background: var(--hover-bg);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-close:hover {
+      background: var(--accent);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .topbar-menu {
+      padding: 0.5rem 0;
+      max-height: 70vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topbar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-menu a:hover,
+    .topbar-menu a.active {
+      background: var(--hover-bg);
+      border-left-color: var(--accent);
+      padding-left: 2rem;
+    }
+
+    .topbar-menu a i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown {
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      gap: 12px;
+    }
+
+    .topbar-dropdown-toggle i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown-toggle .arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-toggle .arrow {
+      transform: rotate(180deg);
+    }
+
+    .topbar-dropdown-toggle:hover {
+      background: var(--hover-bg);
+      padding-left: 2rem;
+      border-left-color: var(--accent);
+    }
+
+    .topbar-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.03);
+      transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-menu {
+      max-height: 300px;
+    }
+
+    .topbar-dropdown-menu a {
+      padding-left: 3rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .topbar-dropdown-menu a:hover {
+      color: var(--text);
+      background: var(--hover-bg);
+    }
+
+    .topbar-user-section {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--hover-bg);
+      display: none;
+    }
+
+    .topbar-user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .topbar-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .topbar-user-details {
+      flex: 1;
+    }
+
+    .topbar-user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .topbar-user-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+    }
+
+    .topbar-user-badge.badge-admin {
+      background: var(--admin-badge);
+      color: white;
+    }
+
+    .topbar-user-badge.badge-user {
+      background: var(--user-badge);
+      color: white;
+    }
+
+    .topbar-logout-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--hover-bg);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      color: #ff3b30;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-logout-btn:hover {
+      background: rgba(255, 59, 48, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* BOTTONE HAMBURGER MOBILE - OTTIMIZZATO - NASCOSTO SU DESKTOP */
+    .mobile-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--header-text);
+      z-index: 1001;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      margin: 0;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .mobile-hamburger:hover {
+      background: var(--hover-bg);
+    }
+
+    .mobile-hamburger i {
+      font-size: 1.5rem;
+      line-height: 1;
     }
 
     /* Stile per il bottone Google */
@@ -397,23 +681,6 @@
     .separator span {
       padding: 0 1rem;
       font-size: 0.9rem;
-    }
-
-    /* Pulsante hamburger */
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      width: auto;
-      padding: 0.5rem;
-    }
-
-    .hamburger:hover {
-      background: transparent;
-      transform: scale(1.1);
     }
 
     main {
@@ -715,8 +982,8 @@
       position: fixed;
       bottom: 90px;
       right: 24px;
-      background: var(--sidebar-bg);
-      border: 1px solid var(--sidebar-border);
+      background: var(--topbar-bg);
+      border: 1px solid var(--hover-bg);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       border-radius: 12px;
       display: none;
@@ -803,7 +1070,7 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      header {
+      .main-header {
         padding: 0.8rem 1rem;
       }
       
@@ -816,10 +1083,16 @@
         height: 32px;
       }
       
-      nav > a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
+      .mobile-hamburger {
+        display: flex;
+      }
+      
+      #mainNav {
+        display: none;
+      }
+      
+      .mobile-topbar {
+        display: flex;
       }
       
       .section-title {
@@ -842,15 +1115,6 @@
         padding: 1.5rem;
       }
       
-      /* Nascondi navigation su mobile e mostra hamburger */
-      #mainNav {
-        display: none;
-      }
-      
-      .hamburger {
-        display: flex;
-      }
-      
       /* FAB più piccolo su mobile */
       #theme-fab {
         width: 50px;
@@ -863,6 +1127,29 @@
       #theme-popup {
         bottom: 80px;
         right: 20px;
+      }
+      
+      .topbar-menu a {
+        padding: 0.9rem 1.25rem;
+      }
+      
+      .topbar-dropdown-toggle {
+        padding: 0.9rem 1.25rem;
+      }
+    }
+
+    /* Per schermi molto piccoli */
+    @media (max-width: 480px) {
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .topbar-menu a {
+        padding: 0.9rem 1rem;
+      }
+      
+      .topbar-dropdown-toggle {
+        padding: 0.9rem 1rem;
       }
     }
 
@@ -906,8 +1193,8 @@
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
-  <!-- HEADER SEMPLIFICATO: SOLO HOME E REGISTRATI -->
-  <header>
+  <!-- HEADER DESKTOP -->
+  <header class="main-header">
     <div class="logo" id="toggleSidebar">
       <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="logo-img">
       Daze For Future
@@ -935,8 +1222,55 @@
       <!-- Link "Accedi" che viene nascosto quando loggato -->
       <a href="login.html" id="loginLink" class="active">Accedi</a>
     </nav>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    
+    <!-- Bottone hamburger per mobile - OTTIMIZZATO - VISIBILE SOLO SU MOBILE -->
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="Apri menu">
+      <i class="fas fa-bars"></i>
+    </button>
   </header>
+
+  <!-- TOPBAR MOBILE -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <div class="topbar-header">
+      <div class="topbar-logo">
+        <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="topbar-logo-img">
+        <span>Daze For Future</span>
+      </div>
+      <button class="topbar-close" id="topbarClose" aria-label="Chiudi menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="topbar-menu">
+      <a href="index.html">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="registrati.html">
+        <i class="fas fa-user-plus"></i>
+        Registrati
+      </a>
+      <a href="login.html" id="topbarLoginLink" class="active">
+        <i class="fas fa-sign-in-alt"></i>
+        Accedi
+      </a>
+    </div>
+    
+    <!-- Sezione utente nella topbar -->
+    <div class="topbar-user-section" id="topbarUserSection">
+      <div class="topbar-user-info">
+        <div class="topbar-user-avatar" id="topbarUserAvatar"></div>
+        <div class="topbar-user-details">
+          <div class="topbar-user-name" id="topbarUserName"></div>
+          <span class="topbar-user-badge" id="topbarUserBadge"></span>
+        </div>
+      </div>
+      <button class="topbar-logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
 
   <main>
     <h1 class="section-title fade-in-up">Accedi</h1>
@@ -984,39 +1318,9 @@
       </div>
     </form>
   </main>
-  
-<!-- Sidebar -->
-<aside class="sidebar">
-  <button class="sidebar-close">&times;</button>
-  <h2>Menu</h2>
-  
-  <ul class="sidebar-menu">
-    <li><a href="index.html"><span>🏠</span>Home</a></li>
-    <li><a href="registrati.html"><span>📝</span>Registrati</a></li>
-    <li><a href="login.html" id="sidebarLoginLink" class="active"><span>🔐</span> Accedi</a></li>
-  </ul>
-  
-  <!-- User info per mobile nella sidebar -->
-  <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-    <div class="mobile-user-header">
-      <div class="user-avatar" id="mobileUserAvatar"></div>
-      <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-    </div>
-    <div class="mobile-user-display">
-      <span class="mobile-user-name" id="mobileUserName"></span>
-      <span class="mobile-user-badge" id="mobileUserBadge"></span>
-    </div>
-    <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span>Logout</span>
-    </button>
-  </div>
-</aside>
 
-  <!-- Overlay per sidebar -->
-  <div class="overlay" id="overlay"></div>
+  <!-- Overlay per sidebar (non utilizzato ma mantenuto per compatibilità) -->
+  <div class="overlay" id="overlay" style="display:none;"></div>
 
   <!-- Popup per utente già loggato -->
   <div id="alreadyLoggedPopup" class="already-logged-popup">
@@ -1096,11 +1400,11 @@
     function highlightCurrentPage() {
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
       const navLinks = document.querySelectorAll('nav a');
-      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      const topbarLinks = document.querySelectorAll('.topbar-menu a');
       
       // Rimuovi la classe active da tutti i link
       navLinks.forEach(link => link.classList.remove('active'));
-      sidebarLinks.forEach(link => link.classList.remove('active'));
+      topbarLinks.forEach(link => link.classList.remove('active'));
       
       // Aggiungi la classe active al link corrente
       navLinks.forEach(link => {
@@ -1110,7 +1414,7 @@
         }
       });
       
-      sidebarLinks.forEach(link => {
+      topbarLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
         if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
           link.classList.add('active');
@@ -1120,13 +1424,13 @@
       // Gestione speciale per la home page
       if (currentPage === '' || currentPage === 'index.html') {
         document.querySelector('nav a[href="index.html"]').classList.add('active');
-        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
+        document.querySelector('.topbar-menu a[href="index.html"]').classList.add('active');
       }
       
       // Evidenzia il link "Accedi" in questa pagina
       if (currentPage === 'login.html') {
         document.querySelector('nav a[href="login.html"]').classList.add('active');
-        document.querySelector('.sidebar-menu a[href="login.html"]').classList.add('active');
+        document.querySelector('.topbar-menu a[href="login.html"]').classList.add('active');
       }
     }
 
@@ -1214,6 +1518,40 @@
       
       // Verifica se l'utente è già loggato
       checkIfAlreadyLogged();
+    });
+
+    // Gestione topbar mobile
+    const mobileHamburger = document.getElementById('mobileHamburger');
+    const mobileTopbar = document.getElementById('mobileTopbar');
+    const topbarClose = document.getElementById('topbarClose');
+
+    mobileHamburger.addEventListener('click', () => {
+      mobileTopbar.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    topbarClose.addEventListener('click', () => {
+      mobileTopbar.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // Chiudi topbar cliccando su un link
+    document.querySelectorAll('.topbar-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Chiudi topbar cliccando fuori (solo su mobile)
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          mobileTopbar.classList.contains('active') &&
+          !mobileTopbar.contains(e.target) && 
+          !mobileHamburger.contains(e.target)) {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      }
     });
 
     // ===== IMPLEMENTAZIONE REALE LOGIN CON GOOGLE =====
@@ -1375,27 +1713,29 @@
       const loginMethod = localStorage.getItem('login_method');
       
       if(utente && loginMethod !== 'google_pending') {
-        // Nascondi link login
+        // Nascondi link login desktop
         document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
         
-        // Mostra userbar al posto di "Accedi"
+        // Mostra userbar desktop
         const userbar = document.getElementById('userbar');
         userbar.style.display = 'flex';
         
-        // Imposta nome utente e badge
+        // Imposta nome utente e badge desktop
         document.getElementById('userName').innerText = getNameFromEmail(utente);
         document.getElementById('userBadge').innerText = getBadgeText(ruolo);
         document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
         
-        // Mostra user info mobile nella sidebar
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+        // Nascondi link login topbar e mostra sezione utente
+        document.getElementById('topbarLoginLink').style.display = 'none';
+        const topbarUserSection = document.getElementById('topbarUserSection');
+        topbarUserSection.style.display = 'block';
+        
+        // Imposta nome utente e badge topbar
+        document.getElementById('topbarUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('topbarUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('topbarUserBadge').className = `topbar-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('topbarUserAvatar').innerText = getInitialFromEmail(utente);
       }
     });
 
@@ -1412,7 +1752,6 @@
     }
   </script>
   <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script>
   <script src="css/userbar/userbar.js"></script>
   <div id="popup" class="popup"></div>
 </body>

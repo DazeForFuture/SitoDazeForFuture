@@ -9,10 +9,9 @@
   <title>La nostra missione - Daze for Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/sidebar/sidebar.css" />
-  <link rel="stylesheet" href="css/sidebar/hamburger.css" />
   <link rel="stylesheet" href="css/userbar/userbar.css" />
   <link rel="icon" href="immagini/logo.ico" type="image/x-icon">
+
   <style>
     :root {
       --bg: #fff;
@@ -22,19 +21,18 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
-      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
-      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
-      --overlay-light: rgba(255, 255, 255, 0.6); /* RIDOTTA OPACITÀ PER VEDERE MEGLIO LO SFONDO */
-      --overlay-dark: rgba(29, 29, 31, 0.8); /* AUMENTATA OPACITÀ */
-      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
-      --active-link: #007aff; /* Colore per il link attivo */
+      --overlay-light: rgba(255, 255, 255, 0.6);
+      --overlay-dark: rgba(29, 29, 31, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -46,19 +44,18 @@
         --hover-bg: rgba(255,255,255,0.05);
         --btn-bg: var(--text);
         --btn-hover-bg: #ddd;
-        --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
-        --header-text: #ffffff;
-        --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
-        --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
-        --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
         --accent: #0a84ff;
         --admin-badge: #ff453a;
         --user-badge: #30d158;
         --overlay-light: rgba(255, 255, 255, 0.6);
         --overlay-dark: rgba(29, 29, 31, 0.8);
-        --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
-        --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+        --card-bg: rgba(29, 29, 31, 0.9);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --active-link: #0a84ff;
+        --header-bg: rgba(29,29,31,0.95);
+        --header-text: #ffffff;
+        --topbar-bg: rgba(29, 29, 31, 0.98);
+        --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -70,19 +67,18 @@
       --hover-bg: rgba(255,255,255,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #ddd;
-      --header-bg: rgba(29,29,31,0.95); /* AUMENTATA OPACITÀ */
-      --header-text: #ffffff;
-      --sidebar-bg: rgba(29,29,31,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.4); /* AUMENTATO CONTRASTO */
       --accent: #0a84ff;
       --admin-badge: #ff453a;
       --user-badge: #30d158;
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
-      --card-bg: rgba(29, 29, 31, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* AUMENTATO CONTRASTO */
-      --active-link: #0a84ff; /* Colore per il link attivo in dark mode */
+      --card-bg: rgba(29, 29, 31, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --active-link: #0a84ff;
+      --header-bg: rgba(29,29,31,0.95);
+      --header-text: #ffffff;
+      --topbar-bg: rgba(29, 29, 31, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
     }
 
     :root[data-theme="light"] {
@@ -93,19 +89,18 @@
       --hover-bg: rgba(0,0,0,0.05);
       --btn-bg: var(--text);
       --btn-hover-bg: #333;
-      --header-bg: rgba(255,255,255,0.95); /* AUMENTATA OPACITÀ */
-      --header-text: #1d1d1f; /* TESTO SCURO PER CONTRASTO */
-      --sidebar-bg: rgba(255,255,255,0.98); /* AUMENTATA OPACITÀ */
-      --sidebar-border: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
-      --sidebar-shadow: rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
       --accent: #007aff;
       --admin-badge: #ff3b30;
       --user-badge: #34c759;
       --overlay-light: rgba(255, 255, 255, 0.6);
       --overlay-dark: rgba(29, 29, 31, 0.8);
-      --card-bg: rgba(255, 255, 255, 0.9); /* AUMENTATA OPACITÀ PER CONTRASTO */
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); /* AUMENTATO CONTRASTO */
-      --active-link: #007aff; /* Colore per il link attivo in light mode */
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --active-link: #007aff;
+      --header-bg: rgba(255,255,255,0.95);
+      --header-text: #1d1d1f;
+      --topbar-bg: rgba(255, 255, 255, 0.98);
+      --topbar-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
     }
 
     /* Stili per evidenziare la pagina attiva */
@@ -134,40 +129,9 @@
       color: var(--active-link);
     }
 
-    /* Per la sidebar */
-    .sidebar-menu a.active {
-      color: var(--active-link) !important;
-      font-weight: 600;
-      background: var(--hover-bg);
-    }
-
-    /* Resto del CSS rimane invariato... */
-    :root[data-theme="dark"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.15); /* AUMENTATO CONTRASTO */
-    }
-
-    :root[data-theme="light"] header {
-      background: var(--header-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(0,0,0,0.15); /* AUMENTATO CONTRASTO */
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.5;
-      position: relative;
-      min-height: 100vh;
-    }
-
+    
     /* FIX PER IPHONE: Sfondo fisso con approccio compatibile */
     .background-container {
       position: fixed;
@@ -179,7 +143,6 @@
       background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
       background-size: cover;
       background-position: center;
-      /* background-attachment: fixed; */ /* Rimosso per compatibilità iOS */
     }
 
     /* Overlay dinamico che si adatta al tema - FIX per iOS */
@@ -214,7 +177,18 @@
       }
     }
 
-    header {
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.5;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* HEADER PRINCIPALE - VISIBILE SOLO SU DESKTOP */
+    .main-header {
       position: fixed;
       top: 0;
       width: 100%;
@@ -228,7 +202,269 @@
       color: var(--header-text, var(--text));
       border-bottom: 1px solid rgba(255,255,255,0.2);
       background: var(--header-bg);
+      animation: slideDown 1s ease forwards;
     }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* TOPBAR MOBILE - NASCOSTA DI DEFAULT */
+    .mobile-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--topbar-shadow);
+      z-index: 1100;
+      display: none;
+      flex-direction: column;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    }
+
+    .mobile-topbar.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .topbar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--hover-bg);
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .topbar-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .topbar-close {
+      background: var(--hover-bg);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-close:hover {
+      background: var(--accent);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .topbar-menu {
+      padding: 0.5rem 0;
+      max-height: 70vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topbar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-menu a:hover,
+    .topbar-menu a.active {
+      background: var(--hover-bg);
+      border-left-color: var(--accent);
+      padding-left: 2rem;
+    }
+
+    .topbar-menu a i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown {
+      border-left: 3px solid transparent;
+    }
+
+    .topbar-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      gap: 12px;
+    }
+
+    .topbar-dropdown-toggle i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .topbar-dropdown-toggle .arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-toggle .arrow {
+      transform: rotate(180deg);
+    }
+
+    .topbar-dropdown-toggle:hover {
+      background: var(--hover-bg);
+      padding-left: 2rem;
+      border-left-color: var(--accent);
+    }
+
+    .topbar-dropdown-menu {
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.03);
+      transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .topbar-dropdown.active .topbar-dropdown-menu {
+      max-height: 300px;
+    }
+
+    .topbar-dropdown-menu a {
+      padding-left: 3rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .topbar-dropdown-menu a:hover {
+      color: var(--text);
+      background: var(--hover-bg);
+    }
+
+    .topbar-user-section {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--hover-bg);
+      display: none;
+    }
+
+    .topbar-user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .topbar-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #00c6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .topbar-user-details {
+      flex: 1;
+    }
+
+    .topbar-user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .topbar-user-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+    }
+
+    .topbar-user-badge.badge-admin {
+      background: var(--admin-badge);
+      color: white;
+    }
+
+    .topbar-user-badge.badge-user {
+      background: var(--user-badge);
+      color: white;
+    }
+
+    .topbar-logout-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--hover-bg);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      color: #ff3b30;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-logout-btn:hover {
+      background: rgba(255, 59, 48, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* BOTTONE HAMBURGER MOBILE */
+    .mobile-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+
     .logo {
       font-weight: 800;
       font-size: 1.4rem;
@@ -238,6 +474,21 @@
       display: flex;
       align-items: center;
       gap: 12px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-img {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     nav {
@@ -368,154 +619,196 @@
       z-index: 1;
     }
 
-    /* MIGLIORAMENTI MOBILE COMPLETI */
-    @media (max-width: 768px) {
-      header {
-        padding: 0.8rem 1rem;
-      }
-      
-      .logo {
-        font-size: 1.2rem;
-      }
-      
-      .logo-img {
-        width: 32px;
-        height: 32px;
-      }
-      
-      nav > a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-        padding: 0.4rem;
-      }
-      
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-      
-      .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .section-title {
-        font-size: 1.8rem;
-      }
-      
-      .sidebar {
-        width: 280px;
-      }
-      
-      section {
-        padding: 120px 1rem 80px;
-      }
-      
-      .hero {
-        padding-top: 160px; /* RIDOTTO PER MOBILE */
-      }
-      
-      .card {
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      .card-image {
-        height: 160px;
-      }
-      
-      .btn {
-        padding: 0.7rem 1.2rem;
-        font-size: 0.9rem;
-      }
-      
-      /* Miglioramenti specifici per missione su mobile */
-      .mission-cards {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      
-      .mission-card {
-        padding: 1.5rem;
-      }
-      
-      /* Nascondi navigation su mobile e mostra hamburger */
-      #mainNav {
-        display: none;
-      }
-      
-      #sidebarToggle {
-        display: flex;
-      }
-      
-      /* FAB più piccolo su mobile */
-      #theme-fab {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-        bottom: 20px;
-        right: 20px;
-      }
-      
-      #theme-popup {
-        bottom: 80px;
-        right: 20px;
-      }
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* Per schermi molto piccoli */
-    @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-      }
-      
-      .section-title {
-        font-size: 1.5rem;
-      }
-      
-      .card {
-        padding: 1rem;
-      }
-      
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .mission-card {
-        padding: 1rem;
-      }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
-    /* Mostra hamburger menu solo su mobile */
-    #sidebarToggle {
-      display: none;
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Stili per la sezione missione */
+    .mission-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .mission-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--card-shadow);
+    }
+
+    .mission-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .mission-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .mission-card p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .mission-card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #007aff;
+    }
+    
+    /* Stili per la lista obiettivi */
+    .objectives-list {
+      color: var(--muted);
+      margin-left: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    .objectives-list li {
+      margin-bottom: 0.8rem;
+    }
+
+    /* Stili per il dropdown menu desktop */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--header-text, var(--text));
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-family: inherit;
+      font-size: inherit;
       cursor: pointer;
-      color: var(--header-text);
-      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    @media (max-width: 768px) {
-      #sidebarToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 0.7rem;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--hover-bg);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      min-width: 200px;
+      padding: 0.5rem 0;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.3s ease;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .dropdown-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--hover-bg);
+      margin: 0.25rem 0;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    nav a[href="login.html"],
-    nav a[href="login.html"]:visited {
-      color: var(--accent) !important;
-      font-weight: 700;
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
-    nav a[href="login.html"]:hover {
-      text-decoration: underline;
+    .fade-in {
+      animation: fadeIn 1s ease;
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease;
     }
 
     /* Floating Action Button */
@@ -569,8 +862,8 @@
       position: fixed;
       bottom: 90px;
       right: 24px;
-      background: var(--sidebar-bg);
-      border: 1px solid var(--sidebar-border);
+      background: var(--topbar-bg);
+      border: 1px solid var(--hover-bg);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       border-radius: 12px;
       display: none;
@@ -626,216 +919,146 @@
       animation: fabClick 0.4s ease forwards;
     }
 
-    section .btn {
-      display: inline-flex;
-      margin-top: 1.5rem;
-      text-align: center;
+    nav a[href="login.html"],
+    nav a[href="login.html"]:visited {
+      color: var(--accent) !important;
+      font-weight: 700;
     }
 
-    /* Card Styles */
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: var(--card-shadow);
-      margin-bottom: 2rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    nav a[href="login.html"]:hover {
+      text-decoration: underline;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+    /* Media query per mobile */
+    @media (max-width: 768px) {
+      .main-header {
+        padding: 0.8rem 1rem;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      .mobile-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      #mainNav {
+        display: none;
+      }
+      
+      .mobile-topbar {
+        display: flex;
+      }
+      
+      .hero {
+        padding-top: 120px;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      section {
+        padding: 120px 1rem 80px;
+      }
+      
+      .card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .mission-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      
+      .mission-card {
+        padding: 1.5rem;
+      }
+      
+      .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      
+      #theme-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      #theme-popup {
+        bottom: 80px;
+        right: 20px;
+      }
+      
+      .dropdown {
+        display: none;
       }
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
       }
-      to {
-        opacity: 1;
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+      
+      .mission-card {
+        padding: 1rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
       }
     }
 
-    .fade-in {
-      animation: fadeIn 1s ease;
+    @media (hover: none) and (pointer: coarse) {
+      .btn:hover, .mission-card:hover {
+        transform: none;
+      }
+      
+      nav > a, .btn, .mission-card, .theme-option {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
     }
 
-    .fade-in-up {
-      animation: fadeInUp 0.8s ease;
-    }
-
-    /* Logo image */
-    .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .logo:hover .logo-img {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    
-    /* Stili per la sezione missione */
-    .mission-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .mission-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 2rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: var(--card-shadow);
-    }
-
-    .mission-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .mission-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
-
-    .mission-card p {
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .mission-card .icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #007aff;
-    }
-    
-    /* Stili per la lista obiettivi */
-    .objectives-list {
-      color: var(--muted);
-      margin-left: 1.5rem;
-      font-size: 1.1rem;
-      line-height: 1.8;
-    }
-    
-    .objectives-list li {
-      margin-bottom: 0.8rem;
-    }
-    /* Stili per il dropdown menu */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-toggle {
-      margin-left: 2rem;
-      text-decoration: none;
-      color: var(--header-text, var(--text));
-      font-weight: 600;
-      position: relative;
-      padding: 0.5rem;
-      background: none;
-      border: none;
-      font-family: inherit;
-      font-size: inherit;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .dropdown-toggle::after {
-      content: "▼";
-      font-size: 0.7rem;
-      margin-left: 4px;
-      transition: transform 0.3s ease;
-    }
-
-    .dropdown:hover .dropdown-toggle::after {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: var(--sidebar-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      min-width: 200px;
-      padding: 0.5rem 0;
-      z-index: 1001;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-
-    .dropdown:hover .dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .dropdown-item {
-      display: block;
-      padding: 0.75rem 1.5rem;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-      transition: background 0.3s ease;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-      font-family: inherit;
-      font-size: inherit;
-      cursor: pointer;
-    }
-
-    .dropdown-item:hover {
-      background: var(--hover-bg);
-    }
-
-    .dropdown-divider {
-      height: 1px;
-      background: var(--sidebar-border);
-      margin: 0.25rem 0;
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
     }
   </style>
 </head>
@@ -844,21 +1067,21 @@
   <div class="background-container"></div>
   <div class="background-overlay"></div>
 
-  <header>
-    <div class="logo" id="toggleSidebar">
+  <!-- HEADER DESKTOP -->
+  <header class="main-header">
+    <div class="logo" onclick="window.location.href='index.html'">
       <img src="immagini/logo.jpg" alt="Daze for Future Logo" class="logo-img">
       Daze For Future
     </div>
     <div style="flex:1"></div>
     
     <nav id="mainNav">
-      <a href="/">Home</a>
+      <a href="index.html">Home</a>
       <a href="missione.html" class="active">Missione</a>
       <a href="prossimi_eventi.html">Eventi</a>
       <a href="chi_siamo.html">Chi siamo</a>
       <a href="contatti.html">Contatti</a>
 
-      
       <!-- Menu a tendina Progetti -->
       <div class="dropdown">
         <button class="dropdown-toggle">
@@ -877,27 +1100,109 @@
       </div>      
       <a href="documenti.html">Documenti</a>
       
-    <!-- Userbar che sostituisce "Accedi" quando loggato -->
-    <div id="userbar" class="user-info" style="display:none;">
-      <div class="user-avatar" id="userAvatar"></div>
-      <div class="user-display">
-        <span class="user-name" id="userName"></span>
-        <span class="user-badge" id="userBadge"></span>
+      <!-- Userbar che sostituisce "Accedi" quando loggato -->
+      <div id="userbar" class="user-info" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <div class="user-display">
+          <span class="user-name" id="userName"></span>
+          <span class="user-badge" id="userBadge"></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <span>Logout</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
-      <button class="logout-btn" onclick="logout()">
-        <span>Logout</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
 
-    <!-- Link "Accedi" che viene nascosto quando loggato -->
-    <a href="login.html" id="loginLink">Accedi</a>    
+      <!-- Link "Accedi" che viene nascosto quando loggato -->
+      <a href="login.html" id="loginLink">Accedi</a>    
     </nav>
-    <button id="sidebarToggle" class="hamburger" aria-label="Apri menu">☰</button>
+    
+    <!-- Bottone hamburger per mobile -->
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="Apri menu">
+      <i class="fas fa-bars"></i>
+    </button>
   </header>
 
+  <!-- TOPBAR MOBILE -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <div class="topbar-header">
+      <div class="topbar-logo">
+        <img src="immagini/logo.jpg" alt="Daze For Future Logo" class="topbar-logo-img">
+        <span>Daze For Future</span>
+      </div>
+      <button class="topbar-close" id="topbarClose" aria-label="Chiudi menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="topbar-menu">
+      <a href="index.html">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="missione.html" class="active">
+        <i class="fas fa-bullseye"></i>
+        Missione
+      </a>
+      <a href="prossimi_eventi.html">
+        <i class="fas fa-calendar-alt"></i>
+        Eventi
+      </a>
+      <a href="chi_siamo.html">
+        <i class="fas fa-users"></i>
+        Chi siamo
+      </a>
+      <a href="contatti.html">
+        <i class="fas fa-envelope"></i>
+        Contatti
+      </a>
+      
+      <!-- Dropdown progetti nella topbar -->
+      <div class="topbar-dropdown" id="topbarProjects">
+        <button class="topbar-dropdown-toggle">
+          <i class="fas fa-project-diagram"></i>
+          <span>Progetti</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="topbar-dropdown-menu">
+          <a href="centrale_meteo.html">
+            <i class="fas fa-cloud-sun"></i>
+            Centrale Meteorologica
+          </a>
+          <a href="mappa.html">
+            <i class="fas fa-map-marked-alt"></i>
+            Mappa Meteo
+          </a>
+        </div>
+      </div>
+      
+      <a href="documenti.html">
+        <i class="fas fa-file-alt"></i>
+        Documenti
+      </a>
+      <a href="login.html" id="topbarLoginLink">
+        <i class="fas fa-sign-in-alt"></i>
+        Accedi
+      </a>
+    </div>
+    
+    <!-- Sezione utente nella topbar -->
+    <div class="topbar-user-section" id="topbarUserSection">
+      <div class="topbar-user-info">
+        <div class="topbar-user-avatar" id="topbarUserAvatar"></div>
+        <div class="topbar-user-details">
+          <div class="topbar-user-name" id="topbarUserName"></div>
+          <span class="topbar-user-badge" id="topbarUserBadge"></span>
+        </div>
+      </div>
+      <button class="topbar-logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
 
   <main>
     <section class="hero">
@@ -957,52 +1262,6 @@
       </div>
     </section>
   </main>
-  
-<!-- Sidebar -->
-<aside class="sidebar">
-  <button class="sidebar-close">&times;</button>
-  <h2>Menu</h2>
-  
-  <ul class="sidebar-menu">
-    <li><a href="index.html"><span>🏠</span>Home</a></li>
-      <li><a href="missione.html" class="active"><span>🌱</span> Missione</a></li>
-      <li><a href="prossimi_eventi.html"><span>📅</span> Eventi</a></li>
-  <!-- Dropdown -->
-    <li class="sidebar-dropdown">
-      <button class="sidebar-dropdown-toggle">
-        <span>📁</span>
-        <span>Progetti</span>
-        <span class="dropdown-arrow">▼</span>
-      </button>
-      <ul class="sidebar-dropdown-menu">
-        <li><a href="centrale_meteo.html"><span>📄</span>Centrale Meteorologica</a></li>
-      </ul>
-    </li>
-      <li><a href="chi_siamo.html"><span>👥</span> Chi siamo</a></li>
-      <li><a href="contatti.html"><span>📨</span> Contatti</a></li>
-      <li><a href="documenti.html"><span>📃</span> Documenti</a></li>
-      <li><a href="forum.html"><span>💬</span> Forum</a></li>
-      <li><a href="login.html" id="sidebarLoginLink"><span>🔐</span> Accedi</a></li>
-  </ul>
-
-    <!-- User info per mobile nella sidebar -->
-    <div id="mobileUserInfo" class="mobile-user-info" style="display:none;">
-      <div class="mobile-user-header">
-        <div class="user-avatar" id="mobileUserAvatar"></div>
-        <span style="margin-left: 0.75rem; font-weight: 600;">Account</span>
-      </div>
-      <div class="mobile-user-display">
-        <span class="mobile-user-name" id="mobileUserName"></span>
-        <span class="mobile-user-badge" id="mobileUserBadge"></span>
-      </div>
-      <button class="logout-btn" onclick="logout()" style="justify-content: center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 7L21 12M21 12L17 17M21 12H9M13 17V18C13 19.6569 11.6569 21 10 21H6C4.34315 21 3 19.6569 3 18V6C3 4.34315 4.34315 3 6 3H10C11.6569 3 13 4.34315 13 6V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Logout</span>
-      </button>
-    </div>
-  </aside>
 
   <!-- Floating Theme Button -->
   <div id="theme-fab" title="Scegli tema">
@@ -1020,19 +1279,16 @@
     &copy; 2026 Daze For Future. Tutti i diritti riservati.
   </footer>
 
-
 <script>
     // Funzione per evidenziare la pagina corrente
     function highlightCurrentPage() {
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
       const navLinks = document.querySelectorAll('nav a');
-      const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+      const topbarLinks = document.querySelectorAll('.topbar-menu a');
       
-      // Rimuovi la classe active da tutti i link
       navLinks.forEach(link => link.classList.remove('active'));
-      sidebarLinks.forEach(link => link.classList.remove('active'));
+      topbarLinks.forEach(link => link.classList.remove('active'));
       
-      // Aggiungi la classe active al link corrente
       navLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
         if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
@@ -1040,21 +1296,19 @@
         }
       });
       
-      sidebarLinks.forEach(link => {
+      topbarLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
         if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
           link.classList.add('active');
         }
       });
       
-      // Gestione speciale per la home page
       if (currentPage === '' || currentPage === 'index.html') {
         document.querySelector('nav a[href="index.html"]').classList.add('active');
-        document.querySelector('.sidebar-menu a[href="index.html"]').classList.add('active');
+        document.querySelector('.topbar-menu a[href="index.html"]').classList.add('active');
       }
       
-      // Gestione speciale per le pagine nei dropdown
-      if (currentPage === 'centrale_meteo.html') {
+      if (currentPage === 'centrale_meteo.html' || currentPage === 'mappa.html') {
         document.querySelector('.dropdown-toggle').classList.add('active');
       }
     }
@@ -1114,33 +1368,17 @@
       }
     }
 
-    // On load - MODIFICA: Se non c'è tema salvato, usa "auto" come default
+    // On load - Se non c'è tema salvato, usa "auto" come default
     const savedTheme = localStorage.getItem('theme-preference');
     if (savedTheme) {
       applyTheme(savedTheme);
       const btn = document.querySelector(`.theme-option[data-theme="${savedTheme}"]`);
       if (btn) btn.classList.add('active');
     } else {
-      // MODIFICA: Se non c'è preferenza salvata, usa il tema di sistema (auto)
       applyTheme('auto');
       const autoBtn = document.querySelector('.theme-option[data-theme="auto"]');
       if (autoBtn) autoBtn.classList.add('active');
     }
-
-    // Mostra FAB con animazione al caricamento
-    window.addEventListener('DOMContentLoaded', () => {
-      const fab = document.getElementById('theme-fab');
-      fab.classList.add('show');
-      
-      // Animazioni per le card
-      const cards = document.querySelectorAll('.fade-in-up');
-      cards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-      });
-      
-      // Evidenzia la pagina corrente
-      highlightCurrentPage();
-    });
 
     // Funzione per estrarre il nome dall'email (prima parte prima della @)
     function getNameFromEmail(email) {
@@ -1165,31 +1403,46 @@
     // Mostra la barra utente se loggato
     document.addEventListener('DOMContentLoaded', function() {
       const utente = localStorage.getItem('utente');
-      const ruolo = localStorage.getItem('utente_ruolo') || 'user'; // Default a 'user' se non specificato
+      const ruolo = localStorage.getItem('utente_ruolo') || 'user';
       
       if(utente) {
-        // Nascondi link login
+        // Nascondi link login desktop
         document.getElementById('loginLink').style.display = 'none';
-        document.getElementById('sidebarLoginLink').style.display = 'none';
         
-        // Mostra userbar al posto di "Accedi"
+        // Mostra userbar desktop
         const userbar = document.getElementById('userbar');
         userbar.style.display = 'flex';
         
-        // Imposta nome utente e badge
+        // Imposta nome utente e badge desktop
         document.getElementById('userName').innerText = getNameFromEmail(utente);
         document.getElementById('userBadge').innerText = getBadgeText(ruolo);
         document.getElementById('userBadge').className = `user-badge ${getBadgeClass(ruolo)}`;
         document.getElementById('userAvatar').innerText = getInitialFromEmail(utente);
         
-        // Mostra user info mobile nella sidebar
-        const mobileUserInfo = document.getElementById('mobileUserInfo');
-        mobileUserInfo.style.display = 'block';
-        document.getElementById('mobileUserName').innerText = getNameFromEmail(utente);
-        document.getElementById('mobileUserBadge').innerText = getBadgeText(ruolo);
-        document.getElementById('mobileUserBadge').className = `mobile-user-badge ${getBadgeClass(ruolo)}`;
-        document.getElementById('mobileUserAvatar').innerText = getInitialFromEmail(utente);
+        // Nascondi link login topbar e mostra sezione utente
+        document.getElementById('topbarLoginLink').style.display = 'none';
+        const topbarUserSection = document.getElementById('topbarUserSection');
+        topbarUserSection.style.display = 'block';
+        
+        // Imposta nome utente e badge topbar
+        document.getElementById('topbarUserName').innerText = getNameFromEmail(utente);
+        document.getElementById('topbarUserBadge').innerText = getBadgeText(ruolo);
+        document.getElementById('topbarUserBadge').className = `topbar-user-badge ${getBadgeClass(ruolo)}`;
+        document.getElementById('topbarUserAvatar').innerText = getInitialFromEmail(utente);
       }
+      
+      // Mostra FAB con animazione al caricamento
+      const fab = document.getElementById('theme-fab');
+      fab.classList.add('show');
+      
+      // Animazioni per le card
+      const cards = document.querySelectorAll('.fade-in-up');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+      
+      // Evidenzia la pagina corrente
+      highlightCurrentPage();
     });
 
     function logout() {
@@ -1200,7 +1453,7 @@
 
     // Scroll animations
     window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
+      const header = document.querySelector('.main-header');
       if (window.scrollY > 50) {
         header.style.background = 'var(--header-bg)';
         header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
@@ -1228,8 +1481,56 @@
     document.querySelectorAll('.card, .mission-card').forEach(card => {
       observer.observe(card);
     });
+    
+    // Gestione topbar mobile
+    const mobileHamburger = document.getElementById('mobileHamburger');
+    const mobileTopbar = document.getElementById('mobileTopbar');
+    const topbarClose = document.getElementById('topbarClose');
+    const topbarProjects = document.getElementById('topbarProjects');
+
+    if (mobileHamburger) {
+      mobileHamburger.addEventListener('click', () => {
+        mobileTopbar.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    if (topbarClose) {
+      topbarClose.addEventListener('click', () => {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+
+    // Chiudi topbar cliccando su un link
+    document.querySelectorAll('.topbar-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Toggle dropdown progetti nella topbar
+    if (topbarProjects) {
+      topbarProjects.addEventListener('click', (e) => {
+        if (e.target.classList.contains('topbar-dropdown-toggle') || 
+            e.target.closest('.topbar-dropdown-toggle')) {
+          topbarProjects.classList.toggle('active');
+        }
+      });
+    }
+
+    // Chiudi topbar cliccando fuori (solo su mobile)
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          mobileTopbar.classList.contains('active') &&
+          !mobileTopbar.contains(e.target) && 
+          !mobileHamburger.contains(e.target)) {
+        mobileTopbar.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
 </script>
   <script src="theme.js"></script>
-  <script src="css/sidebar/sidebar.js"></script>
 </body>
 </html>
