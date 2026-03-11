@@ -542,9 +542,9 @@
       transform: translateY(-2px);
     }
 
-    /* BOTTONE HAMBURGER MOBILE - OTTIMIZZATO */
+    /* BOTTONE HAMBURGER MOBILE - MODIFICATO: nascosto su desktop */
     .mobile-hamburger {
-      display: none;
+      display: none; /* Nascosto di default (desktop) */
       background: none;
       border: none;
       font-size: 1.5rem;
@@ -555,7 +555,6 @@
       height: 40px;
       padding: 0;
       margin: 0;
-      display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 8px;
@@ -1157,7 +1156,7 @@
       font-weight: 500;
     }
 
-    /* Responsive */
+    /* Responsive - MODIFICATO: hamburger visibile solo su mobile */
     @media (max-width: 768px) {
       .main-header {
         padding: 0.8rem 1rem;
@@ -1173,7 +1172,7 @@
       }
       
       .mobile-hamburger {
-        display: flex;
+        display: flex; /* Mostra hamburger solo su mobile */
       }
       
       #mainNav {
@@ -1375,7 +1374,7 @@
       <a href="login.html" id="loginLink">Accedi</a>
     </nav>
     
-    <!-- Bottone hamburger per mobile - OTTIMIZZATO -->
+    <!-- Bottone hamburger per mobile - OTTIMIZZATO - Visibile solo su mobile -->
     <button class="mobile-hamburger" id="mobileHamburger" aria-label="Apri menu">
       <i class="fas fa-bars"></i>
     </button>
